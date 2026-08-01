@@ -13,9 +13,16 @@ export default function Avatar({
   const [error, setError] = useState(false);
 
   const userName = name || user?.name || "";
-  const photoSrc = src || user?.photoURL || "";
+  const imageSrc = src || user?.logo || user?.photoURL || "";
 
-  const hasPhoto = Boolean(photoSrc) && !error;
+  const avatarSeed =
+    user?.name || userName || user?.email || user?.id || "user";
+
+  const fallbackSrc = `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(
+    avatarSeed,
+  )}&backgroundColor=b6e3f4,c0aede,ffd5dc,ffdfbf`;
+
+  const hasPhoto = Boolean(imageSrc) && !error;
 
   return (
     <span
@@ -25,16 +32,20 @@ export default function Avatar({
     >
       {hasPhoto ? (
         <img
-          src={photoSrc}
+          src={imageSrc}
           alt={userName}
           onError={() => setError(true)}
           className="h-full w-full object-cover"
           draggable={false}
         />
       ) : (
-        <span className="drop-shadow-sm">
-          {(userName || "؟").slice(0, 1)}
-        </span>
+        <img
+          src={fallbackSrc}
+          alt={userName}
+          onError={() => setError(true)}
+          className="h-full w-full object-cover"
+          draggable={false}
+        />
       )}
 
       {ring && (

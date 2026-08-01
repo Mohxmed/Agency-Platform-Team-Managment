@@ -141,7 +141,7 @@ export function SignupForm() {
   if (checkingRegistration) {
     return (
       <div className="flex flex-col items-center gap-3 py-6 text-center">
-        <span className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-white/60" />
+        <span className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-primary-600" />
         <p className="text-sm text-lo">جاري التحقق من حالة التسجيل...</p>
       </div>
     );
@@ -150,7 +150,7 @@ export function SignupForm() {
   if (registrationDisabled) {
     return (
       <div className="flex flex-col items-center gap-4 py-4 text-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.05] text-lo">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-lo">
           <Ban className="h-6 w-6" />
         </div>
         <div>
@@ -161,7 +161,7 @@ export function SignupForm() {
         </div>
         <a
           href={ROUTES.LOGIN}
-          className="mt-2 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.05] px-5 py-2.5 text-sm font-semibold text-hi transition hover:bg-white/10"
+          className="mt-2 inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-hi transition hover:bg-surface-hover"
         >
           تسجيل الدخول
         </a>
@@ -221,11 +221,11 @@ export function SignupForm() {
       </form>
 
       <div className="flex items-center gap-3">
-        <span className="h-px flex-1 bg-white/10" />
+        <span className="h-px flex-1 bg-line" />
 
         <span className="text-xs text-lo">أو</span>
 
-        <span className="h-px flex-1 bg-white/10" />
+        <span className="h-px flex-1 bg-line" />
       </div>
 
       <GoogleButton onClick={handleGoogleClick} isLoading={isGoogleLoading} />

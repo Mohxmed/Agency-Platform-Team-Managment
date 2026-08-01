@@ -13,7 +13,7 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
         w-full
         flex-row-reverse
         overflow-hidden
-        bg-ink
+        bg-background
       "
     >
       {/* =====================================================
@@ -492,6 +492,7 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
                     uppercase
                     tracking-wide
                     text-primary-600
+                    dark:text-primary-400
                   "
                 >
                   {eyebrow}

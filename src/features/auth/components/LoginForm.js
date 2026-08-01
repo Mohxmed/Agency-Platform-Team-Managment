@@ -117,9 +117,9 @@ export function LoginForm() {
       </form>
 
       <div className="flex items-center gap-3">
-        <span className="h-px flex-1 bg-black/10" />
+        <span className="h-px flex-1 bg-line" />
         <span className="text-xs text-lo">أو</span>
-        <span className="h-px flex-1 bg-black/10" />
+        <span className="h-px flex-1 bg-line" />
       </div>
 
       <GoogleButton onClick={handleGoogleLogin} isLoading={googleLoading} />

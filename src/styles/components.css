@@ -17,3 +17,23 @@
   box-shadow: var(--shadow-md);
   padding: 24px;
 }
+
+/* ======================
+   Text + Glass (theme-aware)
+====================== */
+
+.text-hi {
+  color: var(--color-ink);
+}
+
+.text-lo {
+  color: var(--color-muted);
+}
+
+.glass-card {
+  background: color-mix(in srgb, var(--color-card) 82%, transparent);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}

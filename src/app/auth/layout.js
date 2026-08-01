@@ -2,7 +2,7 @@ import Header from "@/features/landing/layout/Header";
 
 function layout({ children }) {
   return (
-    <div>
+    <div className="landing-shell min-h-full bg-background text-ink">
       <Header />
       {children}
     </div>

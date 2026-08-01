@@ -12,7 +12,7 @@ export function Input({ label, id, error, className, ...props }) {
       <input
         id={id}
         className={cn(
-          "border border-black/20 w-full rounded-sm px-4 py-3 text-sm",
+          "border border-line w-full rounded-sm bg-surface px-4 py-3 text-sm text-ink placeholder:text-muted focus:border-primary-500 focus:outline-none",
           error && "input-error",
           className,
         )}
