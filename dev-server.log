@@ -1,0 +1,2904 @@
+
+> no2ta-platform@1.0.0 dev
+> next dev
+
+▲ Next.js 16.2.11 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.2:3000
+- Environments: .env.local
+✓ Ready in 8.9s
+⚠ Slow filesystem detected. The benchmark took 1271ms. If D:\Lab\no2ta-ammar-latest\preview-main\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+○ Compiling middleware ...
+
+○ Compiling /api/admin/users ...
+ POST /api/admin/users 401 in 3.1min (next.js: 3.1min, application-code: 2.3s)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+✓ Finished writing to filesystem cache in 12.1s
+ GET /dashboard/portfolio 200 in 3.4min (next.js: 3.1min, application-code: 14.0s)
+ POST /api/admin/users 401 in 103ms (next.js: 29ms, application-code: 73ms)
+✓ Finished writing to filesystem cache in 13.5s
+○ Compiling /dashboard/teachers ...
+✓ Finished writing to filesystem cache in 11.9s
+✓ Finished writing to filesystem cache in 29.5s
+ GET /dashboard/teachers 200 in 4.3min (next.js: 4.3min, application-code: 384ms)
+ GET /dashboard/teachers 200 in 3.3min (next.js: 3.3min, application-code: 178ms)
+✓ Finished filesystem cache database compaction in 13.7s
+✓ Finished filesystem cache database compaction in 22.7s
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /dashboard/team 200 in 834ms (next.js: 763ms, application-code: 72ms)
+○ Compiling /dashboard/team/my-tasks ...
+ GET /dashboard/team/my-tasks 200 in 14.5s (next.js: 13.6s, application-code: 909ms)
+○ Compiling /dashboard/team/projects ...
+ GET /dashboard/team/projects 200 in 11.6s (next.js: 11.5s, application-code: 151ms)
+✓ Finished filesystem cache database compaction in 44s
+ GET /dashboard/settings 200 in 817ms (next.js: 596ms, application-code: 221ms)
+ GET /dashboard/settings 200 in 38ms (next.js: 4ms, application-code: 35ms)
+○ Compiling /dashboard/settings/system ...
+ GET /dashboard/settings/system 200 in 11.2s (next.js: 10.3s, application-code: 863ms)
+ GET /dashboard/settings/system 200 in 475ms (next.js: 5ms, application-code: 470ms)
+ GET /dashboard/settings/system 200 in 37ms (next.js: 9ms, application-code: 28ms)
+✓ Compiled in 36.4s
+ GET /dashboard/settings/system 200 in 3.0s (next.js: 1874ms, application-code: 1080ms)
+ GET /dashboard/settings/system 200 in 721ms (next.js: 2ms, application-code: 719ms)
+ GET /dashboard/settings/system 200 in 214ms (next.js: 51ms, application-code: 163ms)
+ GET /dashboard/settings/system 200 in 214ms (next.js: 162ms, application-code: 52ms)
+ GET /dashboard 200 in 183ms (next.js: 108ms, application-code: 75ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+ GET / 200 in 1948ms (next.js: 214ms, application-code: 1735ms)
+ GET / 200 in 818ms (next.js: 3ms, application-code: 815ms)
+ GET / 200 in 495ms (next.js: 2ms, application-code: 493ms)
+[browser] Image with src "/_next/static/media/roket.3vd3plp6dgwy_.svg" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+✓ Compiled in 1725ms
+ GET / 200 in 1264ms (next.js: 1047ms, application-code: 217ms)
+ GET /dashboard 200 in 1268ms (next.js: 1008ms, application-code: 260ms)
+ GET / 200 in 65ms (next.js: 9ms, application-code: 56ms)
+ GET /dashboard 200 in 179ms (next.js: 79ms, application-code: 100ms)
+✓ Compiled in 181ms
+ GET / 200 in 274ms (next.js: 76ms, application-code: 198ms)
+ GET / 200 in 108ms (next.js: 5ms, application-code: 103ms)
+ GET /dashboard 200 in 276ms (next.js: 128ms, application-code: 148ms)
+ GET /dashboard 200 in 110ms (next.js: 67ms, application-code: 44ms)
+✓ Compiled in 167ms
+ GET / 200 in 269ms (next.js: 125ms, application-code: 144ms)
+ GET / 200 in 72ms (next.js: 7ms, application-code: 66ms)
+ GET /dashboard 200 in 282ms (next.js: 71ms, application-code: 211ms)
+ GET /dashboard 200 in 127ms (next.js: 3ms, application-code: 123ms)
+✓ Compiled in 145ms
+ GET / 200 in 256ms (next.js: 74ms, application-code: 182ms)
+ GET / 200 in 108ms (next.js: 3ms, application-code: 105ms)
+ GET /dashboard 200 in 259ms (next.js: 115ms, application-code: 145ms)
+ GET /dashboard 200 in 93ms (next.js: 6ms, application-code: 87ms)
+✓ Compiled in 155ms
+ GET / 200 in 267ms (next.js: 83ms, application-code: 184ms)
+ GET / 200 in 88ms (next.js: 4ms, application-code: 83ms)
+ GET /dashboard 200 in 272ms (next.js: 135ms, application-code: 137ms)
+ GET /dashboard 200 in 62ms (next.js: 6ms, application-code: 56ms)
+[browser] Image with src "/_next/static/media/no2ta-logo.1yf9d1cwz4fl-.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 169ms
+ GET / 200 in 238ms (next.js: 82ms, application-code: 156ms)
+ GET /dashboard 200 in 239ms (next.js: 142ms, application-code: 97ms)
+ GET /dashboard/settings 200 in 37ms (next.js: 14ms, application-code: 23ms)
+ GET /dashboard/settings/system 200 in 164ms (next.js: 136ms, application-code: 29ms)
+✓ Compiled in 190ms
+ GET / 200 in 278ms (next.js: 82ms, application-code: 196ms)
+ GET /dashboard/settings/system 200 in 150ms (next.js: 24ms, application-code: 126ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+ GET / 200 in 3.2s (next.js: 8ms, application-code: 3.2s)
+✓ Compiled in 6s
+ GET / 200 in 145ms (next.js: 105ms, application-code: 40ms)
+ GET /dashboard/settings/system 200 in 148ms (next.js: 63ms, application-code: 85ms)
+✓ Compiled in 349ms
+ GET /dashboard/settings/system 200 in 143ms (next.js: 68ms, application-code: 75ms)
+ GET / 200 in 34ms (next.js: 8ms, application-code: 26ms)
+✓ Compiled in 186ms
+ GET /dashboard/settings/system 200 in 172ms (next.js: 76ms, application-code: 95ms)
+ GET / 200 in 49ms (next.js: 9ms, application-code: 41ms)
+✓ Compiled in 130ms
+ GET / 200 in 157ms (next.js: 117ms, application-code: 40ms)
+ GET /dashboard/settings/system 200 in 160ms (next.js: 66ms, application-code: 93ms)
+✓ Compiled in 196ms
+ GET / 200 in 190ms (next.js: 152ms, application-code: 37ms)
+ GET /dashboard/settings/system 200 in 196ms (next.js: 83ms, application-code: 113ms)
+ GET /dashboard 200 in 46ms (next.js: 14ms, application-code: 32ms)
+✓ Compiled in 128ms
+ GET / 200 in 217ms (next.js: 66ms, application-code: 151ms)
+ GET /dashboard 200 in 108ms (next.js: 22ms, application-code: 86ms)
+ GET /dashboard/team 200 in 156ms (next.js: 120ms, application-code: 36ms)
+○ Compiling /dashboard/team/kanban ...
+ GET /dashboard/team/kanban 200 in 4.8s (next.js: 4.8s, application-code: 45ms)
+✓ Finished writing to filesystem cache in 10.0s
+ GET /dashboard/team/my-tasks 200 in 1240ms (next.js: 1205ms, application-code: 35ms)
+ GET / 200 in 13.8s (next.js: 12.0s, application-code: 1784ms)
+ GET / 200 in 2.5s (next.js: 2.5s, application-code: 36ms)
+ GET / 200 in 92ms (next.js: 68ms, application-code: 24ms)
+ GET / 200 in 549ms (next.js: 525ms, application-code: 24ms)
+ GET / 200 in 101ms (next.js: 75ms, application-code: 26ms)
+ GET / 200 in 47ms (next.js: 24ms, application-code: 22ms)
+ GET / 200 in 109ms (next.js: 77ms, application-code: 32ms)
+ GET / 200 in 56ms (next.js: 22ms, application-code: 34ms)
+ GET / 200 in 72ms (next.js: 24ms, application-code: 48ms)
+ GET / 200 in 44ms (next.js: 21ms, application-code: 23ms)
+ GET / 200 in 32ms (next.js: 8ms, application-code: 24ms)
+ GET / 200 in 33ms (next.js: 9ms, application-code: 25ms)
+ GET / 200 in 106ms (next.js: 80ms, application-code: 26ms)
+ GET / 200 in 42ms (next.js: 19ms, application-code: 23ms)
+ GET / 200 in 38ms (next.js: 14ms, application-code: 24ms)
+ GET / 200 in 92ms (next.js: 67ms, application-code: 24ms)
+ GET / 200 in 68ms (next.js: 38ms, application-code: 30ms)
+ GET / 200 in 76ms (next.js: 53ms, application-code: 23ms)
+ GET / 200 in 38ms (next.js: 15ms, application-code: 23ms)
+ GET / 200 in 35ms (next.js: 13ms, application-code: 22ms)
+ GET / 200 in 37ms (next.js: 9ms, application-code: 28ms)
+ GET / 200 in 38ms (next.js: 14ms, application-code: 24ms)
+ GET / 200 in 57ms (next.js: 34ms, application-code: 23ms)
+ GET / 200 in 69ms (next.js: 11ms, application-code: 57ms)
+ GET / 200 in 42ms (next.js: 3ms, application-code: 39ms)
+ GET / 200 in 95ms (next.js: 67ms, application-code: 28ms)
+ GET / 200 in 109ms (next.js: 21ms, application-code: 88ms)
+ GET / 200 in 101ms (next.js: 51ms, application-code: 50ms)
+ GET / 200 in 111ms (next.js: 41ms, application-code: 70ms)
+ GET / 200 in 758ms (next.js: 51ms, application-code: 706ms)
+ GET / 200 in 759ms (next.js: 30ms, application-code: 729ms)
+ GET / 200 in 760ms (next.js: 70ms, application-code: 690ms)
+ GET / 200 in 763ms (next.js: 12ms, application-code: 751ms)
+ GET / 200 in 48ms (next.js: 23ms, application-code: 25ms)
+ GET / 200 in 106ms (next.js: 83ms, application-code: 23ms)
+ GET / 200 in 203ms (next.js: 119ms, application-code: 84ms)
+ GET / 200 in 97ms (next.js: 67ms, application-code: 30ms)
+ GET / 200 in 158ms (next.js: 107ms, application-code: 51ms)
+ GET / 200 in 207ms (next.js: 137ms, application-code: 70ms)
+ GET / 200 in 112ms (next.js: 14ms, application-code: 97ms)
+ GET / 200 in 111ms (next.js: 55ms, application-code: 56ms)
+ GET / 200 in 113ms (next.js: 34ms, application-code: 79ms)
+ GET / 200 in 114ms (next.js: 82ms, application-code: 32ms)
+ GET / 200 in 38ms (next.js: 16ms, application-code: 22ms)
+ GET / 200 in 140ms (next.js: 75ms, application-code: 64ms)
+ GET / 200 in 141ms (next.js: 54ms, application-code: 87ms)
+ GET / 200 in 104ms (next.js: 74ms, application-code: 30ms)
+ GET / 200 in 143ms (next.js: 94ms, application-code: 49ms)
+ GET / 200 in 95ms (next.js: 12ms, application-code: 84ms)
+ GET / 200 in 95ms (next.js: 47ms, application-code: 47ms)
+ GET / 200 in 96ms (next.js: 30ms, application-code: 67ms)
+ GET / 200 in 98ms (next.js: 66ms, application-code: 32ms)
+ GET / 200 in 85ms (next.js: 62ms, application-code: 23ms)
+ GET / 200 in 672ms (next.js: 137ms, application-code: 535ms)
+ GET / 200 in 587ms (next.js: 87ms, application-code: 500ms)
+ GET / 200 in 674ms (next.js: 153ms, application-code: 521ms)
+ GET / 200 in 676ms (next.js: 119ms, application-code: 558ms)
+ GET / 200 in 108ms (next.js: 63ms, application-code: 45ms)
+ GET / 200 in 110ms (next.js: 27ms, application-code: 83ms)
+ GET / 200 in 111ms (next.js: 45ms, application-code: 66ms)
+ GET / 200 in 114ms (next.js: 81ms, application-code: 32ms)
+ GET / 200 in 92ms (next.js: 6ms, application-code: 86ms)
+ GET / 200 in 94ms (next.js: 25ms, application-code: 69ms)
+ GET / 200 in 94ms (next.js: 44ms, application-code: 50ms)
+ GET / 200 in 96ms (next.js: 63ms, application-code: 34ms)
+ GET / 200 in 55ms (next.js: 31ms, application-code: 24ms)
+ GET / 200 in 157ms (next.js: 82ms, application-code: 75ms)
+ GET / 200 in 160ms (next.js: 62ms, application-code: 98ms)
+ GET / 200 in 167ms (next.js: 103ms, application-code: 64ms)
+ GET / 200 in 120ms (next.js: 76ms, application-code: 44ms)
+ GET / 200 in 43ms (next.js: 14ms, application-code: 29ms)
+ GET / 200 in 115ms (next.js: 52ms, application-code: 63ms)
+ GET / 200 in 152ms (next.js: 48ms, application-code: 103ms)
+ GET / 200 in 145ms (next.js: 59ms, application-code: 86ms)
+ GET / 200 in 116ms (next.js: 64ms, application-code: 52ms)
+ GET / 200 in 620ms (next.js: 27ms, application-code: 593ms)
+ GET / 200 in 621ms (next.js: 45ms, application-code: 576ms)
+ GET / 200 in 621ms (next.js: 94ms, application-code: 526ms)
+ GET / 200 in 622ms (next.js: 68ms, application-code: 554ms)
+ GET / 200 in 103ms (next.js: 16ms, application-code: 87ms)
+ GET / 200 in 104ms (next.js: 54ms, application-code: 49ms)
+ GET / 200 in 105ms (next.js: 35ms, application-code: 69ms)
+ GET / 200 in 107ms (next.js: 74ms, application-code: 32ms)
+ GET / 200 in 144ms (next.js: 53ms, application-code: 91ms)
+ GET / 200 in 144ms (next.js: 71ms, application-code: 72ms)
+ GET / 200 in 144ms (next.js: 111ms, application-code: 32ms)
+ GET / 200 in 146ms (next.js: 92ms, application-code: 53ms)
+ GET / 200 in 355ms (next.js: 50ms, application-code: 305ms)
+ GET / 200 in 421ms (next.js: 76ms, application-code: 345ms)
+ GET / 200 in 424ms (next.js: 100ms, application-code: 324ms)
+ GET / 200 in 425ms (next.js: 331ms, application-code: 93ms)
+ GET / 200 in 40ms (next.js: 15ms, application-code: 25ms)
+ GET / 200 in 106ms (next.js: 63ms, application-code: 43ms)
+ GET / 200 in 86ms (next.js: 61ms, application-code: 25ms)
+ GET / 200 in 117ms (next.js: 94ms, application-code: 22ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+✓ Compiled in 45.3s
+ GET /dashboard/team/projects 200 in 44s (next.js: 43s, application-code: 970ms)
+ GET /dashboard/team/projects 200 in 21.0s (next.js: 20.1s, application-code: 895ms)
+ GET /dashboard/team/projects 200 in 20.9s (next.js: 20.0s, application-code: 938ms)
+ GET /dashboard/team/projects 200 in 18.7s (next.js: 17.8s, application-code: 919ms)
+ GET / 200 in 174ms (next.js: 65ms, application-code: 109ms)
+ GET /dashboard/team/my-tasks 200 in 36.8s (next.js: 35.6s, application-code: 1204ms)
+ GET /dashboard/team/my-tasks 200 in 266ms (next.js: 15ms, application-code: 250ms)
+ GET /dashboard/team/my-tasks 200 in 243ms (next.js: 48ms, application-code: 195ms)
+ GET /dashboard/team/my-tasks 200 in 300ms (next.js: 5ms, application-code: 295ms)
+ GET /dashboard/team/my-tasks 200 in 246ms (next.js: 7ms, application-code: 239ms)
+ GET / 200 in 425ms (next.js: 3ms, application-code: 422ms)
+ GET / 200 in 400ms (next.js: 4ms, application-code: 396ms)
+✓ Finished writing to filesystem cache in 13.3s
+ GET / 200 in 158ms (next.js: 67ms, application-code: 91ms)
+ GET /dashboard/team/my-tasks 200 in 54ms (next.js: 14ms, application-code: 40ms)
+ GET /dashboard/team 200 in 107ms (next.js: 72ms, application-code: 35ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /dashboard/settings 200 in 1015ms (next.js: 713ms, application-code: 302ms)
+ GET / 200 in 204ms (next.js: 111ms, application-code: 93ms)
+ GET /dashboard/settings 200 in 49ms (next.js: 14ms, application-code: 36ms)
+ GET /dashboard/settings/users 200 in 1645ms (next.js: 1269ms, application-code: 376ms)
+ GET / 200 in 149ms (next.js: 68ms, application-code: 81ms)
+ GET /dashboard/settings/users 200 in 150ms (next.js: 107ms, application-code: 43ms)
+ GET / 200 in 163ms (next.js: 67ms, application-code: 96ms)
+ GET /dashboard/settings/users 200 in 164ms (next.js: 108ms, application-code: 57ms)
+ POST /api/admin/users 200 in 13.1s (next.js: 1484ms, application-code: 11.6s)
+ GET /dashboard/settings 200 in 43ms (next.js: 13ms, application-code: 29ms)
+ GET /dashboard/settings/system 200 in 122ms (next.js: 79ms, application-code: 43ms)
+ GET /auth/login 200 in 4.3s (next.js: 3.5s, application-code: 871ms)
+ GET /auth/login 200 in 27ms (next.js: 2ms, application-code: 24ms)
+ GET /dashboard 200 in 131ms (next.js: 83ms, application-code: 48ms)
+ GET /dashboard/team 200 in 40ms (next.js: 11ms, application-code: 29ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+ GET /dashboard/team 200 in 638ms (next.js: 2ms, application-code: 635ms)
+ GET /dashboard/team/my-tasks 200 in 60ms (next.js: 12ms, application-code: 47ms)
+ GET /dashboard/team/projects 200 in 193ms (next.js: 12ms, application-code: 181ms)
+○ Compiling /dashboard/team/progress ...
+ GET /dashboard/team/progress 200 in 4.1s (next.js: 4.0s, application-code: 58ms)
+○ Compiling /_not-found/page ...
+ GET /dashboard/team/kanban 404 in 3.4s (next.js: 3.2s, application-code: 199ms)
+✓ Finished writing to filesystem cache in 14.4s
+ GET /dashboard/team/projects 200 in 270ms (next.js: 145ms, application-code: 125ms)
+ GET /dashboard/team/tasks 404 in 55ms (next.js: 5ms, application-code: 50ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+ GET /dashboard/settings/users 200 in 1555ms (next.js: 770ms, application-code: 784ms)
+✓ Finished filesystem cache database compaction in 20.0s
+ GET /dashboard/team/my-tasks 200 in 146ms (next.js: 24ms, application-code: 122ms)
+ GET /dashboard/team/projects 200 in 24ms (next.js: 2ms, application-code: 22ms)
+ GET /dashboard/team/progress 200 in 113ms (next.js: 24ms, application-code: 89ms)
+○ Compiling /dashboard/team/projects/[id] ...
+✓ Finished writing to filesystem cache in 19.6s
+ GET /dashboard/team/projects/dcqKioVWe11MShfyVKr9 200 in 62s (next.js: 62s, application-code: 159ms)
+✓ Finished filesystem cache database compaction in 26.1s
+✓ Finished filesystem cache database compaction in 22.4s
+ GET /dashboard/team/my-tasks 200 in 25ms (next.js: 2ms, application-code: 23ms)
+ GET /dashboard/team/my-tasks 200 in 31ms (next.js: 3ms, application-code: 28ms)
+ GET /dashboard/team/projects 200 in 28ms (next.js: 4ms, application-code: 24ms)
+ GET /dashboard/team/progress 200 in 25ms (next.js: 2ms, application-code: 23ms)
+ GET /dashboard/team/projects/dcqKioVWe11MShfyVKr9 200 in 63ms (next.js: 24ms, application-code: 39ms)
+ GET /dashboard/team/projects/dcqKioVWe11MShfyVKr9 200 in 51ms (next.js: 27ms, application-code: 25ms)
+ GET /dashboard/team/projects/dcqKioVWe11MShfyVKr9 200 in 31ms (next.js: 7ms, application-code: 23ms)
+ GET /dashboard/team/projects/dcqKioVWe11MShfyVKr9 200 in 30ms (next.js: 7ms, application-code: 23ms)
+ GET /dashboard/team/projects/dcqKioVWe11MShfyVKr9 200 in 23ms (next.js: 3ms, application-code: 21ms)
+ GET /dashboard/team 200 in 73ms (next.js: 35ms, application-code: 38ms)
+○ Compiling /dashboard/user ...
+ GET /dashboard/user 200 in 11.5s (next.js: 11.4s, application-code: 28ms)
+✓ Finished writing to filesystem cache in 10.4s
+ GET /dashboard/team 200 in 22ms (next.js: 3ms, application-code: 19ms)
+ GET /dashboard/team 200 in 292ms (next.js: 4ms, application-code: 289ms)
+✓ Compiled in 96.6s
+✓ Finished filesystem cache database compaction in 43s
+ GET /dashboard 500 in 72s (next.js: 10.5s, application-code: 62s)
+ GET /dashboard/team 500 in 77s (next.js: 74s, application-code: 3.4s)
+ GET /dashboard/team 500 in 94s (next.js: 91s, application-code: 2.4s)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+✓ Compiled in 20.6s
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 39.4s (next.js: 24.2s, application-code: 15.2s)
+ GET /dashboard/team 500 in 36.3s (next.js: 21.3s, application-code: 14.9s)
+ GET /dashboard/team 500 in 39.6s (next.js: 25.0s, application-code: 14.6s)
+ GET /dashboard/team 500 in 35.6s (next.js: 21.0s, application-code: 14.6s)
+ GET /dashboard/team 500 in 39.6s (next.js: 25.0s, application-code: 14.6s)
+ GET /dashboard/team 500 in 35.6s (next.js: 21.0s, application-code: 14.5s)
+✓ Compiled in 570ms
+ GET /dashboard/team 500 in 595ms
+ GET /dashboard 500 in 598ms
+ GET /dashboard 500 in 597ms
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23)
+ GET /dashboard/team 500 in 22ms (next.js: 13ms, application-code: 9ms)
+ GET /dashboard/team 500 in 124ms (next.js: 4ms, application-code: 120ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:398:23
+Expected '</', got 'jsx text'
+  396 |                 </div>
+  397 |               </div>
+> 398 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |
+      | ^
+> 400 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  401 |               tasks={projectTasks}
+  402 |               userMap={userMap}
+  403 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:399:23
+Expected '</', got 'jsx text'
+  397 |                 </div>
+  398 |               </div>
+> 399 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |
+      | ^
+> 401 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  402 |               tasks={projectTasks}
+  403 |               userMap={userMap}
+  404 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+✓ Finished filesystem cache database compaction in 10.7s
+ GET /dashboard/team 500 in 13ms (next.js: 4ms, application-code: 9ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+ GET /dashboard/team 500 in 60ms (next.js: 52ms, application-code: 8ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+ GET /dashboard/team 500 in 860ms (next.js: 368ms, application-code: 492ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+ GET /dashboard/team 500 in 49ms (next.js: 18ms, application-code: 31ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 14ms (next.js: 5ms, application-code: 9ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 4ms
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 124ms (next.js: 54ms, application-code: 70ms)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 13ms (next.js: 5ms, application-code: 8ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 33ms (next.js: 20ms, application-code: 13ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 14ms (next.js: 5ms, application-code: 9ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 1174ms (next.js: 1162ms, application-code: 12ms)
+ GET /dashboard/team 500 in 218ms (next.js: 4ms, application-code: 214ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/progress/page.js:446:16
+Expected '</', got ')'
+  444 |                   </div>
+  445 |                 </Link>
+> 446 |               ))}
+      |                ^
+  447 |             </div>
+  448 |           )}
+  449 |         </div>
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/progress/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/progress/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/progress/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/progress/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/progress/page.js:446:16)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/progress/page.js:446:16)
+✓ Compiled in 463ms
+ GET /dashboard/team 500 in 112ms (next.js: 58ms, application-code: 54ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+✓ Finished filesystem cache database compaction in 12.5s
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+✓ Finished filesystem cache database compaction in 64s
+ GET /dashboard/team 500 in 604ms (next.js: 287ms, application-code: 317ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 5.4s
+ GET /dashboard/team 500 in 25ms
+ GET /dashboard/team 500 in 5.0s (next.js: 5.0s, application-code: 27ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 204ms (next.js: 6ms, application-code: 198ms)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 13ms (next.js: 5ms, application-code: 8ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 128ms (next.js: 6ms, application-code: 122ms)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+✓ Finished filesystem cache database compaction in 37.3s
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 146ms (next.js: 129ms, application-code: 17ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team 500 in 31ms (next.js: 5ms, application-code: 26ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+✓ Finished writing to filesystem cache in 18.7s
+ GET /dashboard/team 500 in 27ms (next.js: 5ms, application-code: 22ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+○ Compiling /dashboard/team/tasks/[id] ...
+ GET /dashboard/team 500 in 135ms (next.js: 9ms, application-code: 126ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /auth/login 500 in 10.6s (next.js: 10.5s, application-code: 26ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+⨯ ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  [90m398 |[0m                 </div>
+  [90m399 |[0m               </div>
+[31m[1m>[0m [90m400 |[0m             </section>
+  [90m    |[0m                       [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m401 |[0m
+  [90m    |[0m [31m[1m^[0m
+[31m[1m>[0m [90m402 |[0m             <[33mTaskBoard[0m
+  [90m    |[0m [31m[1m^^^^^^^^^^^^[0m
+  [90m403 |[0m               tasks={projectTasks}
+  [90m404 |[0m               userMap={userMap}
+  [90m405 |[0m               onMoveForward={(task) => handleMove(task, [32m"forward"[0m)}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+⨯ ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  [90m398 |[0m                 </div>
+  [90m399 |[0m               </div>
+[31m[1m>[0m [90m400 |[0m             </section>
+  [90m    |[0m                       [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m401 |[0m
+  [90m    |[0m [31m[1m^[0m
+[31m[1m>[0m [90m402 |[0m             <[33mTaskBoard[0m
+  [90m    |[0m [31m[1m^^^^^^^^^^^^[0m
+  [90m403 |[0m               tasks={projectTasks}
+  [90m404 |[0m               userMap={userMap}
+  [90m405 |[0m               onMoveForward={(task) => handleMove(task, [32m"forward"[0m)}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+ GET /auth/login 500 in 3.2s (next.js: 3.2s, application-code: 10ms)
+[browser] Uncaught Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+
+    at <unknown> (Error: ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+    at <unknown> (Error: (./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23)
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /dashboard/team/tasks/test-task 500 in 108s (next.js: 108s, application-code: 9ms)
+ GET /dashboard/team/projects 500 in 17ms (next.js: 7ms, application-code: 11ms)
+ GET /dashboard/team/my-tasks 500 in 30ms (next.js: 14ms, application-code: 16ms)
+ GET /dashboard/team/progress 500 in 21ms (next.js: 9ms, application-code: 12ms)
+ GET /dashboard/team 500 in 18ms (next.js: 6ms, application-code: 12ms)
+ GET /dashboard 500 in 17ms (next.js: 7ms, application-code: 11ms)
+✓ Finished writing to filesystem cache in 13.0s
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+✓ Compiled in 437ms
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+[browser] ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js:400:23
+Expected '</', got 'jsx text'
+  398 |                 </div>
+  399 |               </div>
+> 400 |             </section>
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 401 |
+      | ^
+> 402 |             <TaskBoard
+      | ^^^^^^^^^^^^
+  403 |               tasks={projectTasks}
+  404 |               userMap={userMap}
+  405 |               onMoveForward={(task) => handleMove(task, "forward")}
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component Browser]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component]
+
+  Client Component SSR:
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Client Component SSR]
+    ./src/app/(dashboard)/dashboard/team/projects/[id]/page.js [Server Component] 
+ GET /auth/login 200 in 8.5s (next.js: 4.9s, application-code: 3.6s)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+ GET /auth/login 200 in 755ms (next.js: 60ms, application-code: 695ms)
+ GET /dashboard/team 200 in 5.3s (next.js: 3.9s, application-code: 1372ms)
+[browser] Image with src "/_next/static/media/no2ta-logo-light.405dhdmxv-yu8.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /dashboard 200 in 1298ms (next.js: 1208ms, application-code: 90ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /dashboard/team/tasks/test-task 200 in 13.9s (next.js: 13.7s, application-code: 209ms)
+ GET /dashboard/team/projects 200 in 599ms (next.js: 258ms, application-code: 342ms)
+ GET /dashboard/team/my-tasks 200 in 1018ms (next.js: 800ms, application-code: 218ms)
+ GET /dashboard/team/progress 200 in 1029ms (next.js: 824ms, application-code: 205ms)
+ GET /dashboard 200 in 182ms (next.js: 3ms, application-code: 179ms)
+ GET /dashboard/settings/users 200 in 512ms (next.js: 181ms, application-code: 332ms)
+ GET /dashboard/team 200 in 22ms (next.js: 2ms, application-code: 19ms)
+ GET /dashboard/team 200 in 66ms (next.js: 43ms, application-code: 23ms)
+ GET /dashboard/team 200 in 343ms (next.js: 92ms, application-code: 251ms)
+ GET /dashboard/team 200 in 404ms (next.js: 61ms, application-code: 343ms)
+ GET /dashboard/team/my-tasks 200 in 172ms (next.js: 84ms, application-code: 87ms)
+ GET /dashboard/team/my-tasks 200 in 47ms (next.js: 3ms, application-code: 44ms)
+ GET /dashboard/team/projects 200 in 124ms (next.js: 13ms, application-code: 112ms)
+ GET /dashboard/team/projects 200 in 1703ms (next.js: 2ms, application-code: 1701ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+✓ Finished filesystem cache database compaction in 39.3s
+ GET /dashboard 200 in 25.7s (next.js: 672ms, application-code: 25.0s)
+ GET /dashboard/team/progress 200 in 702ms (next.js: 496ms, application-code: 206ms)
+ GET /dashboard/team/progress 200 in 103ms (next.js: 3ms, application-code: 100ms)
+ GET /dashboard/team/progress 200 in 77ms (next.js: 3ms, application-code: 74ms)
+ GET /dashboard/team/progress 200 in 281ms (next.js: 21ms, application-code: 260ms)
+Firebase Project: no2ta-b3a6f
+Firebase API Key: true
+ GET /dashboard/team 200 in 288ms (next.js: 23ms, application-code: 265ms)
+ GET /dashboard/team/projects 200 in 159ms (next.js: 2ms, application-code: 156ms)
+ GET /dashboard/team/my-tasks 200 in 139ms (next.js: 2ms, application-code: 137ms)
+ GET /dashboard/team/progress 200 in 130ms (next.js: 3ms, application-code: 127ms)
+ GET /dashboard/team/tasks/demo 200 in 1544ms (next.js: 371ms, application-code: 1173ms)
+ GET /dashboard/settings/users 200 in 547ms (next.js: 222ms, application-code: 324ms)

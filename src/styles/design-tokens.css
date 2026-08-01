@@ -1,0 +1,95 @@
+:root {
+  /* ======================
+     Brand Colors
+  ====================== */
+  --color-primary-900: #690102;
+  --color-primary-800: #891112;
+  --color-primary-700: #b2171a;
+  --color-primary-600: #e82125;
+  --color-primary-500: #ff3639;
+  --color-primary-400: #ff595c;
+  --color-primary-300: #ff8082;
+  --color-primary-200: #ffa3a5;
+  --color-primary-100: #ffc7c8;
+  --color-primary-50: #ffdadb;
+  --color-primary: #e82125;
+
+  --color-secondary-900: #131927;
+  --color-secondary-800: #212936;
+  --color-secondary-700: #394050;
+  --color-secondary-600: #4d5461;
+  --color-secondary-500: #6d717f;
+  --color-secondary-400: #9ea2ae;
+  --color-secondary-300: #d2d5db;
+  --color-secondary-200: #e5e7ea;
+  --color-secondary-100: #f3f4f6;
+  --color-secondary-50: #f9fafb;
+
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --color-background: #ffffff;
+  --color-surface: #f8f8f8;
+  --color-surface-hover: #f3f4f6;
+  --color-surface-muted: #f4f4f5;
+  --color-card: #ffffff;
+
+  --color-text: #111827;
+  --color-ink: #111827;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-line: #e5e7eb;
+
+  /* ======================
+     Semantic Colors
+  ====================== */
+  --color-success: #43b75d;
+  --color-warning: #ffaa00;
+  --color-error: #ee443f;
+  --color-danger: #ee443f;
+  --color-info: #0095ff;
+
+  /* ======================
+     Spacing
+  ====================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* ======================
+     Radius
+  ====================== */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+  --radius-card: 12px;
+
+  /* ======================
+     Shadows
+  ====================== */
+  --shadow-sm: 2px 3px 6px rgba(0, 0, 0, 0.16);
+  --shadow-md: 5px 5px 12px rgba(0, 0, 0, 0.16);
+  --shadow-lg: 7px 7px 35px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 7px 7px 40px rgba(0, 0, 0, 0.35);
+  --shadow-2xl: 25px 15px 50px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  /* ======================
+     Fonts
+  ====================== */
+  --font-arabic: var(--font-bukra);
+  --font-english: var(--font-google);
+
+  /* ======================
+     Layout
+  ====================== */
+  --container-width: 1200px;
+}

@@ -1,0 +1,251 @@
+/*
+ * Dark theme overrides.
+ *
+ * Tailwind v4 utilities read these CSS variables, so remapping the
+ * palette under .dark makes every existing light class adapt automatically.
+ *
+ * Scoped to .dashboard-shell and .landing-shell; the landing shell only
+ * remaps semantic tokens, landing components add explicit `dark:` variants.
+ */
+
+.dark .dashboard-shell, .dashboard-shell.dark {
+  /* amber (reversed) */
+  --color-amber-50: #451a03;
+  --color-amber-100: #78350f;
+  --color-amber-200: #92400e;
+  --color-amber-300: #b45309;
+  --color-amber-400: #d97706;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #fbbf24;
+  --color-amber-700: #fcd34d;
+  --color-amber-800: #fde68a;
+  --color-amber-900: #fef3c7;
+  --color-amber-950: #fffbeb;
+  /* blue (reversed) */
+  --color-blue-50: #172554;
+  --color-blue-100: #1e3a8a;
+  --color-blue-200: #1e40af;
+  --color-blue-300: #1d4ed8;
+  --color-blue-400: #2563eb;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #60a5fa;
+  --color-blue-700: #93c5fd;
+  --color-blue-800: #bfdbfe;
+  --color-blue-900: #dbeafe;
+  --color-blue-950: #eff6ff;
+  /* emerald (reversed) */
+  --color-emerald-50: #022c22;
+  --color-emerald-100: #064e3b;
+  --color-emerald-200: #065f46;
+  --color-emerald-300: #047857;
+  --color-emerald-400: #059669;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #34d399;
+  --color-emerald-700: #6ee7b7;
+  --color-emerald-800: #a7f3d0;
+  --color-emerald-900: #d1fae5;
+  --color-emerald-950: #ecfdf5;
+  /* fuchsia (reversed) */
+  --color-fuchsia-50: #4a044e;
+  --color-fuchsia-100: #701a75;
+  --color-fuchsia-200: #86198f;
+  --color-fuchsia-300: #a21caf;
+  --color-fuchsia-400: #c026d3;
+  --color-fuchsia-500: #d946ef;
+  --color-fuchsia-600: #e879f9;
+  --color-fuchsia-700: #f0abfc;
+  --color-fuchsia-800: #f5d0fe;
+  --color-fuchsia-900: #fae8ff;
+  --color-fuchsia-950: #fdf4ff;
+  /* green (reversed) */
+  --color-green-50: #052e16;
+  --color-green-100: #14532d;
+  --color-green-200: #166534;
+  --color-green-300: #15803d;
+  --color-green-400: #16a34a;
+  --color-green-500: #22c55e;
+  --color-green-600: #4ade80;
+  --color-green-700: #86efac;
+  --color-green-800: #bbf7d0;
+  --color-green-900: #dcfce7;
+  --color-green-950: #f0fdf4;
+  /* gray (reversed) */
+  --color-gray-50: #030712;
+  --color-gray-100: #111827;
+  --color-gray-200: #1f2937;
+  --color-gray-300: #374151;
+  --color-gray-400: #4b5563;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #9ca3af;
+  --color-gray-700: #d1d5db;
+  --color-gray-800: #e5e7eb;
+  --color-gray-900: #f3f4f6;
+  --color-gray-950: #f9fafb;
+  /* indigo (reversed) */
+  --color-indigo-50: #1e1b4b;
+  --color-indigo-100: #312e81;
+  --color-indigo-200: #3730a3;
+  --color-indigo-300: #4338ca;
+  --color-indigo-400: #4f46e5;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #818cf8;
+  --color-indigo-700: #a5b4fc;
+  --color-indigo-800: #c7d2fe;
+  --color-indigo-900: #e0e7ff;
+  --color-indigo-950: #eef2ff;
+  /* orange (reversed) */
+  --color-orange-50: #431407;
+  --color-orange-100: #7c2d12;
+  --color-orange-200: #9a3412;
+  --color-orange-300: #c2410c;
+  --color-orange-400: #ea580c;
+  --color-orange-500: #f97316;
+  --color-orange-600: #fb923c;
+  --color-orange-700: #fdba74;
+  --color-orange-800: #fed7aa;
+  --color-orange-900: #ffedd5;
+  --color-orange-950: #fff7ed;
+  /* red (reversed) */
+  --color-red-50: #450a0a;
+  --color-red-100: #7f1d1d;
+  --color-red-200: #991b1b;
+  --color-red-300: #b91c1c;
+  --color-red-400: #dc2626;
+  --color-red-500: #ef4444;
+  --color-red-600: #f87171;
+  --color-red-700: #fca5a5;
+  --color-red-800: #fecaca;
+  --color-red-900: #fee2e2;
+  --color-red-950: #fef2f2;
+  /* rose (reversed) */
+  --color-rose-50: #4c0519;
+  --color-rose-100: #881337;
+  --color-rose-200: #9f1239;
+  --color-rose-300: #be123c;
+  --color-rose-400: #e11d48;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #fb7185;
+  --color-rose-700: #fda4af;
+  --color-rose-800: #fecdd3;
+  --color-rose-900: #ffe4e6;
+  --color-rose-950: #fff1f2;
+  /* sky (reversed) */
+  --color-sky-50: #082f49;
+  --color-sky-100: #0c4a6e;
+  --color-sky-200: #075985;
+  --color-sky-300: #0369a1;
+  --color-sky-400: #0284c7;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #38bdf8;
+  --color-sky-700: #7dd3fc;
+  --color-sky-800: #bae6fd;
+  --color-sky-900: #e0f2fe;
+  --color-sky-950: #f0f9ff;
+  /* slate (reversed) */
+  --color-slate-50: #020617;
+  --color-slate-100: #0f172a;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;
+  --color-slate-400: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-600: #94a3b8;
+  --color-slate-700: #cbd5e1;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+  --color-slate-950: #f8fafc;
+  /* teal (reversed) */
+  --color-teal-50: #042f2e;
+  --color-teal-100: #134e4a;
+  --color-teal-200: #115e59;
+  --color-teal-300: #0f766e;
+  --color-teal-400: #0d9488;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #2dd4bf;
+  --color-teal-700: #5eead4;
+  --color-teal-800: #99f6e4;
+  --color-teal-900: #ccfbf1;
+  --color-teal-950: #f0fdfa;
+  /* violet (reversed) */
+  --color-violet-50: #2e1065;
+  --color-violet-100: #4c1d95;
+  --color-violet-200: #5b21b6;
+  --color-violet-300: #6d28d9;
+  --color-violet-400: #7c3aed;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #a78bfa;
+  --color-violet-700: #c4b5fd;
+  --color-violet-800: #ddd6fe;
+  --color-violet-900: #ede9fe;
+  --color-violet-950: #f5f3ff;
+}
+/*
+ * =========================================================
+ * Semantic tokens (dashboard shell)
+ * =========================================================
+ */
+
+.dark .dashboard-shell,
+.dashboard-shell.dark {
+  color-scheme: dark;
+
+  --color-background: #0a0a0f;
+  --color-surface: #121218;
+  --color-surface-hover: #1a1a22;
+  --color-surface-muted: #1e1e26;
+  --color-card: #15151c;
+
+  --color-ink: #e7e7ec;
+  --color-muted: #9ca3af;
+  --color-border: #26262f;
+  --color-line: #26262f;
+
+  --color-primary: #ff4d50;
+  --color-primary-50: #450a0a;
+  --color-primary-500: #ff3639;
+  --color-primary-600: #e82125;
+  --color-primary-700: #b2171a;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 5px 5px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 7px 7px 35px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 7px 7px 40px rgba(0, 0, 0, 0.65);
+}
+
+/*
+ * =========================================================
+ * Semantic tokens (landing shell)
+ * =========================================================
+ */
+
+.dark .landing-shell {
+  color-scheme: dark;
+
+  --color-background: #0a0a0f;
+  --color-surface: #121218;
+  --color-surface-hover: #1a1a22;
+  --color-surface-muted: #1e1e26;
+  --color-card: #15151c;
+
+  --color-ink: #e7e7ec;
+  --color-muted: #9ca3af;
+  --color-border: #26262f;
+  --color-line: #26262f;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 5px 5px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 7px 7px 35px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 7px 7px 40px rgba(0, 0, 0, 0.65);
+}
+
+/*
+ * Native scrollbars + form controls inside the shell
+ */
+
+.dark .dashboard-shell *,
+.dashboard-shell.dark * {
+  scrollbar-color: #3f3f4a #15151c;
+}
+
+.dark .landing-shell * {
+  scrollbar-color: #3f3f4a #15151c;
+}
