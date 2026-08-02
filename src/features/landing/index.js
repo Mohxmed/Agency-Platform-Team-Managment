@@ -5,7 +5,7 @@ import Footer from "./layout/Footer";
 import SectionsNavigator from "./components/SectionsNavigator";
 
 // Sections
-import { HeroSection } from "./sections/hero";
+import { HeroSection } from "./sections/hero-new";
 import ClientsSection from "./sections/ClientsSection";
 import ContactSection from "./sections/ContactSection";
 import ServicesSection from "./sections/ServicesSection";
