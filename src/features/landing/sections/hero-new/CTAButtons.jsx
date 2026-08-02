@@ -28,6 +28,7 @@ export default function CTAButtons() {
       </Button>
 
       <Button
+      variant="outline"
         className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-ink text-[15px] border
           transition-colors duration-200 hover:bg-surface
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
