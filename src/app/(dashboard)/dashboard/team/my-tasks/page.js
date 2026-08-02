@@ -33,6 +33,8 @@ import {
   getAssigneeId,
   getWorkflowMeta,
   isDeadlineOverdue,
+  canManageTeam,
+  canMemberAdvance,
   uid,
 } from "@/features/team/lib/teamUtils";
 
@@ -167,6 +169,18 @@ export default function MyTasksPage() {
   }
 
   async function handleMove(task, direction) {
+    const role = profile?.role;
+
+    // Members may only advance the workflow (never move backward).
+    if (direction === "backward" && !canManageTeam(role)) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "لا يمكنك التراجع في مراحل المهمة.",
+      });
+      return;
+    }
+
     const currentIndex = WORKFLOW_STATUSES.findIndex((s) => s.value === task.status);
 
     const delta = direction === "forward" ? 1 : -1;
@@ -181,6 +195,20 @@ export default function MyTasksPage() {
     const fromMeta = WORKFLOW_STATUSES[currentIndex];
 
     const toMeta = WORKFLOW_STATUSES[nextIndex];
+
+    // Members cannot move past "review" (no revision / done).
+    if (
+      direction === "forward" &&
+      !canManageTeam(role) &&
+      !canMemberAdvance(task.status)
+    ) {
+      showToast({
+        type: "warning",
+        title: "انتهت مراحل العضو",
+        message: "بعد الإرسال للمراجعة، يتولى المسؤول قرار التعديلات أو التسليم.",
+      });
+      return;
+    }
 
     try {
       await updateDocument("tasks", task.id, {
@@ -210,7 +238,7 @@ export default function MyTasksPage() {
   }
 
   return (
-    <ProtectedRoute permission="team">
+    <ProtectedRoute permission="my-tasks">
       <div dir="rtl" className="space-y-6">
         <TeamHero
           icon={ClipboardList}
@@ -338,6 +366,7 @@ export default function MyTasksPage() {
                           task={task}
                           projects={projects}
                           userMap={userMap}
+                          canManage={canManageTeam(profile?.role)}
                           onMoveForward={handleMoveForward}
                           onMoveBackward={handleMoveBackward}
                         />
@@ -403,17 +432,17 @@ export default function MyTasksPage() {
                       <td className="px-5 py-4">
                         <button
                           onClick={() => handleMoveBackward(task)}
-                          disabled={task.status === "backlog"}
+                          disabled={!canManageTeam(profile?.role) || task.status === "backlog"}
                           title="التراجع"
-                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 hover:bg-ink/[0.08]"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 hover:bg-ink/[0.08] disabled:opacity-30"
                         >
                           <ChevronRight className="h-3.5 w-3.5" />
                         </button>
                         <button
                           onClick={() => handleMoveForward(task)}
-                          disabled={task.status === "done"}
+                          disabled={task.status === "done" || (!canManageTeam(profile?.role) && !canMemberAdvance(task.status))}
                           title="التقديم"
-                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white disabled:opacity-30"
                         >
                           <ChevronLeft className="h-3.5 w-3.5" />
                         </button>
@@ -430,7 +459,7 @@ export default function MyTasksPage() {
   );
 }
 
-function MyTaskCard({ task, projects, userMap, onMoveForward, onMoveBackward }) {
+function MyTaskCard({ task, projects, userMap, canManage, onMoveForward, onMoveBackward }) {
   const getProjectTitle = (projectId) => projects.find((p) => p.id === projectId)?.title || "بدون مشروع";
 
   return (
@@ -484,7 +513,7 @@ function MyTaskCard({ task, projects, userMap, onMoveForward, onMoveBackward }) 
         <button
           type="button"
           onClick={() => onMoveBackward(task)}
-          disabled={task.status === "backlog"}
+          disabled={!canManage || task.status === "backlog"}
           title="التراجع"
           className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 hover:bg-ink/[0.08] disabled:pointer-events-none disabled:opacity-25"
         >
@@ -494,7 +523,7 @@ function MyTaskCard({ task, projects, userMap, onMoveForward, onMoveBackward }) 
         <button
           type="button"
           onClick={() => onMoveForward(task)}
-          disabled={task.status === "done"}
+          disabled={task.status === "done" || (!canManage && !canMemberAdvance(task.status))}
           title="التقديم"
           className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-25"
         >

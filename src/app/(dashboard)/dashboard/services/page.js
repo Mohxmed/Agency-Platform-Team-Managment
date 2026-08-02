@@ -181,7 +181,7 @@ export default function ServicesPage() {
   ];
 
   return (
-    <ProtectedRoute permission="profiles">
+    <ProtectedRoute permission="services">
       <CrudTable
         collectionName="services"
         fields={fields}

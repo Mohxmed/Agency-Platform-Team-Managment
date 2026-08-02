@@ -24,9 +24,10 @@ import Button from "@/features/dashboard/ui/Button";
 import Input, { Select } from "@/features/dashboard/ui/Input";
 
 const ROLE_OPTIONS = [
-  { value: "member", label: "عضو" },
-  { value: "manager", label: "قائد فريق" },
-  { value: "admin", label: "مدير" },
+  { value: "member", label: "عضو فريق" },
+  { value: "manager", label: "مدير" },
+  { value: "admin", label: "مسؤول" },
+  { value: "viewer", label: "زائر" },
 ];
 
 const STATUS_OPTIONS = [
@@ -53,7 +54,7 @@ export default function EditMemberPage() {
     email: "",
     password: "",
     phone: "",
-    specialization: "",
+    specialty: "",
     role: "member",
     status: "active",
   });
@@ -70,7 +71,7 @@ export default function EditMemberPage() {
       email: member.email || profile?.email || "",
       password: "",
       phone: member.phone || profile?.phone || "",
-      specialization: member.specialization || profile?.specialization || "",
+      specialty: member.specialty || profile?.specialty || "",
       role: member.role || "member",
       status: member.status === "inactive" ? "inactive" : "active",
     });
@@ -131,7 +132,7 @@ export default function EditMemberPage() {
         role: form.role,
         status: form.status,
         phone: form.phone.trim(),
-        specialization: form.specialization.trim(),
+        specialty: form.specialty.trim(),
         updatedAtClient: new Date().toISOString(),
       });
 
@@ -247,8 +248,8 @@ export default function EditMemberPage() {
               />
               <Input
                 label="التخصص"
-                value={form.specialization}
-                onChange={(e) => update("specialization", e.target.value)}
+                value={form.specialty}
+                onChange={(e) => update("specialty", e.target.value)}
               />
               <div className="grid grid-cols-2 gap-4">
                 <Select

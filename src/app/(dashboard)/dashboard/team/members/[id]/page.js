@@ -50,6 +50,13 @@ const STATUS_LABELS = {
   done: "منجز",
 };
 
+const ROLE_LABELS = {
+  admin: "مسؤول",
+  manager: "مدير",
+  member: "عضو فريق",
+  viewer: "زائر",
+};
+
 export default function MemberReportPage() {
   const theme = usePageTheme();
   const params = useParams();
@@ -67,7 +74,7 @@ export default function MemberReportPage() {
   const memberName = memberProfile?.name || member?.name || "عضو الفريق";
   const memberEmail = memberProfile?.email || member?.email || "";
   const memberRole = member?.role || "member";
-  const memberSpecialization = member?.specialization || "—";
+  const memberSpecialization = member?.specialty || "—";
   const memberPhone = member?.phone || "—";
   const memberAvatar = member?.photoURL || member?.logo || memberProfile?.photoURL || memberProfile?.logo || "";
 
@@ -188,7 +195,7 @@ export default function MemberReportPage() {
 
         <div className="flex items-center gap-2">
           <Badge variant={memberRole === "admin" ? "danger" : memberRole === "manager" ? "warning" : "secondary"}>
-            {memberRole === "admin" ? "مدير" : memberRole === "manager" ? "قائد فريق" : "عضو"}
+            {ROLE_LABELS[memberRole] || memberRole}
           </Badge>
         </div>
       </div>
@@ -207,7 +214,7 @@ export default function MemberReportPage() {
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-3">
                 <h2 className="text-2xl font-black text-ink truncate">{memberName}</h2>
-                <Badge variant="outline">{memberRole === "admin" ? "مدير" : memberRole === "manager" ? "قائد فريق" : "عضو"}</Badge>
+                <Badge variant="outline">{ROLE_LABELS[memberRole] || memberRole}</Badge>
               </div>
               <p className="mt-1 text-ink/60">{memberEmail}</p>
               <div className="mt-4 flex flex-wrap gap-6 text-sm">

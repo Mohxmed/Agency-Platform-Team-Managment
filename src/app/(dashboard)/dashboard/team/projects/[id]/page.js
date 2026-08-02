@@ -15,6 +15,7 @@ import {
   Trash2,
   Users,
   Clock,
+  Lock,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -46,6 +47,7 @@ import {
   getWorkflowMeta,
   getProjectMemberIds,
   canManageTeam,
+  canMemberAdvance,
   uid,
 } from "@/features/team/lib/teamUtils";
 
@@ -129,6 +131,16 @@ export default function ProjectDetailPage() {
       return;
     }
 
+    // Members may only advance the workflow (never move backward).
+    if (direction === "backward" && !canManage) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "لا يمكنك التراجع في مراحل المهمة.",
+      });
+      return;
+    }
+
     const fromMeta = getWorkflowMeta(task.status);
 
     const nextStatus =
@@ -137,6 +149,16 @@ export default function ProjectDetailPage() {
         : prevWorkflowStatus(task.status);
 
     if (nextStatus === task.status) return;
+
+    // Members cannot move past "review".
+    if (direction === "forward" && !canManage && !canMemberAdvance(task.status)) {
+      showToast({
+        type: "warning",
+        title: "انتهت مراحل العضو",
+        message: "بعد الإرسال للمراجعة، يتولى المسؤول قرار التعديلات أو التسليم.",
+      });
+      return;
+    }
 
     const toMeta = getWorkflowMeta(nextStatus);
 
@@ -240,7 +262,7 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute permission="team">
+      <ProtectedRoute permission="projects">
         <div dir="rtl" className="space-y-6">
           <div className="h-40 animate-pulse rounded-[28px] border border-red-100 bg-red-50/50" />
           <div className="h-72 animate-pulse rounded-3xl border border-gray-100 bg-gray-50" />
@@ -249,8 +271,12 @@ export default function ProjectDetailPage() {
     );
   }
 
+  const isProjectMember =
+    canManage ||
+    (profile?.uid && getProjectMemberIds(project).includes(profile.uid));
+
   return (
-    <ProtectedRoute permission="team">
+    <ProtectedRoute permission="projects">
       <div dir="rtl" className="space-y-6">
         <Link
           href="/dashboard/team"
@@ -260,7 +286,15 @@ export default function ProjectDetailPage() {
           العودة إلى الفريق والمشاريع
         </Link>
 
-        {!project ? (
+        {!isProjectMember ? (
+          <div className="flex min-h-[320px] flex-col items-center justify-center rounded-[24px] border border-dashed border-red-200 bg-red-50/30 px-6 text-center">
+            <Lock className="h-8 w-8 text-red-300" />
+            <h2 className="mt-4 text-lg font-black text-ink">لا يمكنك الوصول لهذا المشروع</h2>
+            <p className="mt-2 max-w-sm text-sm leading-6 text-ink/50">
+              هذا المشروع غير مدرج ضمن مشاريعك المشترك فيها.
+            </p>
+          </div>
+        ) : !project ? (
           <div className="flex min-h-[320px] flex-col items-center justify-center rounded-[24px] border border-dashed border-red-200 bg-red-50/30 px-6 text-center">
             <ClipboardList className="h-8 w-8 text-red-300" />
             <h2 className="mt-4 text-lg font-black text-ink">المشروع غير موجود</h2>

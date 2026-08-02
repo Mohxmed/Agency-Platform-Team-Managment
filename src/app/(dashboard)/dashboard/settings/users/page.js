@@ -85,19 +85,19 @@ const DEFAULT_USER = {
 const ROLE_OPTIONS = [
   {
     value: "admin",
-    label: "مدير النظام",
+    label: "مسؤول",
   },
   {
     value: "manager",
     label: "مدير",
   },
   {
-    value: "editor",
-    label: "محرر",
+    value: "member",
+    label: "عضو فريق",
   },
   {
-    value: "member",
-    label: "عضو",
+    value: "viewer",
+    label: "زائر",
   },
 ];
 
@@ -108,32 +108,48 @@ const ROLE_OPTIONS = [
 const ROLE_PERMISSIONS = {
   admin: {
     dashboard: true,
+    content: true,
     projects: true,
     team: true,
     users: true,
     settings: true,
+    "my-tasks": true,
+    tasks: true,
+    progress: true,
   },
 
   manager: {
     dashboard: true,
+    content: false,
     projects: true,
     team: true,
-    users: false,
-    settings: false,
-  },
-
-  editor: {
-    dashboard: true,
-    projects: true,
-    team: false,
+    "my-tasks": true,
+    tasks: true,
+    progress: true,
     users: false,
     settings: false,
   },
 
   member: {
     dashboard: true,
+    content: false,
+    projects: true,
+    team: false,
+    "my-tasks": true,
+    tasks: true,
+    progress: false,
+    users: false,
+    settings: false,
+  },
+
+  viewer: {
+    dashboard: true,
+    content: false,
     projects: false,
     team: false,
+    "my-tasks": false,
+    tasks: false,
+    progress: false,
     users: false,
     settings: false,
   },
@@ -1115,7 +1131,7 @@ function UserAvatar({ user }) {
 function RoleBadge({ role }) {
   const data = {
     admin: {
-      label: "مدير النظام",
+      label: "مسؤول",
       icon: Crown,
       className: "bg-purple-500/10 text-purple-600",
     },
@@ -1126,16 +1142,16 @@ function RoleBadge({ role }) {
       className: "bg-blue-500/10 text-blue-600",
     },
 
-    editor: {
-      label: "محرر",
-      icon: Pencil,
-      className: "bg-amber-500/10 text-amber-600",
-    },
-
     member: {
-      label: "عضو",
+      label: "عضو فريق",
       icon: UserRound,
       className: "bg-gray-500/10 text-gray-600",
+    },
+
+    viewer: {
+      label: "زائر",
+      icon: UserRound,
+      className: "bg-emerald-500/10 text-emerald-600",
     },
   };
 
@@ -1206,11 +1222,16 @@ function StatusBadge({ status }) {
 
 function PermissionSummary({ permissions = {} }) {
   const labels = {
-    dashboard: "Dashboard",
-    projects: "Projects",
-    team: "Team",
-    users: "Users",
-    settings: "Settings",
+    dashboard: "لوحة التحكم",
+    content: "إدارة الموقع",
+    portfolio: "المحفظة",
+    projects: "المشاريع",
+    team: "الفريق",
+    "my-tasks": "مهماتي",
+    tasks: "المهام",
+    progress: "التقدم",
+    users: "المستخدمون",
+    settings: "الإعدادات",
   };
 
   const active = Object.entries(permissions)
@@ -1645,8 +1666,8 @@ function UserModal({ user, saving, onClose, onSave }) {
                       <Crown className="h-4 w-4" />
                     ) : role.value === "manager" ? (
                       <ShieldCheck className="h-4 w-4" />
-                    ) : role.value === "editor" ? (
-                      <Pencil className="h-4 w-4" />
+                    ) : role.value === "viewer" ? (
+                      <UserRound className="h-4 w-4" />
                     ) : (
                       <UserRound className="h-4 w-4" />
                     )}
@@ -1660,9 +1681,9 @@ function UserModal({ user, saving, onClose, onSave }) {
                         ? "صلاحيات كاملة"
                         : role.value === "manager"
                           ? "إدارة المشاريع والفريق"
-                          : role.value === "editor"
-                            ? "إدارة المشاريع"
-                            : "صلاحيات أساسية"}
+                          : role.value === "viewer"
+                            ? "بدون صلاحيات"
+                            : "مهامه ومشاريعه المسندة"}
                     </p>
                   </div>
                 </button>

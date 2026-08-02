@@ -50,6 +50,7 @@ import {
   nextWorkflowStatus,
   prevWorkflowStatus,
   canManageTeam,
+  canMemberAdvance,
   uid,
 } from "@/features/team/lib/teamUtils";
 
@@ -126,6 +127,18 @@ export default function TaskDetailPage() {
       return;
     }
 
+    const role = profile?.role;
+
+    // Members may only advance the workflow (never move backward).
+    if (direction === "backward" && !canManage) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "لا يمكنك التراجع في مراحل المهمة.",
+      });
+      return;
+    }
+
     const fromMeta = getWorkflowMeta(task.status);
 
     const nextStatus =
@@ -134,6 +147,17 @@ export default function TaskDetailPage() {
         : prevWorkflowStatus(task.status);
 
     if (nextStatus === task.status) return;
+
+    // Members cannot move past "review" (no revision / done) — admin/manager
+    // are the ones who decide revision or completion.
+    if (direction === "forward" && !canManage && !canMemberAdvance(task.status)) {
+      showToast({
+        type: "warning",
+        title: "انتهت مراحل العضو",
+        message: "بعد الإرسال للمراجعة، يتولى المسؤول قرار التعديلات أو التسليم.",
+      });
+      return;
+    }
 
     const toMeta = getWorkflowMeta(nextStatus);
 
@@ -260,7 +284,7 @@ export default function TaskDetailPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute permission="team">
+      <ProtectedRoute permission="tasks">
         <div dir="rtl" className="space-y-6">
           <div className="h-10 w-64 animate-pulse rounded-xl bg-gray-100" />
           <div className="h-40 animate-pulse rounded-[28px] border border-gray-100 bg-gray-50" />
@@ -271,7 +295,7 @@ export default function TaskDetailPage() {
   }
 
   return (
-    <ProtectedRoute permission="team">
+    <ProtectedRoute permission="tasks">
       <div dir="rtl" className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
@@ -286,7 +310,7 @@ export default function TaskDetailPage() {
             <button
               type="button"
               onClick={() => handleMove("backward")}
-              disabled={busy || !task || task.status === "backlog"}
+              disabled={busy || !canManage || !task || task.status === "backlog"}
               title="التراجع في مراحل العمل"
               className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/[0.08] bg-card text-ink/50 transition hover:border-ink/[0.16] hover:text-ink disabled:pointer-events-none disabled:opacity-30"
             >
@@ -296,7 +320,12 @@ export default function TaskDetailPage() {
             <button
               type="button"
               onClick={() => handleMove("forward")}
-              disabled={busy || !task || task.status === "done"}
+              disabled={
+                busy ||
+                !task ||
+                task.status === "done" ||
+                (!canManage && !canMemberAdvance(task.status))
+              }
               title="تقديم في مراحل العمل"
               className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-600 text-white transition hover:bg-red-700 dark:bg-red-400 dark:hover:bg-red-300 disabled:pointer-events-none disabled:opacity-30"
             >

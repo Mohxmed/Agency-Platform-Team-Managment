@@ -22,9 +22,10 @@ import Button from "@/features/dashboard/ui/Button";
 import Input, { Select } from "@/features/dashboard/ui/Input";
 
 const ROLE_OPTIONS = [
-  { value: "member", label: "عضو" },
-  { value: "manager", label: "قائد فريق" },
-  { value: "admin", label: "مدير" },
+  { value: "member", label: "عضو فريق" },
+  { value: "manager", label: "مدير" },
+  { value: "admin", label: "مسؤول" },
+  { value: "viewer", label: "زائر" },
 ];
 
 const STATUS_OPTIONS = [
@@ -37,7 +38,7 @@ const EMPTY_FORM = {
   email: "",
   password: "",
   phone: "",
-  specialization: "",
+  specialty: "",
   role: "member",
   status: "active",
 };
@@ -190,8 +191,8 @@ export default function NewMemberPage() {
               <Input
                 label="التخصص"
                 placeholder="مثال: تطوير واجهات"
-                value={form.specialization}
-                onChange={(e) => update("specialization", e.target.value)}
+                value={form.specialty}
+                onChange={(e) => update("specialty", e.target.value)}
               />
               <div className="grid grid-cols-2 gap-4">
                 <Select

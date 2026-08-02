@@ -18,7 +18,8 @@ export default function Avatar({
   const avatarSeed =
     user?.name || userName || user?.email || user?.id || "user";
 
-  const fallbackSrc = `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(
+  // Gender-neutral cartoon avatar (Discord/Apple-style) based on a stable seed.
+  const fallbackSrc = `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${encodeURIComponent(
     avatarSeed,
   )}&backgroundColor=b6e3f4,c0aede,ffd5dc,ffdfbf`;
 

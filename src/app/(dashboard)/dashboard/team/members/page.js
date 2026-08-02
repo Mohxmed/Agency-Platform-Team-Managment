@@ -31,15 +31,17 @@ import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 import { getWorkflowMeta } from "@/features/team/lib/teamUtils";
 
 const ROLE_LABELS = {
-  admin: "مدير",
-  manager: "قائد فريق",
-  member: "عضو",
+  admin: "مسؤول",
+  manager: "مدير",
+  member: "عضو فريق",
+  viewer: "زائر",
 };
 
 const ROLE_BADGES = {
   admin: "danger",
   manager: "warning",
   member: "secondary",
+  viewer: "neutral",
 };
 
 export default function TeamMembersPage() {
@@ -60,7 +62,7 @@ export default function TeamMembersPage() {
       const profile = userMap.get(m.id);
       const name = profile?.name || m.name || "";
       const email = profile?.email || m.email || "";
-      const specialization = m.specialization || "";
+      const specialization = m.specialty || "";
       const matchesSearch = !search || name.includes(search) || email.includes(search) || specialization.includes(search);
       const matchesRole = roleFilter === "all" || m.role === roleFilter;
       return matchesSearch && matchesRole;
@@ -220,9 +222,10 @@ export default function TeamMembersPage() {
               className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20"
             >
               <option value="all">جميع الأدوار</option>
-              <option value="admin">مدير</option>
-              <option value="manager">قائد فريق</option>
-              <option value="member">عضو</option>
+              <option value="admin">مسؤول</option>
+              <option value="manager">مدير</option>
+              <option value="member">عضو فريق</option>
+              <option value="viewer">زائر</option>
             </select>
 
             <select
@@ -280,7 +283,7 @@ export default function TeamMembersPage() {
                   const email = profile?.email || user.email || "";
                   const avatar = user.photoURL || user.logo || profile?.photoURL || profile?.logo || "";
                   const role = user.role || "member";
-                  const specialization = user.specialization || "—";
+                  const specialization = user.specialty || "—";
 
                   return (
                     <tr key={user.id} className="hover:bg-ink/[0.02] transition-colors">

@@ -7,73 +7,93 @@ export const ROLES = {
 
 export const PERMISSIONS = {
   DASHBOARD: "dashboard",
-  PROFILES: "profiles",
-  PROJECTS: "projects",
+  CONTENT: "content",
   PORTFOLIO: "portfolio",
   CATEGORIES: "categories",
   CLIENTS: "clients",
-  TEAM: "team",
-  USERS: "users",
+  SERVICES: "services",
   SETTINGS: "settings",
+  USERS: "users",
+  TEAM: "team",
+  MY_TASKS: "my-tasks",
+  PROJECTS: "projects",
+  TASKS: "tasks",
+  PROGRESS: "progress",
   NOTIFICATIONS: "notifications",
 };
 
 export const ROLE_PERMISSIONS = {
   admin: {
     dashboard: true,
-    profiles: true,
-    projects: true,
+    content: true,
     portfolio: true,
     categories: true,
     clients: true,
-    team: true,
-    users: true,
+    services: true,
     settings: true,
+    users: true,
+    team: true,
+    "my-tasks": true,
+    projects: true,
+    tasks: true,
+    progress: true,
     notifications: true,
   },
 
   manager: {
     dashboard: true,
-    profiles: true,
-    projects: true,
-    portfolio: true,
-    categories: true,
-    clients: true,
-    team: true,
-    users: false,
+    content: false,
+    portfolio: false,
+    categories: false,
+    clients: false,
+    services: false,
     settings: false,
+    users: false,
+    team: true,
+    "my-tasks": true,
+    projects: true,
+    tasks: true,
+    progress: true,
     notifications: true,
   },
 
   member: {
     dashboard: true,
-    profiles: false,
-    projects: false,
+    content: false,
     portfolio: false,
     categories: false,
     clients: false,
-    team: true,
-    users: false,
+    services: false,
     settings: false,
-    notifications: true,
+    users: false,
+    team: false,
+    "my-tasks": true,
+    projects: true,
+    tasks: true,
+    progress: false,
+    notifications: false,
   },
 
   viewer: {
     dashboard: true,
-    profiles: true,
-    projects: false,
-    portfolio: true,
+    content: false,
+    portfolio: false,
     categories: false,
-    clients: true,
-    team: true,
-    users: false,
+    clients: false,
+    services: false,
     settings: false,
-    notifications: true,
+    users: false,
+    team: false,
+    "my-tasks": false,
+    projects: false,
+    tasks: false,
+    progress: false,
+    notifications: false,
   },
 };
 
 export function getPermissionsForRole(role) {
-  return ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS[ROLES.MEMBER];
+  return ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS[ROLES.VIEWER];
 }
 
 export const roleConfig = {
@@ -83,13 +103,18 @@ export const roleConfig = {
   },
 
   manager: {
-    label: "مشرف",
+    label: "مدير",
     className: "text-amber-600",
   },
 
   member: {
-    label: "عضو",
+    label: "عضو فريق",
     className: "text-blue-600",
+  },
+
+  viewer: {
+    label: "زائر",
+    className: "text-gray-500",
   },
 
   default: {

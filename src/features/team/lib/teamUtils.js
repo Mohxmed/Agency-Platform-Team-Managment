@@ -205,3 +205,20 @@ export function isTaskDone(task) {
 export function canManageTeam(role) {
   return role === "admin" || role === "manager";
 }
+
+// A team member can reach at most "review"; only admin/manager may
+// decide revision/done or move backward.
+const MEMBER_MAX_STATUS = "review";
+
+export function isMemberMaxStatus(status) {
+  return status === MEMBER_MAX_STATUS;
+}
+
+// Members may only advance the workflow (accept -> work -> submit for review),
+// and only up to the "review" status. They can never revert or finalize.
+export function canMemberAdvance(currentStatus) {
+  const current = getWorkflowIndex(currentStatus);
+  const max = getWorkflowIndex(MEMBER_MAX_STATUS);
+  if (current < 0) return false;
+  return current < max;
+}

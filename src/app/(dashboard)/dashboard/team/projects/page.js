@@ -19,7 +19,7 @@ import TeamHero from "@/features/team/components/TeamHero";
 import ProjectCard from "@/features/team/components/ProjectCard";
 import ProjectModal from "@/features/team/components/ProjectModal";
 
-import { canManageTeam } from "@/features/team/lib/teamUtils";
+import { canManageTeam, getProjectMemberIds } from "@/features/team/lib/teamUtils";
 
 import { removeDocument } from "@/lib/firestoreService";
 
@@ -68,12 +68,21 @@ export default function TeamProjectsPage() {
     return map;
   }, [tasks]);
 
+  // Members may only see the projects they participate in.
+  const visibleProjects = useMemo(() => {
+    if (canManage) return projects;
+    const uid = profile?.uid || "";
+    return projects.filter((project) =>
+      getProjectMemberIds(project).includes(uid),
+    );
+  }, [projects, canManage, profile, currentUser]);
+
   const stats = useMemo(
     () => [
       {
         label: "المشاريع",
-        value: projects.length,
-        description: "إجمالي مشاريع الفريق.",
+        value: visibleProjects.length,
+        description: canManage ? "إجمالي مشاريع الفريق." : "المشاريع المشترك فيها.",
         icon: FolderKanban,
         footer: "teamProjects",
       },
@@ -101,7 +110,7 @@ export default function TeamProjectsPage() {
         footer: "in-progress",
       },
     ],
-    [projects, tasks],
+    [visibleProjects, tasks, canManage],
   );
 
   function openCreate() {
@@ -154,7 +163,7 @@ export default function TeamProjectsPage() {
   }
 
   return (
-    <ProtectedRoute permission="team">
+    <ProtectedRoute permission="projects">
       <div dir="rtl" className="space-y-6">
         <TeamHero
           icon={FolderKanban}
@@ -217,7 +226,7 @@ export default function TeamProjectsPage() {
               />
             ))}
           </div>
-        ) : projects.length === 0 ? (
+        ) : visibleProjects.length === 0 ? (
           <div className={`flex min-h-[280px] flex-col items-center justify-center rounded-[24px] border border-dashed ${theme.border} ${theme.bgSofter} px-6 text-center`}>
             <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${theme.bgSoftStrong} ${theme.textSoft}`}>
               <FolderKanban className="h-6 w-6" />
@@ -242,7 +251,7 @@ export default function TeamProjectsPage() {
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
-            {projects.map((project) => (
+            {visibleProjects.map((project) => (
               <ProjectCard
                 key={project.id}
                 project={project}

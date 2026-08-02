@@ -158,7 +158,7 @@ export default function TeamProgressPage() {
   );
 
   return (
-    <ProtectedRoute permission="team">
+    <ProtectedRoute permission="progress">
       <div dir="rtl" className="space-y-6">
         <TeamHero
           icon={BarChart3}

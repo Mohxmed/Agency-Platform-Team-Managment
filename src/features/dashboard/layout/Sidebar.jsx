@@ -51,13 +51,19 @@ const menuSections = [
     ],
   },
   {
-    title: "المحتوى",
+    title: "إدارة الموقع",
     items: [
       {
         title: "محفظة الأعمال",
         href: "/dashboard/portfolio",
         icon: Images,
         permission: "portfolio",
+      },
+      {
+        title: "المشاريع",
+        href: "/dashboard/projects",
+        icon: FolderKanban,
+        permission: "content",
       },
       {
         title: "التصنيفات",
@@ -75,7 +81,7 @@ const menuSections = [
         title: "الخدمات",
         href: "/dashboard/services",
         icon: MessageSquareQuote,
-        permission: "profiles",
+        permission: "services",
       },
       {
         title: "إدارة الأسعار",
@@ -99,19 +105,19 @@ const menuSections = [
           title: "مهماتي",
           href: "/dashboard/team/my-tasks",
           icon: ClipboardList,
-          permission: "team",
+          permission: "my-tasks",
         },
         {
-          title: "المشاريع",
+          title: "المشاريع المشتركة",
           href: "/dashboard/team/projects",
           icon: FolderKanban,
-          permission: "team",
+          permission: "projects",
         },
         {
           title: "لوحة التقدم",
           href: "/dashboard/team/progress",
           icon: BarChart3,
-          permission: "team",
+          permission: "progress",
         },
       ],
     },
