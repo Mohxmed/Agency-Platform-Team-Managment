@@ -13,13 +13,38 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
-console.log("Firebase Project:", process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
-console.log("Firebase API Key:", !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
 
-// Avoid re-initializing during hot-reload / multiple imports
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+if (typeof window !== "undefined") {
+  console.log("Firebase Project:", process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
+  console.log("Firebase API Key:", !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+}
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+function createApp() {
+  if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+    if (typeof window !== "undefined") {
+      console.error(
+        "Firebase is not configured. Set the NEXT_PUBLIC_FIREBASE_* environment variables.",
+      );
+    }
+    return null;
+  }
+
+  try {
+    if (getApps().length) {
+      return getApp();
+    }
+    return initializeApp(firebaseConfig);
+  } catch (error) {
+    if (typeof window !== "undefined") {
+      console.error("Firebase init error:", error);
+    }
+    return null;
+  }
+}
+
+const app = createApp();
+
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
+export const storage = app ? getStorage(app) : null;
 export default app;

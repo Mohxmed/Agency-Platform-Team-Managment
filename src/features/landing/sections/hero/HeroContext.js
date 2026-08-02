@@ -31,7 +31,7 @@ export default function HeroContent() {
         {" ومن "}
         <HighlightText>أول السطر،</HighlightText>
         <br />
-        <span>شغلك محتاج إبداع.</span>
+        <span>هنبدأ حكايات جديدة!</span>
       </motion.h1>
 
       <motion.p
