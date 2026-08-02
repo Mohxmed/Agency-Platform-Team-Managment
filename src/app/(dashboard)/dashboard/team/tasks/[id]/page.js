@@ -361,7 +361,7 @@ export default function TaskDetailPage() {
             <ClipboardList className="h-8 w-8 text-red-300" />
             <h2 className="mt-4 text-lg font-black text-ink">المهمة غير موجودة</h2>
             <Link
-              href="/dashboard/team/projects"
+              href="/dashboard/team"
               className="mt-4 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700 dark:bg-red-400 dark:hover:bg-red-300"
             >
               العودة للمشاريع

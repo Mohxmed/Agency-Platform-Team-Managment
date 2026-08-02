@@ -7,7 +7,6 @@ import {
   Settings,
   Tag,
   Wallet,
-  FolderKanban,
   ClipboardList,
   BarChart3,
 } from "lucide-react";
@@ -35,7 +34,6 @@ export const sidebarSections = [
     items: [
       { title: "الفريق", href: "/dashboard/team", icon: Users },
       { title: "مهماتي", href: "/dashboard/team/my-tasks", icon: ClipboardList },
-      { title: "المشاريع", href: "/dashboard/team/projects", icon: FolderKanban },
       { title: "لوحة التقدم", href: "/dashboard/team/progress", icon: BarChart3 },
     ],
   },

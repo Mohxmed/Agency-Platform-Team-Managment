@@ -19,7 +19,6 @@ import {
   Tag,
   Lock,
   Wallet,
-  FolderKanban,
   ClipboardList,
   BarChart3,
 } from "lucide-react";
@@ -100,12 +99,6 @@ const menuSections = [
           href: "/dashboard/team/my-tasks",
           icon: ClipboardList,
           permission: "my-tasks",
-        },
-        {
-          title: "المشاريع المشتركة",
-          href: "/dashboard/team/projects",
-          icon: FolderKanban,
-          permission: "projects",
         },
         {
           title: "لوحة التقدم",

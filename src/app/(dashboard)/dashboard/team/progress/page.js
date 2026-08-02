@@ -348,7 +348,7 @@ export default function TeamProgressPage() {
             </h3>
 
             <Link
-              href="/dashboard/team/projects"
+              href="/dashboard/team"
               className={`text-[11px] font-black transition hover:opacity-80 ${theme.textSoft} ${theme.textStrong}`}
             >
               عرض الكل ←
@@ -373,7 +373,7 @@ export default function TeamProgressPage() {
               </p>
 
               <Link
-                href="/dashboard/team/projects"
+                href="/dashboard/team"
                 className={`mt-1 text-xs font-black transition hover:opacity-80 ${theme.textSoft} ${theme.textStrong}`}
               >
                 أنشئ أول مشروع ←

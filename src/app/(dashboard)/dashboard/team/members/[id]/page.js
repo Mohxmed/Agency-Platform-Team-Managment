@@ -321,7 +321,7 @@ export default function MemberReportPage() {
               <Briefcase className="h-4 w-4" />
               عرض جميع المهام
             </Button>
-            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team/projects?member=${memberId}`}>
+            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team`}>
               <Target className="h-4 w-4" />
               المشاريع المسندة
             </Button>

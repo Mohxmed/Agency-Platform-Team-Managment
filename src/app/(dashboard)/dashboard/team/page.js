@@ -235,12 +235,6 @@ export default function TeamPage() {
               count: activeUsers.length,
             },
             {
-              href: "/dashboard/team/projects",
-              icon: FolderKanban,
-              label: "المشاريع",
-              count: projects.length,
-            },
-            {
               href: "/dashboard/team/my-tasks",
               icon: ClipboardList,
               label: "مهماتي",
