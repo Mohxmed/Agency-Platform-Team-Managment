@@ -73,3 +73,5 @@ Firebase API Key: true
  GET / 200 in 9.2s (next.js: 9.0s, application-code: 173ms)
 ✓ Finished writing to filesystem cache in 13.6s
   Reload env: .env.local
+  Reload env: .env.local
+✓ Finished filesystem cache database compaction in 48s
