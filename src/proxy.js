@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-import { adminAuth, isAdminConfigured } from "@/lib/firebaseAdmin";
 import { ROUTES } from "@/constants/routes";
 
 const SESSION_COOKIE = "session";
@@ -11,47 +10,29 @@ function loginUrl(request, pathname) {
   return url;
 }
 
-export async function proxy(request) {
+// Lightweight guard. It never imports heavy server-only SDKs (firebase-admin)
+// nor makes outbound verification calls, so it stays fast and crash-proof on
+// the serverless/edge runtime. Real session/authorisation verification runs
+// server-side in /api/auth/session and client-side in <ProtectedRoute>.
+export function proxy(request) {
   const { pathname } = request.nextUrl;
 
-  // If the Admin SDK is not configured (e.g. local dev without keys),
-  // skip server-side checks and let the client-side guards handle auth.
-  if (!isAdminConfigured()) {
-    return NextResponse.next();
-  }
-
-  const session = request.cookies.get(SESSION_COOKIE)?.value;
-
-  // Protect dashboard routes: require a valid session cookie.
+  // Require a session cookie to enter the dashboard.
   if (pathname.startsWith(ROUTES.DASHBOARD)) {
-    if (!session) {
+    const hasSession = Boolean(request.cookies.get(SESSION_COOKIE)?.value);
+    if (!hasSession) {
       return NextResponse.redirect(loginUrl(request, pathname));
     }
-
-    try {
-      await adminAuth().verifySessionCookie(session, false);
-      return NextResponse.next();
-    } catch {
-      const response = NextResponse.redirect(loginUrl(request, pathname));
-      response.cookies.delete(SESSION_COOKIE);
-      return response;
-    }
+    return NextResponse.next();
   }
 
   // Signed-in users do not need to see the auth pages.
   if (pathname.startsWith("/auth/")) {
-    if (!session) {
-      return NextResponse.next();
-    }
-
-    try {
-      await adminAuth().verifySessionCookie(session, false);
+    const hasSession = Boolean(request.cookies.get(SESSION_COOKIE)?.value);
+    if (hasSession) {
       return NextResponse.redirect(new URL(ROUTES.DASHBOARD, request.url));
-    } catch {
-      const response = NextResponse.next();
-      response.cookies.delete(SESSION_COOKIE);
-      return response;
     }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
