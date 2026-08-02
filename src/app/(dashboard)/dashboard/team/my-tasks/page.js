@@ -28,9 +28,17 @@ import { WORKFLOW_STATUSES } from "@/constants/workflow";
 
 import { updateDocument } from "@/lib/firestoreService";
 
-import { formatDeadline, getAssigneeId, isDeadlineOverdue } from "@/features/team/lib/teamUtils";
+import {
+  formatDeadline,
+  getAssigneeId,
+  getWorkflowMeta,
+  isDeadlineOverdue,
+  uid,
+} from "@/features/team/lib/teamUtils";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
+
+import { useToast } from "@/hooks/useToast";
 
 import TeamHero from "@/features/team/components/TeamHero";
 
@@ -44,6 +52,8 @@ import Link from "next/link";
 
 export default function MyTasksPage() {
   const theme = usePageTheme();
+
+  const { showToast } = useToast();
 
   const { user: currentUser, profile } = useAuth();
 
@@ -113,7 +123,7 @@ export default function MyTasksPage() {
       },
       {
         label: "المكتملة",
-        value: myTasks.filter((task) => task.status === "done" || task.status === "approved").length,
+        value: myTasks.filter((task) => task.status === "done").length,
         description: "مهام أنهيتها.",
         icon: CheckCircle2,
       },
@@ -121,7 +131,7 @@ export default function MyTasksPage() {
         label: "متأخرة",
         value: myTasks.filter(
           (task) =>
-            !(task.status === "done" || task.status === "approved") && isDeadlineOverdue(task.deadline),
+            !(task.status === "done") && isDeadlineOverdue(task.deadline),
         ).length,
         description: "مهام تجاوزت موعد الاستحقاق.",
         icon: Timer,
@@ -134,20 +144,69 @@ export default function MyTasksPage() {
     return projects.find((project) => project.id === projectId)?.title || "بدون مشروع";
   }
 
-  async function handleMoveForward(task) {
+  const currentAuthorName =
+    userMap.get(currentUser?.uid)?.name ||
+    profile?.name ||
+    currentUser?.displayName ||
+    "مستخدم";
+
+  function addActivity(task, type, text) {
+    const activity = Array.isArray(task.activity) ? task.activity : [];
+
+    return [
+      ...activity,
+      {
+        id: uid(),
+        type,
+        text,
+        authorId: currentUser?.uid || "",
+        authorName: currentAuthorName,
+        createdAt: new Date().toISOString(),
+      },
+    ];
+  }
+
+  async function handleMove(task, direction) {
     const currentIndex = WORKFLOW_STATUSES.findIndex((s) => s.value === task.status);
-    if (currentIndex < WORKFLOW_STATUSES.length - 1) {
-      const newStatus = WORKFLOW_STATUSES[currentIndex + 1].value;
-      await updateDocument("tasks", task.id, { status: newStatus });
+
+    const delta = direction === "forward" ? 1 : -1;
+
+    const nextIndex = Math.min(
+      Math.max(currentIndex + delta, 0),
+      WORKFLOW_STATUSES.length - 1,
+    );
+
+    if (nextIndex === currentIndex) return;
+
+    const fromMeta = WORKFLOW_STATUSES[currentIndex];
+
+    const toMeta = WORKFLOW_STATUSES[nextIndex];
+
+    try {
+      await updateDocument("tasks", task.id, {
+        status: toMeta.value,
+        activity: addActivity(
+          task,
+          "status",
+          `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
+        ),
+      });
+    } catch (error) {
+      console.error("Failed to move task:", error);
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء نقل المهمة.",
+      });
     }
   }
 
-  async function handleMoveBackward(task) {
-    const currentIndex = WORKFLOW_STATUSES.findIndex((s) => s.value === task.status);
-    if (currentIndex > 0) {
-      const newStatus = WORKFLOW_STATUSES[currentIndex - 1].value;
-      await updateDocument("tasks", task.id, { status: newStatus });
-    }
+  function handleMoveForward(task) {
+    return handleMove(task, "forward");
+  }
+
+  function handleMoveBackward(task) {
+    return handleMove(task, "backward");
   }
 
   return (
@@ -264,7 +323,7 @@ export default function MyTasksPage() {
                       <span className="text-xs font-bold text-gray-600">{status.labelAr}</span>
                       <span className="text-[10px] font-bold text-ink/30">{status.label}</span>
                     </div>
-                    <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-white/80 px-1.5 text-[11px] font-bold text-ink/50 ring-1 ring-ink/[0.06]">
+                    <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-white/80 px-1.5 text-[11px] font-bold text-ink/50 ring-1 ring-ink/[0.06] dark:bg-white/15 dark:text-white/80">
                       {columnTasks.length}
                     </span>
                   </div>
@@ -303,7 +362,7 @@ export default function MyTasksPage() {
               </thead>
               <tbody>
                 {filteredTasks.map((task) => {
-                  const overdue = !(task.status === "done" || task.status === "approved") && isDeadlineOverdue(task.deadline);
+                  const overdue = !(task.status === "done") && isDeadlineOverdue(task.deadline);
                   const projectTitle = getProjectTitle(task.projectId);
 
                   return (
@@ -318,17 +377,19 @@ export default function MyTasksPage() {
                         <span className="mt-1 text-[11px] text-ink/35">{projectTitle}</span>
                       </td>
                       <td className="px-5 py-4">
-                        <select
-                          value={task.status}
-                          onChange={(e) => updateDocument("tasks", task.id, { status: e.target.value })}
-                          className="rounded-xl border border-ink/20 bg-card px-2 py-1 text-xs font-bold text-ink outline-none"
+                        <span
+                          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-black"
+                          style={{
+                            color: getWorkflowMeta(task.status).color,
+                            backgroundColor: `${getWorkflowMeta(task.status).color}14`,
+                          }}
                         >
-                          {WORKFLOW_STATUSES.map((status) => (
-                            <option key={status.value} value={status.value}>
-                              {status.labelAr}
-                            </option>
-                          ))}
-                        </select>
+                          <span
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ backgroundColor: getWorkflowMeta(task.status).color }}
+                          />
+                          {getWorkflowMeta(task.status).labelAr}
+                        </span>
                       </td>
                       <td className="px-5 py-4"><PriorityBadge priority={task.priority} /></td>
                       <td className="px-5 py-4">
@@ -341,7 +402,7 @@ export default function MyTasksPage() {
                       </td>
                       <td className="px-5 py-4">
                         <button
-                          onClick={() => updateDocument("tasks", task.id, { status: getPreviousStatus(task.status) })}
+                          onClick={() => handleMoveBackward(task)}
                           disabled={task.status === "backlog"}
                           title="التراجع"
                           className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 hover:bg-ink/[0.08]"
@@ -349,8 +410,8 @@ export default function MyTasksPage() {
                           <ChevronRight className="h-3.5 w-3.5" />
                         </button>
                         <button
-                          onClick={() => updateDocument("tasks", task.id, { status: getNextStatus(task.status) })}
-                          disabled={task.status === "done" || task.status === "approved"}
+                          onClick={() => handleMoveForward(task)}
+                          disabled={task.status === "done"}
                           title="التقديم"
                           className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white"
                         >
@@ -373,7 +434,7 @@ function MyTaskCard({ task, projects, userMap, onMoveForward, onMoveBackward }) 
   const getProjectTitle = (projectId) => projects.find((p) => p.id === projectId)?.title || "بدون مشروع";
 
   return (
-    <div className="group relative rounded-2xl border border-ink/[0.06] bg-white p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_10px_25px_rgba(0,0,0,0.06)]">
+    <div className="group relative rounded-2xl border border-ink/[0.06] bg-card p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_10px_25px_rgba(0,0,0,0.06)]">
       <div className="mb-2 flex items-center justify-between gap-2">
         <PriorityBadge priority={task.priority} />
       </div>
@@ -433,7 +494,7 @@ function MyTaskCard({ task, projects, userMap, onMoveForward, onMoveBackward }) 
         <button
           type="button"
           onClick={() => onMoveForward(task)}
-          disabled={task.status === "done" || task.status === "approved"}
+          disabled={task.status === "done"}
           title="التقديم"
           className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-25"
         >
@@ -442,16 +503,4 @@ function MyTaskCard({ task, projects, userMap, onMoveForward, onMoveBackward }) 
       </div>
     </div>
   );
-}
-
-function getNextStatus(currentStatus) {
-  const index = WORKFLOW_STATUSES.findIndex((s) => s.value === currentStatus);
-  if (index < WORKFLOW_STATUSES.length - 1) return WORKFLOW_STATUSES[index + 1].value;
-  return currentStatus;
-}
-
-function getPreviousStatus(currentStatus) {
-  const index = WORKFLOW_STATUSES.findIndex((s) => s.value === currentStatus);
-  if (index > 0) return WORKFLOW_STATUSES[index - 1].value;
-  return currentStatus;
 }

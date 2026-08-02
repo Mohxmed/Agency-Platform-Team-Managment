@@ -17,7 +17,7 @@ export default function ForbiddenPage() {
         </p>
         <Link
           href="/dashboard"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-800"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-800 dark:bg-gray-200 dark:text-gray-900 dark:hover:bg-gray-100"
         >
           <ArrowLeft className="h-4 w-4" />
           العودة للوحة التحكم

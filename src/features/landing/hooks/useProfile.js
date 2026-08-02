@@ -4,7 +4,7 @@ import { getDocumentByField } from "@/lib/firestoreService";
 
 export function useProfile(username) {
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(username));
   const [error, setError] = useState("");
 
   useEffect(() => {

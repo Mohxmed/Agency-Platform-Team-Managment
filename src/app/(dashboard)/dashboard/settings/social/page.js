@@ -33,7 +33,7 @@ export default function SocialSettingsPage() {
         {socialFields.map((field) => {
           const Icon = field.icon;
           return (
-            <div key={field.key} className="rounded-2xl border border-ink/[0.07] bg-[#fafafa] p-3">
+            <div key={field.key} className="rounded-2xl border border-ink/[0.07] bg-surface p-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-ink/45 shadow-sm">
                   <Icon className="h-4 w-4" />

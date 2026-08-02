@@ -8,14 +8,6 @@ export const WORKFLOW_STATUSES = [
     barColor: "bg-gray-400",
   },
   {
-    value: "ready",
-    label: "Ready",
-    labelAr: "جاهز",
-    variant: "primary",
-    color: "#3B82F6",
-    barColor: "bg-blue-500",
-  },
-  {
     value: "in-progress",
     label: "In Progress",
     labelAr: "قيد التنفيذ",
@@ -38,14 +30,6 @@ export const WORKFLOW_STATUSES = [
     variant: "danger",
     color: "#EF4444",
     barColor: "bg-red-500",
-  },
-  {
-    value: "approved",
-    label: "Approved",
-    labelAr: "معتمد",
-    variant: "success",
-    color: "#10B981",
-    barColor: "bg-emerald-500",
   },
   {
     value: "done",

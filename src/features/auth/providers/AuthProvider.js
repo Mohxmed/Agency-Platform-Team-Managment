@@ -6,7 +6,7 @@ import {
   useCallback,
   createContext,
 } from "react";
-import { fetchProfile } from "../services/profile.service";
+import { fetchProfile, createUserProfile } from "../services/profile.service";
 import {
   subscribeToAuthChanges,
   logout,
@@ -23,15 +23,19 @@ export function AuthProvider({ children }) {
   const [profileLoading, setProfileLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Load User Profile
-  const loadProfile = useCallback(async (uid) => {
-    if (!uid) {
+  // Load User Profile (auto-creates it on first sign-in)
+  const loadProfile = useCallback(async (firebaseUser) => {
+    if (!firebaseUser) {
       setProfile(null);
       return;
     }
     try {
       setProfileLoading(true);
-      const data = await fetchProfile(uid);
+      let data = await fetchProfile(firebaseUser.uid);
+      if (!data) {
+        await createUserProfile(firebaseUser);
+        data = await fetchProfile(firebaseUser.uid);
+      }
       setProfile(data);
     } catch (error) {
       console.error("Profile loading error:", error);
@@ -44,11 +48,13 @@ export function AuthProvider({ children }) {
   // Refresh User Profile
   const refreshProfile = useCallback(async () => {
     if (!user) return;
-    await loadProfile(user.uid);
+    await loadProfile(user);
   }, [user, loadProfile]);
 
   // Handle Auth
   useEffect(() => {
+    // Intentional: flag that auth has initialized on the client.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const unsubscribe = subscribeToAuthChanges(async (firebaseUser) => {
       if (!firebaseUser) {
@@ -58,7 +64,7 @@ export function AuthProvider({ children }) {
         return;
       }
       setUser(firebaseUser);
-      await loadProfile(firebaseUser.uid);
+      await loadProfile(firebaseUser);
       setLoading(false);
     });
     return unsubscribe;

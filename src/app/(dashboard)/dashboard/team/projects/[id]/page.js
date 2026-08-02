@@ -31,17 +31,21 @@ import ProjectModal from "@/features/team/components/ProjectModal";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 
-import { getProjectIcon } from "@/constants/projectIcons";
+import { useToast } from "@/hooks/useToast";
+
+import { ProjectIcon } from "@/constants/projectIcons";
 
 import {
   formatDeadline,
   getUserName,
   getClientName,
+  getAssigneeId,
   calcProjectProgress,
   nextWorkflowStatus,
   prevWorkflowStatus,
   getWorkflowMeta,
   getProjectMemberIds,
+  canManageTeam,
   uid,
 } from "@/features/team/lib/teamUtils";
 
@@ -55,7 +59,11 @@ export default function ProjectDetailPage() {
 
   const router = useRouter();
 
-  const { user: currentUser } = useAuth();
+  const { showToast } = useToast();
+
+  const { user: currentUser, profile } = useAuth();
+
+  const canManage = canManageTeam(profile?.role);
 
   const { projects, tasks, activeUsers, userMap, clientMap, clients, loading } =
     useTeamData();
@@ -91,8 +99,6 @@ export default function ProjectDetailPage() {
     currentUser?.displayName ||
     "مستخدم";
 
-  const ProjectIcon = getProjectIcon(project?.icon);
-
   function addActivity(task, type, text) {
     const activity = Array.isArray(task.activity) ? task.activity : [];
 
@@ -111,6 +117,17 @@ export default function ProjectDetailPage() {
 
   async function handleMove(task, direction) {
     if (busy) return;
+
+    const isAssignee = getAssigneeId(task) === currentUser?.uid;
+
+    if (!canManage && !isAssignee) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية تعديل حالة هذه المهمة.",
+      });
+      return;
+    }
 
     const fromMeta = getWorkflowMeta(task.status);
 
@@ -136,7 +153,11 @@ export default function ProjectDetailPage() {
       });
     } catch (error) {
       console.error("Failed to move task:", error);
-      alert("حصل خطأ أثناء نقل المهمة.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء نقل المهمة.",
+      });
     } finally {
       setBusy(false);
     }
@@ -154,6 +175,15 @@ export default function ProjectDetailPage() {
   }
 
   async function handleDeleteTask(task) {
+    if (!canManageTeam(profile?.role)) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المهام.",
+      });
+      return;
+    }
+
     const confirmed = window.confirm(
       `هل أنت متأكد من حذف مهمة "${task.title}"؟`,
     );
@@ -164,11 +194,24 @@ export default function ProjectDetailPage() {
       await removeDocument("tasks", task.id);
     } catch (error) {
       console.error("Failed to delete task:", error);
-      alert("حصل خطأ أثناء حذف المهمة.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المهمة.",
+      });
     }
   }
 
   async function handleDeleteProject() {
+    if (!canManageTeam(profile?.role)) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المشروع.",
+      });
+      return;
+    }
+
     const confirmed = window.confirm(
       `هل أنت متأكد من حذف مشروع "${project.title}" وجميع مهامه؟`,
     );
@@ -186,7 +229,11 @@ export default function ProjectDetailPage() {
       router.push("/dashboard/team");
     } catch (error) {
       console.error("Failed to delete project:", error);
-      alert("حصل خطأ أثناء حذف المشروع.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المشروع.",
+      });
       setBusy(false);
     }
   }
@@ -219,7 +266,7 @@ export default function ProjectDetailPage() {
             <h2 className="mt-4 text-lg font-black text-ink">المشروع غير موجود</h2>
             <Link
               href="/dashboard/team"
-              className="mt-4 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700"
+              className="mt-4 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700 dark:bg-red-400 dark:hover:bg-red-300"
             >
               العودة للقائمة
             </Link>
@@ -232,8 +279,8 @@ export default function ProjectDetailPage() {
               <div className="relative">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg">
-                      <ProjectIcon className="h-7 w-7" />
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-red-700 text-white shadow-lg dark:from-red-500 dark:to-red-400">
+                      <ProjectIcon name={project?.icon} className="h-7 w-7" />
                     </div>
 
                     <div className="min-w-0">
@@ -295,7 +342,7 @@ export default function ProjectDetailPage() {
                       type="button"
                       onClick={handleDeleteProject}
                       disabled={busy}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-red-600 px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-red-700 disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-red-600 px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-red-700 dark:bg-red-400 dark:hover:bg-red-300 disabled:opacity-50"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                       حذف
@@ -304,7 +351,7 @@ export default function ProjectDetailPage() {
                     <button
                       type="button"
                       onClick={() => openCreateTask("backlog")}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-red-600 to-red-700 px-4 py-2.5 text-xs font-bold text-white shadow-[0_8px_20px_rgba(220,38,38,0.22)] transition hover:from-red-700 hover:to-black"
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-red-600 to-red-700 px-4 py-2.5 text-xs font-bold text-white shadow-[0_8px_20px_rgba(220,38,38,0.22)] transition hover:from-red-700 hover:to-black dark:from-red-500 dark:to-red-400 dark:hover:from-red-400 dark:hover:to-red-300"
                     >
                       <Plus className="h-3.5 w-3.5" />
                       مهمة جديدة

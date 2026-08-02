@@ -16,7 +16,7 @@ import { logout } from "@/features/auth/services/auth.service";
 import { ROUTES } from "@/constants/routes";
 
 export default function UserMenu() {
-  const { user, mounted } = useAuth();
+  const { user, profile, mounted } = useAuth();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -91,9 +91,9 @@ export default function UserMenu() {
         aria-expanded={isOpen}
         aria-haspopup="menu"
       >
-        {user.photoURL ? (
+        {user.photoURL || profile?.photoURL || profile?.logo ? (
           <img
-            src={user.photoURL}
+            src={user.photoURL || profile?.photoURL || profile?.logo}
             alt={user.displayName || "User"}
             className="
               h-9 w-9

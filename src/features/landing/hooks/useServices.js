@@ -20,9 +20,11 @@ export function useServices() {
         }));
 
         const activeServices = data
-          .filter((service) => service.active !== false)
+          .filter(
+            (service) =>
+              service.active !== false && service.active !== "false",
+          )
           .sort((a, b) => (a.order || 0) - (b.order || 0));
-
         if (!cancelled) {
           setServices(activeServices);
         }

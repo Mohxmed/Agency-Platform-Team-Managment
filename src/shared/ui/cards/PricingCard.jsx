@@ -1,4 +1,5 @@
 "use client";
+import { createElement } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Check } from "lucide-react";
 import { resolveIcon } from "@/shared/ui/icons/resolveIcon";
@@ -12,8 +13,6 @@ const cardVariants = {
 };
 
 export default function PricingCard({ plan }) {
-  const Icon = resolveIcon(plan.icon);
-
   return (
     <motion.article
       variants={cardVariants}
@@ -47,7 +46,7 @@ export default function PricingCard({ plan }) {
           mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border transition-all duration-300 group-hover:scale-105
           ${plan.popular ? "border-white/10 bg-white/[0.07] text-primary-400" : "border-primary-600/10 bg-primary-600/[0.06] text-primary-600 dark:border-primary-500/20 dark:bg-primary-500/10 dark:text-primary-400"}
         `}>
-          <Icon size={21} />
+          {createElement(resolveIcon(plan.icon), { size: 21 })}
         </div>
         <h2 className={`text-xl font-black ${plan.popular ? "text-white" : "text-neutral-950 dark:text-white"}`}>
           {plan.name}

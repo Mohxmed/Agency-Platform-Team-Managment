@@ -98,8 +98,10 @@ export default function ProjectsPage() {
     },
 
     {
-      key: "category",
+      key: "categoryId",
       label: "التصنيف",
+      type: "relation",
+      labelField: "name",
     },
 
     {

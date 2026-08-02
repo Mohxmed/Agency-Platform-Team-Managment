@@ -1,11 +1,12 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { toast } from "sonner";
 import { getDocumentById, setDocument } from "@/lib/firestoreService";
 import { clearSettingsCache } from "@/lib/settingsCache";
+import { useToast } from "@/hooks/useToast";
 
 export function useSettingsDashboard(defaults) {
+  const { showToast } = useToast();
   const [settings, setSettings] = useState(defaults);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -32,15 +33,23 @@ export function useSettingsDashboard(defaults) {
         await setDocument("settings", "site", data);
         clearSettingsCache();
         setSettings((prev) => ({ ...prev, ...data }));
-        toast.success("تم حفظ الإعدادات بنجاح");
+        showToast({
+          type: "success",
+          title: "تم الحفظ بنجاح",
+          message: "تم حفظ الإعدادات وتطبيقها.",
+        });
       } catch (err) {
         console.error("Save failed:", err);
-        toast.error("حدث خطأ أثناء الحفظ");
+        showToast({
+          type: "error",
+          title: "حدث خطأ",
+          message: "تعذر حفظ الإعدادات، حاول مرة أخرى.",
+        });
       } finally {
         setSaving(false);
       }
     },
-    [saving],
+    [saving, showToast],
   );
 
   const update = useCallback((name, value) => {

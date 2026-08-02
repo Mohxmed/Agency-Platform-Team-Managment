@@ -30,7 +30,6 @@ import { subscribeToAuthChanges } from "@/features/auth/services/auth.service";
 import { Container } from "@/features/landing";
 
 import { useToast } from "@/hooks/useToast";
-import Toast from "@/shared/ui/Toast";
 
 import {
   FaFacebook,
@@ -83,7 +82,7 @@ export default function DashboardPage() {
 
   const formRef = useRef(null);
 
-  const { toast, showToast, hideToast } = useToast();
+  const { showToast } = useToast();
 
   /* =======================================================
      PROFILE URL
@@ -339,6 +338,8 @@ export default function DashboardPage() {
 
         logo: form.logo.trim(),
 
+        photoURL: form.logo.trim() || form.photoURL || user?.photoURL || "",
+
         coverImage: form.coverImage.trim(),
 
         stats: cleanStats,
@@ -416,7 +417,7 @@ export default function DashboardPage() {
         dir="rtl"
         className="
           min-h-screen
-          bg-[#fafafa]
+          bg-transparent
           py-20
         "
       >
@@ -450,7 +451,7 @@ export default function DashboardPage() {
                   mt-5
                   text-2xl
                   font-black
-                  text-neutral-950
+                  text-ink
                 "
               >
                 يجب تسجيل الدخول
@@ -481,7 +482,7 @@ export default function DashboardPage() {
       dir="rtl"
       className="
         min-h-screen
-        bg-[#fafafa]
+        bg-transparent
         py-8
         sm:py-12
       "
@@ -489,15 +490,6 @@ export default function DashboardPage() {
       {/* ===================================================
           TOAST
       =================================================== */}
-
-      <Toast
-        show={toast.show}
-        type={toast.type}
-        title={toast.title}
-        message={toast.message}
-        duration={toast.duration}
-        onClose={hideToast}
-      />
 
       <Container>
         {/* =================================================
@@ -534,7 +526,7 @@ export default function DashboardPage() {
                   text-3xl
                   font-black
                   tracking-tight
-                  text-neutral-950
+                  text-ink
                   sm:text-4xl
                 "
               >
@@ -584,7 +576,7 @@ export default function DashboardPage() {
                     py-3
                     text-sm
                     font-black
-                    text-neutral-900
+                    text-ink
                     shadow-sm
                     transition-all
                     hover:-translate-y-0.5
@@ -612,7 +604,7 @@ export default function DashboardPage() {
                     py-3
                     text-sm
                     font-black
-                    text-neutral-500
+                    text-ink/50
                     shadow-sm
                   "
                 >
@@ -927,7 +919,7 @@ export default function DashboardPage() {
                   rounded-3xl
                   border
                   border-ink/[0.06]
-                  bg-neutral-50/70
+                  bg-surface
                   p-4
                   sm:p-5
                 "
@@ -960,7 +952,7 @@ export default function DashboardPage() {
                       className="
                         text-sm
                         font-black
-                        text-neutral-900
+                        text-ink
                       "
                     >
                       صورة اللوجو
@@ -1043,7 +1035,7 @@ export default function DashboardPage() {
                   rounded-3xl
                   border
                   border-ink/[0.06]
-                  bg-neutral-50/70
+                  bg-surface
                   p-4
                   sm:p-5
                 "
@@ -1076,7 +1068,7 @@ export default function DashboardPage() {
                       className="
                         text-sm
                         font-black
-                        text-neutral-900
+                        text-ink
                       "
                     >
                       صورة الغلاف
@@ -1140,7 +1132,7 @@ export default function DashboardPage() {
                           h-full
                           items-center
                           justify-center
-                          bg-neutral-50
+                          bg-surface
                         "
                       >
                         <div className="text-center">
@@ -1176,7 +1168,7 @@ export default function DashboardPage() {
                     border
                     border-dashed
                     border-ink/[0.1]
-                    bg-neutral-50
+                    bg-surface
                     px-5
                     py-8
                     text-center
@@ -1221,7 +1213,7 @@ export default function DashboardPage() {
                       rounded-2xl
                       border
                       border-ink/[0.07]
-                      bg-neutral-50/70
+                      bg-surface
                       p-4
                     "
                 >
@@ -1376,7 +1368,7 @@ export default function DashboardPage() {
                     className="
                       text-xs
                       font-black
-                      text-neutral-900
+                      text-ink
                     "
                   >
                     إعدادات الملف
@@ -1421,9 +1413,9 @@ export default function DashboardPage() {
                       py-3
                       text-xs
                       font-black
-                      text-neutral-800
+                      text-ink
                       transition
-                      hover:bg-neutral-50
+                      hover:bg-surface
                       sm:flex-none
                     "
                   >
@@ -1536,7 +1528,7 @@ function DashboardCard({ eyebrow, title, description, icon: Icon, children }) {
               text-xl
               font-black
               tracking-tight
-              text-neutral-950
+              text-ink
             "
           >
             {title}
@@ -1615,13 +1607,13 @@ function Field({
             rounded-2xl
             border
             border-ink/[0.08]
-            bg-[#fafafa]
+            bg-surface
             py-3.5
             pl-4
             pr-11
             text-sm
             font-medium
-            text-neutral-900
+            text-ink
             outline-none
             transition
             placeholder:text-ink/25
@@ -1687,13 +1679,13 @@ function TextAreaField({ label, value, onChange, placeholder }) {
           rounded-2xl
           border
           border-ink/[0.08]
-          bg-[#fafafa]
+          bg-surface
           px-4
           py-3.5
           text-sm
           font-medium
           leading-7
-          text-neutral-900
+          text-ink
           outline-none
           transition
           placeholder:text-ink/25
@@ -1717,13 +1709,13 @@ function DashboardSkeleton() {
       dir="rtl"
       className="
         min-h-screen
-        bg-[#fafafa]
+        bg-transparent
         py-12
       "
     >
       <Container>
         <div className="animate-pulse">
-          <div className="h-3 w-28 rounded bg-neutral-200" />
+          <div className="h-3 w-28 rounded bg-ink/[0.08]" />
 
           <div
             className="
@@ -1731,7 +1723,7 @@ function DashboardSkeleton() {
               h-10
               w-56
               rounded-xl
-              bg-neutral-200
+              bg-ink/[0.08]
             "
           />
 
@@ -1741,7 +1733,7 @@ function DashboardSkeleton() {
               h-4
               w-80
               rounded
-              bg-neutral-100
+              bg-ink/[0.08]
             "
           />
         </div>

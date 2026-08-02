@@ -18,7 +18,7 @@ import ProgressBar from "./ProgressBar";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 
-import { getProjectIcon } from "@/constants/projectIcons";
+import { ProjectIcon } from "@/constants/projectIcons";
 
 import {
   formatDeadline,
@@ -35,6 +35,7 @@ export default function ProjectCard({
   clientMap,
   onEdit,
   onDelete,
+  canManage = true,
 }) {
   const theme = usePageTheme();
 
@@ -45,10 +46,8 @@ export default function ProjectCard({
   const memberIds = getProjectMemberIds(project);
 
   const doneCount = projectTasks.filter(
-    (task) => task.status === "done" || task.status === "approved",
+    (task) => task.status === "done",
   ).length;
-
-  const ProjectIcon = getProjectIcon(project.icon);
 
   return (
     <div className={`group relative overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] ${theme.hoverBorder}`}>
@@ -74,7 +73,7 @@ export default function ProjectCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient} ${theme.gradientText} shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105`}>
-              <ProjectIcon className="h-5 w-5" />
+              <ProjectIcon name={project.icon} className="h-5 w-5" />
             </div>
 
             <div className="min-w-0">
@@ -99,14 +98,16 @@ export default function ProjectCard({
               <Pencil className="h-3.5 w-3.5" />
             </button>
 
-            <button
-              type="button"
-              onClick={() => onDelete?.(project)}
-              title="حذف المشروع"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </button>
+            {canManage && (
+              <button
+                type="button"
+                onClick={() => onDelete?.(project)}
+                title="حذف المشروع"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
         </div>
 

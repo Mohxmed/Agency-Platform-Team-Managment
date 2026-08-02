@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { serverTimestamp } from "firebase/firestore";
 
 import {
   Users,
@@ -28,13 +27,13 @@ import Input, { Select } from "@/features/dashboard/ui/Input";
 
 import {
   subscribeToCollection,
-  updateDocument,
   setDocument,
   removeDocument,
 } from "@/lib/firestoreService";
 
 import { useAuth, ProtectedRoute } from "@/features/auth";
 import { createProfile } from "@/features/auth/repos/profile.repo";
+import { useToast } from "@/hooks/useToast";
 
 /* =========================================================
    ADMIN API HELPER
@@ -162,6 +161,8 @@ const STATUS_OPTIONS = [
 export default function UsersPage() {
   const { user: currentUser } = useAuth();
 
+  const { showToast } = useToast();
+
   const [users, setUsers] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -186,7 +187,7 @@ export default function UsersPage() {
 
   useEffect(() => {
     const unsubscribe = subscribeToCollection(
-      "users",
+      "profiles",
       (data) => {
         setUsers(data);
         setLoading(false);
@@ -283,7 +284,7 @@ export default function UsersPage() {
       };
 
       if (editingUser) {
-        if (editingUser.uid) {
+        if (editingUser.uid || editingUser.id) {
           const patchBody = { name: payload.name };
 
           if (payload.email !== editingUser.email) {
@@ -295,30 +296,37 @@ export default function UsersPage() {
           }
 
           const result = await callAdminApi(
-            `/api/admin/users/${editingUser.uid}`,
+            `/api/admin/users/${editingUser.uid || editingUser.id}`,
             "PATCH",
             await currentUser.getIdToken(),
             patchBody,
           );
 
           if (!result.ok) {
-            alert(result.data.error || "حصل خطأ أثناء تعديل الحساب.");
+            showToast({
+              type: "error",
+              title: "فشل التحديث",
+              message: result.data.error || "حصل خطأ أثناء تعديل الحساب.",
+            });
 
             return;
           }
 
-          await setDocument("profiles", editingUser.uid, {
+          await setDocument("profiles", editingUser.uid || editingUser.id, {
             name: payload.name,
             email: payload.email,
             role,
             status: payload.status,
+            updatedAtClient: payload.updatedAtClient,
           });
         }
-
-        await updateDocument("users", editingUser.id, payload);
       } else {
         if (!formData.password || formData.password.length < 6) {
-          alert("كلمة المرور يجب ألا تقل عن 6 أحرف.");
+          showToast({
+          type: "warning",
+          title: "بيانات غير مكتملة",
+          message: "كلمة المرور يجب ألا تقل عن 6 أحرف.",
+        });
 
           return;
         }
@@ -335,7 +343,11 @@ export default function UsersPage() {
         );
 
         if (!result.ok) {
-          alert(result.data.error || "حصل خطأ أثناء إنشاء الحساب.");
+          showToast({
+            type: "error",
+            title: "فشل الإنشاء",
+            message: result.data.error || "حصل خطأ أثناء إنشاء الحساب.",
+          });
 
           return;
         }
@@ -355,13 +367,6 @@ export default function UsersPage() {
             status: payload.status,
           },
         );
-
-        await setDocument("users", uid, {
-          ...payload,
-          uid,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        });
       }
 
       setModalOpen(false);
@@ -369,7 +374,11 @@ export default function UsersPage() {
     } catch (error) {
       console.error("Failed to save user:", error);
 
-      alert("حصل خطأ أثناء حفظ المستخدم.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حفظ المستخدم.",
+      });
     } finally {
       setSaving(false);
     }
@@ -383,7 +392,11 @@ export default function UsersPage() {
     if (!deleteUser) return;
 
     if (currentUser?.uid && deleteUser.uid === currentUser.uid) {
-      alert("لا يمكنك حذف حسابك الحالي.");
+      showToast({
+        type: "warning",
+        title: "عملية غير مسموحة",
+        message: "لا يمكنك حذف حسابك الحالي.",
+      });
 
       setDeleteUser(null);
 
@@ -393,29 +406,37 @@ export default function UsersPage() {
     try {
       setSaving(true);
 
-      if (deleteUser.uid) {
+      const profileId = deleteUser.uid || deleteUser.id;
+
+      if (profileId) {
         const result = await callAdminApi(
-          `/api/admin/users/${deleteUser.uid}`,
+          `/api/admin/users/${profileId}`,
           "DELETE",
           await currentUser.getIdToken(),
         );
 
         if (!result.ok && result.status !== 404) {
-          alert(result.data.error || "حصل خطأ أثناء حذف الحساب.");
+          showToast({
+            type: "error",
+            title: "فشل الحذف",
+            message: result.data.error || "حصل خطأ أثناء حذف الحساب.",
+          });
 
           return;
         }
 
-        await removeDocument("profiles", deleteUser.uid);
+        await removeDocument("profiles", profileId);
       }
-
-      await removeDocument("users", deleteUser.id);
 
       setDeleteUser(null);
     } catch (error) {
       console.error("Failed to delete user:", error);
 
-      alert("حصل خطأ أثناء حذف المستخدم.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المستخدم.",
+      });
     } finally {
       setSaving(false);
     }
@@ -427,7 +448,11 @@ export default function UsersPage() {
 
   async function toggleStatus(user) {
     if (currentUser?.uid && user.uid === currentUser.uid) {
-      alert("لا يمكنك تعطيل حسابك الحالي.");
+      showToast({
+        type: "warning",
+        title: "عملية غير مسموحة",
+        message: "لا يمكنك تعطيل حسابك الحالي.",
+      });
 
       return;
     }
@@ -435,9 +460,11 @@ export default function UsersPage() {
     try {
       const nextStatus = user.status === "active" ? "inactive" : "active";
 
-      if (user.uid) {
+      const profileId = user.uid || user.id;
+
+      if (profileId) {
         const result = await callAdminApi(
-          `/api/admin/users/${user.uid}`,
+          `/api/admin/users/${profileId}`,
           "PATCH",
           await currentUser.getIdToken(),
           {
@@ -446,18 +473,16 @@ export default function UsersPage() {
         );
 
         if (!result.ok) {
-          alert(result.data.error || "حصل خطأ أثناء تحديث حالة الحساب.");
+          showToast({
+            type: "error",
+            title: "فشل التحديث",
+            message: result.data.error || "حصل خطأ أثناء تحديث حالة الحساب.",
+          });
 
           return;
         }
-      }
 
-      await updateDocument("users", user.id, {
-        status: nextStatus,
-      });
-
-      if (user.uid) {
-        await setDocument("profiles", user.uid, {
+        await setDocument("profiles", profileId, {
           status: nextStatus,
         });
       }
@@ -659,7 +684,7 @@ export default function UsersPage() {
                 rounded-xl
                 border
                 border-ink/[0.07]
-                bg-[#fafafa]
+                bg-surface
                 pr-11
                 pl-4
                 text-sm
@@ -757,7 +782,7 @@ export default function UsersPage() {
                 className="
                   border-b
                   border-ink/[0.06]
-                  bg-[#fafafa]
+                  bg-surface
                 "
               >
                 <th className="px-6 py-4 text-right text-xs font-bold text-ink/35">
@@ -949,7 +974,7 @@ function UserRow({ user, currentUser, onEdit, onDelete, onToggle }) {
       {/* PERMISSIONS */}
 
       <td className="px-6 py-5">
-        <PermissionSummary permissions={user.permissions} />
+        <PermissionSummary permissions={ROLE_PERMISSIONS[user.role] || {}} />
       </td>
 
       {/* STATUS */}
@@ -997,7 +1022,7 @@ function UserMobileCard({ user, currentUser, onEdit, onDelete, onToggle }) {
         rounded-2xl
         border
         border-ink/[0.07]
-        bg-[#fafafa]
+        bg-surface
         p-4
       "
     >
@@ -1040,7 +1065,7 @@ function UserMobileCard({ user, currentUser, onEdit, onDelete, onToggle }) {
       </div>
 
       <div className="mt-3">
-        <PermissionSummary permissions={user.permissions} />
+        <PermissionSummary permissions={ROLE_PERMISSIONS[user.role] || {}} />
       </div>
     </div>
   );
@@ -1070,9 +1095,9 @@ function UserAvatar({ user }) {
         text-primary
       "
     >
-      {user.photoURL ? (
+      {user.photoURL || user.logo ? (
         <img
-          src={user.photoURL}
+          src={user.photoURL || user.logo}
           alt={user.name || "User"}
           className="h-full w-full object-cover"
         />
@@ -1363,6 +1388,7 @@ function Actions({ user, isMe, onEdit, onDelete }) {
 ========================================================= */
 
 function UserModal({ user, saving, onClose, onSave }) {
+  const { showToast } = useToast();
   const [form, setForm] = useState(() => ({
     ...DEFAULT_USER,
     ...(user || {}),
@@ -1402,22 +1428,38 @@ function UserModal({ user, saving, onClose, onSave }) {
     e.preventDefault();
 
     if (!form.name.trim()) {
-      alert("اكتب اسم المستخدم.");
+      showToast({
+        type: "warning",
+        title: "بيانات غير مكتملة",
+        message: "اكتب اسم المستخدم.",
+      });
       return;
     }
 
     if (!form.email.trim()) {
-      alert("اكتب البريد الإلكتروني.");
+      showToast({
+        type: "warning",
+        title: "بيانات غير مكتملة",
+        message: "اكتب البريد الإلكتروني.",
+      });
       return;
     }
 
     if (!user && (!form.password || form.password.length < 6)) {
-      alert("كلمة المرور يجب ألا تقل عن 6 أحرف.");
+      showToast({
+        type: "warning",
+        title: "بيانات غير مكتملة",
+        message: "كلمة المرور يجب ألا تقل عن 6 أحرف.",
+      });
       return;
     }
 
     if (user && form.password && form.password.length < 6) {
-      alert("كلمة المرور الجديدة يجب ألا تقل عن 6 أحرف.");
+      showToast({
+        type: "warning",
+        title: "بيانات غير مكتملة",
+        message: "كلمة المرور الجديدة يجب ألا تقل عن 6 أحرف.",
+      });
       return;
     }
 
@@ -1550,7 +1592,7 @@ function UserModal({ user, saving, onClose, onSave }) {
               rounded-2xl
               border
               border-ink/[0.07]
-              bg-[#fafafa]
+              bg-surface
               p-4
             "
           >
@@ -1644,7 +1686,7 @@ function UserModal({ user, saving, onClose, onSave }) {
               rounded-2xl
               border
               border-ink/[0.07]
-              bg-[#fafafa]
+              bg-surface
               p-4
             "
           >
@@ -1917,6 +1959,8 @@ function DeleteModal({ user, saving, onClose, onConfirm }) {
               text-white
               transition
               hover:bg-red-600
+              dark:bg-red-400
+              dark:hover:bg-red-300
               disabled:cursor-not-allowed
               disabled:opacity-60
             "

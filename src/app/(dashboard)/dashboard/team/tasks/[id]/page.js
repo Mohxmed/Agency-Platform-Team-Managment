@@ -34,7 +34,7 @@ import TaskModal from "@/features/team/components/TaskModal";
 import Avatar from "@/features/dashboard/ui/Avatar";
 import Button from "@/features/dashboard/ui/Button";
 
-import { getProjectIcon } from "@/constants/projectIcons";
+import { ProjectIcon } from "@/constants/projectIcons";
 
 import { WORKFLOW_STATUSES } from "@/constants/workflow";
 
@@ -49,17 +49,24 @@ import {
   isDeadlineOverdue,
   nextWorkflowStatus,
   prevWorkflowStatus,
+  canManageTeam,
   uid,
 } from "@/features/team/lib/teamUtils";
 
 import { updateDocument, removeDocument } from "@/lib/firestoreService";
+
+import { useToast } from "@/hooks/useToast";
 
 export default function TaskDetailPage() {
   const params = useParams();
 
   const router = useRouter();
 
-  const { user: currentUser } = useAuth();
+  const { showToast } = useToast();
+
+  const { user: currentUser, profile } = useAuth();
+
+  const canManage = canManageTeam(profile?.role);
 
   const { tasks, projects, activeUsers, userMap, loading } = useTeamData();
 
@@ -87,9 +94,7 @@ export default function TaskDetailPage() {
   const doneChecklist = task?.checklist?.filter((item) => item.done)?.length || 0;
 
   const overdue =
-    task && !(task.status === "done" || task.status === "approved") && isDeadlineOverdue(task.deadline);
-
-  const ProjectIcon = getProjectIcon(project?.icon);
+    task && !(task.status === "done") && isDeadlineOverdue(task.deadline);
 
   function addActivity(taskToUpdate, type, text) {
     const activity = Array.isArray(taskToUpdate.activity) ? taskToUpdate.activity : [];
@@ -109,6 +114,17 @@ export default function TaskDetailPage() {
 
   async function handleMove(direction) {
     if (!task || busy) return;
+
+    const isAssignee = getAssigneeId(task) === currentUser?.uid;
+
+    if (!canManage && !isAssignee) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية تعديل حالة هذه المهمة.",
+      });
+      return;
+    }
 
     const fromMeta = getWorkflowMeta(task.status);
 
@@ -134,7 +150,11 @@ export default function TaskDetailPage() {
       });
     } catch (error) {
       console.error("Failed to move task:", error);
-      alert("حصل خطأ أثناء نقل المهمة.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء نقل المهمة.",
+      });
     } finally {
       setBusy(false);
     }
@@ -156,7 +176,11 @@ export default function TaskDetailPage() {
       });
     } catch (error) {
       console.error("Failed to update checklist:", error);
-      alert("حصل خطأ أثناء تحديث قائمة التحقق.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء تحديث قائمة التحقق.",
+      });
     } finally {
       setBusy(false);
     }
@@ -191,7 +215,11 @@ export default function TaskDetailPage() {
       setComment("");
     } catch (error) {
       console.error("Failed to add comment:", error);
-      alert("حصل خطأ أثناء إضافة التعليق.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء إضافة التعليق.",
+      });
     } finally {
       setBusy(false);
     }
@@ -200,16 +228,33 @@ export default function TaskDetailPage() {
   async function handleDelete() {
     if (!task) return;
 
+    if (!canManage) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المهام.",
+      });
+      return;
+    }
+
     const confirmed = window.confirm(`هل أنت متأكد من حذف مهمة "${task.title}"؟`);
 
     if (!confirmed) return;
 
     try {
       await removeDocument("tasks", task.id);
-      router.push(`/dashboard/team/projects/${task.projectId || ""}`);
+      router.push(
+        task.projectId
+          ? `/dashboard/team/projects/${task.projectId}`
+          : "/dashboard/team",
+      );
     } catch (error) {
       console.error("Failed to delete task:", error);
-      alert("حصل خطأ أثناء حذف المهمة.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المهمة.",
+      });
     }
   }
 
@@ -253,7 +298,7 @@ export default function TaskDetailPage() {
               onClick={() => handleMove("forward")}
               disabled={busy || !task || task.status === "done"}
               title="تقديم في مراحل العمل"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-600 text-white transition hover:bg-red-700 disabled:pointer-events-none disabled:opacity-30"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-600 text-white transition hover:bg-red-700 dark:bg-red-400 dark:hover:bg-red-300 disabled:pointer-events-none disabled:opacity-30"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -268,15 +313,17 @@ export default function TaskDetailPage() {
               تعديل
             </button>
 
-            <button
-              type="button"
-              onClick={handleDelete}
-              disabled={!task}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-red-50 px-3.5 py-2 text-xs font-bold text-red-600 transition hover:bg-red-600 hover:text-white disabled:pointer-events-none disabled:opacity-40"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-              حذف
-            </button>
+            {canManage && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={!task}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-red-50 px-3.5 py-2 text-xs font-bold text-red-600 transition hover:bg-red-600 hover:text-white dark:hover:bg-red-400 disabled:pointer-events-none disabled:opacity-40"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+                حذف
+              </button>
+            )}
           </div>
         </div>
 
@@ -286,7 +333,7 @@ export default function TaskDetailPage() {
             <h2 className="mt-4 text-lg font-black text-ink">المهمة غير موجودة</h2>
             <Link
               href="/dashboard/team/projects"
-              className="mt-4 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700"
+              className="mt-4 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700 dark:bg-red-400 dark:hover:bg-red-300"
             >
               العودة للمشاريع
             </Link>
@@ -313,9 +360,9 @@ export default function TaskDetailPage() {
                 {project && (
                   <Link
                     href={`/dashboard/team/projects/${project.id}`}
-                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-neutral-50/60 px-3 py-2 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600"
+                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-surface/60 px-3 py-2 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600"
                   >
-                    <ProjectIcon className="h-4 w-4" />
+                    <ProjectIcon name={project?.icon} className="h-4 w-4" />
                     {project.title}
                     <ExternalLink className="h-3.5 w-3.5" />
                   </Link>
@@ -326,7 +373,7 @@ export default function TaskDetailPage() {
                 </p>
 
                 <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-3.5">
+                  <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
                     <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
                       <CalendarDays className="h-3.5 w-3.5" />
                       الاستحقاق
@@ -336,7 +383,7 @@ export default function TaskDetailPage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-3.5">
+                  <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
                     <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
                       <Clock className="h-3.5 w-3.5" />
                       الساعات
@@ -346,7 +393,7 @@ export default function TaskDetailPage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-3.5">
+                  <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
                     <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
                       <ListChecks className="h-3.5 w-3.5" />
                       قائمة التحقق
@@ -356,7 +403,7 @@ export default function TaskDetailPage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-3.5">
+                  <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
                     <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
                       <MessageSquare className="h-3.5 w-3.5" />
                       التعليقات
@@ -376,7 +423,7 @@ export default function TaskDetailPage() {
                       قائمة التحقق
                     </h3>
 
-                    <span className="rounded-lg bg-black px-2 py-1 text-[11px] font-black text-white">
+                    <span className="rounded-lg bg-black px-2 py-1 text-[11px] font-black text-white dark:bg-white dark:text-black">
                       {doneChecklist}/{task.checklist.length}
                     </span>
                   </div>
@@ -428,7 +475,7 @@ export default function TaskDetailPage() {
                       onChange={(event) => setComment(event.target.value)}
                       rows={2}
                       placeholder="أضف تعليقًا..."
-                      className="w-full resize-none rounded-xl border border-ink/[0.08] bg-neutral-50/60 p-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-red-300 focus:ring-4 focus:ring-red-500/10"
+                      className="w-full resize-none rounded-xl border border-ink/[0.08] bg-surface/60 p-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-red-300 focus:ring-4 focus:ring-red-500/10"
                     />
 
                     <div className="mt-2 flex justify-end">
@@ -449,7 +496,7 @@ export default function TaskDetailPage() {
                   {(task.comments || []).map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-start gap-3 rounded-xl border border-ink/[0.05] bg-neutral-50/50 p-3.5"
+                      className="flex items-start gap-3 rounded-xl border border-ink/[0.05] bg-surface/50 p-3.5"
                     >
                       <Avatar
                         user={userMap.get(item.authorId)}
@@ -551,7 +598,7 @@ export default function TaskDetailPage() {
                           href={url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-neutral-50/60 px-3 py-2.5 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600"
+                          className="flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-surface/60 px-3 py-2.5 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600"
                         >
                           <ExternalLink className="h-3.5 w-3.5 shrink-0" />
                           <span className="min-w-0 flex-1 truncate">{url}</span>
@@ -602,7 +649,7 @@ export default function TaskDetailPage() {
                         </span>
 
                         {status.value === task.status && (
-                          <span className="mr-auto rounded-md bg-black px-2 py-0.5 text-[10px] font-black text-white">
+                          <span className="mr-auto rounded-md bg-black px-2 py-0.5 text-[10px] font-black text-white dark:bg-white dark:text-black">
                             الحالية
                           </span>
                         )}

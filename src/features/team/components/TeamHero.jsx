@@ -16,7 +16,9 @@ export default function TeamHero({
   const resolvedAccent =
     typeof accent === "string" ? getThemeByName(accent) : accent;
 
-  const theme = resolvedAccent || usePageTheme();
+  const pageTheme = usePageTheme();
+
+  const theme = resolvedAccent || pageTheme;
 
   return (
     <section
@@ -56,7 +58,7 @@ export default function TeamHero({
               </h1>
 
               {badge && (
-                <span className="rounded-md bg-black px-2 py-1 text-[10px] font-black tracking-wide text-white">
+                <span className="rounded-md bg-black px-2 py-1 text-[10px] font-black tracking-wide text-white dark:bg-white dark:text-black">
                   {badge}
                 </span>
               )}

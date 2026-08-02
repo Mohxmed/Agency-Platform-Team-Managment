@@ -25,6 +25,8 @@ import {
   Plane,
 } from "lucide-react";
 
+import { createElement } from "react";
+
 export const PROJECT_ICONS = [
   { name: "folder", label: "مجلد", Icon: FolderKanban },
   { name: "rocket", label: "انطلاق", Icon: Rocket },
@@ -54,4 +56,8 @@ export const PROJECT_ICONS = [
 
 export function getProjectIcon(iconName = "folder") {
   return PROJECT_ICONS.find((item) => item.name === iconName)?.Icon || FolderKanban;
+}
+
+export function ProjectIcon({ name = "folder", className }) {
+  return createElement(getProjectIcon(name), { className });
 }

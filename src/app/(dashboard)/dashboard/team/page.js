@@ -18,6 +18,7 @@ import {
   Loader2,
   ChevronLeft,
   BarChart3,
+  UserCog,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -37,6 +38,7 @@ import {
   isDeadlineOverdue,
   getAssigneeId,
   getProjectMemberIds,
+  canManageTeam,
 } from "@/features/team/lib/teamUtils";
 
 import { removeDocument } from "@/lib/firestoreService";
@@ -50,12 +52,18 @@ import PageHero from "@/features/dashboard/components/PageHero";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 
+import { useToast } from "@/hooks/useToast";
+
 import { roleConfig } from "@/constants/permissions";
 
 export default function TeamPage() {
   const theme = usePageTheme();
 
-  const { user: currentUser } = useAuth();
+  const { showToast } = useToast();
+
+  const { user: currentUser, profile } = useAuth();
+
+  const canManage = canManageTeam(profile?.role);
 
   const { projects, tasks, activeUsers, userMap, clientMap, clients, loading } =
     useTeamData();
@@ -71,6 +79,8 @@ export default function TeamPage() {
 
     if (sessionStorage.getItem("quickActionCreate") === "open-create") {
       sessionStorage.removeItem("quickActionCreate");
+      // Intentional: open the create modal once on mount via a stored flag.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setModalOpen(true);
     }
   }, []);
@@ -124,7 +134,7 @@ export default function TeamPage() {
       {
         label: "المكتملة",
         value: tasks.filter(
-          (task) => task.status === "done" || task.status === "approved",
+          (task) => task.status === "done",
         ).length,
         description: "مهام تم إنهاؤها واعتمادها.",
         icon: CheckCircle2,
@@ -145,6 +155,15 @@ export default function TeamPage() {
   }
 
   async function handleDelete(project) {
+    if (!canManageTeam(profile?.role)) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المشاريع.",
+      });
+      return;
+    }
+
     const confirmed = window.confirm(
       `هل أنت متأكد من حذف مشروع "${project.title}" وجميع مهامه؟`,
     );
@@ -164,7 +183,11 @@ export default function TeamPage() {
       ]);
     } catch (error) {
       console.error("Failed to delete project:", error);
-      alert("حصل خطأ أثناء حذف المشروع.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المشروع.",
+      });
     } finally {
       setDeleting(false);
     }
@@ -173,7 +196,7 @@ export default function TeamPage() {
   function getDoneCount(projectId) {
     const projectTasks = tasksByProject[projectId] || [];
     return projectTasks.filter(
-      (task) => task.status === "done" || task.status === "approved",
+      (task) => task.status === "done",
     ).length;
   }
 
@@ -203,8 +226,14 @@ export default function TeamPage() {
           </button>
         </PageHero>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
           {[
+            {
+              href: "/dashboard/team/members",
+              icon: Users,
+              label: "الأعضاء",
+              count: activeUsers.length,
+            },
             {
               href: "/dashboard/team/projects",
               icon: FolderKanban,
@@ -225,8 +254,7 @@ export default function TeamPage() {
               label: "لوحة التقدم",
               count: `${Math.round(
                 (tasks.filter(
-                  (task) =>
-                    task.status === "done" || task.status === "approved",
+                  (task) => task.status === "done",
                 ).length /
                   (tasks.length || 1)) *
                   100,
@@ -246,7 +274,7 @@ export default function TeamPage() {
                 <span className="text-sm font-black text-ink">{label}</span>
               </span>
 
-              <span className="rounded-lg bg-black px-2.5 py-1 text-[11px] font-black text-white">
+              <span className="rounded-lg bg-black px-2.5 py-1 text-[11px] font-black text-white dark:bg-white dark:text-black">
                 {count}
               </span>
             </Link>
@@ -322,10 +350,11 @@ export default function TeamPage() {
                   const overdue = isDeadlineOverdue(project.deadline);
                   const memberIds = getProjectMemberIds(project);
 
-                  return (
+return (
                     <div
                       key={project.id}
-                      className={`group relative overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] ${theme.hoverBorder}`}
+                      className={`group relative overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] ${theme.hoverBorder} cursor-pointer`}
+                      onClick={() => window.location.href = `/dashboard/team/projects/${project.id}`}
                     >
                       {(() => {
                         const ProjectIcon = getProjectIcon(project.icon);
@@ -337,20 +366,14 @@ export default function TeamPage() {
                                 progress >= 100
                                   ? "bg-green-500"
                                   : progress >= 60
-                                    ? "bg-emerald-500"
-                                    : progress >= 30
-                                      ? "bg-amber-500"
-                                      : "bg-red-500"
+                                  ? "bg-emerald-500"
+                                  : progress >= 30
+                                  ? "bg-amber-500"
+                                  : "bg-red-500"
                               }`}
                             />
 
-                            <Link
-                              href={`/dashboard/team/projects/${project.id}`}
-                              className="absolute inset-0 z-0"
-                              aria-label={project.title}
-                            />
-
-                            <div className="relative z-10 p-5">
+                            <div className="relative p-5">
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex min-w-0 items-center gap-3">
                                   <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient} text-white shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105`}>
@@ -372,21 +395,23 @@ export default function TeamPage() {
                                 <div className="flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                                   <button
                                     type="button"
-                                    onClick={() => openEdit(project)}
+                                    onClick={(e) => { e.stopPropagation(); openEdit(project); }}
                                     title="تعديل المشروع"
                                     className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/50 transition hover:bg-ink/[0.08] hover:text-ink"
                                   >
                                     <Pencil className="h-3.5 w-3.5" />
                                   </button>
 
-                                  <button
-                                    type="button"
-                                    onClick={() => handleDelete(project)}
-                                    title="حذف المشروع"
-                                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white"
-                                  >
-                                    <Trash2 className="h-3.5 w-3.5" />
-                                  </button>
+                                  {canManage && (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => { e.stopPropagation(); handleDelete(project); }}
+                                      title="حذف المشروع"
+                                      className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white dark:hover:bg-red-400"
+                                    >
+                                      <Trash2 className="h-3.5 w-3.5" />
+                                    </button>
+                                  )}
                                 </div>
                               </div>
 
@@ -397,7 +422,7 @@ export default function TeamPage() {
                               )}
 
                               <div className="mt-4 grid grid-cols-2 gap-2.5">
-                                <div className="flex items-center gap-2 rounded-xl bg-neutral-50/80 px-3 py-2">
+                                <div className="flex items-center gap-2 rounded-xl bg-surface/80 px-3 py-2">
                                   <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/30" />
 
                                   <span className="truncate text-[11px] font-bold text-ink/60">
@@ -409,7 +434,7 @@ export default function TeamPage() {
                                   className={`flex items-center gap-2 rounded-xl px-3 py-2 ${
                                     overdue
                                       ? "bg-red-50 text-red-600"
-                                      : "bg-neutral-50/80"
+                                      : "bg-surface/80"
                                   }`}
                                 >
                                   <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/30" />

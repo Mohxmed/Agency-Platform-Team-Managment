@@ -4,7 +4,7 @@ import { getDocumentByField } from "@/lib/firestoreService";
 
 export function useClientByLink(link) {
   const [client, setClient] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(link));
 
   useEffect(() => {
     if (!link) return;

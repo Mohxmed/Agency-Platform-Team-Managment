@@ -11,7 +11,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { ProtectedRoute } from "@/features/auth";
+import { ProtectedRoute, useAuth } from "@/features/auth";
 
 import { useTeamData } from "@/features/team/hooks/useTeamData";
 
@@ -19,14 +19,24 @@ import TeamHero from "@/features/team/components/TeamHero";
 import ProjectCard from "@/features/team/components/ProjectCard";
 import ProjectModal from "@/features/team/components/ProjectModal";
 
+import { canManageTeam } from "@/features/team/lib/teamUtils";
+
 import { removeDocument } from "@/lib/firestoreService";
 
 import StatsCard from "@/features/dashboard/ui/StatsCard";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 
+import { useToast } from "@/hooks/useToast";
+
 export default function TeamProjectsPage() {
   const theme = usePageTheme();
+
+  const { showToast } = useToast();
+
+  const { profile } = useAuth();
+
+  const canManage = canManageTeam(profile?.role);
 
   const { projects, tasks, activeUsers, userMap, clientMap, clients, loading } =
     useTeamData();
@@ -42,6 +52,8 @@ export default function TeamProjectsPage() {
 
     if (sessionStorage.getItem("quickActionCreate") === "open-create") {
       sessionStorage.removeItem("quickActionCreate");
+      // Intentional: open the create modal once on mount via a stored flag.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setModalOpen(true);
     }
   }, []);
@@ -75,7 +87,7 @@ export default function TeamProjectsPage() {
       {
         label: "المكتملة",
         value: tasks.filter(
-          (task) => task.status === "done" || task.status === "approved",
+          (task) => task.status === "done",
         ).length,
         description: "مهام تم إنهاؤها واعتمادها.",
         icon: CheckCircle2,
@@ -103,6 +115,15 @@ export default function TeamProjectsPage() {
   }
 
   async function handleDelete(project) {
+    if (!canManageTeam(profile?.role)) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المشاريع.",
+      });
+      return;
+    }
+
     const confirmed = window.confirm(
       `هل أنت متأكد من حذف مشروع "${project.title}" وجميع مهامه؟`,
     );
@@ -122,7 +143,11 @@ export default function TeamProjectsPage() {
       ]);
     } catch (error) {
       console.error("Failed to delete project:", error);
-      alert("حصل خطأ أثناء حذف المشروع.");
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المشروع.",
+      });
     } finally {
       setDeleting(false);
     }
@@ -226,6 +251,7 @@ export default function TeamProjectsPage() {
                 clientMap={clientMap}
                 onEdit={openEdit}
                 onDelete={handleDelete}
+                canManage={canManage}
               />
             ))}
           </div>

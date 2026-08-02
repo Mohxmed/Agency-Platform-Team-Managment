@@ -16,6 +16,6 @@ export const PROFILE_DEFAULTS = {
   logo: "",
   coverImage: "",
   stats: [],
-  role: ROLES.ADMIN,
+  role: ROLES.MEMBER,
   status: "active",
 };

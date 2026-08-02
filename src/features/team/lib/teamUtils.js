@@ -87,27 +87,75 @@ export function formatDateTime(value) {
   return String(value);
 }
 
+// Convert a deadline value (Firestore Timestamp, Date, ISO string, number)
+// into a Date. Date-only strings ("YYYY-MM-DD") are treated as the end of
+// that day so the deadline is only considered passed once the day is over.
+function toDeadlineDate(value) {
+  if (!value) return null;
+
+  try {
+    if (typeof value.toDate === "function") {
+      return value.toDate();
+    }
+
+    if (value instanceof Date) {
+      return value;
+    }
+
+    if (typeof value.seconds === "number") {
+      return new Date(value.seconds * 1000);
+    }
+
+    if (typeof value === "string") {
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+      if (match) {
+        return new Date(
+          Number(match[1]),
+          Number(match[2]) - 1,
+          Number(match[3]),
+          23,
+          59,
+          59,
+          999,
+        );
+      }
+
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    if (typeof value === "number") {
+      return new Date(value);
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 export function formatDeadline(value) {
   if (!value) return "—";
 
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
+  const date = toDeadlineDate(value);
+  if (!date) return String(value);
+
   return date.toLocaleDateString("ar-EG");
 }
 
 export function isDeadlineOverdue(value) {
   if (!value) return false;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return false;
+
+  const date = toDeadlineDate(value);
+  if (!date) return false;
+
   return date.getTime() < Date.now();
 }
 
 export function calcProjectProgress(tasks) {
   if (!Array.isArray(tasks) || tasks.length === 0) return 0;
   const done = tasks.filter(
-    (task) => task.status === "approved" || task.status === "done",
+    (task) => task.status === "done",
   ).length;
   return Math.round((done / tasks.length) * 100);
 }
@@ -150,5 +198,10 @@ export function getClientName(clientMap, id) {
 }
 
 export function isTaskDone(task) {
-  return task?.status === "done" || task?.status === "approved";
+  return task?.status === "done";
+}
+
+// Only admin/manager roles may delete team data or change others' tasks.
+export function canManageTeam(role) {
+  return role === "admin" || role === "manager";
 }

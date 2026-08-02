@@ -71,7 +71,7 @@ export default function TeamProgressPage() {
         label: "المهام المنجزة",
         value: `${Math.round(
           (tasks.filter(
-            (task) => task.status === "done" || task.status === "approved",
+            (task) => task.status === "done",
           ).length /
             (tasks.length || 1)) *
             100,

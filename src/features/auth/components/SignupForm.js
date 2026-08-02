@@ -12,7 +12,6 @@ import { Ban } from "lucide-react";
 import {
   registerWithEmail,
   loginWithGoogle,
-  logout,
 } from "@/features/auth/services/auth.service";
 
 export function SignupForm() {
@@ -96,12 +95,10 @@ export function SignupForm() {
       }
 
       if (result.user) {
-        // Firebase automatically signs the user in
-        // after creating the account.
-        // We want the user to login manually.
-        await logout();
-
-        router.push(ROUTES.LOGIN);
+        // Firebase signs the user in automatically after registration.
+        // The session cookie is created by registerWithEmail, so we can
+        // go straight to the dashboard.
+        router.push(ROUTES.DASHBOARD);
       }
     } catch (error) {
       console.error("Signup error:", error);

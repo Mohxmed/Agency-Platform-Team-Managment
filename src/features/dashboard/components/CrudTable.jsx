@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Plus,
   Pencil,
@@ -127,7 +127,7 @@ export default function CrudTable({
   /* =========================================================
      CREATE
   ========================================================= */
-  function openCreate() {
+  const openCreate = useCallback(() => {
     const initialForm = {};
     fields.forEach((field) => {
       if (field.default !== undefined) {
@@ -144,7 +144,7 @@ export default function CrudTable({
     setForm(initialForm);
     setFormMeta({});
     setModalOpen(true);
-  }
+  }, [fields]);
   /* =========================================================
      EDIT
   ========================================================= */
@@ -419,6 +419,8 @@ export default function CrudTable({
     if (typeof window !== "undefined") {
       if (sessionStorage.getItem("quickActionCreate") === createEvent) {
         sessionStorage.removeItem("quickActionCreate");
+        // Intentional: open the create modal once on mount via a stored flag.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         openCreate();
       }
     }
@@ -1333,8 +1335,8 @@ export default function CrudTable({
                 items-center
                 justify-center
                 bg-gradient-to-b
-                from-gray-50
-                to-white
+                from-surface
+                to-background
                 px-6
                 text-center
               "

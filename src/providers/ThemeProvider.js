@@ -19,6 +19,8 @@ export function ThemeProvider({ children }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Intentional: initialize theme from storage/system preference on mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const initial = getInitialTheme();
     setTheme(initial);

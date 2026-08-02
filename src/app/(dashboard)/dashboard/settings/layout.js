@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Toaster } from "sonner";
 import {
   Globe2,
   Search,
@@ -72,8 +71,6 @@ export default function SettingsLayout({ children }) {
   return (
     <ProtectedRoute permission="settings">
       <div dir="rtl" className="space-y-6 pb-10">
-        <Toaster position="top-left" richColors />
-
         <section className="relative overflow-hidden rounded-[28px] bg-card p-6 shadow-[0_15px_50px_rgba(0,0,0,0.035)] sm:p-8">
           <div className="pointer-events-none absolute -left-20 -top-24 h-64 w-64 rounded-full bg-primary/[0.06] blur-3xl" />
           <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">

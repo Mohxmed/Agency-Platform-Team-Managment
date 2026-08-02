@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
   Globe2,
   Search,
@@ -65,11 +64,6 @@ const groups = [
 export default function SettingsOverviewPage() {
   const { settings, loading } = useSettings();
 
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    if (!loading) setReady(true);
-  }, [loading]);
-
   const maintenanceOn = settings?.system?.maintenanceMode;
   const registrationOn = settings?.auth?.allowRegistration;
   const hasSocial = Object.values(settings?.social || {}).some(Boolean);
@@ -129,7 +123,7 @@ export default function SettingsOverviewPage() {
       </section>
 
       {/* Status cards */}
-      {ready && (
+      {!loading && (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {statusCards.map((card) => {
             const Icon = card.icon;

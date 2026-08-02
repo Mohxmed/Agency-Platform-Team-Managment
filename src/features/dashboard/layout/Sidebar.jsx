@@ -24,6 +24,10 @@ import {
   BarChart3,
 } from "lucide-react";
 
+import Image from "next/image";
+import Logo from "@/shared/ui/identity/Logo";
+import logoIcon from "@/assets/identity/logo-icon.png";
+
 import { useSidebar } from "@/providers/SidebarProvider";
 import { useAuth } from "@/features/auth";
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
@@ -141,6 +145,8 @@ export default function Sidebar({ open, onClose }) {
   ======================================================= */
 
   useEffect(() => {
+    // Intentional: expand sections containing the active route on navigation.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpenSections((prev) => {
       const next = { ...prev };
 
@@ -152,6 +158,7 @@ export default function Sidebar({ open, onClose }) {
 
       return next;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   function handleSectionClick(title) {
@@ -485,39 +492,36 @@ export default function Sidebar({ open, onClose }) {
         ================================================== */}
 
         <div
-          className="
-            flex
-            h-20
-            shrink-0
-            items-center
-            justify-between
-            border-b
-            border-ink/20
-            px-5
-          "
+          className={`flex h-20 shrink-0 items-center justify-between border-b border-ink/20 ${
+            collapsed ? "px-2" : "px-5"
+          }`}
         >
-          {!collapsed && (
-            <div>
-              <h1 className="text-xl font-bold text-red-600">NO2TA</h1>
-
-              <p className="text-xs text-gray-500">CMS Dashboard</p>
+          {!collapsed ? (
+            <div className="shrink-0">
+              <Logo className="w-32" />
             </div>
+          ) : (
+            <Image
+              src={logoIcon}
+              alt="No2ta"
+              className="h-9 w-9 shrink-0 rounded-lg object-contain"
+            />
           )}
 
           <button
             type="button"
             onClick={toggleSidebar}
             aria-label={collapsed ? "فتح القائمة" : "تصغير القائمة"}
-            className="
+            className={`
               rounded-xl
               border
               border-ink/20
-              p-2
               text-ink/60
               transition
               hover:bg-ink/[0.06]
               hover:text-ink
-            "
+              ${collapsed ? "p-1" : "p-2"}
+            `}
           >
             {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
           </button>
@@ -653,10 +657,8 @@ export default function Sidebar({ open, onClose }) {
               px-5
             "
           >
-            <div>
-              <h1 className="text-xl font-bold text-red-600">NO2TA</h1>
-
-              <p className="text-xs text-gray-500">CMS Dashboard</p>
+            <div className="shrink-0">
+              <Logo className="w-32" />
             </div>
 
             <button

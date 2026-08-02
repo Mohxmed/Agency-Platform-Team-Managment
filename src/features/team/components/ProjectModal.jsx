@@ -43,7 +43,9 @@ export default function ProjectModal({
   useEffect(() => {
     if (!open) return;
 
+    // Intentional: sync the form with the record being edited when opened.
     if (editing) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm({
         title: editing.title || "",
         description: editing.description || "",

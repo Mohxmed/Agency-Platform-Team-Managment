@@ -14,6 +14,75 @@ import {
   Plus,
 } from "lucide-react";
 
+function ModeToggle({ mode, onSwitch }) {
+  return (
+    <div className="flex rounded-lg border border-ink/[0.08] p-0.5 bg-card/50">
+      <button
+        type="button"
+        onClick={() => onSwitch("upload")}
+        className={`
+          flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all
+          ${mode === "upload"
+            ? "bg-card text-ink shadow-sm"
+            : "text-ink/40 hover:text-ink/60"
+          }
+        `}
+      >
+        <UploadCloud className="h-3.5 w-3.5" />
+        رفع
+      </button>
+      <button
+        type="button"
+        onClick={() => onSwitch("url")}
+        className={`
+          flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all
+          ${mode === "url"
+            ? "bg-card text-ink shadow-sm"
+            : "text-ink/40 hover:text-ink/60"
+          }
+        `}
+      >
+        <Link className="h-3.5 w-3.5" />
+        رابط
+      </button>
+    </div>
+  );
+}
+
+function UrlInput({ value, onChange, onKeyDown, onSubmit, buttonLabel }) {
+  return (
+    <div className="flex gap-2">
+      <input
+        type="url"
+        dir="ltr"
+        value={value}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        placeholder="https://example.com/image.jpg"
+        className="
+          flex-1 h-11 rounded-xl border border-ink/[0.1]
+          bg-card px-4 text-sm text-ink
+          outline-none transition-all duration-200
+          placeholder:text-ink/25
+          focus:border-primary-500 focus:ring-4 focus:ring-primary-500/[0.08]
+        "
+      />
+      <button
+        type="button"
+        onClick={onSubmit}
+        className="
+          flex h-11 items-center gap-1.5 rounded-xl bg-primary-600
+          px-4 text-sm font-bold text-white shadow-sm
+          transition-all hover:bg-primary-700 active:scale-95
+        "
+      >
+        <Plus className="h-4 w-4" />
+        {buttonLabel}
+      </button>
+    </div>
+  );
+}
+
 export default function ImageUploadField({
   label = "صورة المشروع",
   value = "",
@@ -312,83 +381,6 @@ export default function ImageUploadField({
   }
 
   /* =========================================================
-     MODE TOGGLE
-  ========================================================= */
-
-  function ModeToggle() {
-    return (
-      <div className="flex rounded-lg border border-ink/[0.08] p-0.5 bg-card/50">
-        <button
-          type="button"
-          onClick={() => switchMode("upload")}
-          className={`
-            flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all
-            ${mode === "upload"
-              ? "bg-card text-ink shadow-sm"
-              : "text-ink/40 hover:text-ink/60"
-            }
-          `}
-        >
-          <UploadCloud className="h-3.5 w-3.5" />
-          رفع
-        </button>
-        <button
-          type="button"
-          onClick={() => switchMode("url")}
-          className={`
-            flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all
-            ${mode === "url"
-              ? "bg-card text-ink shadow-sm"
-              : "text-ink/40 hover:text-ink/60"
-            }
-          `}
-        >
-          <Link className="h-3.5 w-3.5" />
-          رابط
-        </button>
-      </div>
-    );
-  }
-
-  /* =========================================================
-     URL INPUT
-  ========================================================= */
-
-  function UrlInput({ onSubmit }) {
-    return (
-      <div className="flex gap-2">
-        <input
-          type="url"
-          dir="ltr"
-          value={urlInput}
-          onChange={(e) => setUrlInput(e.target.value)}
-          onKeyDown={handleUrlKeyDown}
-          placeholder="https://example.com/image.jpg"
-          className="
-            flex-1 h-11 rounded-xl border border-ink/[0.1]
-            bg-card px-4 text-sm text-ink
-            outline-none transition-all duration-200
-            placeholder:text-ink/25
-            focus:border-primary-500 focus:ring-4 focus:ring-primary-500/[0.08]
-          "
-        />
-        <button
-          type="button"
-          onClick={onSubmit}
-          className="
-            flex h-11 items-center gap-1.5 rounded-xl bg-primary-600
-            px-4 text-sm font-bold text-white shadow-sm
-            transition-all hover:bg-primary-700 active:scale-95
-          "
-        >
-          <Plus className="h-4 w-4" />
-          {multiple ? "إضافة" : "تأكيد"}
-        </button>
-      </div>
-    );
-  }
-
-  /* =========================================================
      SINGLE IMAGE
   ========================================================= */
 
@@ -408,13 +400,19 @@ export default function ImageUploadField({
                 تم الإضافة
               </span>
             )}
-            <ModeToggle />
+            <ModeToggle mode={mode} onSwitch={switchMode} />
           </div>
         </div>
 
         {mode === "url" ? (
           <div className="space-y-3">
-            <UrlInput onSubmit={handleUrlSubmit} />
+            <UrlInput
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              onKeyDown={handleUrlKeyDown}
+              onSubmit={handleUrlSubmit}
+              buttonLabel="تأكيد"
+            />
 
             {value && (
               <div className="group relative overflow-hidden rounded-2xl border border-ink/[0.08] bg-[#f8f8f8] dark:bg-surface">
@@ -607,13 +605,19 @@ export default function ImageUploadField({
               {images.length} صورة
             </span>
           )}
-          <ModeToggle />
+          <ModeToggle mode={mode} onSwitch={switchMode} />
         </div>
       </div>
 
       {mode === "url" && (
         <div className="mb-3">
-          <UrlInput onSubmit={handleUrlSubmit} />
+          <UrlInput
+            value={urlInput}
+            onChange={(e) => setUrlInput(e.target.value)}
+            onKeyDown={handleUrlKeyDown}
+            onSubmit={handleUrlSubmit}
+            buttonLabel="إضافة"
+          />
         </div>
       )}
 

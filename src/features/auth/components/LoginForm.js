@@ -1,8 +1,8 @@
 "use client";
 // Next
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useState } from "react";
 // Routes Config
 import { ROUTES } from "@/constants/routes";
 // UI
@@ -12,8 +12,17 @@ import Button from "@/shared/ui/buttons/Buttons";
 
 import { loginWithEmail, loginWithGoogle } from "../services/auth.service";
 
-export function LoginForm() {
+function safeRedirect(target) {
+  if (!target) return ROUTES.DASHBOARD;
+  if (!target.startsWith("/")) return ROUTES.DASHBOARD;
+  if (target.startsWith("//")) return ROUTES.DASHBOARD;
+  return target;
+}
+
+function LoginFormInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = safeRedirect(searchParams.get("redirect"));
 
   // States
   const [email, setEmail] = useState("");
@@ -43,7 +52,7 @@ export function LoginForm() {
           setError(result.error);
           return;
         }
-        router.push(ROUTES.DASHBOARD);
+        router.push(redirectPath);
       } catch (err) {
         console.error(err);
         setError("حدث خطأ، حاول مرة أخرى");
@@ -51,7 +60,7 @@ export function LoginForm() {
         setLoading(false);
       }
     },
-    [email, password, clearError, router],
+    [email, password, clearError, router, redirectPath],
   );
 
   const handleGoogleLogin = useCallback(async () => {
@@ -63,14 +72,14 @@ export function LoginForm() {
         setError(result.error);
         return;
       }
-      router.push(ROUTES.DASHBOARD);
+      router.push(redirectPath);
     } catch (err) {
       console.error(err);
       setError("حدث خطأ أثناء تسجيل الدخول باستخدام Google");
     } finally {
       setGoogleLoading(false);
     }
-  }, [clearError, router]);
+  }, [clearError, router, redirectPath]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -134,5 +143,13 @@ export function LoginForm() {
         </Link>
       </p>
     </div>
+  );
+}
+
+export function LoginForm() {
+  return (
+    <Suspense fallback={null}>
+      <LoginFormInner />
+    </Suspense>
   );
 }

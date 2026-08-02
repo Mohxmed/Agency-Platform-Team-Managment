@@ -50,6 +50,8 @@ export default function DashboardHeader() {
   const email = user?.email || "";
 
   const photoURL =
+    profile?.photoURL ||
+    profile?.logo ||
     user?.photoURL ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(
       displayName,
