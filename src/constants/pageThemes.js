@@ -492,7 +492,6 @@ const ROUTE_THEMES = [
   { match: "/dashboard/services", theme: "amber" },
   { match: "/dashboard/pricing", theme: "blue" },
   { match: "/dashboard/settings", theme: "slate" },
-  { match: "/dashboard/projects", theme: "orange" },
   { match: "/dashboard/user", theme: "fuchsia" },
   { match: "/dashboard", theme: "red" },
 ];

@@ -60,12 +60,6 @@ const menuSections = [
         permission: "portfolio",
       },
       {
-        title: "المشاريع",
-        href: "/dashboard/projects",
-        icon: FolderKanban,
-        permission: "content",
-      },
-      {
         title: "التصنيفات",
         href: "/dashboard/categories",
         icon: Tag,
