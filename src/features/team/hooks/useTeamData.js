@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { subscribeToCollection } from "@/lib/firestoreService";
 
@@ -56,9 +56,15 @@ export function useTeamData() {
 
   const activeUsers = users.filter((user) => user.status !== "inactive");
 
-  const userMap = new Map(users.map((user) => [user.id, user]));
+  const userMap = useMemo(
+    () => new Map(users.map((user) => [user.id, user])),
+    [users],
+  );
 
-  const clientMap = new Map(clients.map((client) => [client.id, client]));
+  const clientMap = useMemo(
+    () => new Map(clients.map((client) => [client.id, client])),
+    [clients],
+  );
 
   return {
     projects,
