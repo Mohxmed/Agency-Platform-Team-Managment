@@ -28,7 +28,7 @@ import Badge from "@/features/dashboard/ui/Badge";
 import StatsCard from "@/features/dashboard/ui/StatsCard";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
-import { getWorkflowMeta } from "@/features/team/lib/teamUtils";
+import { getAssigneeId } from "@/features/team/lib/teamUtils";
 
 const ROLE_LABELS = {
   admin: "مسؤول",
@@ -57,8 +57,34 @@ export default function TeamMembersPage() {
 
   const canManage = currentProfile?.role === "admin" || currentProfile?.role === "manager";
 
+  // Enrich every user with task stats first, so filtering/sorting can use them.
+  const enrichedUsers = useMemo(() => {
+    return users.map((user) => {
+      const memberTasks = tasks.filter((task) => {
+        const assigneeId = getAssigneeId(task);
+        return assigneeId === user.id;
+      });
+      const total = memberTasks.length;
+      const done = memberTasks.filter((t) => t.status === "done").length;
+      const inProgress = memberTasks.filter((t) => t.status === "in-progress").length;
+      const review = memberTasks.filter((t) => t.status === "review").length;
+      const revision = memberTasks.filter((t) => t.status === "revision").length;
+      const overdue = memberTasks.filter((t) => t.status !== "done" && t.deadline && new Date(t.deadline) < new Date()).length;
+      const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      return {
+        ...user,
+        _taskCount: total,
+        _doneCount: done,
+        _inProgressCount: inProgress + review + revision,
+        _overdueCount: overdue,
+        _completionRate: completionRate,
+      };
+    });
+  }, [users, tasks]);
+
   const filteredUsers = useMemo(() => {
-    let result = users.filter((m) => {
+    let result = enrichedUsers.filter((m) => {
       const profile = userMap.get(m.id);
       const name = profile?.name || m.name || "";
       const email = profile?.email || m.email || "";
@@ -102,32 +128,7 @@ export default function TeamMembersPage() {
     });
 
     return result;
-  }, [users, userMap, search, roleFilter, sortBy, sortDir]);
-
-  const enrichedUsers = useMemo(() => {
-    return filteredUsers.map((user) => {
-      const memberTasks = tasks.filter((task) => {
-        const assigneeId = task.assigneeProfileId || task.assigneeId;
-        return assigneeId === user.id;
-      });
-      const total = memberTasks.length;
-      const done = memberTasks.filter((t) => t.status === "done").length;
-      const inProgress = memberTasks.filter((t) => t.status === "in-progress").length;
-      const review = memberTasks.filter((t) => t.status === "review").length;
-      const revision = memberTasks.filter((t) => t.status === "revision").length;
-      const overdue = memberTasks.filter((t) => t.status !== "done" && t.deadline && new Date(t.deadline) < new Date()).length;
-      const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
-
-      return {
-        ...user,
-        _taskCount: total,
-        _doneCount: done,
-        _inProgressCount: inProgress + review + revision,
-        _overdueCount: overdue,
-        _completionRate: completionRate,
-      };
-    });
-  }, [filteredUsers, tasks]);
+  }, [enrichedUsers, userMap, search, roleFilter, sortBy, sortDir]);
 
   const totalUsers = users.length;
   const activeUsersCount = users.filter((m) => m.status === "active").length;

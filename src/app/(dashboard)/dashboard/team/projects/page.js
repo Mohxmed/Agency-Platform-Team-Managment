@@ -71,11 +71,11 @@ export default function TeamProjectsPage() {
   // Members may only see the projects they participate in.
   const visibleProjects = useMemo(() => {
     if (canManage) return projects;
-    const uid = profile?.uid || "";
+    const profileId = profile?.uid || profile?.id || "";
     return projects.filter((project) =>
-      getProjectMemberIds(project).includes(uid),
+      getProjectMemberIds(project).includes(profileId),
     );
-  }, [projects, canManage, profile, currentUser]);
+  }, [projects, canManage, profile]);
 
   const stats = useMemo(
     () => [

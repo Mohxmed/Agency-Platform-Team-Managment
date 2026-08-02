@@ -36,6 +36,8 @@ import { useToast } from "@/hooks/useToast";
 
 import { ProjectIcon } from "@/constants/projectIcons";
 
+import { WORKFLOW_STATUSES } from "@/constants/workflow";
+
 import {
   formatDeadline,
   getUserName,
@@ -446,15 +448,7 @@ export default function ProjectDetailPage() {
                           لا توجد مهام في هذا المشروع
                         </p>
                       ) : (
-                        [
-                          ["backlog", "تراكمي"],
-                          ["ready", "جاهز"],
-                          ["in-progress", "قيد التنفيذ"],
-                          ["review", "مراجعة"],
-                          ["revision", "تعديلات"],
-                          ["approved", "معتمد"],
-                          ["done", "منجز"],
-                        ].map(([value, label]) => {
+                        WORKFLOW_STATUSES.map(({ value, labelAr }) => {
                           const count = projectTasks.filter(
                             (task) => task.status === value,
                           ).length;

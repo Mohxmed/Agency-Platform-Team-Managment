@@ -1,11 +1,8 @@
 import { Sparkles } from "lucide-react";
 import { ProtectedRoute } from "@/features/auth";
 import PageHero from "@/features/dashboard/components/PageHero";
-import StatsGrid from "@/features/dashboard/components/StatsGrid";
-import QuickActions from "@/features/dashboard/components/QuickActions";
-import SystemStatus from "@/features/dashboard/components/SystemStatus";
-import RecentWorks from "@/features/dashboard/components/RecentWorks";
-import PendingTasks from "@/features/dashboard/components/PendingTasks";
+import TeamOverview from "@/features/dashboard/components/TeamOverview";
+import CmsOverview from "@/features/dashboard/components/CmsOverview";
 
 export default function DashboardOverview() {
   return (
@@ -15,7 +12,7 @@ export default function DashboardOverview() {
           icon="LayoutDashboard"
           eyebrow="لوحة التحكم"
           title="مرحبًا بك في لوحة التحكم"
-          subtitle="نظرة عامة على الموقع وأحدث النشاطات في مكان واحد."
+          subtitle="تابع مهام فريقك وأحدث نشاطات الأعمال في مكان واحد."
           badge="CMS"
           accent="red"
         >
@@ -30,20 +27,9 @@ export default function DashboardOverview() {
           </a>
         </PageHero>
 
-        <StatsGrid />
+        <TeamOverview />
 
-        <div className="grid items-start gap-6 xl:grid-cols-3">
-          <div className="min-w-0 xl:col-span-2">
-            <QuickActions />
-          </div>
-
-          <SystemStatus />
-        </div>
-
-        <div className="grid items-start gap-6 lg:grid-cols-2">
-          <RecentWorks />
-          <PendingTasks />
-        </div>
+        <CmsOverview />
       </div>
     </ProtectedRoute>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -199,13 +199,29 @@ export default function Sidebar({ open, onClose }) {
      ACTIVE STATE
   ======================================================= */
 
-  const isActive = (href) => {
-    if (href === "/dashboard") {
-      return pathname === "/dashboard";
-    }
-
+  // An item matches when the path is exact or (for non-dashboard items)
+  // nested underneath it. On any given page only the LONGEST matching item
+  // is active, so a parent like /dashboard/team does not stay highlighted
+  // while browsing its sub-pages (my-tasks, projects, progress, ...).
+  const matches = (href) => {
+    if (href === "/dashboard") return pathname === href;
     return pathname === href || pathname.startsWith(href + "/");
   };
+
+  const activeHref = useMemo(() => {
+    let best = "";
+    menuSections.forEach((section) => {
+      section.items.forEach((item) => {
+        if (matches(item.href) && item.href.length > best.length) {
+          best = item.href;
+        }
+      });
+    });
+    return best;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  const isActive = (href) => activeHref === href;
 
   /* =======================================================
      LOGOUT
