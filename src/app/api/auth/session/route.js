@@ -71,7 +71,29 @@ export async function POST(request) {
 }
 
 // Clear the session cookie on logout.
-export async function DELETE() {
+export async function DELETE(request) {
+  const authHeader = request.headers.get("authorization") || "";
+  const idToken = authHeader.replace(/^Bearer\s+/i, "").trim();
+
+  if (!idToken) {
+    return NextResponse.json(
+      { error: "معرّف الدخول مطلوب." },
+      { status: 401 },
+    );
+  }
+
+  try {
+    const auth = adminAuth();
+    if (auth) {
+      await auth.verifyIdToken(idToken);
+    }
+  } catch {
+    return NextResponse.json(
+      { error: "جلسة غير صالحة." },
+      { status: 401 },
+    );
+  }
+
   const response = NextResponse.json({ success: true });
   response.cookies.set({
     name: SESSION_COOKIE,

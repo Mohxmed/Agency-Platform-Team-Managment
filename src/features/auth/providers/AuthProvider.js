@@ -33,8 +33,12 @@ export function AuthProvider({ children }) {
       setProfileLoading(true);
       let data = await fetchProfile(firebaseUser.uid);
       if (!data) {
-        await createUserProfile(firebaseUser);
-        data = await fetchProfile(firebaseUser.uid);
+        try {
+          await createUserProfile(firebaseUser);
+          data = await fetchProfile(firebaseUser.uid);
+        } catch (createError) {
+          console.error("Profile creation error:", createError);
+        }
       }
       setProfile(data);
     } catch (error) {

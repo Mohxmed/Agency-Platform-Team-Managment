@@ -20,21 +20,24 @@ export default function HeroBackground() {
       }}
 
       className="
-pointer-events-none
-absolute
-left-1/2
-top-1/2
--z-10
-h-[420px]
-w-[420px]
--translate-x-1/2
--translate-y-1/2
-rounded-full
-bg-primary-500/[0.06]
-blur-[90px]
-sm:h-[550px]
-sm:w-[550px]
-"
+        pointer-events-none
+        absolute
+        left-1/2
+        top-1/2
+        -z-10
+        h-[300px]
+        w-[300px]
+        -translate-x-1/2
+        -translate-y-1/2
+        rounded-full
+        bg-primary-500/[0.06]
+        blur-[80px]
+        sm:h-[400px]
+        sm:w-[400px]
+        sm:blur-[90px]
+        md:h-[550px]
+        md:w-[550px]
+      "
     />
   );
 }

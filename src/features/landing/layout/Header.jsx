@@ -23,18 +23,18 @@ export default function Header() {
         <UnderDevelopment />
       </Modal>
       <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur shadow dark:bg-background/90">
-        <Container className={"flex h-16 items-center justify-between"}>
+        <Container className={"flex h-14 items-center justify-between"}>
           <Logo />
           <Navbar />
-          {isOpen && <MobileMenu />}
-          <div className="flex gap-2">
+          <MobileMenu open={isOpen} onClose={() => setIsOpen(false)} />
+          <div className="flex items-center gap-1">
             {mounted && (
               <IconButtons
                 variant="glass"
                 onClick={toggleTheme}
                 className="dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10 dark:hover:text-primary-400"
               >
-                {theme === "dark" ? <Sun size={24} /> : <Moon size={24} />}
+                {theme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
               </IconButtons>
             )}
             <IconButtons
@@ -42,15 +42,16 @@ export default function Header() {
               onClick={() => setIsTranslated(!isTranslated)}
               className="dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10 dark:hover:text-primary-400"
             >
-              <LanguagesIcon size={24} />
+              <LanguagesIcon size={22} />
             </IconButtons>
             <UserMenu />
             <IconButtons
               variant="secondary"
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-3xl dark:bg-white/10"
+              className="lg:hidden text-2xl dark:bg-white/10"
+              aria-label="فتح القائمة"
             >
-              <Menu size={24} />
+              <Menu size={22} />
             </IconButtons>
           </div>
         </Container>

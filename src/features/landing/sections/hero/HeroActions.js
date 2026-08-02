@@ -30,7 +30,7 @@ export default function HeroActions() {
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        className="mt-8 flex flex-col items-center gap-4 sm:flex-row"
+        className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:gap-4"
       >
         <motion.div variants={itemReveal} className="hidden md:block">
           <IconButton variant="outline" onClick={() => setShareIsOpen(true)}>
@@ -38,15 +38,15 @@ export default function HeroActions() {
           </IconButton>
         </motion.div>
 
-        <motion.div variants={itemReveal}>
-          <Button variant="secondary" href={ROUTES.CONTACT}>
+        <motion.div variants={itemReveal} className="w-full sm:w-auto">
+          <Button variant="secondary" href={ROUTES.CONTACT} className="w-full sm:w-auto">
             <MessageSquareHeart />
             {ctaPrimary}
           </Button>
         </motion.div>
 
-        <motion.div variants={itemReveal}>
-          <Button href={ROUTES.PORTFOLIO}>
+        <motion.div variants={itemReveal} className="w-full sm:w-auto">
+          <Button href={ROUTES.PORTFOLIO} className="w-full sm:w-auto">
             <Eye />
             {ctaSecondary}
           </Button>

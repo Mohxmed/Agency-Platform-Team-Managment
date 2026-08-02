@@ -21,13 +21,18 @@ export default function HeroRocket() {
       className="
         pointer-events-none
         absolute
-        left-[-40px]
-        top-[-40px]
+        left-[-20px]
+        top-[-20px]
         -z-10
-        w-80
-        sm:w-[420px]
-        lg:-left-32
-        lg:top-[-80px]
+        w-40
+        sm:left-[-40px]
+        sm:top-[-40px]
+        sm:w-[300px]
+        md:left-[-80px]
+        md:top-[-80px]
+        md:w-[420px]
+        lg:left-[-100px]
+        lg:top-[-100px]
         lg:w-[520px]
       "
     >

@@ -395,7 +395,7 @@ export default function ProjectDetailPage() {
                   </div>
                 </div>
 
-                <div className="mt-6 grid gap-6 lg:grid-cols-3">
+                <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
                   <div className="lg:col-span-2">
                     <ProgressBar
                       value={calcProjectProgress(projectTasks)}

@@ -368,7 +368,7 @@ export default function TaskDetailPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid items-start gap-6 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
             <div className="space-y-6 xl:col-span-2">
               <section className="rounded-[28px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)] sm:p-8">
                 <div className="flex flex-wrap items-center gap-2">
@@ -495,7 +495,7 @@ export default function TaskDetailPage() {
                   التعليقات ({task.comments?.length || 0})
                 </h3>
 
-                <form onSubmit={handleAddComment} className="flex items-start gap-3">
+                <form onSubmit={handleAddComment} className="flex flex-col items-start gap-3">
                   <Avatar user={userMap.get(currentUser?.uid)} size={36} />
 
                   <div className="min-w-0 flex-1">

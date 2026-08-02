@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 import nodemailer from "nodemailer";
 
 const BRAND = {
@@ -197,10 +199,10 @@ export async function POST(request) {
     const { name, email, phone, message } = await request.json();
 
     if (!name || !email || !message) {
-      return Response.json(
-        { error: "الاسم والبريد الإلكتروني والرسالة مطلوبين." },
-        { status: 400 },
-      );
+    return NextResponse.json(
+      { error: "الاسم والبريد الإلكتروني والرسالة مطلوبين." },
+      { status: 400 },
+    );
     }
 
     const transporter = nodemailer.createTransport({
@@ -222,10 +224,10 @@ export async function POST(request) {
 
     await transporter.sendMail(mailOptions);
 
-    return Response.json({ success: true });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Contact API Error:", error);
-    return Response.json(
+    return NextResponse.json(
       { error: error.message || "حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى." },
       { status: 500 },
     );

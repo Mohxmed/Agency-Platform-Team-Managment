@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { Button, Input } from "@/shared/ui";
 import { GoogleButton } from "@/features/auth/components/GoogleButton";
@@ -224,11 +225,11 @@ export function SignupForm() {
       <GoogleButton onClick={handleGoogleClick} isLoading={isGoogleLoading} />
 
       <p className="text-center text-sm text-lo">
-        لديك حساب بالفعل؟{" "}
-        <a href={ROUTES.LOGIN} className="font-medium text-hi hover:underline">
-          سجل الدخول
-        </a>
-      </p>
+         لديك حساب بالفعل؟{" "}
+         <Link href={ROUTES.LOGIN} className="font-medium text-hi hover:underline">
+           سجل الدخول
+         </Link>
+       </p>
     </div>
   );
 }

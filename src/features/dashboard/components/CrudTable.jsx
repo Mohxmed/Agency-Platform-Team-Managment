@@ -32,6 +32,7 @@ import StatsCard from "@/features/dashboard/ui/StatsCard";
 import PageHero from "./PageHero";
 import { getThemeByName } from "@/constants/pageThemes";
 import { usePageTheme } from "../hooks/usePageTheme";
+import { useToast } from "@/hooks/useToast";
 
 export default function CrudTable({
   collectionName,
@@ -50,6 +51,7 @@ export default function CrudTable({
   accent,
 }) {
   const pageTheme = usePageTheme();
+  const { showToast } = useToast();
 
   const theme = accent
     ? typeof accent === "string"
@@ -378,7 +380,11 @@ export default function CrudTable({
     } catch (error) {
       console.error("Error saving document:", error);
 
-      alert(`حصل خطأ أثناء حفظ ${entityName}.`);
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: `تعذر حفظ ${entityName}.`,
+      });
     } finally {
       setSaving(false);
     }
@@ -398,10 +404,20 @@ export default function CrudTable({
 
     try {
       await removeDocument(collectionName, item.id);
+
+      showToast({
+        type: "success",
+        title: "تم الحذف",
+        message: `تم حذف ${entityName} بنجاح.`,
+      });
     } catch (error) {
       console.error("Error deleting document:", error);
 
-      alert(`حصل خطأ أثناء حذف ${entityName}.`);
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: `تعذر حذف ${entityName}.`,
+      });
     }
   }
 

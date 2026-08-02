@@ -8,7 +8,9 @@ export default function PwaRegister() {
     if (!("serviceWorker" in navigator)) return;
 
     const onLoad = () => {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
+      navigator.serviceWorker.register("/sw.js").catch(() => {
+        // Service worker not available — app continues without PWA support.
+      });
     };
 
     window.addEventListener("load", onLoad);

@@ -48,8 +48,8 @@ export async function PATCH(request, { params }) {
   try {
     const body = await request.json();
 
-    if (targetUid === uid && (body.disabled !== undefined || body.password !== undefined || body.role !== undefined)) {
-      return forbidden("لا يمكنك تعطيل حسابك أو تغيير بيانات الدخول لنفسك من هنا.");
+    if (targetUid === uid && (body.password !== undefined || body.role !== undefined)) {
+      return forbidden("لا يمكنك تغيير بيانات الدخول أو الصلاحية لحسابك من هنا.");
     }
 
     if (actorRole !== "admin") {

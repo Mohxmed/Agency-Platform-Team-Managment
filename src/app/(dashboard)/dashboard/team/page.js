@@ -226,7 +226,7 @@ export default function TeamPage() {
           </button>
         </PageHero>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
               href: "/dashboard/team/members",
@@ -299,7 +299,7 @@ export default function TeamPage() {
           </div>
         )}
 
-        <div className="grid items-start gap-6 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
           <div className="min-w-0 xl:col-span-2">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
@@ -337,7 +337,7 @@ export default function TeamPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {projects.map((project) => {
                   const projectTasks = tasksByProject[project.id] || [];
                   const progress = calcProjectProgress(projectTasks);

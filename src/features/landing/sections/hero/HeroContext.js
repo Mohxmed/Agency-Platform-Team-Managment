@@ -25,7 +25,7 @@ export default function HeroContent() {
 
       <motion.h1
         variants={itemReveal}
-        className="mt-6 text-4xl font-bold leading-[1.4] sm:text-5xl lg:text-6xl xl:text-7xl"
+        className="mt-4 text-2xl font-bold leading-[1.4] sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl"
       >
         <span className="text-primary-600">{siteName}</span>
         {" ومن "}
@@ -36,7 +36,7 @@ export default function HeroContent() {
 
       <motion.p
         variants={itemReveal}
-        className="mt-6 max-w-xl text-base leading-8 text-text-muted sm:text-lg lg:max-w-3xl lg:text-xl"
+        className="mt-4 max-w-lg text-sm leading-7 text-text-muted sm:text-base sm:leading-8 lg:max-w-3xl lg:text-xl"
       >
         {description}
       </motion.p>
