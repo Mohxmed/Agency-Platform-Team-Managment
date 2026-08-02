@@ -30,6 +30,8 @@ import logoIcon from "@/assets/identity/logo-icon.png";
 import { useSidebar } from "@/providers/SidebarProvider";
 import { useAuth } from "@/features/auth";
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
+import { useTeamData } from "@/features/team/hooks/useTeamData";
+import { getAssigneeId } from "@/features/team/lib/teamUtils";
 
 import { getPermissionsForProfile, roleConfig } from "@/constants/permissions";
 
@@ -122,6 +124,22 @@ export default function Sidebar({ open, onClose }) {
   const { collapsed, toggleSidebar } = useSidebar();
 
   const theme = usePageTheme();
+
+  const { tasks } = useTeamData();
+
+  /* =======================================================
+     MY TASKS COUNT
+  ======================================================= */
+
+  const profileId = profile?.uid || profile?.id || user?.uid || "";
+
+  const myTasksCount = useMemo(() => {
+    if (!profileId) return 0;
+    return tasks.filter(
+      (task) =>
+        getAssigneeId(task) === profileId && task.status !== "done",
+    ).length;
+  }, [tasks, profileId]);
 
   const [openSections, setOpenSections] = useState(() => {
     const initial = {};
@@ -356,7 +374,33 @@ export default function Sidebar({ open, onClose }) {
           `}
         />
 
-        {!collapsed && <span className="ml-4 font-medium">{item.title}</span>}
+        {!collapsed && <span className="ml-4 flex-1 font-medium">{item.title}</span>}
+
+        {!collapsed &&
+          item.href === "/dashboard/team/my-tasks" &&
+          myTasksCount > 0 && (
+            <span
+              className={`
+                inline-flex
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                px-2
+                py-0.5
+                text-[10px]
+                font-black
+                leading-none
+                ${
+                  active
+                    ? `${theme.bgSoft} ${theme.text}`
+                    : "bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+                }
+              `}
+            >
+              {myTasksCount}
+            </span>
+          )}
       </Link>
     );
   };
