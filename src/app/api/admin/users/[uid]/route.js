@@ -81,7 +81,10 @@ export async function PATCH(request, { params }) {
       message = "كلمة المرور غير صالحة.";
     }
 
-    return NextResponse.json({ error: message, code }, { status: 400 });
+    return NextResponse.json(
+      { error: message, code, detail: error.message || "" },
+      { status: 400 },
+    );
   }
 }
 
@@ -112,7 +115,11 @@ export async function DELETE(request, { params }) {
       return notFound();
     }
     return NextResponse.json(
-      { error: "حصل خطأ أثناء حذف الحساب.", code },
+      {
+        error: "حصل خطأ أثناء حذف الحساب.",
+        code,
+        detail: error.message || "",
+      },
       { status: 400 },
     );
   }

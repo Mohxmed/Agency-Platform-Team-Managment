@@ -435,7 +435,10 @@ export default function UsersPage() {
           showToast({
             type: "error",
             title: "فشل الحذف",
-            message: result.data.error || "حصل خطأ أثناء حذف الحساب.",
+            message:
+              result.data.error ||
+              "حصل خطأ أثناء حذف الحساب.",
+            detail: result.data.detail || "",
           });
 
           return;

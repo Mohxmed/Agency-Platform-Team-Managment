@@ -459,7 +459,7 @@ export default function ProjectDetailPage() {
                               className="flex items-center justify-between gap-2"
                             >
                               <span className="text-[11px] font-semibold text-ink/50">
-                                {label}
+                                {labelAr}
                               </span>
 
                               <div className="flex h-5 min-w-5 items-center justify-center rounded-md bg-ink/[0.05] px-1.5 text-[10px] font-black text-ink/60">
