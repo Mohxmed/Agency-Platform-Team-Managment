@@ -30,7 +30,6 @@ export default function HeroContent() {
         <span className="text-primary-600">{siteName}</span>
         {" ومن "}
         <HighlightText>أول السطر،</HighlightText>
-        <br />
         <span>هنبدأ حكايات جديدة!</span>
       </motion.h1>
 
