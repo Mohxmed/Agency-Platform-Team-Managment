@@ -1,40 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { ROUTES } from "@/constants/routes";
-
-const SESSION_COOKIE = "session";
-
-function loginUrl(request, pathname) {
-  const url = new URL(ROUTES.LOGIN, request.url);
-  url.searchParams.set("redirect", pathname);
-  return url;
-}
-
-// Lightweight guard. It never imports heavy server-only SDKs (firebase-admin)
-// nor makes outbound verification calls, so it stays fast and crash-proof on
-// the serverless/edge runtime. Real session/authorisation verification runs
-// server-side in /api/auth/session and client-side in <ProtectedRoute>.
-export function proxy(request) {
-  const { pathname } = request.nextUrl;
-
-  // Require a session cookie to enter the dashboard.
-  if (pathname.startsWith(ROUTES.DASHBOARD)) {
-    const hasSession = Boolean(request.cookies.get(SESSION_COOKIE)?.value);
-    if (!hasSession) {
-      return NextResponse.redirect(loginUrl(request, pathname));
-    }
-    return NextResponse.next();
-  }
-
-  // Signed-in users do not need to see the auth pages.
-  if (pathname.startsWith("/auth/")) {
-    const hasSession = Boolean(request.cookies.get(SESSION_COOKIE)?.value);
-    if (hasSession) {
-      return NextResponse.redirect(new URL(ROUTES.DASHBOARD, request.url));
-    }
-    return NextResponse.next();
-  }
-
+// Pure pass-through middleware.
+//
+// Server-side auth is handled by <ProtectedRoute> (client) and /api/auth/session
+// (server). Enforcing the session cookie here caused two classes of failures on
+// Vercel: a 500 when firebase-admin was imported, and redirect loops that
+// bounced successful logins back to /auth/login when the cookie wasn't set.
+// Keeping this file dependency-free and as next() avoids both problems.
+export function proxy() {
   return NextResponse.next();
 }
 
