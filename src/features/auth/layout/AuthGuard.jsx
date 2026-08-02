@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth";
 import { ROUTES } from "@/constants/routes";
 
 export default function AuthGuard({ children }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace(ROUTES.LOGIN);
+      router.replace(
+        `${ROUTES.LOGIN}?redirect=${encodeURIComponent(pathname)}`,
+      );
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, pathname]);
 
   // لسه بنعرف حالة المستخدم
   if (loading) {

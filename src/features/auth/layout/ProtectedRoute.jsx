@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
-import { getPermissionsForRole } from "@/constants/permissions";
+import { getPermissionsForProfile } from "@/constants/permissions";
 
 export default function ProtectedRoute({ children, permission }) {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function ProtectedRoute({ children, permission }) {
 
     // لو الصفحة محتاجة Permission
     if (permission) {
-      const permissions = getPermissionsForRole(profile.role);
+      const permissions = getPermissionsForProfile(profile);
 
       const allowed = permissions?.[permission] === true;
 
@@ -99,7 +99,7 @@ export default function ProtectedRoute({ children, permission }) {
   ========================================================= */
 
   if (permission) {
-    const permissions = getPermissionsForRole(profile.role);
+    const permissions = getPermissionsForProfile(profile);
 
     const allowed = permissions?.[permission] === true;
 

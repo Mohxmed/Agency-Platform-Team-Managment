@@ -273,6 +273,50 @@ export function createNotification({
 }
 
 /* ============================================================
+   NOTIFY USER (respects notifications settings toggles)
+============================================================ */
+
+export async function notifyUser({
+  userId,
+  title,
+  message,
+  type = "info",
+  link = "",
+  projectId = "",
+  projectTitle = "",
+  eventKey = "",
+}) {
+  if (!userId || !title || !message) return;
+
+  try {
+    const { fetchSettings } = await import("@/lib/settingsCache");
+    const settings = await fetchSettings();
+
+    const toggles = settings?.notifications || {};
+
+    if (toggles.enabled === false) return;
+
+    if (eventKey && toggles[eventKey] === false) return;
+  } catch {
+    // Best-effort: notification failures (including settings read) are silent.
+  }
+
+  try {
+    return createNotification({
+      userId,
+      title,
+      message,
+      type,
+      link,
+      projectId,
+      projectTitle,
+    });
+  } catch {
+    // Best-effort.
+  }
+}
+
+/* ============================================================
    MARK NOTIFICATION AS READ
 ============================================================ */
 

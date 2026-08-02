@@ -5,6 +5,31 @@ import { getDocumentById, setDocument } from "@/lib/firestoreService";
 import { clearSettingsCache } from "@/lib/settingsCache";
 import { useToast } from "@/hooks/useToast";
 
+function isObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
+function mergeDeep(base, override) {
+  if (!isObject(base) || !isObject(override)) {
+    return override === undefined ? base : override;
+  }
+
+  const result = { ...base };
+
+  Object.keys(override).forEach((key) => {
+    const baseValue = base[key];
+    const overrideValue = override[key];
+
+    if (isObject(baseValue) && isObject(overrideValue)) {
+      result[key] = mergeDeep(baseValue, overrideValue);
+    } else {
+      result[key] = overrideValue;
+    }
+  });
+
+  return result;
+}
+
 export function useSettingsDashboard(defaults) {
   const { showToast } = useToast();
   const [settings, setSettings] = useState(defaults);
@@ -12,18 +37,21 @@ export function useSettingsDashboard(defaults) {
   const [saving, setSaving] = useState(false);
   const loaded = useRef(false);
 
-  const load = useCallback(async () => {
-    if (loaded.current) return;
-    loaded.current = true;
-    try {
-      const data = await getDocumentById("settings", "site");
-      if (data) {
-        setSettings({ ...defaults, ...data });
+  const load = useCallback(
+    async (force = false) => {
+      if (!force && loaded.current) return;
+      if (!force) loaded.current = true;
+      try {
+        const data = await getDocumentById("settings", "site");
+        if (data) {
+          setSettings((prev) => mergeDeep(force ? defaults : prev, data));
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  }, [defaults]);
+    },
+    [defaults],
+  );
 
   const save = useCallback(
     async (data) => {
@@ -32,7 +60,10 @@ export function useSettingsDashboard(defaults) {
       try {
         await setDocument("settings", "site", data);
         clearSettingsCache();
-        setSettings((prev) => ({ ...prev, ...data }));
+        setSettings((prev) => mergeDeep(prev, data));
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("settings-updated"));
+        }
         showToast({
           type: "success",
           title: "تم الحفظ بنجاح",

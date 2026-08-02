@@ -15,7 +15,7 @@ const EMPTY = {
   contactSectionAddress: "",
   contactSectionMapLink: "",
   contactSectionWhatsapp: "",
-  social: { facebook: "", instagram: "", linkedin: "", youtube: "", tiktok: "" },
+  social: { facebook: "", instagram: "", linkedin: "", youtube: "", tiktok: "", twitter: "" },
   sections: { hero: true, clients: true, works: true, services: true, contact: true, social: true },
   content: {
     hero: {
@@ -57,8 +57,8 @@ const EMPTY = {
     googleVerification: "",
     robots: "",
   },
-  notifications: { projectStatus: true, teamUpdates: true, deadlines: true, newProjects: true, tasks: true },
-  system: { maintenanceMode: false, language: "ar", currency: "EGP", maintenanceTitle: "", maintenanceMessage: "" },
+  notifications: { enabled: true, projectStatus: true, teamUpdates: true, deadlines: true, newProjects: true, tasks: true },
+  system: { maintenanceMode: false, currency: "EGP", maintenanceTitle: "", maintenanceMessage: "" },
   auth: { allowRegistration: true },
 };
 
@@ -91,6 +91,18 @@ export function SettingsProvider({ children }) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
 
+  // Refetch settings whenever the dashboard saves them.
+  useEffect(() => {
+    const handleSettingsUpdated = () => {
+      clearSettingsCache();
+      load();
+    };
+    window.addEventListener("settings-updated", handleSettingsUpdated);
+    return () => {
+      window.removeEventListener("settings-updated", handleSettingsUpdated);
+    };
+  }, [load]);
+
   const refetch = useCallback(() => {
     clearSettingsCache();
     return load();
@@ -114,10 +126,12 @@ export function useSettings() {
 function deepMerge(defaults, overrides) {
   const result = { ...defaults };
   for (const key of Object.keys(overrides)) {
-    if (overrides[key] && typeof overrides[key] === "object" && !Array.isArray(overrides[key])) {
-      result[key] = { ...defaults[key], ...overrides[key] };
-    } else if (overrides[key] !== undefined) {
-      result[key] = overrides[key];
+    const value = overrides[key];
+    if (value === undefined) continue;
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      result[key] = deepMerge(defaults[key] || {}, value);
+    } else {
+      result[key] = value;
     }
   }
   return result;

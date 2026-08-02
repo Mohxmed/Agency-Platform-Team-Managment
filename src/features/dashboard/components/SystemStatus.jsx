@@ -68,7 +68,7 @@ export default function SystemStatus() {
                 وضع الصيانة مفعّل
               </p>
               <p className="mt-0.5 text-[11px] leading-5 text-red-600/70">
-                الزوار مش هيشوفوا الموقع حاليًا.
+                الموقع غير متاح للزوار حاليًا.
               </p>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function SystemStatus() {
                 التسجيل الجديد موقوف
               </p>
               <p className="mt-0.5 text-[11px] leading-5 text-amber-600/70">
-                الزوار مش قادرين ينشئوا حسابات جديدة.
+                الزوار لا يمكنهم إنشاء حسابات جديدة.
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function SystemStatus() {
                 الموقع يعمل بشكل طبيعي
               </p>
               <p className="mt-0.5 text-[11px] leading-5 text-green-600/70">
-                مفيش مشاكل في الإعدادات الحالية.
+                لا توجد مشاكل في الإعدادات الحالية.
               </p>
             </div>
           </div>

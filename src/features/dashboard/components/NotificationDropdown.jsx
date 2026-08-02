@@ -9,6 +9,7 @@ import {
   BriefcaseBusiness,
   Users,
   PackageCheck,
+  ListChecks,
   AlertCircle,
   Info,
 } from "lucide-react";
@@ -107,6 +108,12 @@ export default function NotificationDropdown() {
         return {
           icon: PackageCheck,
           className: "bg-emerald-50 text-emerald-600",
+        };
+
+      case "task":
+        return {
+          icon: ListChecks,
+          className: "bg-sky-50 text-sky-600",
         };
 
       case "warning":
@@ -285,7 +292,7 @@ export default function NotificationDropdown() {
                 <p className="mt-1 text-[11px] text-gray-400">
                   {unreadCount > 0
                     ? `لديك ${unreadCount} إشعار غير مقروء`
-                    : "لا توجد إشععارات جديدة"}
+                    : "لا توجد إشعارات جديدة"}
                 </p>
               </div>
 
@@ -377,7 +384,7 @@ export default function NotificationDropdown() {
                   </div>
 
                   <p className="mt-4 text-sm font-bold text-ink">
-                    مفيش إشعارات
+                    لا توجد إشعارات
                   </p>
 
                   <p className="mt-1 max-w-[230px] text-xs leading-5 text-gray-400">

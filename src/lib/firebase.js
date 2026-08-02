@@ -15,8 +15,21 @@ const firebaseConfig = {
 };
 
 if (typeof window !== "undefined") {
-  console.log("Firebase Project:", process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
-  console.log("Firebase API Key:", !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+  const missing = [
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+    "NEXT_PUBLIC_FIREBASE_API_KEY",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
+    "NEXT_PUBLIC_FIREBASE_APP_ID",
+  ].filter((key) => !process.env[key]);
+
+  if (missing.length > 0) {
+    console.error(
+      "Firebase is not configured. Missing env variables:",
+      missing.join(", "),
+    );
+  }
 }
 
 function createApp() {

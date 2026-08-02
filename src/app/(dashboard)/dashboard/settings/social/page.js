@@ -2,14 +2,14 @@
 
 import { useEffect } from "react";
 import { Share2, Save } from "lucide-react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaTiktok } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import Button from "@/features/dashboard/ui/Button";
 import Input from "@/features/dashboard/ui/Input";
 import { SettingsCard } from "@/features/dashboard/ui/SettingsCard";
 import { useSettingsDashboard } from "@/hooks/useSettingsDashboard";
 
 const defaults = {
-  social: { facebook: "", instagram: "", linkedin: "", youtube: "", tiktok: "" },
+  social: { facebook: "", instagram: "", linkedin: "", youtube: "", tiktok: "", twitter: "" },
 };
 
 const socialFields = [
@@ -18,6 +18,7 @@ const socialFields = [
   { key: "linkedin", label: "LinkedIn", icon: FaLinkedin, placeholder: "https://linkedin.com/in/..." },
   { key: "youtube", label: "YouTube", icon: FaYoutube, placeholder: "https://youtube.com/..." },
   { key: "tiktok", label: "TikTok", icon: FaTiktok, placeholder: "https://tiktok.com/@..." },
+  { key: "twitter", label: "X (Twitter)", icon: FaXTwitter, placeholder: "https://x.com/..." },
 ];
 
 export default function SocialSettingsPage() {

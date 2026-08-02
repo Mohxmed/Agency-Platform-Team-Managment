@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -40,7 +40,7 @@ export default function EditMemberPage() {
   const params = useParams();
   const memberId = params?.id;
 
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, profile: currentProfile } = useAuth();
   const { users, userMap, loading } = useTeamData();
   const { showToast } = useToast();
 
@@ -61,11 +61,14 @@ export default function EditMemberPage() {
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
 
+  const synced = useRef(false);
+
   useEffect(() => {
-    if (!member) return;
+    if (!member || synced.current) return;
     const profile = userMap.get(memberId);
-    // Sync the form when the member data arrives from the live subscription.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // Sync the form only once when the member data first arrives, so the
+    // live subscription never overwrites the admin's in-progress edits.
+    synced.current = true;
     setForm({
       name: member.name || profile?.name || "",
       email: member.email || profile?.email || "",
@@ -76,6 +79,14 @@ export default function EditMemberPage() {
       status: member.status === "inactive" ? "inactive" : "active",
     });
   }, [member, memberId, userMap]);
+
+  const isAdmin = currentProfile?.role === "admin";
+
+  const roleOptions = ROLE_OPTIONS.filter(
+    (option) => isAdmin || option.value !== "admin",
+  );
+
+  const editingAdmin = member?.role === "admin" && !isAdmin;
 
   const update = (name, value) => {
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -256,15 +267,23 @@ export default function EditMemberPage() {
                   label="الدور"
                   value={form.role}
                   onChange={(e) => update("role", e.target.value)}
-                  options={ROLE_OPTIONS}
+                  options={roleOptions}
+                  disabled={editingAdmin}
                 />
                 <Select
                   label="الحالة"
                   value={form.status}
                   onChange={(e) => update("status", e.target.value)}
                   options={STATUS_OPTIONS}
+                  disabled={editingAdmin}
                 />
               </div>
+
+              {editingAdmin && (
+                <p className="text-xs font-semibold text-amber-600 sm:col-span-2">
+                  لا يمكنك تعديل دور أو حالة مسؤول النظام من حساب مدير.
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-ink/[0.07] pt-6">

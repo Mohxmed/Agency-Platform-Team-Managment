@@ -87,8 +87,6 @@ export function SignupForm() {
         password,
       });
 
-      console.log("Register result:", result);
-
       if (result.error) {
         setFormError(result.error);
         return;
@@ -115,8 +113,6 @@ export function SignupForm() {
 
     try {
       const result = await loginWithGoogle();
-
-      console.log("Google result:", result);
 
       if (result.error) {
         setFormError(result.error);
@@ -228,7 +224,7 @@ export function SignupForm() {
       <GoogleButton onClick={handleGoogleClick} isLoading={isGoogleLoading} />
 
       <p className="text-center text-sm text-lo">
-        عندك بالفعل حساب؟{" "}
+        لديك حساب بالفعل؟{" "}
         <a href={ROUTES.LOGIN} className="font-medium text-hi hover:underline">
           سجل الدخول
         </a>

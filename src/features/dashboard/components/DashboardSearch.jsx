@@ -42,18 +42,18 @@ const SEARCH_ITEMS = [
   },
 
   {
-    title: "المستخدمين",
-    description: "إدارة مستخدمي النظام",
-    keywords: "users user مستخدمين مستخدم accounts",
-    href: "/dashboard/users",
+    title: "المستخدمون",
+    description: "إدارة مستخدمي النظام والأدوار",
+    keywords: "users user مستخدمين مستخدم accounts صلاحيات",
+    href: "/dashboard/settings/users",
     icon: Users,
   },
 
   {
-    title: "الرسائل",
-    description: "عرض رسائل وتواصل المستخدمين",
-    keywords: "messages message contact رسائل رسالة تواصل",
-    href: "/dashboard/messages",
+    title: "بيانات التواصل",
+    description: "البريد والهاتف والعنوان والخرائط",
+    keywords: "messages message contact رسائل رسالة تواصل بيانات",
+    href: "/dashboard/settings/contact",
     icon: MessageSquare,
   },
 

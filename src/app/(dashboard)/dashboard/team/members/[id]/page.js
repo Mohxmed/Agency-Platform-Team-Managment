@@ -55,6 +55,7 @@ const ROLE_LABELS = {
   manager: "مدير",
   member: "عضو فريق",
   viewer: "زائر",
+  custom: "صلاحيات مخصصة",
 };
 
 export default function MemberReportPage() {
@@ -317,7 +318,7 @@ export default function MemberReportPage() {
         <Card>
           <h3 className="text-lg font-bold text-ink mb-4">إجراءات سريعة</h3>
           <div className="space-y-2">
-            <Button className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team/tasks?assignee=${memberId}`}>
+            <Button className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team`}>
               <Briefcase className="h-4 w-4" />
               عرض جميع المهام
             </Button>
@@ -346,7 +347,7 @@ export default function MemberReportPage() {
       <Card>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-ink">آخر المهام</h3>
-          <Button variant="outline" size="sm" onClick={() => window.location.href = `/dashboard/team/tasks?assignee=${memberId}`}>
+          <Button variant="outline" size="sm" onClick={() => window.location.href = `/dashboard/team`}>
             عرض الكل
             <ExternalLink className="h-3.5 w-3.5 ml-1" />
           </Button>
@@ -356,7 +357,7 @@ export default function MemberReportPage() {
           <div className="text-center py-12">
             <Briefcase className="h-12 w-12 mx-auto text-ink/20" />
             <p className="mt-3 text-ink/50">لا توجد مهام مسندة لهذا العضو بعد.</p>
-            <Button className="mt-4" onClick={() => window.location.href = `/dashboard/team/tasks/new?assignee=${memberId}`}>
+            <Button className="mt-4" onClick={() => window.location.href = `/dashboard/team`}>
               إنشاء مهمة جديدة
             </Button>
           </div>

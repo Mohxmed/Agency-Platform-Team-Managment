@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/features/auth";
-import { getPermissionsForRole } from "@/constants/permissions";
+import { getPermissionsForProfile } from "@/constants/permissions";
 
 import StatsGrid from "./StatsGrid";
 import QuickActions from "./QuickActions";
@@ -12,7 +12,7 @@ import PendingTasks from "./PendingTasks";
 export default function CmsOverview() {
   const { profile } = useAuth();
 
-  const permissions = profile ? getPermissionsForRole(profile.role) : {};
+  const permissions = profile ? getPermissionsForProfile(profile) : {};
 
   // Site-management sections stay relevant for roles that can actually manage
   // the website (admin/manager). Members and viewers only get the team view.

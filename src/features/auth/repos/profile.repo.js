@@ -27,6 +27,8 @@ export async function createProfile(user, extraData = {}) {
     ...PROFILE_DEFAULTS,
     role: extraData.role || PROFILE_DEFAULTS.role,
     status: extraData.status || PROFILE_DEFAULTS.status,
+    permissions:
+      extraData.permissions || extraData.permissionKeys || PROFILE_DEFAULTS.permissions,
     logo: extraData.logo || user.photoURL || "",
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),

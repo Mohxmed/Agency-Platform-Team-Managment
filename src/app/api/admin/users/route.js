@@ -2,10 +2,10 @@ export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 
 import { adminAuth, isAdminConfigured } from "@/lib/firebaseAdmin";
-import { assertAdminRole } from "./_helpers";
+import { assertTeamRole } from "./_helpers";
 
 export async function POST(request) {
-  const guard = await assertAdminRole(request);
+  const guard = await assertTeamRole(request);
   if (guard instanceof NextResponse) return guard;
 
   if (!isAdminConfigured()) {

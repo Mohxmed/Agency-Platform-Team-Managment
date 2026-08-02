@@ -9,7 +9,7 @@ import { SettingsCard, ToggleRow } from "@/features/dashboard/ui/SettingsCard";
 import { useSettingsDashboard } from "@/hooks/useSettingsDashboard";
 
 const defaults = {
-  system: { maintenanceMode: false, language: "ar", currency: "EGP", maintenanceTitle: "", maintenanceMessage: "" },
+  system: { maintenanceMode: false, currency: "EGP", maintenanceTitle: "", maintenanceMessage: "" },
 };
 
 export default function SystemSettingsPage() {
@@ -20,7 +20,7 @@ export default function SystemSettingsPage() {
   if (loading) return <div className="h-64 animate-pulse rounded-[24px] bg-ink/[0.035]" />;
 
   return (
-    <SettingsCard icon={ShieldCheck} title="النظام والأمان" description="إعدادات تشغيل الموقع: الصيانة واللغة والعملة.">
+    <SettingsCard icon={ShieldCheck} title="النظام والأمان" description="إعدادات تشغيل الموقع: الصيانة والعملة.">
       <div className="space-y-3">
         <ToggleRow
           title="وضع الصيانة"
@@ -48,11 +48,7 @@ export default function SystemSettingsPage() {
         </div>
       )}
 
-      <div className="mt-6 grid gap-5 sm:grid-cols-2">
-        <Select label="لغة الموقع" value={settings.system.language}
-          options={[{ value: "ar", label: "العربية" }, { value: "en", label: "English" }]}
-          onChange={(e) => updateNested("system", "language", e.target.value)}
-        />
+      <div className="mt-6">
         <Select label="العملة" value={settings.system.currency}
           options={[{ value: "EGP", label: "جنيه مصري (EGP)" }, { value: "USD", label: "دولار أمريكي (USD)" }, { value: "EUR", label: "يورو (EUR)" }]}
           onChange={(e) => updateNested("system", "currency", e.target.value)}

@@ -96,6 +96,20 @@ export function getPermissionsForRole(role) {
   return ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS[ROLES.VIEWER];
 }
 
+export function getPermissionsForProfile(profile) {
+  if (!profile) return ROLE_PERMISSIONS[ROLES.VIEWER];
+
+  if (profile.role === "custom" && Array.isArray(profile.permissions)) {
+    const map = {};
+    Object.keys(PERMISSIONS).forEach((key) => {
+      map[PERMISSIONS[key]] = profile.permissions.includes(PERMISSIONS[key]);
+    });
+    return map;
+  }
+
+  return getPermissionsForRole(profile.role);
+}
+
 export const roleConfig = {
   admin: {
     label: "مسؤول",
@@ -115,6 +129,11 @@ export const roleConfig = {
   viewer: {
     label: "زائر",
     className: "text-gray-500",
+  },
+
+  custom: {
+    label: "صلاحيات مخصصة",
+    className: "text-purple-600",
   },
 
   default: {

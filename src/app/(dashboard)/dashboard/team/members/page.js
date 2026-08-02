@@ -35,6 +35,7 @@ const ROLE_LABELS = {
   manager: "مدير",
   member: "عضو فريق",
   viewer: "زائر",
+  custom: "صلاحيات مخصصة",
 };
 
 const ROLE_BADGES = {
@@ -42,6 +43,7 @@ const ROLE_BADGES = {
   manager: "warning",
   member: "secondary",
   viewer: "neutral",
+  custom: "secondary",
 };
 
 export default function TeamMembersPage() {

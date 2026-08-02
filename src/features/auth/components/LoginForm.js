@@ -110,6 +110,15 @@ function LoginFormInner() {
               setPassword(e.target.value);
             }}
           />
+
+          <div className="flex items-center justify-end">
+            <Link
+              href={ROUTES.FORGOT_PASSWORD}
+              className="text-xs font-medium text-lo hover:text-hi hover:underline"
+            >
+              نسيت كلمة المرور؟
+            </Link>
+          </div>
           {error && (
             <p
               role="alert"
@@ -134,7 +143,7 @@ function LoginFormInner() {
       <GoogleButton onClick={handleGoogleLogin} isLoading={googleLoading} />
 
       <p className="text-center text-sm text-lo">
-        معندكش حساب؟{" "}
+        ليس لديك حساب؟{" "}
         <Link
           href={ROUTES.SIGNUP}
           className="font-medium text-hi hover:underline"

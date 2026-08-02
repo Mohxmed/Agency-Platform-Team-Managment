@@ -10,7 +10,7 @@ import {
   FolderKanban,
 } from "lucide-react";
 import { useAuth } from "@/features/auth";
-import { getPermissionsForRole } from "@/constants/permissions";
+import { getPermissionsForProfile } from "@/constants/permissions";
 
 const actions = [
   {
@@ -35,7 +35,7 @@ const actions = [
     description: "أضف خدمة جديدة إلى قائمة خدمات الموقع.",
     icon: Layers,
     href: "/dashboard/services",
-    permission: "profiles",
+    permission: "services",
   },
   {
     id: "pricing",
@@ -67,7 +67,7 @@ export default function QuickActions() {
   const router = useRouter();
   const { profile } = useAuth();
 
-  const permissions = profile ? getPermissionsForRole(profile.role) : {};
+  const permissions = profile ? getPermissionsForProfile(profile) : {};
 
   const visibleActions = actions.filter(
     (action) => permissions[action.permission] === true,

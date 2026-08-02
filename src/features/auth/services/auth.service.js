@@ -118,4 +118,13 @@ export async function logout() {
   return authRepository.logout();
 }
 
+export async function sendPasswordResetEmail(email) {
+  try {
+    await authRepository.sendPasswordReset(email);
+    return { error: null };
+  } catch (error) {
+    return { error: getAuthErrorMessage(error) };
+  }
+}
+
 export const subscribeToAuthChanges = authRepository.subscribe;

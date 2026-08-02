@@ -18,4 +18,5 @@ export const PROFILE_DEFAULTS = {
   stats: [],
   role: ROLES.MEMBER,
   status: "active",
+  permissions: [],
 };

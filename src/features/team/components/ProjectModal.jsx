@@ -9,7 +9,7 @@ import Button from "@/features/dashboard/ui/Button";
 import Input, { Textarea, Select } from "@/features/dashboard/ui/Input";
 import Avatar from "@/features/dashboard/ui/Avatar";
 
-import { createDocument, updateDocument } from "@/lib/firestoreService";
+import { createDocument, updateDocument, notifyUser } from "@/lib/firestoreService";
 import { useAuth } from "@/features/auth";
 
 import { WORKFLOW_STATUSES, PRIORITIES } from "@/constants/workflow";
@@ -101,13 +101,51 @@ export default function ProjectModal({
       };
 
       if (editing) {
+        const previousMembers = Array.isArray(editing.memberProfileIds)
+          ? editing.memberProfileIds
+          : Array.isArray(editing.teamMemberIds)
+            ? editing.teamMemberIds
+            : [];
+
         await updateDocument("teamProjects", editing.id, payload);
+
+        const newlyAdded = form.memberProfileIds.filter(
+          (id) => !previousMembers.includes(id) && id !== currentUser?.uid,
+        );
+
+        newlyAdded.forEach((memberId) => {
+          notifyUser({
+            userId: memberId,
+            title: "انضممت إلى مشروع جديد",
+            message: `تمت إضافتك إلى مشروع "${payload.title}".`,
+            type: "project",
+            link: `/dashboard/team/projects/${editing.id}`,
+            projectId: editing.id,
+            projectTitle: payload.title,
+            eventKey: "newProjects",
+          });
+        });
       } else {
-        await createDocument("teamProjects", {
+        const projectRef = await createDocument("teamProjects", {
           ...payload,
           createdBy: currentUser?.uid || "",
           ownerProfileId: currentUser?.uid || "",
         });
+
+        form.memberProfileIds
+          .filter((id) => id !== currentUser?.uid)
+          .forEach((memberId) => {
+            notifyUser({
+              userId: memberId,
+              title: "انضممت إلى مشروع جديد",
+              message: `تمت إضافتك إلى مشروع "${payload.title}".`,
+              type: "project",
+              link: `/dashboard/team/projects/${projectRef.id}`,
+              projectId: projectRef.id,
+              projectTitle: payload.title,
+              eventKey: "newProjects",
+            });
+          });
       }
 
       onSaved?.();

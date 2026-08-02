@@ -11,9 +11,9 @@ export const metadata = {
 export default function SignupPage() {
   return (
     <AuthLayout
-      eyebrow="نبدأ من الأول"
+      eyebrow="ابدأ الآن"
       title="إنشاء حساب في نقطة"
-      subtitle="انضم لينا عشان تكون جزء من نجاحانا"
+      subtitle="أنشئ حسابك وابدأ رحلتك معنا."
     >
       <SignupForm />
     </AuthLayout>

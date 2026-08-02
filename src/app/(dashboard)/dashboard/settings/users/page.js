@@ -34,6 +34,24 @@ import {
 import { useAuth, ProtectedRoute } from "@/features/auth";
 import { createProfile } from "@/features/auth/repos/profile.repo";
 import { useToast } from "@/hooks/useToast";
+import { PERMISSIONS, ROLE_PERMISSIONS } from "@/constants/permissions";
+
+const PERMISSION_META = {
+  dashboard: { title: "لوحة التحكم", description: "الوصول للـ Dashboard" },
+  content: { title: "المحتوى", description: "إدارة محتوى الموقع" },
+  portfolio: { title: "معرض الأعمال", description: "إدارة المشاريع والأعمال" },
+  categories: { title: "التصنيفات", description: "إدارة تصنيفات الموقع" },
+  clients: { title: "العملاء", description: "إدارة بيانات العملاء" },
+  services: { title: "الخدمات", description: "إدارة خدمات الموقع" },
+  settings: { title: "الإعدادات", description: "تعديل إعدادات الموقع" },
+  users: { title: "المستخدمون", description: "إدارة مستخدمي النظام" },
+  team: { title: "الفريق", description: "إدارة أعضاء الفريق والمهام" },
+  "my-tasks": { title: "مهامي", description: "متابعة المهام المسندة إليك" },
+  projects: { title: "المشاريع", description: "إدارة مشاريع الفريق" },
+  tasks: { title: "المهام", description: "إدارة مهام الفريق" },
+  progress: { title: "التقدم", description: "متابعة تقارير التقدم" },
+  notifications: { title: "الإشعارات", description: "استلام إشعارات النظام" },
+};
 
 /* =========================================================
    ADMIN API HELPER
@@ -71,10 +89,19 @@ const DEFAULT_USER = {
 
   permissions: {
     dashboard: true,
-    projects: false,
-    team: false,
-    users: false,
+    content: false,
+    portfolio: false,
+    categories: false,
+    clients: false,
+    services: false,
     settings: false,
+    users: false,
+    team: false,
+    "my-tasks": true,
+    projects: true,
+    tasks: true,
+    progress: false,
+    notifications: false,
   },
 };
 
@@ -99,61 +126,11 @@ const ROLE_OPTIONS = [
     value: "viewer",
     label: "زائر",
   },
+  {
+    value: "custom",
+    label: "مخصص",
+  },
 ];
-
-/* =========================================================
-   ROLE PERMISSIONS
-========================================================= */
-
-const ROLE_PERMISSIONS = {
-  admin: {
-    dashboard: true,
-    content: true,
-    projects: true,
-    team: true,
-    users: true,
-    settings: true,
-    "my-tasks": true,
-    tasks: true,
-    progress: true,
-  },
-
-  manager: {
-    dashboard: true,
-    content: false,
-    projects: true,
-    team: true,
-    "my-tasks": true,
-    tasks: true,
-    progress: true,
-    users: false,
-    settings: false,
-  },
-
-  member: {
-    dashboard: true,
-    content: false,
-    projects: true,
-    team: false,
-    "my-tasks": true,
-    tasks: true,
-    progress: false,
-    users: false,
-    settings: false,
-  },
-
-  viewer: {
-    dashboard: true,
-    content: false,
-    projects: false,
-    team: false,
-    "my-tasks": false,
-    tasks: false,
-    progress: false,
-    users: false,
-    settings: false,
-  },
-};
 
 /* =========================================================
    STATUS
@@ -285,6 +262,10 @@ export default function UsersPage() {
       const permissions =
         role === "custom" ? formData.permissions : ROLE_PERMISSIONS[role];
 
+      const permissionKeys = Object.keys(permissions).filter(
+        (key) => permissions[key],
+      );
+
       const payload = {
         name: formData.name?.trim() || "",
 
@@ -295,6 +276,8 @@ export default function UsersPage() {
         status: formData.status || "active",
 
         permissions,
+
+        permissionKeys,
 
         updatedAtClient: new Date().toISOString(),
       };
@@ -333,6 +316,8 @@ export default function UsersPage() {
             email: payload.email,
             role,
             status: payload.status,
+            permissionKeys: payload.permissionKeys,
+            permissions: role === "custom" ? payload.permissions : null,
             updatedAtClient: payload.updatedAtClient,
           });
         }
@@ -381,6 +366,7 @@ export default function UsersPage() {
             name: payload.name,
             role,
             status: payload.status,
+            permissionKeys: payload.permissionKeys,
           },
         );
       }
@@ -1156,6 +1142,12 @@ function RoleBadge({ role }) {
       icon: UserRound,
       className: "bg-emerald-500/10 text-emerald-600",
     },
+
+    custom: {
+      label: "مخصص",
+      icon: LockKeyhole,
+      className: "bg-purple-500/10 text-purple-600",
+    },
   };
 
   const current = data[role] || data.member;
@@ -1228,6 +1220,9 @@ function PermissionSummary({ permissions = {} }) {
     dashboard: "لوحة التحكم",
     content: "إدارة الموقع",
     portfolio: "المحفظة",
+    categories: "التصنيفات",
+    clients: "العملاء",
+    services: "الخدمات",
     projects: "المشاريع",
     team: "الفريق",
     "my-tasks": "مهماتي",
@@ -1235,6 +1230,7 @@ function PermissionSummary({ permissions = {} }) {
     progress: "التقدم",
     users: "المستخدمون",
     settings: "الإعدادات",
+    notifications: "الإشعارات",
   };
 
   const active = Object.entries(permissions)
@@ -1413,14 +1409,36 @@ function Actions({ user, isMe, onEdit, onDelete }) {
 
 function UserModal({ user, saving, onClose, onSave }) {
   const { showToast } = useToast();
-  const [form, setForm] = useState(() => ({
-    ...DEFAULT_USER,
-    ...(user || {}),
-    permissions: {
-      ...DEFAULT_USER.permissions,
-      ...(user?.permissions || {}),
-    },
-  }));
+  const [form, setForm] = useState(() => {
+    const userPermissions = {};
+
+    if (user?.role === "custom") {
+      const keys = Array.isArray(user?.permissionKeys)
+        ? user.permissionKeys
+        : Array.isArray(user?.permissions)
+          ? user.permissions
+          : [];
+
+      Object.keys(DEFAULT_USER.permissions).forEach((key) => {
+        userPermissions[key] = keys.includes(key);
+      });
+    } else if (
+      user?.permissions &&
+      typeof user.permissions === "object" &&
+      !Array.isArray(user.permissions)
+    ) {
+      Object.assign(userPermissions, user.permissions);
+    }
+
+    return {
+      ...DEFAULT_USER,
+      ...(user || {}),
+      permissions: {
+        ...DEFAULT_USER.permissions,
+        ...userPermissions,
+      },
+    };
+  });
 
   function update(name, value) {
     setForm((previous) => ({
@@ -1686,7 +1704,9 @@ function UserModal({ user, saving, onClose, onSave }) {
                           ? "إدارة المشاريع والفريق"
                           : role.value === "viewer"
                             ? "بدون صلاحيات"
-                            : "مهامه ومشاريعه المسندة"}
+                            : role.value === "custom"
+                              ? "صلاحيات محددة يدويًا"
+                              : "مهامه ومشاريعه المسندة"}
                     </p>
                   </div>
                 </button>
@@ -1740,40 +1760,19 @@ function UserModal({ user, saving, onClose, onSave }) {
             </div>
 
             <div className="grid gap-2 sm:grid-cols-2">
-              <PermissionToggle
-                title="لوحة التحكم"
-                description="الوصول للـ Dashboard"
-                checked={form.permissions.dashboard}
-                onChange={() => togglePermission("dashboard")}
-              />
+              {Object.keys(PERMISSION_META).map((key) => {
+                const meta = PERMISSION_META[key];
 
-              <PermissionToggle
-                title="المشاريع"
-                description="إدارة المشاريع والأعمال"
-                checked={form.permissions.projects}
-                onChange={() => togglePermission("projects")}
-              />
-
-              <PermissionToggle
-                title="الفريق"
-                description="إدارة أعضاء الفريق"
-                checked={form.permissions.team}
-                onChange={() => togglePermission("team")}
-              />
-
-              <PermissionToggle
-                title="المستخدمون"
-                description="إدارة مستخدمي النظام"
-                checked={form.permissions.users}
-                onChange={() => togglePermission("users")}
-              />
-
-              <PermissionToggle
-                title="الإعدادات"
-                description="تعديل إعدادات الموقع"
-                checked={form.permissions.settings}
-                onChange={() => togglePermission("settings")}
-              />
+                return (
+                  <PermissionToggle
+                    key={key}
+                    title={meta.title}
+                    description={meta.description}
+                    checked={form.permissions[key] === true}
+                    onChange={() => togglePermission(key)}
+                  />
+                );
+              })}
             </div>
           </div>
 

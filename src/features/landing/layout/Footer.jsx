@@ -478,18 +478,25 @@ export default function Footer() {
 
             <div className="space-y-4">
               <ContactCard
-                href="mailto:hello@nokta.com"
+                href={settings.contactSectionEmail ? `mailto:${settings.contactSectionEmail}` : "mailto:hello@nokta.com"}
                 icon={<Mail size={16} />}
               >
-                hello@nokta.com
+                {settings.contactSectionEmail || "hello@nokta.com"}
               </ContactCard>
 
-              <ContactCard href="tel:+201000000000" icon={<Phone size={16} />}>
-                +20 100 000 0000
+              <ContactCard
+                href={settings.contactSectionPhone ? `tel:${settings.contactSectionPhone}` : "tel:+201000000000"}
+                icon={<Phone size={16} />}
+              >
+                {settings.contactSectionPhone || "+20 100 000 0000"}
               </ContactCard>
 
-              <ContactCard icon={<MapPin size={16} />} href="#" disabled>
-                طلخا، الدقهلية - مصر
+              <ContactCard
+                icon={<MapPin size={16} />}
+                href={settings.contactSectionMapLink || "#"}
+                disabled={!settings.contactSectionMapLink}
+              >
+                {settings.contactSectionAddress || "طلخا، الدقهلية - مصر"}
               </ContactCard>
             </div>
           </motion.div>

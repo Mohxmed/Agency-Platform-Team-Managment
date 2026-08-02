@@ -6,6 +6,7 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 import { auth } from "@/lib/firebase";
@@ -30,6 +31,10 @@ export function updateUserProfile(user, data) {
 
 export function logout() {
   return signOut(auth);
+}
+
+export function sendPasswordReset(email) {
+  return sendPasswordResetEmail(auth, email);
 }
 
 export function subscribe(callback) {

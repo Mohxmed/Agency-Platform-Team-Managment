@@ -31,7 +31,7 @@ import { useSidebar } from "@/providers/SidebarProvider";
 import { useAuth } from "@/features/auth";
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 
-import { getPermissionsForRole, roleConfig } from "@/constants/permissions";
+import { getPermissionsForProfile, roleConfig } from "@/constants/permissions";
 
 /* =========================================================
    MENU
@@ -170,7 +170,7 @@ export default function Sidebar({ open, onClose }) {
 
   const role = profile?.role || "member";
 
-  const permissions = getPermissionsForRole(role);
+  const permissions = getPermissionsForProfile(profile);
 
   const currentRole = roleConfig[role] || roleConfig.default;
 

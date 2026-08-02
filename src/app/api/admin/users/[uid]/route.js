@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { adminAuth, isAdminConfigured } from "@/lib/firebaseAdmin";
-import { assertAdminRole } from "../_helpers";
+import { getFirestore } from "firebase-admin/firestore";
+import { assertTeamRole } from "../_helpers";
 
 function notFound() {
   return NextResponse.json({ error: "المستخدم غير موجود." }, { status: 404 });
@@ -11,9 +12,25 @@ function badRequest(message) {
   return NextResponse.json({ error: message }, { status: 400 });
 }
 
+function forbidden(message) {
+  return NextResponse.json({ error: message }, { status: 403 });
+}
+
+async function getTargetRole(db, uid) {
+  try {
+    const snapshot = await db.collection("profiles").doc(uid).get();
+    return snapshot.exists ? snapshot.data()?.role || "member" : "member";
+  } catch {
+    return "member";
+  }
+}
+
 export async function PATCH(request, { params }) {
-  const guard = await assertAdminRole(request);
+  const guard = await assertTeamRole(request);
   if (guard instanceof NextResponse) return guard;
+
+  const { uid, profile: actor, db } = guard;
+  const actorRole = actor.role || "member";
 
   if (!isAdminConfigured()) {
     return NextResponse.json(
@@ -22,14 +39,28 @@ export async function PATCH(request, { params }) {
     );
   }
 
-  const { uid } = await params;
+  const { uid: targetUid } = await params;
 
-  if (!uid) {
+  if (!targetUid) {
     return badRequest("معرّف المستخدم مطلوب.");
   }
 
   try {
     const body = await request.json();
+
+    if (targetUid === uid && (body.disabled !== undefined || body.password !== undefined || body.role !== undefined)) {
+      return forbidden("لا يمكنك تعطيل حسابك أو تغيير بيانات الدخول لنفسك من هنا.");
+    }
+
+    if (actorRole !== "admin") {
+      const targetRole = await getTargetRole(db, targetUid);
+      if (targetRole === "admin") {
+        return forbidden("لا يمكن للمدير تعديل حسابات مسؤولي النظام.");
+      }
+      if (body.role !== undefined && body.role === "admin") {
+        return forbidden("لا يمكن للمدير ترقية الحسابات إلى مسؤول نظام.");
+      }
+    }
 
     const updates = {};
 
@@ -63,7 +94,11 @@ export async function PATCH(request, { params }) {
       return badRequest("لا توجد بيانات للتحديث.");
     }
 
-    const userRecord = await adminAuth().updateUser(uid, updates);
+    const userRecord = await adminAuth().updateUser(targetUid, updates);
+
+    if (body.disabled) {
+      await adminAuth().revokeRefreshTokens(targetUid).catch(() => {});
+    }
 
     return NextResponse.json({ uid: userRecord.uid });
   } catch (error) {
@@ -89,8 +124,11 @@ export async function PATCH(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-  const guard = await assertAdminRole(request);
+  const guard = await assertTeamRole(request);
   if (guard instanceof NextResponse) return guard;
+
+  const { uid, profile: actor, db } = guard;
+  const actorRole = actor.role || "member";
 
   if (!isAdminConfigured()) {
     return NextResponse.json(
@@ -99,14 +137,37 @@ export async function DELETE(request, { params }) {
     );
   }
 
-  const { uid } = await params;
+  const { uid: targetUid } = await params;
 
-  if (!uid) {
+  if (!targetUid) {
     return badRequest("معرّف المستخدم مطلوب.");
   }
 
   try {
-    await adminAuth().deleteUser(uid);
+    if (targetUid === uid) {
+      return forbidden("لا يمكنك حذف حسابك من هنا.");
+    }
+
+    if (actorRole !== "admin") {
+      const targetRole = await getTargetRole(db, targetUid);
+      if (targetRole === "admin") {
+        return forbidden("لا يمكن للمدير حذف حسابات مسؤولي النظام.");
+      }
+    } else {
+      const targetRole = await getTargetRole(db, targetUid);
+      if (targetRole === "admin") {
+        const adminSnapshot = await db
+          .collection("profiles")
+          .where("role", "==", "admin")
+          .limit(2)
+          .get();
+        if (adminSnapshot.size <= 1) {
+          return forbidden("لا يمكن حذف آخر مسؤول نظام في المنصة.");
+        }
+      }
+    }
+
+    await adminAuth().deleteUser(targetUid);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Delete user error:", error);

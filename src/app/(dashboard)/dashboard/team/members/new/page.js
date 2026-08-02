@@ -45,12 +45,18 @@ const EMPTY_FORM = {
 
 export default function NewMemberPage() {
   const router = useRouter();
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, profile: currentProfile } = useAuth();
   const { showToast } = useToast();
 
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const isAdmin = currentProfile?.role === "admin";
+
+  const roleOptions = ROLE_OPTIONS.filter(
+    (option) => isAdmin || option.value !== "admin",
+  );
 
   const update = (name, value) => {
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -199,7 +205,7 @@ export default function NewMemberPage() {
                   label="الدور"
                   value={form.role}
                   onChange={(e) => update("role", e.target.value)}
-                  options={ROLE_OPTIONS}
+                  options={roleOptions}
                 />
                 <Select
                   label="الحالة"

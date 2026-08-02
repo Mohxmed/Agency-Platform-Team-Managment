@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 
 import {
   Mail,
@@ -9,7 +8,6 @@ import {
   Globe,
   User,
   Save,
-  Link as LinkIcon,
   FileText,
   Image as ImageIcon,
   BarChart3,
@@ -50,7 +48,6 @@ const EMPTY_FORM = {
   phone: "",
   specialty: "",
 
-  link: "",
   website: "",
   description: "",
 
@@ -83,12 +80,6 @@ export default function DashboardPage() {
   const formRef = useRef(null);
 
   const { showToast } = useToast();
-
-  /* =======================================================
-     PROFILE URL
-  ======================================================= */
-
-  const profileUrl = form.link?.trim() ? `/team/${form.link.trim()}` : null;
 
   /* =======================================================
      LOAD USER + PROFILE
@@ -257,36 +248,6 @@ export default function DashboardPage() {
       return;
     }
 
-    /*
-     * Validate username
-     */
-
-    const username = form.link.trim().toLowerCase();
-
-    if (!username) {
-      showToast({
-        type: "warning",
-        title: "رابط الملف مطلوب",
-        message: "اكتب اسم المستخدم الذي سيظهر في رابط البروفايل.",
-      });
-
-      return;
-    }
-
-    /*
-     * Simple username validation
-     */
-
-    if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
-      showToast({
-        type: "warning",
-        title: "رابط الملف غير صحيح",
-        message: "استخدم الحروف الإنجليزية والأرقام و - أو _ فقط.",
-      });
-
-      return;
-    }
-
     setSaving(true);
 
     try {
@@ -315,12 +276,6 @@ export default function DashboardPage() {
         phone: form.phone.trim(),
 
         specialty: form.specialty.trim(),
-
-        /*
-         * username
-         */
-
-        link: username,
 
         website: form.website.trim(),
 
@@ -557,62 +512,6 @@ export default function DashboardPage() {
                 gap-3
               "
             >
-              {/* VIEW PROFILE */}
-
-              {profileUrl ? (
-                <Link
-                  href={profileUrl}
-                  target="_blank"
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-2xl
-                    border
-                    border-ink/[0.08]
-                    bg-card
-                    px-5
-                    py-3
-                    text-sm
-                    font-black
-                    text-ink
-                    shadow-sm
-                    transition-all
-                    hover:-translate-y-0.5
-                    hover:border-primary-600/20
-                    hover:text-primary-600
-                  "
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  عرض البروفايل
-                </Link>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleEditClick}
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-2xl
-                    border
-                    border-ink/[0.08]
-                    bg-card
-                    px-5
-                    py-3
-                    text-sm
-                    font-black
-                    text-ink/50
-                    shadow-sm
-                  "
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  أضف رابط الملف
-                </button>
-              )}
-
               {/* EDIT */}
 
               <button
@@ -642,88 +541,6 @@ export default function DashboardPage() {
               </button>
             </div>
           </div>
-
-          {/* ===========================================
-              PROFILE LINK
-          =========================================== */}
-
-          {profileUrl && (
-            <div
-              className="
-                mt-6
-                flex
-                flex-col
-                gap-2
-                rounded-2xl
-                border
-                border-primary-600/10
-                bg-primary-600/[0.035]
-                px-4
-                py-3
-                sm:flex-row
-                sm:items-center
-                sm:justify-between
-              "
-            >
-              <div
-                className="
-                  flex
-                  min-w-0
-                  items-center
-                  gap-2
-                "
-              >
-                <LinkIcon
-                  className="
-                    h-4
-                    w-4
-                    shrink-0
-                    text-primary-600
-                  "
-                />
-
-                <span
-                  className="
-                    text-xs
-                    font-bold
-                    text-ink/40
-                  "
-                >
-                  رابط ملفك:
-                </span>
-
-                <span
-                  className="
-                    truncate
-                    text-xs
-                    font-black
-                    text-primary-600
-                    sm:text-sm
-                  "
-                >
-                  {profileUrl}
-                </span>
-              </div>
-
-              <Link
-                href={profileUrl}
-                target="_blank"
-                className="
-                  inline-flex
-                  shrink-0
-                  items-center
-                  gap-1.5
-                  text-xs
-                  font-black
-                  text-primary-600
-                  hover:underline
-                "
-              >
-                فتح الملف
-                <ExternalLink className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-          )}
         </header>
 
         {/* =================================================
@@ -801,28 +618,6 @@ export default function DashboardPage() {
             icon={FileText}
           >
             <div className="space-y-5">
-              <div>
-                <Field
-                  icon={LinkIcon}
-                  label="اسم المستخدم / رابط الملف"
-                  value={form.link}
-                  onChange={handleChange("link")}
-                  placeholder="ammar-amer"
-                  suffix="/team/"
-                />
-
-                <p
-                  className="
-                    mt-2
-                    text-[11px]
-                    font-medium
-                    text-ink/30
-                  "
-                >
-                  استخدم الحروف الإنجليزية والأرقام و - أو _
-                </p>
-              </div>
-
               <Field
                 icon={Globe}
                 label="الموقع الإلكتروني"
@@ -1395,38 +1190,6 @@ export default function DashboardPage() {
                   sm:w-auto
                 "
               >
-                {profileUrl && (
-                  <Link
-                    href={profileUrl}
-                    target="_blank"
-                    className="
-                      inline-flex
-                      flex-1
-                      items-center
-                      justify-center
-                      gap-2
-                      rounded-xl
-                      border
-                      border-ink/[0.07]
-                      bg-card
-                      px-4
-                      py-3
-                      text-xs
-                      font-black
-                      text-ink
-                      transition
-                      hover:bg-surface
-                      sm:flex-none
-                    "
-                  >
-                    <ExternalLink className="h-4 w-4" />
-
-                    <span className="hidden sm:inline">عرض البروفايل</span>
-
-                    <span className="sm:hidden">البروفايل</span>
-                  </Link>
-                )}
-
                 <button
                   type="submit"
                   disabled={saving}

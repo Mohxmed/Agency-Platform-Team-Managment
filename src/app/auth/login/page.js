@@ -12,7 +12,7 @@ export default function LoginPage() {
     <AuthLayout
       eyebrow="أهلاً بعودتك،"
       title="سجل الدخول لنقطة"
-      subtitle="عشان تدخل لـ لوحة تحكم المشرف."
+      subtitle="سجّل دخولك للوصول إلى لوحة التحكم."
     >
       <AuthMotion>
         <LoginForm />

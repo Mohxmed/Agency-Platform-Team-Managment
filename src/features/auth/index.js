@@ -3,6 +3,7 @@ import { AuthLayout } from "./layout/AuthLayout";
 // Forms
 import { LoginForm } from "./components/LoginForm";
 import { SignupForm } from "./components/SignupForm";
+import { ForgotPasswordForm } from "./components/ForgotPasswordForm";
 // Provider & useAuth
 import { useAuth } from "./hooks/useAuth";
 import { AuthProvider } from "./providers/AuthProvider";
@@ -12,6 +13,7 @@ import AuthGuard from "./layout/AuthGuard";
 export {
   LoginForm,
   SignupForm,
+  ForgotPasswordForm,
   AuthLayout,
   useAuth,
   AuthProvider,
