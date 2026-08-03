@@ -449,7 +449,8 @@ export default function ClientsSection() {
                   ]}
                   spaceBetween={0}
                   loop={clients.length > 3}
-                  speed={9000}
+                  speed={2500}
+                  watchOverflow
                   autoplay={{
                     delay: 0,
                     disableOnInteraction: false,
@@ -461,19 +462,19 @@ export default function ClientsSection() {
                   }}
                   breakpoints={{
                     0: {
-                      slidesPerView: 1,
+                      slidesPerView: 1.15,
                     },
 
                     640: {
-                      slidesPerView: 1,
+                      slidesPerView: 1.6,
                     },
 
                     768: {
-                      slidesPerView: 2,
+                      slidesPerView: 2.4,
                     },
 
                     1200: {
-                      slidesPerView: 3,
+                      slidesPerView: 3.2,
                     },
                   }}
                 >

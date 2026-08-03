@@ -210,10 +210,11 @@ export default function WorksSection() {
                     FreeMode,
                   ]}
                   loop={projects.length > 2}
-                  speed={7000}
+                  speed={3200}
                   spaceBetween={20}
-                  slidesPerView={1}
+                  slidesPerView={1.15}
                   grabCursor={false}
+                  watchOverflow
 
                   freeMode={{
                     enabled: true,
@@ -228,15 +229,16 @@ export default function WorksSection() {
 
                   breakpoints={{
                     640: {
-                      slidesPerView: 1,
+                      slidesPerView: 1.4,
                     },
 
                     768: {
-                      slidesPerView: 2,
+                      slidesPerView: 2.2,
                     },
 
                     1200: {
-                      slidesPerView: 2,
+                      slidesPerView: 2.8,
+                      spaceBetween: 24,
                     },
                   }}
                 >
