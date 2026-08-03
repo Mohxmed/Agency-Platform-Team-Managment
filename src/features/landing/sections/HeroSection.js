@@ -1191,7 +1191,7 @@ function HeroContent(){
             text-ink/90
           "
         >
-          هنبدأ حكايات جديدة
+هنبدأ حكايات جديدة..
         </span>
 
 
