@@ -23,6 +23,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 
 import logoIcon from "@/assets/identity/logo-icon.png";
 import roket from "@/assets/svg/roket.svg";
+import Link from "next/link";
 
 
 /* =========================================================
@@ -973,7 +974,7 @@ function HeroActions(){
     >
 
 
-      <button
+      <Link href={"/contact"}
 
         className="
           group
@@ -1018,11 +1019,9 @@ function HeroActions(){
         />
 
 
-      </button>
+      </Link>
 
-
-
-      <button
+      <Link href={"/portfolio"}
 
         className="
           flex
@@ -1054,7 +1053,7 @@ function HeroActions(){
         {secondary}
 
 
-      </button>
+      </Link>
 
 
     </div>
