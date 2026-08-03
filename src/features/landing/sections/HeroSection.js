@@ -29,7 +29,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { resolveIcon } from "@/shared/ui/icons/resolveIcon";
 
 import logoIcon from "@/assets/identity/logo-icon.png";
-import roket from "@/assets/svg/roket.svg";
+import roket from "@/assets/svg/rocket.webp";
 import Link from "next/link";
 
 
