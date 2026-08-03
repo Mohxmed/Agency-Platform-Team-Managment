@@ -237,11 +237,11 @@ export default function DashboardHeader() {
 
               <div
                 className="
-                  absolute
-                  left-0
-                  top-[calc(100%+12px)]
+                  fixed
+                  left-3
+                  right-3
+                  top-20
                   z-50
-                  w-72
                   overflow-hidden
                   rounded-2xl
                   bg-card
@@ -251,6 +251,11 @@ export default function DashboardHeader() {
                   fade-in
                   slide-in-from-top-2
                   duration-200
+                  sm:absolute
+                  sm:left-0
+                  sm:right-auto
+                  sm:top-[calc(100%+12px)]
+                  sm:w-72
                 "
               >
                 <div className="space-y-1">

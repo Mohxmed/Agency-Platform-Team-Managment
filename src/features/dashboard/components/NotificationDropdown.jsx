@@ -262,12 +262,11 @@ export default function NotificationDropdown() {
 
           <div
             className="
-              absolute
-              left-0
-              top-[calc(100%+12px)]
+              fixed
+              inset-x-3
+              top-20
               z-50
-              w-[500px]
-              max-w-[calc(100vw-2rem)]
+              max-h-[80vh]
               overflow-hidden
               rounded-[1.5rem]
               border
@@ -278,6 +277,13 @@ export default function NotificationDropdown() {
               fade-in
               slide-in-from-top-2
               duration-200
+              sm:absolute
+              sm:inset-x-auto
+              sm:left-0
+              sm:top-[calc(100%+12px)]
+              sm:max-h-none
+              sm:w-[500px]
+              sm:max-w-[calc(100vw-2rem)]
             "
           >
             {/* HEADER */}
@@ -331,8 +337,9 @@ export default function NotificationDropdown() {
 
             <div
               className="
-                max-h-[420px]
+                max-h-[60vh]
                 overflow-y-auto
+                sm:max-h-[420px]
               "
             >
               {/* LOADING */}
