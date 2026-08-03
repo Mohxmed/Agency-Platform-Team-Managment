@@ -12,6 +12,7 @@ import { Container } from "@/features/landing";
 import { useSettings } from "@/contexts/SettingsContext";
 import { FOOTER, SITE } from "@/constants/content";
 import Link from "next/link";
+import DeveloperCredit from "@/shared/ui/identity/Credit";
 /* =========================================================
    ANIMATION CONFIG
 ========================================================= */
@@ -572,6 +573,8 @@ export default function Footer() {
               "
             >
               {copyright}
+
+              <DeveloperCredit />
             </motion.p>
           </div>
         </motion.div>
