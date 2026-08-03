@@ -11,7 +11,6 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Autoplay,
-  FreeMode,
   Pagination,
 } from "swiper/modules";
 
@@ -445,20 +444,16 @@ export default function ClientsSection() {
                   modules={[
                     Autoplay,
                     Pagination,
-                    FreeMode,
                   ]}
                   spaceBetween={0}
                   loop={clients.length > 3}
+                  loopAdditionalSlides={4}
                   speed={2500}
                   watchOverflow
                   autoplay={{
                     delay: 0,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
-                  }}
-                  freeMode={{
-                    enabled: true,
-                    momentum: false,
                   }}
                   breakpoints={{
                     0: {
@@ -474,7 +469,7 @@ export default function ClientsSection() {
                     },
 
                     1200: {
-                      slidesPerView: 3.2,
+                      slidesPerView: 3,
                     },
                   }}
                 >

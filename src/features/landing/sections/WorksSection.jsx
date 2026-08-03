@@ -16,7 +16,7 @@ import { Container } from "@/features/landing";
 import ProjectCard from "@/shared/ui/cards/ProjectCard";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, FreeMode } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
 
@@ -214,19 +214,14 @@ export default function WorksSection() {
                 <Swiper
                   modules={[
                     Autoplay,
-                    FreeMode,
                   ]}
                   loop={projects.length > 2}
+                  loopAdditionalSlides={4}
                   speed={3200}
                   spaceBetween={20}
                   slidesPerView={1.15}
                   grabCursor={false}
                   watchOverflow
-
-                  freeMode={{
-                    enabled: true,
-                    momentum: false,
-                  }}
 
                   autoplay={{
                     delay: 0,
