@@ -5,6 +5,14 @@ import {
 } from "@/features/landing";
 import MaintenanceGate from "@/features/landing/components/MaintenanceGate";
 import HomeSections from "@/features/landing/components/HomeSections";
+import { siteConfig, buildMetadata } from "@/config/site";
+
+export const metadata = buildMetadata({
+  title: { absolute: siteConfig.title },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  path: "/",
+});
 
 export default function HomePage() {
   return (

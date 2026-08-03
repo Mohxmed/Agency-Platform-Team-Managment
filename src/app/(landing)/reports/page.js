@@ -1,11 +1,19 @@
 import { Container } from "@/features/landing";
 import { MessageSquare, Lightbulb, ShieldCheck } from "lucide-react";
+import { buildMetadata } from "@/config/site";
 
-export const metadata = {
-  title: "الشكاوى والاقتراحات | نقطة",
+export const metadata = buildMetadata({
+  title: "الشكاوى والاقتراحات",
   description:
-    "صفحة استقبال الشكاوى والاقتراحات الخاصة بوكالة نقطة.",
-};
+    "صفحة استقبال الشكاوى والاقتراحات الخاصة بوكالة نقطة. شاركنا ملاحظاتك وساعدنا على تحسين خدماتنا.",
+  keywords: [
+    "الشكاوى",
+    "الاقتراحات",
+    "آراء العملاء",
+    "نقطة",
+  ],
+  path: "/reports",
+});
 
 
 export default function ComplaintsPage() {

@@ -1,10 +1,17 @@
 import { Container } from "@/features/landing";
+import { buildMetadata } from "@/config/site";
 
-export const metadata = {
-  title: "اتفاقية الاستخدام | نقطة",
+export const metadata = buildMetadata({
+  title: "اتفاقية الاستخدام",
   description:
-    "اتفاقية الاستخدام والشروط الخاصة بوكالة نقطة.",
-};
+    "اتفاقية الاستخدام والشروط العامة الخاصة بوكالة نقطة واستخدام خدماتها.",
+  keywords: [
+    "اتفاقية الاستخدام",
+    "شروط الاستخدام",
+    "نقطة",
+  ],
+  path: "/terms-of-use",
+});
 
 
 export default function TermsPage() {

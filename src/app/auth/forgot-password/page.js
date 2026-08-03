@@ -2,10 +2,15 @@
 
 import AuthMotion from "@/shared/animations/AuthMotion";
 import { AuthLayout, ForgotPasswordForm } from "@/features/auth";
+import { buildMetadata } from "@/config/site";
 
-export const metadata = {
-  title: "نقطة - استعادة كلمة المرور",
-};
+export const metadata = buildMetadata({
+  title: "استعادة كلمة المرور",
+  description: "استعد كلمة مرور حسابك في نقطة بسهولة وأمان.",
+  keywords: ["استعادة كلمة المرور", "نسيت كلمة المرور", "نقطة"],
+  path: "/auth/forgot-password",
+  noindex: true,
+});
 
 export default function ForgotPasswordPage() {
   return (

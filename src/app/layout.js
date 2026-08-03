@@ -33,8 +33,39 @@ const bukra = localFont({
 });
 // Central metadata
 export const metadata = {
-  title: siteConfig.siteName,
+  metadataBase: new URL(siteConfig.url || "http://localhost:3000"),
+  title: {
+    default: siteConfig.title,
+    template: "%s | نقطة",
+  },
   description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.author }],
+  creator: siteConfig.author,
+  publisher: siteConfig.siteName,
+  applicationName: siteConfig.siteName,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: siteConfig.url ? { canonical: siteConfig.url } : undefined,
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: siteConfig.url || undefined,
+    siteName: siteConfig.siteName,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [{ url: siteConfig.ogImage }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: siteConfig.twitterHandle,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  category: "business",
 };
 export default function RootLayout({ children }) {
   return (

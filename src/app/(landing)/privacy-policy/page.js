@@ -1,10 +1,18 @@
 import { Container } from "@/features/landing";
+import { buildMetadata } from "@/config/site";
 
-export const metadata = {
-  title: "سياسة الخصوصية | نقطة",
+export const metadata = buildMetadata({
+  title: "سياسة الخصوصية",
   description:
-    "سياسة الخصوصية الخاصة بوكالة نقطة وكيفية التعامل مع بيانات المستخدمين.",
-};
+    "سياسة الخصوصية الخاصة بوكالة نقطة وكيفية جمع بياناتك واستخدامها وحمايتها.",
+  keywords: [
+    "سياسة الخصوصية",
+    "خصوصية البيانات",
+    "بيانات المستخدمين",
+    "نقطة",
+  ],
+  path: "/privacy-policy",
+});
 
 
 export default function PrivacyPolicyPage() {

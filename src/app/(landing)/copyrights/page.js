@@ -1,10 +1,18 @@
 import { Container } from "@/features/landing";
+import { buildMetadata } from "@/config/site";
 
-export const metadata = {
-  title: "حقوق النشر | نقطة",
+export const metadata = buildMetadata({
+  title: "حقوق النشر",
   description:
-    "حقوق النشر والملكية الفكرية الخاصة بوكالة نقطة.",
-};
+    "حقوق النشر والملكية الفكرية الخاصة بوكالة نقطة، وشروط استخدام المحتوى والعلامة التجارية.",
+  keywords: [
+    "حقوق النشر",
+    "الملكية الفكرية",
+    "العلامة التجارية",
+    "نقطة",
+  ],
+  path: "/copyrights",
+});
 
 
 export default function CopyrightPage() {
