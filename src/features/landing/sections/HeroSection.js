@@ -1,6 +1,6 @@
 "use client";
 
-import { createElement } from "react";
+import { createElement, useEffect } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -81,14 +81,7 @@ const HERO_CONFIG = {
   },
 
   rocket: {
-    path: {
-      top: ["70%", "18%", "45%", "70%"],
-      left: ["5%", "50%", "82%", "5%"],
-      rotate: [-15, 20, -5, -15],
-    },
-
-    duration: 28,
-    float: 2.5,
+    float: 6,
   },
 };
 
@@ -186,12 +179,65 @@ const reducedMotion = {
    BACKGROUND
 ========================================================= */
 
+const PARTICLES = [
+  { left: "8%", top: "22%", size: 3, duration: 9, delay: 0 },
+  { left: "16%", top: "68%", size: 2, duration: 11, delay: 1.2 },
+  { left: "26%", top: "14%", size: 2, duration: 8, delay: 0.6 },
+  { left: "42%", top: "78%", size: 3, duration: 12, delay: 2.1 },
+  { left: "58%", top: "30%", size: 2, duration: 10, delay: 0.9 },
+  { left: "71%", top: "82%", size: 2, duration: 9, delay: 1.8 },
+  { left: "84%", top: "18%", size: 3, duration: 13, delay: 0.4 },
+  { left: "90%", top: "58%", size: 2, duration: 10, delay: 2.6 },
+];
+
 function HeroBackground() {
 
   const reduceMotion = useReducedMotion();
 
   const rocket = HERO_CONFIG.rocket;
 
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+
+  const sx = useSpring(mx, {
+    stiffness: 45,
+    damping: 22,
+    mass: 0.9,
+  });
+
+  const sy = useSpring(my, {
+    stiffness: 45,
+    damping: 22,
+    mass: 0.9,
+  });
+
+  useEffect(() => {
+    if (reduceMotion) return undefined;
+
+    function handleMouseMove(event) {
+      mx.set((event.clientX / window.innerWidth - 0.5) * 2);
+      my.set((event.clientY / window.innerHeight - 0.5) * 2);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mx, my, reduceMotion]);
+
+  const orbRedX = useTransform(sx, (v) => v * -28);
+  const orbRedY = useTransform(sy, (v) => v * -20);
+  const orbVioletX = useTransform(sx, (v) => v * 24);
+  const orbVioletY = useTransform(sy, (v) => v * 16);
+  const orbAmberX = useTransform(sx, (v) => v * 14);
+  const orbAmberY = useTransform(sy, (v) => v * -10);
+  const beamX = useTransform(sx, (v) => v * 12);
+  const gridX = useTransform(sx, (v) => v * -8);
+  const gridY = useTransform(sy, (v) => v * -6);
+
+  const spotX = useTransform(sx, (v) => `${50 + v * 18}%`);
+  const spotY = useTransform(sy, (v) => `${50 + v * 18}%`);
+
+  const spotBackground =
+    useMotionTemplate`radial-gradient(circle 320px at ${spotX} ${spotY}, rgba(255,255,255,0.08), transparent 70%)`;
 
   return (
 
@@ -205,134 +251,232 @@ function HeroBackground() {
     >
 
 
-      {/* Main glass glow */}
+      {/* Base wash */}
 
       <div
         className="
-          absolute
-          -top-40
-          -end-40
-          w-[500px]
-          h-[500px]
-          rounded-full
-          blur-3xl
-        "
-        style={{
-          background:
-            "radial-gradient(circle,rgba(232,33,37,.16),transparent 70%)",
-        }}
-      />
-
-
-      {/* Secondary glow */}
-
-      <div
-        className="
-          absolute
-          bottom-0
-          start-0
-          w-[400px]
-          h-[400px]
-          rounded-full
-          blur-3xl
-        "
-        style={{
-          background:
-            "radial-gradient(circle,rgba(232,33,37,.08),transparent 70%)",
-        }}
-      />
-
-
-
-      {/* Logo watermark */}
-
-      <div
-        className="
-          absolute
-          -top-20
-          -end-20
-          w-[600px]
-          h-[600px]
-          opacity-[0.035]
-        "
-      >
-
-        <Image
-          src={logoIcon}
-          alt=""
-          fill
-          className="object-contain"
-        />
-
-      </div>
-
-
-
-      {/* Grid texture */}
-
-      <div
-        className="
+          hero-bg-base
           absolute
           inset-0
-          opacity-40
         "
-        style={{
-          backgroundImage:
-            "radial-gradient(circle,var(--color-border) 1px,transparent 1px)",
-
-          backgroundSize:
-            "28px 28px",
-
-          maskImage:
-            "radial-gradient(circle at center,black,transparent 75%)",
-
-          WebkitMaskImage:
-            "radial-gradient(circle at center,black,transparent 75%)",
-        }}
       />
 
 
-
-
-      {/* Rocket animation */}
+      {/* Aurora orb — red (parallax) */}
 
       <motion.div
 
-        className="
-          absolute
-          w-72
-          h-72
-          opacity-[0.3]
-          md:w-96
-          md:h-96
-          lg:w-[30rem]
-          lg:h-[30rem]
-        "
-
-        initial={{
-          top: rocket.path.top[0],
-          left: rocket.path.left[0],
-          rotate: rocket.path.rotate[0],
+        style={{
+          x: reduceMotion ? 0 : orbRedX,
+          y: reduceMotion ? 0 : orbRedY,
         }}
-
 
         animate={
           reduceMotion
             ? {}
             : {
-                top: rocket.path.top,
-                left: rocket.path.left,
-                rotate: rocket.path.rotate,
+                scale: [1, 1.08, 1],
               }
         }
 
-
         transition={{
-          duration: rocket.duration,
+          duration: 9,
           repeat: Infinity,
           ease: "easeInOut",
         }}
 
+        className="
+          hero-orb-red
+          absolute
+          -top-32
+          -start-40
+          h-[34rem]
+          w-[34rem]
+          rounded-full
+          blur-3xl
+        "
+      />
+
+
+      {/* Aurora orb — violet (parallax) */}
+
+      <motion.div
+
+        style={{
+          x: reduceMotion ? 0 : orbVioletX,
+          y: reduceMotion ? 0 : orbVioletY,
+        }}
+
+        animate={
+          reduceMotion
+            ? {}
+            : {
+                scale: [1, 1.1, 1],
+              }
+        }
+
+        transition={{
+          duration: 11,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.4,
+        }}
+
+        className="
+          hero-orb-violet
+          absolute
+          -bottom-40
+          -end-40
+          h-[36rem]
+          w-[36rem]
+          rounded-full
+          blur-3xl
+        "
+      />
+
+
+      {/* Aurora orb — amber (parallax) */}
+
+      <motion.div
+
+        style={{
+          x: reduceMotion ? 0 : orbAmberX,
+          y: reduceMotion ? 0 : orbAmberY,
+        }}
+
+        animate={
+          reduceMotion
+            ? {}
+            : {
+                scale: [1, 1.05, 1],
+              }
+        }
+
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.7,
+        }}
+
+        className="
+          hero-orb-amber
+          absolute
+          top-[40%]
+          start-[38%]
+          h-[26rem]
+          w-[26rem]
+          rounded-full
+          blur-3xl
+        "
+      />
+
+
+      {/* Cinematic beams */}
+
+      <motion.div
+
+        style={{
+          x: reduceMotion ? 0 : beamX,
+        }}
+
+        className="
+          hero-beam-a
+          absolute
+          top-[-10%]
+          h-[60%]
+          w-[45%]
+          rotate-[18deg]
+          blur-2xl
+        "
+      />
+
+      <div
+        className="
+          hero-beam-b
+          absolute
+          bottom-[-14%]
+          start-[8%]
+          h-[55%]
+          w-[38%]
+          -rotate-[14deg]
+          blur-2xl
+        "
+      />
+
+
+      {/* Dot grid (parallax) */}
+
+      <motion.div
+
+        style={{
+          x: reduceMotion ? 0 : gridX,
+          y: reduceMotion ? 0 : gridY,
+        }}
+
+        className="
+          hero-bg-grid
+          absolute
+          inset-0
+        "
+      />
+
+
+      {/* Cursor spotlight */}
+
+      <motion.div
+        className="
+          absolute
+          inset-0
+        "
+        style={{
+          background: reduceMotion ? "none" : spotBackground,
+        }}
+      />
+
+
+      {/* Rocket glow */}
+
+      <div
+        className="
+          hero-rocket-glow
+          absolute
+          top-[6%]
+          end-[6%]
+          h-72
+          w-72
+          rounded-full
+        "
+      />
+
+
+      {/* Rocket — in-place float */}
+
+      <motion.div
+
+        initial={{
+          opacity: 0,
+        }}
+
+        animate={{
+          opacity: 0.14,
+        }}
+
+        transition={{
+          duration: 2,
+        }}
+
+        className="
+          absolute
+          top-[2%]
+          end-[2%]
+          w-44
+          h-44
+          md:w-56
+          md:h-56
+          lg:w-64
+          lg:h-64
+        "
       >
 
 
@@ -342,19 +486,15 @@ function HeroBackground() {
             reduceMotion
               ? {}
               : {
-                  y:[
-                    0,
-                    -8,
-                    0,
-                  ],
+                  y: [0, -12, 0],
+                  rotate: [-4, 4, -4],
                 }
           }
-
 
           transition={{
             duration: rocket.float,
             repeat: Infinity,
-            ease:"easeInOut",
+            ease: "easeInOut",
           }}
 
           className="relative w-full h-full"
@@ -365,7 +505,7 @@ function HeroBackground() {
             src={roket}
             alt=""
             fill
-            className="object-contain w-125 opacity-.5"
+            className="object-contain"
           />
 
 
@@ -375,8 +515,65 @@ function HeroBackground() {
       </motion.div>
 
 
+      {/* Floating particles */}
+
+      {!reduceMotion && PARTICLES.map((particle, index) => (
+        <motion.span
+          key={index}
+          initial={{
+            opacity: 0,
+            y: 0,
+          }}
+          animate={{
+            opacity: [0, 0.5, 0],
+            y: [0, -120],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            delay: particle.delay,
+            ease: "easeInOut",
+          }}
+          className="
+            absolute
+            rounded-full
+            bg-primary-500
+          "
+          style={{
+            left: particle.left,
+            top: particle.top,
+            width: particle.size,
+            height: particle.size,
+          }}
+        />
+      ))}
+
+
+      {/* Film grain */}
+
+      <div
+        className="
+          hero-bg-noise
+          absolute
+          inset-0
+        "
+      />
+
+
+      {/* Vignette */}
+
+      <div
+        className="
+          hero-bg-vignette
+          absolute
+          inset-0
+        "
+      />
+
+
     </div>
-);
+  );
 }
 
 /* =========================================================
