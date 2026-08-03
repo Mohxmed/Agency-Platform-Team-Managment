@@ -3,9 +3,9 @@
 
 export const siteConfig = {
   siteName: "نقطة",
-  title: "نقطة | محطتك الأولى للظهور على الميديا",
+  title: "نقطة",
   description:
-    "نقطة وكالة دعاية وإعلان في مصر، متخصصة في إدارة وتنفيذ حملات المدرسين وصناع المحتوى على السوشيال ميديا. نساعدك على بناء حضور أقوى وتحقيق نتائج حقيقية.",
+    "نقطة هي مكانك الأول والأخير اللي هتخليك تظهر بشكل احترافي على السوشيال ميديا ونريحك من الإدارة والمتابعة ونسلمك نتائج.",
   keywords: [
     "نقطة",
     "وكالة تسويق",
@@ -40,8 +40,7 @@ export function buildMetadata({
 }) {
   const url = siteConfig.url ? `${siteConfig.url}${path}` : undefined;
   const ogImage = image || siteConfig.ogImage;
-  const ogTitle =
-    typeof title === "string" ? title : title?.default || siteConfig.title;
+  const ogTitle = typeof title === "string" ? title : title?.default || siteConfig.title;
 
   return {
     title,
