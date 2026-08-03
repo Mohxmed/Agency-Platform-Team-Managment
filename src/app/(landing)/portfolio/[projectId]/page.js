@@ -446,7 +446,7 @@ export default function ProjectPage({ params }) {
                     max-w-4xl
                     text-[2.6rem]
                     font-extrabold
-                    leading-[1.02]
+                    leading-[1.4]
                     tracking-[-0.04em]
                     text-black
                     sm:text-5xl
@@ -459,33 +459,6 @@ export default function ProjectPage({ params }) {
                 </h1>
 
                 {/* Description */}
-
-                {project.description && (
-                  <div className="mt-7 flex max-w-2xl items-start gap-4 sm:mt-8">
-                    <span
-                      className="
-                        mt-2
-                        h-8
-                        w-[2px]
-                        shrink-0
-                        bg-primary-600
-                      "
-                    />
-
-                    <p
-                      className="
-                        text-sm
-                        leading-7
-                        text-black/45
-                        sm:text-[15px]
-                        sm:leading-8
-                        dark:text-white/60
-                      "
-                    >
-                      {project.description}
-                    </p>
-                  </div>
-                )}
               </div>
 
               {/* =================================================
