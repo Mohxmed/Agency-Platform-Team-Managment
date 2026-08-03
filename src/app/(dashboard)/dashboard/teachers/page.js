@@ -18,14 +18,8 @@ export default function ClientsPage() {
 
     {
       name: "specialty",
-      label: "الشركة",
-      placeholder: "اسم الشركة",
-    },
-
-    {
-      name: "Spe",
       label: "التخصص",
-      placeholder: "مثال: مدرس كيمياء",
+      placeholder: "مثال : أستاذ الكيمياء",
     },
     {
       name: "link",
