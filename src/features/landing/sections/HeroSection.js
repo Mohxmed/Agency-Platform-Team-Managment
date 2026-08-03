@@ -4,6 +4,10 @@ import { createElement } from "react";
 import Image from "next/image";
 import {
   motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
   useReducedMotion,
 } from "framer-motion";
 
@@ -13,23 +17,12 @@ import {
   Heart,
   MessageCircle,
   TrendingUp,
-  Eye,
-  Share2,
-  Users,
-  Zap,
-  Target,
-  Palette,
-  MessageSquare,
   BarChart2,
-  Video,
-  Repeat,
-  Award,
 } from "lucide-react";
 
 import { Container } from "@/features/landing";
 import ScrollIndicator from "@/shared/ui/ScrollIndicator";
 import HighlightText from "@/shared/ui/typography/HighlightText";
-import { AnimatedCounter } from "@/shared/ui";
 
 import { SITE, HERO } from "@/constants/content";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -79,6 +72,12 @@ const HERO_CONFIG = {
       label: "متابع جديد",
       period: "هذا الشهر",
     },
+
+    score: 86,
+    scoreLabel: "مؤشر النمو",
+    bars: [42, 58, 50, 72, 64, 88, 96],
+    barsLabel: "الوصول الأسبوعي",
+    barTrend: "+18%",
   },
 
   rocket: {
@@ -91,129 +90,6 @@ const HERO_CONFIG = {
     duration: 28,
     float: 2.5,
   },
-
-  flying: [
-    {
-      title: "حضور قوي كل يوم",
-      text: "محتوى بيردد صداه ويخلي جمهورك يتفاعل",
-      value: "+2.4K",
-      label: "إعجاب جديد",
-      icon: "Heart",
-      metric: "likes",
-      animated: true,
-      color: "rose",
-    },
-    {
-      title: "وصول بذكاء محسوب",
-      text: "حملات مدروسة بتوصل لجمهورك الصح",
-      value: "+150K",
-      label: "متابع جديد",
-      icon: "Target",
-      metric: "followers",
-      animated: true,
-      color: "blue",
-    },
-    {
-      title: "شغل بخامة عالية",
-      text: "تصميم بيشد العين وبيفرض الاحترافية",
-      value: "+3.5K",
-      label: "مشترك جديد",
-      icon: "Users",
-      metric: "subscribers",
-      animated: true,
-      color: "purple",
-    },
-    {
-      title: "مشاهدات بتتضاعف",
-      text: "فيديوهات ومحتوى بيحقق أرقام قياسية",
-      value: "+2.1M",
-      label: "مشاهدة",
-      icon: "Video",
-      metric: "views",
-      animated: true,
-      color: "orange",
-    },
-    {
-      title: "مشاركة وانتشار واسع",
-      text: "محتوى بيستاهل المشاركة والريتويت",
-      value: "+89K",
-      label: "مشاركة",
-      icon: "Share2",
-      metric: "shares",
-      animated: true,
-      color: "green",
-    },
-    {
-      title: "تفاعل حقيقي ومتزايد",
-      text: "تعليقات ونقاشات بتثري المحتوى",
-      value: "+12.4K",
-      label: "تعليق",
-      icon: "MessageSquare",
-      metric: "comments",
-      animated: true,
-      color: "indigo",
-    },
-    {
-      title: "معدل تفاعل قياسي",
-      text: "أداء محتوى بياخد المركز الأول",
-      value: "12.8%",
-      label: "معدل التفاعل",
-      icon: "Zap",
-      metric: "engagementRate",
-      animated: true,
-      color: "amber",
-    },
-    {
-      title: "وصول لملايين العيون",
-      text: "حضور رقمي بيفرض نفسه في السوق",
-      value: "+5.2M",
-      label: "وصول",
-      icon: "Eye",
-      metric: "reach",
-      animated: true,
-      color: "red",
-    },
-    {
-      title: "حلقة احترافية للنمو",
-      text: "حلول احترافية لكل مشروع بتبني حضور قوي",
-      value: "+8.3K",
-      label: "حلول",
-      icon: "BriefcaseBusiness",
-      metric: "solutions",
-      animated: true,
-      color: "cyan",
-    },
-    {
-      title: "مساحة توسع وأعمال",
-      text: "حضور بيمتد على السوق المحلي والإقليمي والعالمي",
-      value: "+12",
-      label: "بلد",
-      icon: "Globe2",
-      metric: "countries",
-      animated: true,
-      color: "emerald",
-    },
-    {
-      title: "شراكة مع العلامات التجارية",
-      text: "مجموعة كبيرة من العلامات التجارية عتمد علينا",
-      value: "+250+",
-      label: "عميل",
-      icon: "Building2",
-      metric: "companies",
-      animated: true,
-      color: "yellow",
-    },
-    {
-      title: "شهادات رضاء",
-      text: "شهادات جودة عالية تعكس تفوقنا في العمل والتميز",
-      value: "+89",
-      label: "شهادة",
-      icon: "Award",
-      metric: "awards",
-      animated: true,
-      color: "pink",
-    },
-  ],
 };
 
 
@@ -504,151 +380,6 @@ function HeroBackground() {
 }
 
 /* =========================================================
-   FLYING ENGAGEMENT CARDS (Module Level)
-========================================================= */
-
-const FLYING_COLOR_STYLES = {
-  rose: { bg: "bg-rose-500", bgLight: "bg-rose-500/10", text: "text-rose-500", border: "border-rose-500/20", glow: "rgba(244,63,94,0.3)" },
-  blue: { bg: "bg-blue-500", bgLight: "bg-blue-500/10", text: "text-blue-500", border: "border-blue-500/20", glow: "rgba(59,130,246,0.3)" },
-  purple: { bg: "bg-purple-500", bgLight: "bg-purple-500/10", text: "text-purple-500", border: "border-purple-500/20", glow: "rgba(168,85,247,0.3)" },
-  orange: { bg: "bg-orange-500", bgLight: "bg-orange-500/10", text: "text-orange-500", border: "border-orange-500/20", glow: "rgba(249,115,22,0.3)" },
-  green: { bg: "bg-green-500", bgLight: "bg-green-500/10", text: "text-green-500", border: "border-green-500/20", glow: "rgba(34,197,94,0.3)" },
-  indigo: { bg: "bg-indigo-500", bgLight: "bg-indigo-500/10", text: "text-indigo-500", border: "border-indigo-500/20", glow: "rgba(99,102,241,0.3)" },
-  amber: { bg: "bg-amber-500", bgLight: "bg-amber-500/10", text: "text-amber-500", border: "border-amber-500/20", glow: "rgba(245,158,11,0.3)" },
-  red: { bg: "bg-red-500", bgLight: "bg-red-500/10", text: "text-red-500", border: "border-red-500/20", glow: "rgba(239,68,68,0.3)" },
-};
-
-function FlyingEngagementCard({ item, className, floatDelay, pulseDelay, reduceMotion }) {
-  const colors = FLYING_COLOR_STYLES[item.color] || FLYING_COLOR_STYLES.rose;
-  const Icon = resolveIcon(item.icon, Heart);
-  const iconEl = createElement(Icon, { size: 18, strokeWidth: 2 });
-
-  const floating = reduceMotion ? {} : {
-    y: [0, -12, 0],
-    transition: { duration: 7, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
-  };
-
-  const pulse = reduceMotion ? {} : {
-    scale: [1, 1.05, 1],
-    opacity: [0.8, 1, 0.8],
-    transition: { duration: 2, repeat: Infinity, delay: pulseDelay, ease: "easeInOut" },
-  };
-
-  return (
-    <motion.div
-      animate={floating}
-      className={`absolute ${className}`}
-      whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
-    >
-      <motion.div
-        animate={pulse}
-        className="relative"
-      >
-        <div
-          className={`
-            absolute inset-0 rounded-[24px] blur-2xl opacity-30
-            ${colors.bg}
-          `}
-        />
-        <GlassCard
-          className={`
-            p-4 relative z-10 min-w-[220px] max-w-[260px]
-            border-${item.color}-500/20
-            hover:border-${item.color}-500/40
-            transition-all duration-300
-            hover:shadow-[0_20px_50px_${colors.glow}]
-          `}
-        >
-          <div className="flex items-start justify-between gap-3 mb-3">
-            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${colors.bgLight} ${colors.text}`}>
-              {iconEl}
-            </div>
-            <motion.span
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${colors.bgLight} ${colors.text}`}>
-              {item.label}
-            </motion.span>
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-[11px] leading-relaxed text-muted mb-3 line-clamp-2"
-          >
-            {item.text}
-          </motion.p>
-
-          <div className="flex items-end justify-between gap-2 pt-2 border-t border-ink/[0.05]">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex items-baseline gap-1"
-            >
-              {item.animated ? (
-                <AnimatedCounter
-                  value={item.value}
-                  className="text-2xl font-black text-ink"
-                  duration={1800}
-                />
-              ) : (
-                <span className="text-2xl font-black text-ink">{item.value}</span>
-              )}
-              <span className="text-xs font-medium text-muted ml-1">{item.metric === "engagementRate" ? "" : "+"}</span>
-            </motion.div>
-            <motion.span
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 0.4 }}
-              className={`text-[10px] font-bold px-2 py-1 rounded-full ${colors.bgLight} ${colors.text}`}>
-              {item.metric}
-            </motion.span>
-          </div>
-        </GlassCard>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function MobileEngagementCard({ item }) {
-  const colors = FLYING_COLOR_STYLES[item.color] || FLYING_COLOR_STYLES.rose;
-  const Icon = resolveIcon(item.icon, Heart);
-  const iconEl = createElement(Icon, { size: 14, strokeWidth: 2 });
-
-  return (
-    <div className="group relative rounded-2xl border bg-white/50 backdrop-blur-xl p-3 hover:border-primary-500/30 transition-all duration-300" style={{ borderColor: "var(--color-border)" }}>
-      <div className="flex items-center justify-between gap-2 mb-2">
-        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${colors.bgLight} ${colors.text}`}>
-          {iconEl}
-        </div>
-        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold ${colors.bgLight} ${colors.text}`}>
-          {item.label}
-        </span>
-      </div>
-
-      <p className="text-[10px] leading-relaxed text-muted mb-2 line-clamp-2">{item.text}</p>
-
-      <div className="flex items-end justify-between gap-2 pt-2 border-t" style={{ borderColor: "var(--color-border)" }}>
-        <div className="flex items-baseline gap-1">
-          {item.animated ? (
-            <AnimatedCounter value={item.value} className="text-lg font-black text-ink" duration={1500} />
-          ) : (
-            <span className="text-lg font-black text-ink">{item.value}</span>
-          )}
-          <span className="text-xs font-medium text-muted ml-1">{item.metric === "engagementRate" ? "" : "+"}</span>
-        </div>
-        <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${colors.bgLight} ${colors.text}`}>
-          {item.metric}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
    GLASS SHOWCASE
 ========================================================= */
 
@@ -690,6 +421,574 @@ function GlassCard({
 
 
 /* =========================================================
+   SHOWCASE GLOW ORBS
+========================================================= */
+
+function ShowcaseGlow() {
+
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <>
+      <motion.div
+        animate={
+          reduceMotion
+            ? {}
+            : {
+                y: [0, -18, 0],
+                scale: [1, 1.08, 1],
+              }
+        }
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="
+          absolute
+          -start-16
+          top-24
+          h-64
+          w-64
+          rounded-full
+          opacity-40
+          blur-3xl
+        "
+        style={{
+          background:
+            "radial-gradient(circle,rgba(232,33,37,.22),transparent 70%)",
+        }}
+      />
+
+      <motion.div
+        animate={
+          reduceMotion
+            ? {}
+            : {
+                y: [0, 16, 0],
+                scale: [1, 1.12, 1],
+              }
+        }
+        transition={{
+          duration: 11,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.5,
+        }}
+        className="
+          absolute
+          -end-10
+          bottom-16
+          h-72
+          w-72
+          rounded-full
+          opacity-40
+          blur-3xl
+        "
+        style={{
+          background:
+            "radial-gradient(circle,rgba(99,102,241,.18),transparent 70%)",
+        }}
+      />
+    </>
+  );
+}
+
+/* =========================================================
+   TILT RESULTS PANEL (Interactive 3D)
+========================================================= */
+
+function TiltResultsPanel() {
+
+  const reduceMotion = useReducedMotion();
+
+  const { settings } = useSettings();
+  const heroContent = settings.content?.hero || {};
+  const showcaseDefaults = HERO_CONFIG.showcase;
+
+  const analytics = {
+    title: heroContent.analytics?.title || showcaseDefaults.analytics.title,
+    growth: heroContent.analytics?.growth || showcaseDefaults.analytics.growth,
+    text: heroContent.analytics?.text || showcaseDefaults.analytics.text,
+  };
+
+  const campaign = {
+    likes: heroContent.campaign?.likes || showcaseDefaults.campaign.likes,
+    comments: heroContent.campaign?.comments || showcaseDefaults.campaign.comments,
+  };
+
+  const score = showcaseDefaults.score;
+  const bars = showcaseDefaults.bars;
+
+  const R = 46;
+  const C = 2 * Math.PI * R;
+
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+
+  const springConfig = {
+    stiffness: 140,
+    damping: 18,
+    mass: 0.6,
+  };
+
+  const rotateX = useSpring(
+    useTransform(my, [0, 1], [9, -9]),
+    springConfig,
+  );
+
+  const rotateY = useSpring(
+    useTransform(mx, [0, 1], [-9, 9]),
+    springConfig,
+  );
+
+  const glareX = useTransform(mx, [0, 1], ["15%", "85%"]);
+  const glareY = useTransform(my, [0, 1], ["15%", "85%"]);
+
+  const glareBackground =
+    useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.22), transparent 55%)`;
+
+  function handleMouseMove(event) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    mx.set((event.clientX - rect.left) / rect.width);
+    my.set((event.clientY - rect.top) / rect.height);
+  }
+
+  function handleMouseLeave() {
+    mx.set(0.5);
+    my.set(0.5);
+  }
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 40,
+        scale: 0.96,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      }}
+      transition={{
+        duration: 0.9,
+        ease: easing,
+        delay: 0.2,
+      }}
+      className="
+        relative
+        w-[340px]
+        [perspective:1200px]
+      "
+    >
+      <motion.div
+        onMouseMove={reduceMotion ? undefined : handleMouseMove}
+        onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
+        whileHover={{
+          scale: 1.02,
+        }}
+        style={{
+          rotateX: reduceMotion ? 0 : rotateX,
+          rotateY: reduceMotion ? 0 : rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className="
+          relative
+          will-change-transform
+        "
+      >
+        <GlassCard className="relative z-10 p-6">
+          {/* Glare */}
+          <motion.div
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              z-20
+            "
+            style={{
+              background: glareBackground,
+            }}
+          />
+
+          {/* Header */}
+          <div
+            className="
+              relative
+              flex
+              items-center
+              justify-between
+              gap-3
+              z-10
+            "
+          >
+            <div
+              className="
+                flex
+                items-center
+                gap-3
+              "
+            >
+              <div
+                className="
+                  flex
+                  h-11
+                  w-11
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  bg-gradient-to-br
+                  from-primary-400
+                  to-primary-700
+                  text-white
+                  shadow-[0_10px_25px_rgba(232,33,37,.25)]
+                "
+              >
+                <BarChart2 size={20} />
+              </div>
+
+              <div>
+                <p
+                  className="
+                    text-sm
+                    font-black
+                    text-ink
+                  "
+                >
+                  {analytics.title}
+                </p>
+
+                <p
+                  className="
+                    mt-0.5
+                    text-[10px]
+                    font-bold
+                    text-muted
+                  "
+                >
+                  لوحة الأداء اللحظية
+                </p>
+              </div>
+            </div>
+
+            <span
+              className="
+                inline-flex
+                items-center
+                gap-1.5
+                rounded-full
+                bg-red-500/10
+                px-2.5
+                py-1
+                text-[10px]
+                font-black
+                text-red-500
+              "
+            >
+              <span
+                className="
+                  relative
+                  flex
+                  h-1.5
+                  w-1.5
+                "
+              >
+                <span
+                  className="
+                    absolute
+                    inline-flex
+                    h-full
+                    w-full
+                    animate-ping
+                    rounded-full
+                    bg-red-500
+                    opacity-75
+                  "
+                />
+                <span
+                  className="
+                    relative
+                    inline-flex
+                    h-1.5
+                    w-1.5
+                    rounded-full
+                    bg-red-500
+                  "
+                />
+              </span>
+              LIVE
+            </span>
+          </div>
+
+          {/* Ring */}
+          <div
+            className="
+              relative
+              mx-auto
+              mt-6
+              flex
+              h-[132px]
+              w-[132px]
+              items-center
+              justify-center
+              z-10
+            "
+          >
+            <svg
+              width="132"
+              height="132"
+              viewBox="0 0 120 120"
+              className="-rotate-90"
+            >
+              <defs>
+                <linearGradient
+                  id="ringGradient"
+                  x1="0"
+                  y1="0"
+                  x2="1"
+                  y2="1"
+                >
+                  <stop offset="0%" stopColor="#ff6b6e" />
+                  <stop offset="100%" stopColor="#e82125" />
+                </linearGradient>
+              </defs>
+
+              <circle
+                cx="60"
+                cy="60"
+                r={R}
+                fill="none"
+                stroke="var(--color-border)"
+                strokeWidth="9"
+              />
+
+              <motion.circle
+                cx="60"
+                cy="60"
+                r={R}
+                fill="none"
+                stroke="url(#ringGradient)"
+                strokeWidth="9"
+                strokeLinecap="round"
+                strokeDasharray={C}
+                initial={{
+                  strokeDashoffset: C,
+                }}
+                animate={{
+                  strokeDashoffset: C * (1 - score / 100),
+                }}
+                transition={{
+                  duration: 1.6,
+                  ease: easing,
+                  delay: 0.6,
+                }}
+              />
+            </svg>
+
+            <div
+              className="
+                absolute
+                inset-0
+                flex
+                flex-col
+                items-center
+                justify-center
+                text-center
+              "
+            >
+              <p
+                className="
+                  text-2xl
+                  font-black
+                  text-ink
+                "
+              >
+                {analytics.growth}
+              </p>
+
+              <p
+                className="
+                  text-[10px]
+                  font-bold
+                  text-muted
+                "
+              >
+                {showcaseDefaults.scoreLabel}
+              </p>
+            </div>
+          </div>
+
+          <p
+            className="
+              relative
+              z-10
+              mx-auto
+              mt-4
+              max-w-[240px]
+              text-center
+              text-xs
+              leading-relaxed
+              text-muted
+            "
+          >
+            {analytics.text}
+          </p>
+
+          {/* Weekly bars */}
+          <div
+            className="
+              relative
+              z-10
+              mt-6
+              rounded-2xl
+              border
+              border-ink/[0.05]
+              bg-white/40
+              p-4
+            "
+          >
+            <div
+              className="
+                mb-3
+                flex
+                items-center
+                justify-between
+              "
+            >
+              <p
+                className="
+                  text-[11px]
+                  font-bold
+                  text-ink
+                "
+              >
+                {showcaseDefaults.barsLabel}
+              </p>
+
+              <span
+                className="
+                  inline-flex
+                  items-center
+                  gap-1
+                  rounded-full
+                  bg-green-500/10
+                  px-2
+                  py-0.5
+                  text-[10px]
+                  font-black
+                  text-green-600
+                "
+              >
+                <TrendingUp size={12} />
+                {showcaseDefaults.barTrend}
+              </span>
+            </div>
+
+            <div
+              className="
+                flex
+                h-16
+                items-end
+                gap-1.5
+              "
+            >
+              {bars.map((height, index) => (
+                <motion.span
+                  key={index}
+                  initial={{
+                    height: 0,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    height: `${height}%`,
+                    opacity: 1,
+                  }}
+                  transition={{
+                    duration: 0.9,
+                    ease: easing,
+                    delay: 0.8 + index * 0.07,
+                  }}
+                  className="
+                    flex-1
+                    rounded-full
+                    bg-gradient-to-t
+                    from-primary-600/50
+                    to-primary-400
+                  "
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Footer stats */}
+          <div
+            className="
+              relative
+              z-10
+              mt-5
+              flex
+              items-center
+              justify-between
+              border-t
+              border-ink/[0.05]
+              pt-4
+            "
+          >
+            <span
+              className="
+                inline-flex
+                items-center
+                gap-1.5
+                text-xs
+                font-bold
+                text-ink/70
+              "
+            >
+              <Heart size={14} className="text-rose-500" />
+              {campaign.likes}
+            </span>
+
+            <span
+              className="
+                inline-flex
+                items-center
+                gap-1.5
+                text-xs
+                font-bold
+                text-ink/70
+              "
+            >
+              <MessageCircle size={14} className="text-sky-500" />
+              {campaign.comments}
+            </span>
+
+            <span
+              className="
+                inline-flex
+                items-center
+                gap-1.5
+                rounded-full
+                bg-primary-600/10
+                px-2.5
+                py-1
+                text-[10px]
+                font-black
+                text-primary-600
+              "
+            >
+              <TrendingUp size={12} />
+              {analytics.growth}
+            </span>
+          </div>
+        </GlassCard>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* =========================================================
    SHOWCASE CONTENT
 ========================================================= */
 
@@ -704,14 +1003,6 @@ function GlassShowcase() {
   const campaign = {
     title: heroContent.campaign?.title || showcaseDefaults.campaign.title,
     text: heroContent.campaign?.text || showcaseDefaults.campaign.text,
-    likes: heroContent.campaign?.likes || showcaseDefaults.campaign.likes,
-    comments: heroContent.campaign?.comments || showcaseDefaults.campaign.comments,
-  };
-
-  const analytics = {
-    title: heroContent.analytics?.title || showcaseDefaults.analytics.title,
-    growth: heroContent.analytics?.growth || showcaseDefaults.analytics.growth,
-    text: heroContent.analytics?.text || showcaseDefaults.analytics.text,
   };
 
   const growth = {
@@ -720,42 +1011,22 @@ function GlassShowcase() {
     period: heroContent.growth?.period || showcaseDefaults.growth.period,
   };
 
-  const flying = HERO_CONFIG.flying.map((def, i) => ({
-    title: heroContent.flying?.[i]?.title || def.title,
-    text: heroContent.flying?.[i]?.text || def.text,
-    value: heroContent.flying?.[i]?.value || def.value,
-    label: heroContent.flying?.[i]?.label || def.label,
-    icon: heroContent.flying?.[i]?.icon || def.icon,
-    metric: heroContent.flying?.[i]?.metric || def.metric,
-    animated: heroContent.flying?.[i]?.animated ?? def.animated,
-    color: heroContent.flying?.[i]?.color || def.color,
-  }));
-
-
-
   const floating = (delay = 0) => {
 
     if (reduceMotion)
       return {};
 
     return {
-      y:[
-        0,
-        -12,
-        0,
-      ],
+      y: [0, -12, 0],
 
-      transition:{
-        duration:7,
-        repeat:Infinity,
+      transition: {
+        duration: 7,
+        repeat: Infinity,
         delay,
-        ease:"easeInOut",
+        ease: "easeInOut",
       },
     };
-
   };
-
-
 
   return (
 
@@ -763,162 +1034,29 @@ function GlassShowcase() {
       className="
         relative
         w-full
-        min-h-[420px]
+        min-h-[560px]
         hidden
         lg:block
       "
     >
 
+      <ShowcaseGlow />
 
-      {/* Main Analytics Card */}
+      {/* Center interactive panel */}
 
-      <motion.div
-
-        animate={floating(.5)}
-
+      <div
         className="
           absolute
-          top-20
-          end-20
-          w-[270px]
-          rotate-[-5deg]
+          inset-0
+          flex
+          items-center
+          justify-center
         "
-
       >
+        <TiltResultsPanel />
+      </div>
 
-        <GlassCard
-          className="
-            p-4
-          "
-        >
-
-
-          <div
-            className="
-              relative
-              h-40
-              rounded-2xl
-              overflow-hidden
-              mb-4
-            "
-
-            style={{
-              background:
-              "linear-gradient(135deg,#ff6b6e,#e82125)"
-            }}
-          >
-
-
-            <Image
-              src={logoIcon}
-              alt=""
-              className="
-                absolute
-                -bottom-8
-                -end-8
-                w-28
-                h-28
-                opacity-20
-              "
-            />
-
-
-            <div
-              className="
-                absolute
-                bottom-4
-                start-4
-                text-white
-              "
-            >
-
-              <p
-                className="
-                  text-xs
-                  opacity-80
-                "
-              >
-                Campaign Result
-              </p>
-
-
-              <p
-                className="
-                  text-3xl
-                  font-black
-                "
-              >
-                {analytics.growth}
-              </p>
-
-
-            </div>
-
-
-          </div>
-
-
-
-          <div
-            className="
-              flex
-              justify-between
-              items-center
-            "
-          >
-
-            <span
-              className="
-                font-bold
-                text-sm
-              "
-            >
-              {analytics.title}
-            </span>
-
-
-            <span
-              className="
-                rounded-full
-                bg-green-500/10
-                text-green-600
-                text-xs
-                font-bold
-                px-3
-                py-1
-              "
-            >
-              {analytics.growth}
-            </span>
-
-
-          </div>
-
-
-          <p
-            className="
-              text-xs
-              text-muted
-              mt-2
-              leading-relaxed
-            "
-          >
-            {analytics.text}
-          </p>
-
-
-
-        </GlassCard>
-
-
-      </motion.div>
-
-
-
-
-
-      {/* Dark Social Card */}
-
+      {/* Dark social chip */}
 
       <motion.div
 
@@ -926,131 +1064,81 @@ function GlassShowcase() {
 
         className="
           absolute
-          top-5
-          end-[250px]
-          w-[240px]
-          rotate-[6deg]
+          top-4
+          start-0
+          z-10
+          w-[230px]
+          rotate-[-5deg]
         "
-
       >
 
         <div
           className="
-            rounded-[28px]
+            rounded-[24px]
             bg-[#121826]
             text-white
-            p-5
+            p-4
             shadow-[0_35px_80px_rgba(0,0,0,.2)]
           "
         >
-
 
           <div
             className="
               flex
               items-center
-              gap-3
-              mb-5
+              gap-2.5
+              mb-3
             "
           >
 
             <div
               className="
-                w-10
-                h-10
+                flex
+                h-9
+                w-9
+                shrink-0
+                items-center
+                justify-center
                 rounded-full
                 bg-white/10
-                p-2
+                p-1.5
               "
             >
 
               <Image
                 src={logoIcon}
                 alt=""
+                className="h-6 w-6"
               />
 
             </div>
 
-
             <span
               className="
-                text-sm
+                text-xs
                 font-bold
               "
             >
               {campaign.title}
             </span>
 
-
           </div>
-
-
-
 
           <p
             className="
-              text-sm
-              text-white/70
+              text-[11px]
               leading-relaxed
+              text-white/70
             "
           >
             {campaign.text}
           </p>
 
-
-
-          <div
-            className="
-              flex
-              gap-5
-              mt-5
-              text-xs
-              text-white/60
-            "
-          >
-
-            <span
-              className="
-                flex
-                items-center
-                gap-1
-              "
-            >
-
-              <Heart size={14}/>
-              {campaign.likes}
-
-            </span>
-
-
-            <span
-              className="
-                flex
-                items-center
-                gap-1
-              "
-            >
-
-              <MessageCircle size={14}/>
-              {campaign.comments}
-
-            </span>
-
-
-          </div>
-
-
         </div>
-
 
       </motion.div>
 
-
-
-
-
-      {/* Growth Badge */}
-
+      {/* Growth badge */}
 
       <motion.div
 
@@ -1058,30 +1146,31 @@ function GlassShowcase() {
 
         className="
           absolute
-          bottom-12
-          end-[90px]
+          bottom-8
+          end-0
+          z-10
+          rotate-[3deg]
         "
-
       >
 
         <div
           className="
-            rounded-[26px]
+            rounded-[24px]
             px-6
-            py-5
+            py-4
             text-white
             shadow-[0_25px_70px_rgba(232,33,37,.3)]
           "
 
           style={{
             background:
-            "linear-gradient(135deg,#e82125,#b51418)"
+              "linear-gradient(135deg,#e82125,#b51418)"
           }}
         >
 
           <div
             className="
-              text-xs
+              text-[10px]
               opacity-80
               mb-1
             "
@@ -1089,91 +1178,27 @@ function GlassShowcase() {
             {growth.period}
           </div>
 
-
           <div
             className="
-              text-3xl
+              text-2xl
               font-black
             "
           >
             {growth.value}
           </div>
 
-
           <div
             className="
-              text-xs
+              text-[10px]
               opacity-90
             "
           >
             {growth.label}
           </div>
 
-</div>
-
+        </div>
 
       </motion.div>
-
-
-
-
-      {/* Flying Engagement Cards */}
-
-      <FlyingEngagementCard
-        item={flying[0]}
-        className="top-[12%] end-[-20px] rotate-[4deg]"
-        floatDelay={0.2}
-        pulseDelay={0.5}
-      />
-
-      <FlyingEngagementCard
-        item={flying[1]}
-        className="top-[18%] end-[320px] rotate-[-5deg]"
-        floatDelay={0.8}
-        pulseDelay={1.2}
-      />
-
-      <FlyingEngagementCard
-        item={flying[2]}
-        className="top-[42%] end-[-40px] rotate-[3deg]"
-        floatDelay={1.4}
-        pulseDelay={0.8}
-      />
-
-      <FlyingEngagementCard
-        item={flying[3]}
-        className="top-[55%] end-[280px] rotate-[-4deg]"
-        floatDelay={2.0}
-        pulseDelay={1.5}
-      />
-
-      <FlyingEngagementCard
-        item={flying[4]}
-        className="top-[68%] end-[-10px] rotate-[2deg]"
-        floatDelay={1.6}
-        pulseDelay={2.2}
-      />
-
-      <FlyingEngagementCard
-        item={flying[5]}
-        className="bottom-[18%] end-[360px] rotate-[-3deg]"
-        floatDelay={2.4}
-        pulseDelay={0.3}
-      />
-
-      <FlyingEngagementCard
-        item={flying[6]}
-        className="bottom-[8%] end-[-30px] rotate-[5deg]"
-        floatDelay={2.8}
-        pulseDelay={1.8}
-      />
-
-      <FlyingEngagementCard
-        item={flying[7]}
-        className="bottom-[32%] end-[200px] rotate-[-2deg]"
-        floatDelay={3.2}
-        pulseDelay={2.5}
-      />
 
     </div>
 
