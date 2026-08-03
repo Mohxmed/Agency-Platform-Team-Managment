@@ -273,20 +273,6 @@ export default function MobileMenu({ open, onClose }) {
               }}
             >
 
-              <Button
-                href="/contact"
-                onClick={onClose}
-                className="
-                  flex
-                  w-full
-                  items-center
-                  justify-center
-                  gap-2
-                "
-              >
-                <FaWhatsapp className="text-lg"/>
-                ابعتلنا على واتساب
-              </Button>
 
             </div>
 
