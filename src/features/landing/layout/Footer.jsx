@@ -574,8 +574,8 @@ export default function Footer() {
             >
               {copyright}
 
-              <DeveloperCredit />
             </motion.p>
+              <DeveloperCredit />
           </div>
         </motion.div>
       </Container>
