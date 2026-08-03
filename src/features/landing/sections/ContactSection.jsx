@@ -103,7 +103,7 @@ export default function ContactSection() {
   const emailLabel = content.emailLabel || "البريد الإلكتروني";
   const phoneLabel = content.phoneLabel || "تليفون / واتساب";
   const addressLabel = content.addressLabel || "مكاننا";
-  const mapButton = content.mapButton || "افتح مكاننا على الخريطة";
+  const mapButton = content.mapButton || "موقعنا على الخريطة";
   const whatsappButton = content.whatsappButton || "كلمنا على واتساب";
   const formTitle = content.formTitle || "احكيلنا عن مشروعك";
   const formSubtitle =

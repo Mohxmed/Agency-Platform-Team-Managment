@@ -94,7 +94,7 @@ const EMPTY = {
       emailLabel: "البريد الإلكتروني",
       phoneLabel: "تليفون / واتساب",
       addressLabel: "مكاننا",
-      mapButton: "افتح مكاننا على الخريطة",
+      mapButton: "موقعنا على الخريطة",
       whatsappButton: "كلمنا على واتساب",
       formTitle: "احكيلنا عن مشروعك",
       formSubtitle: "املأ البيانات وإحنا هنتواصل معاك في أقرب وقت.",

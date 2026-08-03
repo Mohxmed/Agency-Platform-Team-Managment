@@ -14,11 +14,7 @@ import {
 import SectionTitle from "@/features/landing/layout/SectionTitle";
 import { Container } from "@/features/landing";
 import ProjectCard from "@/shared/ui/cards/ProjectCard";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-
-import "swiper/css";
+import Marquee from "@/features/landing/components/Marquee";
 
 import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
 import StatsBoard from "@/features/landing/components/StatsBoard";
@@ -211,83 +207,48 @@ export default function WorksSection() {
                 <HomeWorksSkeleton />
               ) : projects.length > 0 ? (
 
-                <Swiper
-                  modules={[
-                    Autoplay,
-                  ]}
-                  loop={projects.length > 2}
-                  loopAdditionalSlides={4}
-                  speed={3200}
-                  spaceBetween={20}
-                  slidesPerView={1.15}
-                  grabCursor={false}
-                  watchOverflow
-
-                  autoplay={{
-                    delay: 0,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-
-                  breakpoints={{
-                    640: {
-                      slidesPerView: 1.4,
-                    },
-
-                    768: {
-                      slidesPerView: 2.2,
-                    },
-
-                    1200: {
-                      slidesPerView: 2.8,
-                      spaceBetween: 24,
-                    },
-                  }}
+                <Marquee
+                  duration={projects.length * 3.2}
+                  slideClassName="h-auto px-3 py-8"
                 >
 
                   {projects.map((project, index) => (
 
-                    <SwiperSlide
+                    <motion.div
                       key={project.id}
-                      className="h-auto px-3 py-8"
+                      initial={{
+                        opacity: 0,
+                        y: 25,
+                        scale: 0.97,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                      }}
+                      viewport={{
+                        once: true,
+                        amount: 0.15,
+                      }}
+                      transition={{
+                        duration: 0.7,
+                        delay: Math.min(
+                          index * 0.08,
+                          0.4
+                        ),
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
                     >
 
-                      <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 25,
-                          scale: 0.97,
-                        }}
-                        whileInView={{
-                          opacity: 1,
-                          y: 0,
-                          scale: 1,
-                        }}
-                        viewport={{
-                          once: true,
-                          amount: 0.15,
-                        }}
-                        transition={{
-                          duration: 0.7,
-                          delay: Math.min(
-                            index * 0.08,
-                            0.4
-                          ),
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                      >
+                      <ProjectCard
+                        project={project}
+                      />
 
-                        <ProjectCard
-                          project={project}
-                        />
-
-                      </motion.div>
-
-                    </SwiperSlide>
+                    </motion.div>
 
                   ))}
 
-                </Swiper>
+                </Marquee>
 
               ) : (
 

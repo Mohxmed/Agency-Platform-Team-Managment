@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "../../../shared/ui/identity/Logo";
 
 import IconButtons from "@/shared/ui/buttons/IconButtons";
@@ -16,14 +16,56 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme, mounted } = useTheme();
   const [isTranslated, setIsTranslated] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    function handleScroll() {
+      const y = window.scrollY;
+
+      if (ticking) return;
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        if (y > lastY && y > 120) {
+          setHidden(true);
+        } else if (y < lastY) {
+          setHidden(false);
+        }
+
+        lastY = y;
+        ticking = false;
+      });
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
       <Modal isOpen={isTranslated} setIsOpen={setIsTranslated}>
         <UnderDevelopment />
       </Modal>
-      <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur shadow dark:bg-background/90">
-        <Container className={"flex h-14 items-center justify-between"}>
+      <header
+        className={`
+          sticky
+          top-0
+          z-50
+          w-full
+          bg-white/90
+          shadow
+          backdrop-blur
+          transition-transform
+          duration-500
+          ease-out
+          dark:bg-background/90
+          ${hidden ? "-translate-y-full" : "translate-y-0"}
+        `}
+      >
+        <Container className={"flex h-16 items-center justify-between"}>
           <Logo />
           <Navbar />
           <MobileMenu open={isOpen} onClose={() => setIsOpen(false)} />

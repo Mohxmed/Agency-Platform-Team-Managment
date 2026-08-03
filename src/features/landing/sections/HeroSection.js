@@ -1257,17 +1257,41 @@ function GlassShowcase() {
 
       <motion.div
 
-        animate={floating(0)}
+        initial={{
+          opacity: 0,
+          y: 40,
+          scale: 0.9,
+        }}
+
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        }}
+
+        transition={{
+          duration: 0.8,
+          ease: easing,
+          delay: 0.5,
+        }}
 
         className="
           absolute
           top-4
           start-0
           z-10
-          w-[230px]
-          rotate-[-5deg]
         "
       >
+
+        <motion.div
+
+          animate={floating(0)}
+
+          className="
+            w-[230px]
+            rotate-[-5deg]
+          "
+        >
 
         <div
           className="
@@ -1333,22 +1357,48 @@ function GlassShowcase() {
 
         </div>
 
+        </motion.div>
+
       </motion.div>
 
       {/* Growth badge */}
 
       <motion.div
 
-        animate={floating(1)}
+        initial={{
+          opacity: 0,
+          y: 40,
+          scale: 0.9,
+        }}
+
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        }}
+
+        transition={{
+          duration: 0.8,
+          ease: easing,
+          delay: 0.7,
+        }}
 
         className="
           absolute
           bottom-8
           end-0
           z-10
-          rotate-[3deg]
         "
       >
+
+        <motion.div
+
+          animate={floating(1)}
+
+          className="
+            rotate-[3deg]
+          "
+        >
 
         <div
           className="
@@ -1394,6 +1444,8 @@ function GlassShowcase() {
           </div>
 
         </div>
+
+        </motion.div>
 
       </motion.div>
 

@@ -4,20 +4,11 @@ import { motion } from "framer-motion";
 
 import { useClients } from "@/features/landing/hooks/useClients";
 
-// Swiper
-import "swiper/css";
-import "swiper/css/pagination";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Autoplay,
-  Pagination,
-} from "swiper/modules";
-
 // UI
 import Button from "@/shared/ui/buttons/Buttons";
 import ClientCard from "@/shared/ui/cards/ClientCard";
 import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
+import Marquee from "@/features/landing/components/Marquee";
 import { OutlinedBadge } from "@/shared/ui/badges/OutlinedBadge";
 import SectionTitle from "@/features/landing/layout/SectionTitle";
 import { Container } from "@/features/landing";
@@ -433,81 +424,48 @@ export default function ClientsSection() {
             )}
 
           {/* ===================================================
-              SWIPER
+              INFINITE CLIENTS MARQUEE
           =================================================== */}
 
           {!loading &&
             !error &&
             clients.length > 0 && (
               <SwiperFadeEdges>
-                <Swiper
-                  modules={[
-                    Autoplay,
-                    Pagination,
-                  ]}
-                  spaceBetween={0}
-                  loop={clients.length > 3}
-                  loopAdditionalSlides={4}
-                  speed={2500}
-                  watchOverflow
-                  autoplay={{
-                    delay: 0,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                  breakpoints={{
-                    0: {
-                      slidesPerView: 1.15,
-                    },
-
-                    640: {
-                      slidesPerView: 1.6,
-                    },
-
-                    768: {
-                      slidesPerView: 2.4,
-                    },
-
-                    1200: {
-                      slidesPerView: 3,
-                    },
-                  }}
+                <Marquee
+                  duration={clients.length * 2.5}
+                  slideClassName="px-4 py-8"
                 >
                   {clients.map((client) => (
-                    <SwiperSlide
+                    <motion.div
                       key={client.id}
-                      className="px-4 py-8"
+                      initial={{
+                        opacity: 0,
+                        y: 20,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                      }}
+                      viewport={{
+                        once: true,
+                        amount: 0.1,
+                      }}
+                      transition={{
+                        duration: 0.7,
+                        ease: [
+                          0.22,
+                          1,
+                          0.36,
+                          1,
+                        ],
+                      }}
                     >
-                      <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 20,
-                        }}
-                        whileInView={{
-                          opacity: 1,
-                          y: 0,
-                        }}
-                        viewport={{
-                          once: true,
-                          amount: 0.1,
-                        }}
-                        transition={{
-                          duration: 0.7,
-                          ease: [
-                            0.22,
-                            1,
-                            0.36,
-                            1,
-                          ],
-                        }}
-                      >
-                        <ClientCard
-                          teacher={client}
-                        />
-                      </motion.div>
-                    </SwiperSlide>
+                      <ClientCard
+                        teacher={client}
+                      />
+                    </motion.div>
                   ))}
-                </Swiper>
+                </Marquee>
               </SwiperFadeEdges>
             )}
         </motion.div>
