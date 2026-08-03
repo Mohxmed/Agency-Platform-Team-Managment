@@ -859,6 +859,14 @@ function HeroStats({
   variants,
 }) {
 
+  const colsClass =
+    stats.length >= 4
+      ? "grid-cols-2 md:grid-cols-4"
+      : stats.length === 3
+        ? "grid-cols-3"
+        : stats.length === 2
+          ? "grid-cols-2"
+          : "grid-cols-1";
 
   return (
 
@@ -866,15 +874,15 @@ function HeroStats({
 
       variants={variants.item}
 
-      className="
+      className={`
         grid
-        grid-cols-3
+        ${colsClass}
         gap-5
         w-full
         mt-10
         pt-8
         border-t
-      "
+      `}
 
       style={{
         borderColor:
@@ -1110,6 +1118,12 @@ function HeroContent(){
     HERO.badge;
 
 
+  const stats =
+    settings.stats?.length
+    ? settings.stats
+    : HERO_CONFIG.stats;
+
+
 
   return (
 
@@ -1248,7 +1262,7 @@ function HeroContent(){
       <HeroStats
 
         stats={
-          HERO_CONFIG.stats
+          stats
         }
 
         variants={variants}
