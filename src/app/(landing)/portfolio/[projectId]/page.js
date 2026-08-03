@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -77,14 +77,19 @@ const scaleReveal = {
 
 
 export default function ProjectPage({ params }) {
-
   const { works, categories, loading } = useWorks();
 
+  const [projectId, setProjectId] = useState(null);
 
-  const projectId = params?.projectId;
+  useEffect(() => {
+    async function resolveParams() {
+      const resolvedParams = await params;
 
+      setProjectId(resolvedParams?.projectId || null);
+    }
 
-
+    resolveParams();
+  }, [params]);
   /* =========================================================
       PROJECT
   ========================================================= */
@@ -96,12 +101,17 @@ export default function ProjectPage({ params }) {
     }
 
 
-    return works.find(
-      (item) =>
-        String(item.link || "").trim() ===
-        String(projectId).trim()
-    );
+return works.find((item) => {
+  const itemLink = String(item.link || "")
+    .replaceAll("/", "")
+    .trim();
 
+  const currentId = String(projectId || "")
+    .replaceAll("/", "")
+    .trim();
+
+  return itemLink === currentId;
+});
   }, [works, projectId]);
 
 
