@@ -13,11 +13,23 @@ import {
   Heart,
   MessageCircle,
   TrendingUp,
+  Eye,
+  Share2,
+  Users,
+  Zap,
+  Target,
+  Palette,
+  MessageSquare,
+  BarChart2,
+  Video,
+  Repeat,
+  Award,
 } from "lucide-react";
 
 import { Container } from "@/features/landing";
 import ScrollIndicator from "@/shared/ui/ScrollIndicator";
 import HighlightText from "@/shared/ui/typography/HighlightText";
+import { AnimatedCounter } from "@/shared/ui";
 
 import { SITE, HERO } from "@/constants/content";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -79,6 +91,129 @@ const HERO_CONFIG = {
     duration: 28,
     float: 2.5,
   },
+
+  flying: [
+    {
+      title: "حضور قوي كل يوم",
+      text: "محتوى بيردد صداه ويخلي جمهورك يتفاعل",
+      value: "+2.4K",
+      label: "إعجاب جديد",
+      icon: "Heart",
+      metric: "likes",
+      animated: true,
+      color: "rose",
+    },
+    {
+      title: "وصول بذكاء محسوب",
+      text: "حملات مدروسة بتوصل لجمهورك الصح",
+      value: "+150K",
+      label: "متابع جديد",
+      icon: "Target",
+      metric: "followers",
+      animated: true,
+      color: "blue",
+    },
+    {
+      title: "شغل بخامة عالية",
+      text: "تصميم بيشد العين وبيفرض الاحترافية",
+      value: "+3.5K",
+      label: "مشترك جديد",
+      icon: "Users",
+      metric: "subscribers",
+      animated: true,
+      color: "purple",
+    },
+    {
+      title: "مشاهدات بتتضاعف",
+      text: "فيديوهات ومحتوى بيحقق أرقام قياسية",
+      value: "+2.1M",
+      label: "مشاهدة",
+      icon: "Video",
+      metric: "views",
+      animated: true,
+      color: "orange",
+    },
+    {
+      title: "مشاركة وانتشار واسع",
+      text: "محتوى بيستاهل المشاركة والريتويت",
+      value: "+89K",
+      label: "مشاركة",
+      icon: "Share2",
+      metric: "shares",
+      animated: true,
+      color: "green",
+    },
+    {
+      title: "تفاعل حقيقي ومتزايد",
+      text: "تعليقات ونقاشات بتثري المحتوى",
+      value: "+12.4K",
+      label: "تعليق",
+      icon: "MessageSquare",
+      metric: "comments",
+      animated: true,
+      color: "indigo",
+    },
+    {
+      title: "معدل تفاعل قياسي",
+      text: "أداء محتوى بياخد المركز الأول",
+      value: "12.8%",
+      label: "معدل التفاعل",
+      icon: "Zap",
+      metric: "engagementRate",
+      animated: true,
+      color: "amber",
+    },
+    {
+      title: "وصول لملايين العيون",
+      text: "حضور رقمي بيفرض نفسه في السوق",
+      value: "+5.2M",
+      label: "وصول",
+      icon: "Eye",
+      metric: "reach",
+      animated: true,
+      color: "red",
+    },
+    {
+      title: "حلقة احترافية للنمو",
+      text: "حلول احترافية لكل مشروع بتبني حضور قوي",
+      value: "+8.3K",
+      label: "حلول",
+      icon: "BriefcaseBusiness",
+      metric: "solutions",
+      animated: true,
+      color: "cyan",
+    },
+    {
+      title: "مساحة توسع وأعمال",
+      text: "حضور بيمتد على السوق المحلي والإقليمي والعالمي",
+      value: "+12",
+      label: "بلد",
+      icon: "Globe2",
+      metric: "countries",
+      animated: true,
+      color: "emerald",
+    },
+    {
+      title: "شراكة مع العلامات التجارية",
+      text: "مجموعة كبيرة من العلامات التجارية عتمد علينا",
+      value: "+250+",
+      label: "عميل",
+      icon: "Building2",
+      metric: "companies",
+      animated: true,
+      color: "yellow",
+    },
+    {
+      title: "شهادات رضاء",
+      text: "شهادات جودة عالية تعكس تفوقنا في العمل والتميز",
+      value: "+89",
+      label: "شهادة",
+      icon: "Award",
+      metric: "awards",
+      animated: true,
+      color: "pink",
+    },
+  ],
 };
 
 
@@ -365,9 +500,154 @@ function HeroBackground() {
 
 
     </div>
+);
+}
 
+/* =========================================================
+   FLYING ENGAGEMENT CARDS (Module Level)
+========================================================= */
+
+const FLYING_COLOR_STYLES = {
+  rose: { bg: "bg-rose-500", bgLight: "bg-rose-500/10", text: "text-rose-500", border: "border-rose-500/20", glow: "rgba(244,63,94,0.3)" },
+  blue: { bg: "bg-blue-500", bgLight: "bg-blue-500/10", text: "text-blue-500", border: "border-blue-500/20", glow: "rgba(59,130,246,0.3)" },
+  purple: { bg: "bg-purple-500", bgLight: "bg-purple-500/10", text: "text-purple-500", border: "border-purple-500/20", glow: "rgba(168,85,247,0.3)" },
+  orange: { bg: "bg-orange-500", bgLight: "bg-orange-500/10", text: "text-orange-500", border: "border-orange-500/20", glow: "rgba(249,115,22,0.3)" },
+  green: { bg: "bg-green-500", bgLight: "bg-green-500/10", text: "text-green-500", border: "border-green-500/20", glow: "rgba(34,197,94,0.3)" },
+  indigo: { bg: "bg-indigo-500", bgLight: "bg-indigo-500/10", text: "text-indigo-500", border: "border-indigo-500/20", glow: "rgba(99,102,241,0.3)" },
+  amber: { bg: "bg-amber-500", bgLight: "bg-amber-500/10", text: "text-amber-500", border: "border-amber-500/20", glow: "rgba(245,158,11,0.3)" },
+  red: { bg: "bg-red-500", bgLight: "bg-red-500/10", text: "text-red-500", border: "border-red-500/20", glow: "rgba(239,68,68,0.3)" },
+};
+
+function FlyingEngagementCard({ item, className, floatDelay, pulseDelay, reduceMotion }) {
+  const colors = FLYING_COLOR_STYLES[item.color] || FLYING_COLOR_STYLES.rose;
+  const Icon = resolveIcon(item.icon, Heart);
+  const iconEl = createElement(Icon, { size: 18, strokeWidth: 2 });
+
+  const floating = reduceMotion ? {} : {
+    y: [0, -12, 0],
+    transition: { duration: 7, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
+  };
+
+  const pulse = reduceMotion ? {} : {
+    scale: [1, 1.05, 1],
+    opacity: [0.8, 1, 0.8],
+    transition: { duration: 2, repeat: Infinity, delay: pulseDelay, ease: "easeInOut" },
+  };
+
+  return (
+    <motion.div
+      animate={floating}
+      className={`absolute ${className}`}
+      whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
+    >
+      <motion.div
+        animate={pulse}
+        className="relative"
+      >
+        <div
+          className={`
+            absolute inset-0 rounded-[24px] blur-2xl opacity-30
+            ${colors.bg}
+          `}
+        />
+        <GlassCard
+          className={`
+            p-4 relative z-10 min-w-[220px] max-w-[260px]
+            border-${item.color}-500/20
+            hover:border-${item.color}-500/40
+            transition-all duration-300
+            hover:shadow-[0_20px_50px_${colors.glow}]
+          `}
+        >
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${colors.bgLight} ${colors.text}`}>
+              {iconEl}
+            </div>
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${colors.bgLight} ${colors.text}`}>
+              {item.label}
+            </motion.span>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="text-[11px] leading-relaxed text-muted mb-3 line-clamp-2"
+          >
+            {item.text}
+          </motion.p>
+
+          <div className="flex items-end justify-between gap-2 pt-2 border-t border-ink/[0.05]">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex items-baseline gap-1"
+            >
+              {item.animated ? (
+                <AnimatedCounter
+                  value={item.value}
+                  className="text-2xl font-black text-ink"
+                  duration={1800}
+                />
+              ) : (
+                <span className="text-2xl font-black text-ink">{item.value}</span>
+              )}
+              <span className="text-xs font-medium text-muted ml-1">{item.metric === "engagementRate" ? "" : "+"}</span>
+            </motion.div>
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
+              className={`text-[10px] font-bold px-2 py-1 rounded-full ${colors.bgLight} ${colors.text}`}>
+              {item.metric}
+            </motion.span>
+          </div>
+        </GlassCard>
+      </motion.div>
+    </motion.div>
   );
 }
+
+function MobileEngagementCard({ item }) {
+  const colors = FLYING_COLOR_STYLES[item.color] || FLYING_COLOR_STYLES.rose;
+  const Icon = resolveIcon(item.icon, Heart);
+  const iconEl = createElement(Icon, { size: 14, strokeWidth: 2 });
+
+  return (
+    <div className="group relative rounded-2xl border bg-white/50 backdrop-blur-xl p-3 hover:border-primary-500/30 transition-all duration-300" style={{ borderColor: "var(--color-border)" }}>
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${colors.bgLight} ${colors.text}`}>
+          {iconEl}
+        </div>
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold ${colors.bgLight} ${colors.text}`}>
+          {item.label}
+        </span>
+      </div>
+
+      <p className="text-[10px] leading-relaxed text-muted mb-2 line-clamp-2">{item.text}</p>
+
+      <div className="flex items-end justify-between gap-2 pt-2 border-t" style={{ borderColor: "var(--color-border)" }}>
+        <div className="flex items-baseline gap-1">
+          {item.animated ? (
+            <AnimatedCounter value={item.value} className="text-lg font-black text-ink" duration={1500} />
+          ) : (
+            <span className="text-lg font-black text-ink">{item.value}</span>
+          )}
+          <span className="text-xs font-medium text-muted ml-1">{item.metric === "engagementRate" ? "" : "+"}</span>
+        </div>
+        <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${colors.bgLight} ${colors.text}`}>
+          {item.metric}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* =========================================================
    GLASS SHOWCASE
 ========================================================= */
@@ -818,13 +1098,71 @@ function GlassShowcase() {
             {growth.label}
           </div>
 
-
-        </div>
+</div>
 
 
       </motion.div>
 
 
+
+
+      {/* Flying Engagement Cards */}
+
+      <FlyingEngagementCard
+        item={flying[0]}
+        className="top-[12%] end-[-20px] rotate-[4deg]"
+        floatDelay={0.2}
+        pulseDelay={0.5}
+      />
+
+      <FlyingEngagementCard
+        item={flying[1]}
+        className="top-[18%] end-[320px] rotate-[-5deg]"
+        floatDelay={0.8}
+        pulseDelay={1.2}
+      />
+
+      <FlyingEngagementCard
+        item={flying[2]}
+        className="top-[42%] end-[-40px] rotate-[3deg]"
+        floatDelay={1.4}
+        pulseDelay={0.8}
+      />
+
+      <FlyingEngagementCard
+        item={flying[3]}
+        className="top-[55%] end-[280px] rotate-[-4deg]"
+        floatDelay={2.0}
+        pulseDelay={1.5}
+      />
+
+      <FlyingEngagementCard
+        item={flying[4]}
+        className="top-[68%] end-[-10px] rotate-[2deg]"
+        floatDelay={1.6}
+        pulseDelay={2.2}
+      />
+
+      <FlyingEngagementCard
+        item={flying[5]}
+        className="bottom-[18%] end-[360px] rotate-[-3deg]"
+        floatDelay={2.4}
+        pulseDelay={0.3}
+      />
+
+      <FlyingEngagementCard
+        item={flying[6]}
+        className="bottom-[8%] end-[-30px] rotate-[5deg]"
+        floatDelay={2.8}
+        pulseDelay={1.8}
+      />
+
+      <FlyingEngagementCard
+        item={flying[7]}
+        className="bottom-[32%] end-[200px] rotate-[-2deg]"
+        floatDelay={3.2}
+        pulseDelay={2.5}
+      />
 
     </div>
 

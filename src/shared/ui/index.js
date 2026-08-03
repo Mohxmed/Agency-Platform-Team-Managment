@@ -4,3 +4,4 @@
 
 export { default as Button } from "./buttons/Buttons";
 export { Input } from "./Input";
+export { default as AnimatedCounter } from "./AnimatedCounter";
