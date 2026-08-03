@@ -11,6 +11,7 @@ import { Container } from "@/features/landing";
 
 import { useSettings } from "@/contexts/SettingsContext";
 import { FOOTER, SITE } from "@/constants/content";
+import Link from "next/link";
 /* =========================================================
    ANIMATION CONFIG
 ========================================================= */
@@ -92,9 +93,9 @@ export default function Footer() {
   };
 
   const links = {
-    company: FOOTER.columns[0].links.map((l) => l.label),
-    services: FOOTER.columns[1].links.map((l) => l.label),
-  };
+  company: FOOTER.columns[0].links,
+  services: FOOTER.columns[1].links,
+};
 
   const currentYear = new Date().getFullYear();
 
@@ -679,7 +680,6 @@ function FooterTitle({ title }) {
 /* =========================================================
    FOOTER COLUMN
 ========================================================= */
-
 function FooterColumn({ title, items }) {
   return (
     <div>
@@ -688,7 +688,7 @@ function FooterColumn({ title, items }) {
       <ul className="space-y-4">
         {items.map((item, index) => (
           <motion.li
-            key={item}
+            key={item.label}
             initial={{
               opacity: 0,
               x: 10,
@@ -705,8 +705,9 @@ function FooterColumn({ title, items }) {
               delay: index * 0.08,
             }}
           >
-            <a
-              href="#"
+
+            <Link
+              href={item.href}
               className="
                 group
                 relative
@@ -721,31 +722,32 @@ function FooterColumn({ title, items }) {
                 dark:text-neutral-400
               "
             >
+
               <motion.span
                 className="
                   h-px
                   bg-primary-500
-                  shadow-[0_0_8px_rgba(234,179,8,0.25)]
                 "
                 initial={{
-                  width: 0,
+                  width:0
                 }}
                 whileHover={{
-                  width: 12,
+                  width:12
                 }}
               />
 
               <span className="transition-transform duration-300 group-hover:-translate-x-1">
-                {item}
+                {item.label}
               </span>
-            </a>
+
+            </Link>
+
           </motion.li>
         ))}
       </ul>
     </div>
   );
 }
-
 /* =========================================================
    CONTACT CARD
 ========================================================= */
