@@ -289,10 +289,13 @@ function HeroBackground() {
 
         className="
           absolute
-          w-1/2
-          h-1/2
-          lg:w-24
-          lg:h-24
+          w-72
+          h-72
+          opacity-[0.3]
+          md:w-96
+          md:h-96
+          lg:w-[30rem]
+          lg:h-[30rem]
         "
 
         initial={{
