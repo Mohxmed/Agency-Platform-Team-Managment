@@ -1,10 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-import { ArrowLeft, ArrowRight, Sparkles, MoveUpLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Sparkles,
+  MoveUpLeft,
+  Layers,
+  CalendarDays,
+  Images,
+} from "lucide-react";
 
 import { Container } from "@/features/landing";
 import ProjectGallery from "@/features/landing/components/ProjectGallery";
@@ -12,395 +20,529 @@ import ProjectGallery from "@/features/landing/components/ProjectGallery";
 import { useWorks } from "@/features/landing/hooks/useWorks";
 import { ProjectDetailSkeleton } from "@/shared/ui/skeletons/Skeletons";
 
+
+/* =========================================================
+   MOTION SYSTEM
+========================================================= */
+
+const pageMotion = {
+  hidden: {
+    opacity: 0,
+  },
+
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+
+const reveal = {
+  hidden: {
+    opacity: 0,
+    y: 35,
+    filter: "blur(8px)",
+  },
+
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0)",
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+
+const scaleReveal = {
+  hidden: {
+    opacity: 0,
+    scale: 0.96,
+  },
+
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+
+
 export default function ProjectPage({ params }) {
-  const [projectId, setProjectId] = useState(null);
 
   const { works, categories, loading } = useWorks();
 
-  /*
-   * =========================================================
-   * GET PARAM
-   * =========================================================
-   */
 
-  useEffect(() => {
-    async function getParams() {
-      const resolvedParams = await params;
+  const projectId = params?.projectId;
 
-      setProjectId(resolvedParams?.projectId || null);
-    }
 
-    getParams();
-  }, [params]);
 
-  /*
-   * =========================================================
-   * FIND PROJECT
-   * =========================================================
-   */
+  /* =========================================================
+      PROJECT
+  ========================================================= */
 
   const project = useMemo(() => {
+
     if (!projectId || !Array.isArray(works)) {
       return null;
     }
 
+
     return works.find(
-      (item) => String(item.link || "").trim() === String(projectId).trim(),
+      (item) =>
+        String(item.link || "").trim() ===
+        String(projectId).trim()
     );
+
   }, [works, projectId]);
 
-  /*
-   * =========================================================
-   * RESOLVE CATEGORY
-   * =========================================================
-   *
-   * Handles:
-   *
-   * category: "abc123"
-   *
-   * category: {
-   *   id: "abc123",
-   *   name: "Web Design"
-   * }
-   *
-   * category: "Web Design"
-   *
-   * categoryId: "abc123"
-   *
-   * categoryName: "Web Design"
-   * =========================================================
-   */
+
+
+
+  /* =========================================================
+      CATEGORY
+  ========================================================= */
+
 
   const categoryName = useMemo(() => {
-    if (!project) {
-      return "PROJECT";
-    }
 
-    const projectCategory = project.category;
+    if (!project) return "PROJECT";
 
-    /*
-     * -------------------------------------------------------
-     * CATEGORY OBJECT
-     * -------------------------------------------------------
-     */
 
-    if (projectCategory && typeof projectCategory === "object") {
+    const value = project.category;
+
+
+
+    if (
+      value &&
+      typeof value === "object"
+    ) {
       return (
-        projectCategory.name ||
-        projectCategory.title ||
-        projectCategory.label ||
+        value.name ||
+        value.title ||
+        value.label ||
         "PROJECT"
       );
     }
 
-    /*
-     * -------------------------------------------------------
-     * CATEGORY NAME DIRECTLY ON PROJECT
-     * -------------------------------------------------------
-     */
 
-    if (project.categoryName && typeof project.categoryName === "string") {
+
+    if (project.categoryName) {
       return project.categoryName;
     }
 
-    /*
-     * -------------------------------------------------------
-     * CATEGORY ID
-     * -------------------------------------------------------
-     */
 
-    if (projectCategory && Array.isArray(categories)) {
-      const foundCategory = categories.find((category) => {
-        const categoryId =
-          category.id || category.categoryId || category.uid || category._id;
 
-        return String(categoryId || "") === String(projectCategory);
+    if (Array.isArray(categories)) {
+
+      const found = categories.find((item)=>{
+
+        const id =
+          item.id ||
+          item.categoryId ||
+          item.uid ||
+          item._id;
+
+
+        return (
+          String(id) ===
+          String(value || project.categoryId)
+        );
+
       });
 
-      if (foundCategory) {
+
+      if(found){
+
         return (
-          foundCategory.name ||
-          foundCategory.title ||
-          foundCategory.label ||
+          found.name ||
+          found.title ||
+          found.label ||
           "PROJECT"
         );
+
       }
+
     }
 
-    /*
-     * -------------------------------------------------------
-     * categoryId
-     * -------------------------------------------------------
-     */
 
-    if (project.categoryId && Array.isArray(categories)) {
-      const foundCategory = categories.find((category) => {
-        const categoryId =
-          category.id || category.categoryId || category.uid || category._id;
 
-        return String(categoryId || "") === String(project.categoryId);
-      });
+    return value || "PROJECT";
 
-      if (foundCategory) {
-        return (
-          foundCategory.name ||
-          foundCategory.title ||
-          foundCategory.label ||
-          "PROJECT"
-        );
-      }
-    }
 
-    /*
-     * -------------------------------------------------------
-     * CATEGORY ALREADY STORED AS TEXT
-     * -------------------------------------------------------
-     */
+  },[
+    project,
+    categories
+  ]);
 
-    if (typeof projectCategory === "string" && projectCategory.trim()) {
-      return projectCategory;
-    }
 
-    return "PROJECT";
-  }, [project, categories]);
 
-  /*
-   * =========================================================
-   * GALLERY
-   * =========================================================
-   */
 
-  const gallery = useMemo(() => {
-    if (!project) {
+
+  /* =========================================================
+      GALLERY
+  ========================================================= */
+
+
+  const gallery = useMemo(()=>{
+
+
+    if(!project)
       return [];
-    }
 
-    if (Array.isArray(project.gallery) && project.gallery.length > 0) {
+
+    if(
+      Array.isArray(project.gallery) &&
+      project.gallery.length
+    ){
+
       return project.gallery.filter(Boolean);
+
     }
 
-    if (project.image) {
-      return [project.image];
-    }
 
-    return [];
-  }, [project]);
+    return project.image
+      ? [project.image]
+      : [];
 
-  /*
-   * =========================================================
-   * LOADING
-   * =========================================================
-   */
 
-  if (loading) {
+  },[
+    project
+  ]);
+
+
+
+
+
+  /* =========================================================
+      LOADING
+  ========================================================= */
+
+
+  if(loading){
+
     return (
-      <main dir="rtl" className="min-h-screen bg-white dark:bg-background">
+      <main
+        dir="rtl"
+        className="
+          min-h-screen
+          bg-white
+          dark:bg-background
+        "
+      >
+
         <Container>
-          <ProjectDetailSkeleton />
+          <ProjectDetailSkeleton/>
         </Container>
+
+
       </main>
     );
+
   }
 
-  /*
-   * =========================================================
-   * PROJECT NOT FOUND
-   * =========================================================
-   */
 
-  if (!project) {
+
+
+  /* =========================================================
+      NOT FOUND
+  ========================================================= */
+
+
+  if(!project){
+
     return (
-      <main dir="rtl" className="min-h-screen bg-white py-16 dark:bg-background">
+
+      <main
+        dir="rtl"
+        className="
+          min-h-screen
+          bg-white
+          dark:bg-background
+        "
+      >
+
         <Container>
-          <div className="flex min-h-[500px] flex-col items-center justify-center text-center">
+
+          <div
+            className="
+              flex
+              min-h-[600px]
+              flex-col
+              items-center
+              justify-center
+              text-center
+            "
+          >
+
             <div
               className="
                 mb-6
                 flex
-                h-16
-                w-16
+                h-20
+                w-20
                 items-center
                 justify-center
                 rounded-full
-                bg-primary-600/10
+                bg-primary-500/10
                 text-primary-600
               "
             >
-              <Sparkles size={26} />
+
+              <Sparkles size={30}/>
+
             </div>
 
-            <h1 className="text-3xl font-black text-black dark:text-white">
+
+
+            <h1
+              className="
+                text-3xl
+                font-black
+                text-black
+                dark:text-white
+              "
+            >
               المشروع غير موجود
             </h1>
 
-            <p className="mt-3 max-w-md text-sm leading-7 text-black/45 dark:text-white/60">
-              يبدو أن المشروع الذي تبحث عنه غير متاح حاليًا أو أن الرابط غير
-              صحيح.
+
+
+            <p
+              className="
+                mt-4
+                max-w-md
+                text-sm
+                leading-8
+                text-black/50
+                dark:text-white/50
+              "
+            >
+              يبدو أن المشروع غير متاح حاليا أو الرابط غير صحيح.
             </p>
+
+
 
             <Link
               href="/portfolio"
               className="
-                mt-7
+                mt-8
                 inline-flex
                 items-center
                 gap-2
                 rounded-full
                 bg-black
-                px-6
+                px-7
                 py-3
                 text-sm
-                font-semibold
+                font-bold
                 text-white
                 transition
                 hover:bg-primary-600
               "
             >
-              <ArrowRight size={17} />
-              العودة إلى الأعمال
+
+              <ArrowRight size={17}/>
+
+              العودة للأعمال
+
             </Link>
+
+
           </div>
+
+
         </Container>
+
+
       </main>
+
     );
+
   }
 
-  /*
-   * =========================================================
-   * PAGE
-   * =========================================================
-   */
+
+
+
 
   return (
-    <main
+
+    <motion.main
+
+      initial="hidden"
+      animate="show"
+      variants={pageMotion}
+
       dir="rtl"
+
       className="
         min-h-screen
         overflow-hidden
         bg-white
-        pb-24
+        pb-28
         dark:bg-background
       "
-    >
-      {/* =====================================================
-          HEADER / BREADCRUMB
-      ====================================================== */}
 
-      <section className="pt-5 sm:pt-8">
+    >
+
+
+      {/* ================= HEADER ================= */}
+
+
+      <section className="pt-8">
+
         <Container>
-          <div className="flex items-center justify-between">
+
+
+          <motion.div
+            variants={reveal}
+
+            className="
+              flex
+              items-center
+              justify-between
+            "
+          >
+
             <Link
+
               href="/portfolio"
+
               className="
                 group
-                inline-flex
+                flex
                 items-center
                 gap-2
-                text-xs
-                font-medium
-                text-black/45
-                transition
-                hover:text-black
-                sm:text-sm
+                text-sm
+                text-black/50
                 dark:text-white/50
-                dark:hover:text-white
               "
+
             >
+
               <ArrowRight
-                size={16}
+                size={17}
                 className="
-                  transition-transform
-                  duration-300
+                  transition
                   group-hover:translate-x-1
                 "
               />
-              العودة إلى الأعمال
+
+              العودة للأعمال
+
+
             </Link>
+
+
 
             <div
               className="
                 hidden
                 items-center
-                gap-2
+                gap-3
                 text-xs
                 text-black/30
                 sm:flex
                 dark:text-white/40
               "
             >
-              <Link href="/" className="transition hover:text-black/70 dark:hover:text-white/70">
-                الرئيسية
-              </Link>
+
+              الرئيسية
 
               <span>/</span>
 
-              <Link
-                href="/portfolio"
-                className="transition hover:text-black/70 dark:hover:text-white/70"
-              >
-                الأعمال
-              </Link>
+              الأعمال
 
               <span>/</span>
 
-              <span className="max-w-[180px] truncate text-black/50 dark:text-white/50">
-                {project.title}
-              </span>
+              {project.title}
+
+
             </div>
-          </div>
+
+
+          </motion.div>
+
+
         </Container>
+
+
       </section>
 
-      {/* =====================================================
-          HERO
-      ====================================================== */}
 
-      <section className="pt-12 sm:pt-16 lg:pt-20">
+
+
+
+      {/* ================= HERO ================= */}
+
+
+
+      <section
+        className="
+          pt-16
+          sm:pt-24
+        "
+      >
+
         <Container>
-          <div className="relative">
-            {/* Decorative Number */}
+
+
+          <motion.div
+            variants={pageMotion}
+
+            className="
+              relative
+            "
+          >
+
 
             <div
               className="
                 pointer-events-none
                 absolute
-                -right-2
-                -top-10
-                select-none
-                text-[7rem]
+                -right-10
+                -top-20
+                text-[12rem]
                 font-black
                 leading-none
                 tracking-[-0.08em]
-                text-black/[0.025]
+                text-black/[0.03]
                 dark:text-white/[0.03]
-                sm:-right-4
-                sm:-top-14
-                sm:text-[10rem]
               "
             >
-              {String(project.id || "")
-                .slice(-2)
-                .padStart(2, "0")}
+
+              0{String(project.id || "").slice(-1)}
+
+
             </div>
+
+
 
             <div
               className="
                 relative
                 grid
-                gap-9
-                lg:grid-cols-[1fr_180px]
+                gap-12
+                lg:grid-cols-[1fr_260px]
                 lg:items-end
-                lg:gap-14
               "
             >
-              {/* =================================================
-                  MAIN CONTENT
-              ================================================= */}
 
-              <div className="max-w-4xl">
-                {/* Category */}
 
-                <div
+              <div>
+
+
+                <motion.div
+                  variants={reveal}
+
                   className="
                     inline-flex
                     items-center
@@ -408,181 +550,162 @@ export default function ProjectPage({ params }) {
                     rounded-full
                     border
                     border-black/10
-                    bg-black/[0.025]
-                    px-3
-                    py-1.5
-                    text-[10px]
+                    bg-white/60
+                    px-4
+                    py-2
+                    text-xs
                     font-bold
-                    tracking-[0.16em]
-                    text-black/55
+                    backdrop-blur-xl
                     dark:border-white/10
                     dark:bg-white/5
-                    dark:text-white/60
                   "
                 >
-                  <span className="relative flex h-4 w-4 items-center justify-center">
-                    <span
-                      className="
-                        absolute
-                        h-3.5
-                        w-3.5
-                        rounded-full
-                        border
-                        border-primary-600/40
-                      "
-                    />
 
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary-600" />
-                  </span>
+                  <span
+                    className="
+                      h-2
+                      w-2
+                      rounded-full
+                      bg-primary-600
+                    "
+                  />
 
-                  <span>{categoryName}</span>
-                </div>
+                  {categoryName}
 
-                {/* Title */}
 
-                <h1
+                </motion.div>
+
+
+
+
+                <motion.h1
+                  variants={reveal}
+
                   className="
-                    mt-5
-                    max-w-4xl
-                    text-[2.6rem]
-                    font-extrabold
-                    leading-[1.02]
-                    tracking-[-0.04em]
+                    mt-7
+                    max-w-5xl
+                    text-5xl
+                    font-black
+                    leading-[1]
+                    tracking-[-0.05em]
                     text-black
-                    sm:text-5xl
-                    md:text-6xl
-                    lg:text-[4.5rem]
+                    sm:text-6xl
+                    lg:text-8xl
                     dark:text-white
                   "
                 >
-                  {project.title}
-                </h1>
 
-                {/* Description */}
+                  {project.title}
+
+
+                </motion.h1>
+
+
 
                 {project.description && (
-                  <div className="mt-7 flex max-w-2xl items-start gap-4 sm:mt-8">
-                    <span
-                      className="
-                        mt-2
-                        h-8
-                        w-[2px]
-                        shrink-0
-                        bg-primary-600
-                      "
-                    />
 
-                    <p
-                      className="
-                        text-sm
-                        leading-7
-                        text-black/45
-                        sm:text-[15px]
-                        sm:leading-8
-                        dark:text-white/60
-                      "
-                    >
-                      {project.description}
-                    </p>
-                  </div>
-                )}
-              </div>
+                  <motion.p
+                    variants={reveal}
 
-              {/* =================================================
-                  PROJECT INFO
-              ================================================= */}
-
-              <div
-                className="
-                  relative
-                  grid
-                  grid-cols-2
-                  gap-7
-                  border-t
-                  border-black/10
-                  pt-5
-                  lg:block
-                  lg:border-r
-                  lg:border-t-0
-                  lg:pr-7
-                  dark:border-white/10
-                "
-              >
-                {/* Year */}
-
-                {project.year && (
-                  <div>
-                    <p
-                      className="
-                        text-[9px]
-                        font-bold
-                        uppercase
-                        tracking-[0.2em]
-                        text-black/30
-                        dark:text-white/40
-                      "
-                    >
-                      السنة
-                    </p>
-
-                    <p className="mt-1.5 text-sm font-bold text-black dark:text-white">
-                      {project.year}
-                    </p>
-                  </div>
-                )}
-
-                {/* Category */}
-
-                <div className={project.year ? "lg:mt-6" : ""}>
-                  <p
                     className="
-                      text-[9px]
-                      font-bold
-                      uppercase
-                      tracking-[0.2em]
-                      text-black/30
-                      dark:text-white/40
+                      mt-8
+                      max-w-2xl
+                      text-base
+                      leading-8
+                      text-black/50
+                      dark:text-white/60
                     "
                   >
-                    التصنيف
-                  </p>
 
-                  <p className="mt-1.5 text-sm font-bold text-black dark:text-white">
-                    {categoryName || "—"}
-                  </p>
-                </div>
+                    {project.description}
+
+                  </motion.p>
+
+                )}
+
+
               </div>
-            </div>
-          </div>
-        </Container>
-      </section>
 
-      {/* =====================================================
-          MAIN COVER
-      ====================================================== */}
+
+
+              <motion.div
+                variants={scaleReveal}
+
+                className="
+                  rounded-3xl
+                  border
+                  border-black/10
+                  bg-white/60
+                  p-6
+                  shadow-xl
+                  backdrop-blur-xl
+                  dark:border-white/10
+                  dark:bg-white/5
+                "
+              >
+
+
+                <InfoItem
+                  icon={<CalendarDays/>}
+                  title="السنة"
+                  value={project.year || "—"}
+                />
+
+
+                <InfoItem
+                  icon={<Layers/>}
+                  title="التصنيف"
+                  value={categoryName}
+                />
+
+              </motion.div>
+
+
+            </div>
+
+
+          </motion.div>
+
+
+        </Container>
+
+
+      </section>
+            {/* ================= COVER IMAGE ================= */}
 
       {project.image && (
-        <section className="mt-12 sm:mt-16 lg:mt-20">
+        <motion.section
+          variants={scaleReveal}
+          className="
+            mt-16
+            sm:mt-24
+          "
+        >
           <Container>
+
             <div
               className="
                 group
                 relative
                 overflow-hidden
-                rounded-[1.75rem]
+                rounded-[2.5rem]
+                border
+                border-black/10
                 bg-neutral-100
-                sm:rounded-[2.5rem]
+                shadow-[0_30px_100px_rgba(0,0,0,0.08)]
+                dark:border-white/10
                 dark:bg-card
               "
             >
+
               <div
                 className="
                   relative
-                  aspect-[16/10]
-                  w-full
-                  sm:aspect-[16/8.5]
+                  aspect-[16/9]
+                  overflow-hidden
                 "
               >
+
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -592,430 +715,853 @@ export default function ProjectPage({ params }) {
                   className="
                     object-cover
                     transition-transform
-                    duration-1000
+                    duration-[1200ms]
                     ease-out
-                    group-hover:scale-[1.015]
+                    group-hover:scale-[1.04]
                   "
                 />
 
+
                 <div
                   className="
-                    pointer-events-none
                     absolute
                     inset-0
                     bg-gradient-to-t
-                    from-black/30
+                    from-black/50
                     via-transparent
                     to-transparent
                   "
                 />
-              </div>
 
-              <div className="absolute bottom-5 right-5 sm:bottom-7 sm:right-7">
+
+                {/* Glass Badge */}
+
                 <div
                   className="
+                    absolute
+                    bottom-6
+                    right-6
                     flex
                     items-center
-                    gap-2
+                    gap-3
                     rounded-full
                     border
-                    border-white/15
-                    bg-black/45
-                    px-4
-                    py-2.5
-                    text-xs
+                    border-white/20
+                    bg-white/10
+                    px-5
+                    py-3
+                    text-sm
                     font-medium
                     text-white
-                    backdrop-blur-md
+                    backdrop-blur-xl
                   "
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary-400" />
+
+                  <span
+                    className="
+                      h-2
+                      w-2
+                      rounded-full
+                      bg-primary-400
+                      shadow-[0_0_15px_rgba(234,179,8,.8)]
+                    "
+                  />
+
                   عرض المشروع
+
                 </div>
+
+
               </div>
+
+
             </div>
+
+
           </Container>
-        </section>
+
+        </motion.section>
       )}
 
-      {/* =====================================================
-          GALLERY
-      ====================================================== */}
+
+
+
+
+      {/* ================= GALLERY ================= */}
+
 
       {gallery.length > 0 && (
-        <section className="mt-16 sm:mt-20 lg:mt-24">
-          <Container>
-            <div className="mb-7 flex items-end justify-between gap-5 sm:mb-9">
-              <div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold tracking-[0.2em] text-primary-600">
-                    01
-                  </span>
 
-                  <span className="h-px w-10 bg-primary-600/30" />
-
-                  <span className="text-xs font-medium text-black/35 dark:text-white/40">
-                    معرض المشروع
-                  </span>
-                </div>
-
-                <h2 className="mt-4 text-2xl font-black tracking-tight text-black sm:text-4xl dark:text-white">
-                  لمحة من تفاصيل المشروع.
-                </h2>
-              </div>
-            </div>
-
-            <ProjectGallery images={gallery} title={project.title} />
-
-            <div
-              className="
-                mt-4
-                flex
-                items-center
-                justify-between
-                text-[11px]
-                font-medium
-                text-black/30
-                dark:text-white/40
-              "
-            >
-              <span>اضغط على الصورة لعرضها بحجم أكبر</span>
-
-              <span className="hidden sm:block">{gallery.length} صور</span>
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {/* =====================================================
-          PROJECT OVERVIEW
-      ====================================================== */}
-
-      <Container>
         <section
           className="
-            mt-10
-            border-y
-            border-black/10
-            py-7
-            sm:mt-12
-            sm:py-9
-            dark:border-white/10
+            mt-20
+            sm:mt-32
           "
         >
-          <div className="grid grid-cols-2 gap-7 sm:grid-cols-3 sm:gap-0">
-            {/* Category */}
 
-            <div className="sm:border-l sm:border-black/10 sm:pl-8 dark:sm:border-white/10">
-              <p
+          <Container>
+
+
+            <motion.div
+              variants={reveal}
+              className="mb-10"
+            >
+
+
+              <div
                 className="
-                  text-[10px]
+                  flex
+                  items-center
+                  gap-3
+                  text-xs
                   font-bold
-                  uppercase
-                  tracking-[0.18em]
-                  text-black/30
-                  dark:text-white/40
+                  tracking-[.25em]
+                  text-primary-600
                 "
               >
-                التصنيف
-              </p>
 
-              <p className="mt-2 text-sm font-bold text-black sm:text-base dark:text-white">
-                {categoryName || "—"}
-              </p>
-            </div>
+                <span>
+                  01
+                </span>
 
-            {/* Year */}
 
-            {project.year && (
-              <div className="sm:border-l sm:border-black/10 sm:px-8 dark:sm:border-white/10">
-                <p
+                <span
                   className="
-                    text-[10px]
-                    font-bold
-                    uppercase
-                    tracking-[0.18em]
-                    text-black/30
+                    h-px
+                    w-12
+                    bg-primary-600/40
+                  "
+                />
+
+
+                <span
+                  className="
+                    text-black/40
                     dark:text-white/40
                   "
                 >
-                  سنة التنفيذ
-                </p>
+                  GALLERY
+                </span>
 
-                <p className="mt-2 text-sm font-bold text-black sm:text-base dark:text-white">
-                  {project.year}
-                </p>
+
               </div>
-            )}
 
-            {/* Images */}
 
-            <div className="col-span-2 sm:col-span-1 sm:px-8">
-              <p
+
+              <h2
                 className="
-                  text-[10px]
-                  font-bold
-                  uppercase
-                  tracking-[0.18em]
-                  text-black/30
-                  dark:text-white/40
+                  mt-5
+                  text-3xl
+                  font-black
+                  tracking-tight
+                  text-black
+                  sm:text-5xl
+                  dark:text-white
                 "
               >
-                الصور
-              </p>
 
-              <p className="mt-2 text-sm font-bold text-black sm:text-base dark:text-white">
+                تفاصيل المشروع
+
+              </h2>
+
+
+
+            </motion.div>
+
+
+
+
+            <ProjectGallery
+              images={gallery}
+              title={project.title}
+            />
+
+
+
+
+            <div
+              className="
+                mt-5
+                flex
+                justify-between
+                text-xs
+                text-black/40
+                dark:text-white/40
+              "
+            >
+
+              <span>
+                اضغط على الصورة للعرض الكامل
+              </span>
+
+
+              <span>
                 {gallery.length} صور
-              </p>
-            </div>
-          </div>
-        </section>
-      </Container>
+              </span>
 
-      {/* =====================================================
-          PROJECT STORY
-      ====================================================== */}
+
+            </div>
+
+
+          </Container>
+
+
+        </section>
+
+      )}
+
+
+
+
+
+
+      {/* ================= PROJECT META ================= */}
+
 
       <Container>
-        <section className="mt-20 sm:mt-28 lg:mt-32">
+
+        <motion.section
+          variants={reveal}
+
+          className="
+            mt-20
+            overflow-hidden
+            rounded-[2rem]
+            border
+            border-black/10
+            bg-white/50
+            backdrop-blur-xl
+            dark:border-white/10
+            dark:bg-white/[0.03]
+          "
+        >
+
+
           <div
             className="
               grid
-              gap-10
-              lg:grid-cols-[0.7fr_1.3fr]
-              lg:gap-20
+              grid-cols-1
+              divide-y
+              divide-black/10
+              sm:grid-cols-3
+              sm:divide-x
+              sm:divide-y-0
+              dark:divide-white/10
             "
           >
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-bold tracking-widest text-primary-600">
-                  02
-                </span>
 
-                <span className="h-px w-10 bg-primary-600/30" />
 
-                <span className="text-xs font-medium text-black/35 dark:text-white/40">
-                  عن المشروع
-                </span>
-              </div>
+            <MetaCard
 
-              <h2 className="mt-5 max-w-sm text-2xl font-black leading-tight sm:text-3xl">
-                الفكرة تبدأ من التفاصيل.
-              </h2>
-            </div>
+              icon={<Layers size={20}/>}
 
-            <div>
-              {project.description && (
-                <p
-                  className="
-                    max-w-3xl
-                    text-base
-                    leading-8
-                    text-black/55
-                    sm:text-lg
-                    sm:leading-9
-                    dark:text-white/70
-                  "
-                >
-                  {project.description}
-                </p>
-              )}
+              title="التصنيف"
 
-              <p
-                className="
-                  mt-6
-                  max-w-3xl
-                  text-sm
-                  leading-8
-                  text-black/40
-                  sm:text-base
-                  dark:text-white/60
-                "
-              >
-                كل مشروع هو فرصة لصناعة تجربة مختلفة تجمع بين الفكرة، الهوية،
-                والتفاصيل التي تجعل العمل أكثر وضوحًا وتأثيرًا.
-              </p>
-            </div>
-          </div>
-        </section>
-      </Container>
+              value={categoryName}
 
-      {/* =====================================================
-          CTA
-      ====================================================== */}
-
-      <Container>
-        <section className="mt-20 sm:mt-28">
-          <div
-            className="
-              relative
-              overflow-hidden
-              rounded-[2rem]
-              bg-primary-600
-              px-6
-              py-10
-              sm:rounded-[2.5rem]
-              sm:px-12
-              sm:py-14
-            "
-          >
-            <div
-              className="
-                pointer-events-none
-                absolute
-                -left-20
-                -top-20
-                h-56
-                w-56
-                rounded-full
-                bg-white/10
-                blur-3xl
-              "
             />
 
-            <div
-              className="
-                pointer-events-none
-                absolute
-                -bottom-20
-                right-0
-                h-64
-                w-64
-                rounded-full
-                bg-black/10
-                blur-3xl
-              "
+
+
+            <MetaCard
+
+              icon={<CalendarDays size={20}/>}
+
+              title="سنة التنفيذ"
+
+              value={project.year || "غير محدد"}
+
             />
 
-            <div
-              className="
-                relative
-                z-10
-                flex
-                flex-col
-                items-start
-                justify-between
-                gap-7
-                sm:flex-row
-                sm:items-center
-              "
-            >
-              <div>
-                <p className="text-xs font-medium text-white/55">من أعمالنا</p>
 
-                <h3 className="mt-2 text-2xl font-black text-white sm:text-3xl">
-                  نصنع أفكارًا تستحق أن تُرى.
-                </h3>
-              </div>
 
-              <Link
-                href="/portfolio"
-                className="
-                  group
-                  inline-flex
-                  shrink-0
-                  items-center
-                  gap-2
-                  rounded-full
-                  bg-white
-                  px-5
-                  py-3
-                  text-sm
-                  font-bold
-                  text-black
-                  transition
-                  hover:bg-black
-                  hover:text-white
-                "
-              >
-                كل الأعمال
-                <ArrowLeft
-                  size={17}
-                  className="
-                    transition-transform
-                    group-hover:-translate-x-1
-                  "
-                />
-              </Link>
-            </div>
+            <MetaCard
+
+              icon={<Images size={20}/>}
+
+              title="عدد الصور"
+
+              value={`${gallery.length} صور`}
+
+            />
+
+
           </div>
-        </section>
+
+
+
+        </motion.section>
+
+
       </Container>
 
-      {/* =====================================================
-          FOOTER NAVIGATION
-      ====================================================== */}
+      {/* ================= PROJECT STORY ================= */}
 
-      <Container>
-        <section
+
+<Container>
+
+  <motion.section
+    variants={reveal}
+    className="
+      mt-24
+      sm:mt-36
+    "
+  >
+
+    <div
+      className="
+        grid
+        gap-12
+        lg:grid-cols-[0.7fr_1.3fr]
+        lg:gap-24
+      "
+    >
+
+
+      {/* TITLE */}
+
+      <div>
+
+
+        <div
           className="
-            mt-16
-            border-t
-            border-black/10
-            pt-8
-            sm:mt-20
-            sm:pt-10
-            dark:border-white/10
+            flex
+            items-center
+            gap-3
+            text-xs
+            font-bold
+            tracking-[.25em]
+            text-primary-600
           "
         >
-          <div
+
+          <span>
+            02
+          </span>
+
+
+          <span
             className="
-              flex
-              flex-col
-              gap-5
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
+              h-px
+              w-12
+              bg-primary-600/40
+            "
+          />
+
+
+          <span
+            className="
+              text-black/40
+              dark:text-white/40
             "
           >
-            <div>
-              <p className="text-xs font-medium text-black/35 dark:text-white/40">استكشف المزيد</p>
+            ABOUT PROJECT
+          </span>
 
-              <h3 className="mt-1 text-xl font-black text-black dark:text-white">
-                شاهد باقي أعمالنا
-              </h3>
-            </div>
 
-            <Link
-              href="/portfolio"
-              className="
-                group
-                inline-flex
-                w-fit
-                items-center
-                gap-2
-                rounded-full
-                border
-                border-black/10
-                px-5
-                py-3
-                text-sm
-                font-semibold
-                text-black
-                transition
-                hover:border-black
-                hover:bg-black
-                hover:text-white
-                dark:border-white/10
-                dark:text-white
-                dark:hover:border-white
-                dark:hover:bg-white
-                dark:hover:text-black
-              "
-            >
-              الذهاب إلى الأعمال
-              <MoveUpLeft
-                size={16}
-                className="
-                  transition-transform
-                  group-hover:-translate-x-0.5
-                  group-hover:-translate-y-0.5
-                "
-              />
-            </Link>
-          </div>
-        </section>
-      </Container>
-    </main>
+        </div>
+
+
+
+        <h2
+          className="
+            mt-6
+            max-w-md
+            text-3xl
+            font-black
+            leading-tight
+            text-black
+            sm:text-5xl
+            dark:text-white
+          "
+        >
+
+          الفكرة تبدأ من التفاصيل.
+
+        </h2>
+
+
+      </div>
+
+
+
+
+      {/* CONTENT */}
+
+
+      <div
+        className="
+          max-w-3xl
+        "
+      >
+
+        <p
+          className="
+            text-lg
+            leading-9
+            text-black/60
+            dark:text-white/70
+          "
+        >
+
+          {project.description ||
+          "كل مشروع هو تجربة مختلفة تجمع بين الاستراتيجية، التصميم، والهوية البصرية لصناعة تأثير حقيقي."}
+
+        </p>
+
+
+
+        <p
+          className="
+            mt-7
+            text-base
+            leading-8
+            text-black/45
+            dark:text-white/55
+          "
+        >
+
+          نركز على بناء حلول واضحة ومميزة تجعل العلامة التجارية أكثر حضوراً
+          وقرباً من جمهورها، بداية من الفكرة وحتى التفاصيل النهائية.
+
+        </p>
+
+
+      </div>
+
+
+    </div>
+
+
+  </motion.section>
+
+
+</Container>
+
+
+
+
+
+
+{/* ================= CTA ================= */}
+
+
+
+<Container>
+
+
+  <motion.section
+    variants={scaleReveal}
+
+    className="
+      mt-24
+      sm:mt-36
+    "
+  >
+
+
+    <div
+      className="
+        group
+        relative
+        overflow-hidden
+        rounded-[2.5rem]
+        bg-primary-600
+        px-7
+        py-12
+        sm:px-14
+        sm:py-16
+      "
+    >
+
+
+      {/* Glow */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -left-20
+          -top-20
+          h-72
+          w-72
+          rounded-full
+          bg-white/20
+          blur-3xl
+          transition
+          duration-700
+          group-hover:scale-125
+        "
+      />
+
+
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -bottom-24
+          right-0
+          h-80
+          w-80
+          rounded-full
+          bg-black/20
+          blur-3xl
+        "
+      />
+
+
+
+
+      <div
+        className="
+          relative
+          z-10
+          flex
+          flex-col
+          items-start
+          justify-between
+          gap-8
+          sm:flex-row
+          sm:items-center
+        "
+      >
+
+
+        <div>
+
+
+          <p
+            className="
+              text-sm
+              text-white/60
+            "
+          >
+            هل لديك مشروع مشابه؟
+          </p>
+
+
+
+          <h3
+            className="
+              mt-3
+              max-w-xl
+              text-3xl
+              font-black
+              leading-tight
+              text-white
+              sm:text-5xl
+            "
+          >
+
+            دعنا نصنع تجربة تستحق الظهور.
+
+          </h3>
+
+
+        </div>
+
+
+
+
+        <Link
+
+          href="/contact"
+
+          className="
+            group/btn
+            inline-flex
+            items-center
+            gap-3
+            rounded-full
+            bg-white
+            px-7
+            py-4
+            text-sm
+            font-black
+            text-black
+            transition-all
+            duration-300
+            hover:bg-black
+            hover:text-white
+          "
+
+        >
+
+          ابدأ مشروعك
+
+
+          <ArrowLeft
+
+            size={18}
+
+            className="
+              transition-transform
+              group-hover/btn:-translate-x-1
+            "
+
+          />
+
+
+        </Link>
+
+
+      </div>
+
+
+    </div>
+
+
+  </motion.section>
+
+
+</Container>
+
+
+
+
+
+
+{/* ================= FOOTER NAV ================= */}
+
+
+
+<Container>
+
+
+  <motion.section
+
+    variants={reveal}
+
+    className="
+      mt-20
+      border-t
+      border-black/10
+      pt-10
+      dark:border-white/10
+    "
+
+  >
+
+
+    <div
+      className="
+        flex
+        flex-col
+        gap-6
+        sm:flex-row
+        sm:items-center
+        sm:justify-between
+      "
+    >
+
+
+
+      <div>
+
+
+        <p
+          className="
+            text-xs
+            text-black/40
+            dark:text-white/40
+          "
+        >
+          المزيد من المشاريع
+        </p>
+
+
+
+        <h3
+          className="
+            mt-2
+            text-2xl
+            font-black
+            text-black
+            dark:text-white
+          "
+        >
+
+          استكشف أعمالنا الأخرى
+
+        </h3>
+
+
+      </div>
+
+
+
+
+      <Link
+
+        href="/portfolio"
+
+        className="
+          group
+          inline-flex
+          w-fit
+          items-center
+          gap-3
+          rounded-full
+          border
+          border-black/10
+          px-6
+          py-3
+          text-sm
+          font-bold
+          text-black
+          transition-all
+          duration-300
+          hover:bg-black
+          hover:text-white
+          dark:border-white/10
+          dark:text-white
+          dark:hover:bg-white
+          dark:hover:text-black
+        "
+
+      >
+
+        جميع الأعمال
+
+
+        <MoveUpLeft
+
+          size={17}
+
+          className="
+            transition-transform
+            duration-300
+            group-hover:-translate-x-1
+            group-hover:-translate-y-1
+          "
+
+        />
+
+
+      </Link>
+
+
+
+    </div>
+
+
+
+  </motion.section>
+
+
+</Container></motion.main>
+);
+}
+function InfoItem({icon,title,value}) {
+
+  return (
+
+    <div className="mb-6 last:mb-0">
+
+      <div
+        className="
+          flex
+          items-center
+          gap-2
+          text-xs
+          text-black/40
+          dark:text-white/40
+        "
+      >
+
+        {icon}
+
+        {title}
+
+      </div>
+
+
+      <p
+        className="
+          mt-2
+          text-sm
+          font-bold
+          text-black
+          dark:text-white
+        "
+      >
+        {value}
+      </p>
+
+
+    </div>
+
   );
+
+}
+
+
+
+function MetaCard({icon,title,value}) {
+
+  return (
+
+    <div
+      className="
+        flex
+        items-center
+        gap-4
+        p-6
+        sm:p-8
+      "
+    >
+
+      <div
+        className="
+          flex
+          h-12
+          w-12
+          items-center
+          justify-center
+          rounded-2xl
+          bg-primary-500/10
+          text-primary-600
+        "
+      >
+
+        {icon}
+
+      </div>
+
+
+
+      <div>
+
+        <p
+          className="
+            text-xs
+            text-black/40
+            dark:text-white/40
+          "
+        >
+          {title}
+        </p>
+
+
+        <p
+          className="
+            mt-1
+            text-sm
+            font-bold
+            text-black
+            dark:text-white
+          "
+        >
+          {value}
+        </p>
+
+
+      </div>
+
+
+    </div>
+
+  );
+
 }
