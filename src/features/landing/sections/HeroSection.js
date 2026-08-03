@@ -289,8 +289,8 @@ function HeroBackground() {
 
         className="
           absolute
-          w-20
-          h-20
+          w-1/2
+          h-1/2
           lg:w-24
           lg:h-24
         "
