@@ -12,7 +12,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
-  Clock,
   ExternalLink,
   ListChecks,
   MessageSquare,
@@ -443,7 +442,7 @@ export default function TaskDetailPage() {
                   {task.description || "لا يوجد وصف لهذه المهمة."}
                 </p>
 
-                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
                     <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
                       <CalendarDays className="h-3.5 w-3.5" />
@@ -451,16 +450,6 @@ export default function TaskDetailPage() {
                     </div>
                     <p className={`mt-1.5 text-xs font-bold ${overdue ? "text-red-600" : "text-ink/70"}`}>
                       {formatDeadline(task.deadline)}
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
-                      <Clock className="h-3.5 w-3.5" />
-                      الساعات
-                    </div>
-                    <p className="mt-1.5 text-xs font-bold text-ink/70">
-                      {task.spentHours || 0}/{task.estimatedHours || 0} س
                     </p>
                   </div>
 

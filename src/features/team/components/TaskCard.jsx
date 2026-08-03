@@ -4,7 +4,6 @@ import {
   CalendarDays,
   ChevronRight,
   ChevronLeft,
-  Clock,
   ListChecks,
   MessageSquare,
   Pencil,
@@ -84,13 +83,6 @@ export default function TaskCard({
           <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
             <CalendarDays className="h-3 w-3" />
             {formatDeadline(task.deadline)}
-          </span>
-        )}
-
-        {(task.spentHours > 0 || task.estimatedHours > 0) && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
-            <Clock className="h-3 w-3" />
-            {task.spentHours || 0}/{task.estimatedHours || 0}
           </span>
         )}
 

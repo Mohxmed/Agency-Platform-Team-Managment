@@ -14,7 +14,6 @@ import {
   Pencil,
   Trash2,
   Users,
-  Clock,
   Lock,
 } from "lucide-react";
 
@@ -364,16 +363,6 @@ export default function ProjectDetailPage() {
                       <span className="inline-flex items-center gap-1.5">
                         <ClipboardList className="h-3.5 w-3.5 text-ink/30" />
                         {projectTasks.length} مهمة
-                      </span>
-
-                      <span className="inline-flex items-center gap-1.5">
-                        <Clock className="h-3.5 w-3.5 text-ink/30" />
-                        المنفقة:{" "}
-                        {projectTasks.reduce(
-                          (sum, task) => sum + (Number(task.spentHours) || 0),
-                          0,
-                        )}
-                        س
                       </span>
                     </div>
                   </div>

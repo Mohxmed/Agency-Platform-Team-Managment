@@ -11,7 +11,6 @@ import {
   Briefcase,
   CalendarDays,
   CheckCircle2,
-  Clock,
   ExternalLink,
   Loader2,
   Phone,
@@ -111,9 +110,6 @@ export default function MemberReportPage() {
       return updated.getMonth() === now.getMonth() && updated.getFullYear() === now.getFullYear();
     }).length;
 
-    const totalHoursEstimated = memberTasks.reduce((sum, t) => sum + (Number(t.estimatedHours) || 0), 0);
-    const totalHoursSpent = memberTasks.reduce((sum, t) => sum + (Number(t.spentHours) || 0), 0);
-
     const overdue = memberTasks.filter(
       (t) => t.status !== "done" && t.deadline && new Date(t.deadline) < new Date()
     ).length;
@@ -128,8 +124,6 @@ export default function MemberReportPage() {
       revision,
       backlog,
       completedThisMonth,
-      totalHoursEstimated,
-      totalHoursSpent,
       overdue,
       completionRate,
     };
@@ -247,7 +241,7 @@ export default function MemberReportPage() {
       </Card>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           label="إجمالي المهام"
           value={stats.total}
@@ -276,13 +270,6 @@ export default function MemberReportPage() {
           description={stats.overdue > 0 ? "يحتاج متابعة" : "لا يوجد"}
           icon={CalendarDays}
           accent={stats.overdue > 0 ? "red" : "emerald"}
-        />
-        <StatsCard
-          label="ساعات العمل"
-          value={`${stats.totalHoursSpent} / ${stats.totalHoursEstimated}h`}
-          description="مستنفدة / مقدرة"
-          icon={Clock}
-          accent="violet"
         />
       </div>
 
@@ -370,8 +357,7 @@ export default function MemberReportPage() {
                   <th className="pb-3 pr-4 hidden md:table-cell">المشروع</th>
                   <th className="pb-3 pr-4 hidden lg:table-cell">الحالة</th>
                   <th className="pb-3 pr-4 hidden lg:table-cell">الأولوية</th>
-                  <th className="pb-3 pr-4">الموعد</th>
-                  <th className="pb-3 pl-4">الساعات</th>
+                  <th className="pb-3 pl-4">الموعد</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-ink/5">
@@ -402,9 +388,6 @@ export default function MemberReportPage() {
                       <td className={`py-3 pr-4 text-sm ${isOverdue ? "text-red-600 font-bold" : "text-ink/60"}`}>
                         {task.deadline ? new Date(task.deadline).toLocaleDateString("ar-EG") : "—"}
                         {isOverdue && <span className="ml-1 text-red-500">⚠</span>}
-                      </td>
-                      <td className="py-3 pl-4 text-sm font-medium text-ink/60">
-                        {task.spentHours || 0}h / {task.estimatedHours || 0}h
                       </td>
                     </tr>
                   );

@@ -38,8 +38,6 @@ const EMPTY_FORM = {
   assigneeProfileId: "",
   reviewerProfileId: "",
   deadline: "",
-  estimatedHours: "",
-  spentHours: "",
   labels: [],
   attachments: [],
   checklist: [],
@@ -81,8 +79,6 @@ export default function TaskModal({
         assigneeProfileId: editing.assigneeProfileId || editing.assigneeId || "",
         reviewerProfileId: editing.reviewerProfileId || editing.reviewerId || "",
         deadline: editing.deadline || "",
-        estimatedHours: editing.estimatedHours ?? "",
-        spentHours: editing.spentHours ?? "",
         labels: Array.isArray(editing.labels) ? editing.labels : [],
         attachments: Array.isArray(editing.attachments)
           ? editing.attachments
@@ -210,14 +206,6 @@ export default function TaskModal({
         assigneeProfileId: form.assigneeProfileId || "",
         reviewerProfileId: form.reviewerProfileId || "",
         deadline: form.deadline || "",
-        estimatedHours:
-          form.estimatedHours === "" || form.estimatedHours === null
-            ? 0
-            : Number(form.estimatedHours) || 0,
-        spentHours:
-          form.spentHours === "" || form.spentHours === null
-            ? 0
-            : Number(form.spentHours) || 0,
         labels: form.labels || [],
         attachments: form.attachments || [],
         checklist: form.checklist || [],
@@ -431,30 +419,6 @@ export default function TaskModal({
             onChange={(event) =>
               updateField("reviewerProfileId", event.target.value)
             }
-          />
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Input
-            label="الساعات المقدّرة"
-            type="number"
-            min="0"
-            step="0.5"
-            value={form.estimatedHours}
-            placeholder="0"
-            onChange={(event) =>
-              updateField("estimatedHours", event.target.value)
-            }
-          />
-
-          <Input
-            label="الساعات المنفقة"
-            type="number"
-            min="0"
-            step="0.5"
-            value={form.spentHours}
-            placeholder="0"
-            onChange={(event) => updateField("spentHours", event.target.value)}
           />
         </div>
 

@@ -12,7 +12,6 @@ import {
   ChevronLeft,
   ChevronRight,
   CalendarDays,
-  Clock,
   ListChecks,
   MessageSquare,
   Eye,
@@ -397,7 +396,7 @@ export default function MyTasksPage() {
             <table className="w-full min-w-[900px]">
               <thead>
                 <tr className="border-b border-ink/10 bg-gray-50/50">
-                  {["المهمة", "المشروع", "الحالة", "الأولوية", "الاستحقاق", "الساعات", "الإجراءات"].map((label) => (
+                  {["المهمة", "المشروع", "الحالة", "الأولوية", "الاستحقاق", "الإجراءات"].map((label) => (
                     <th key={label} className="whitespace-nowrap px-5 py-4 text-start text-[10px] font-black uppercase tracking-[0.08em] text-ink/40">
                       {label}
                     </th>
@@ -440,9 +439,6 @@ export default function MyTasksPage() {
                         <span className={`text-xs font-bold ${overdue ? "text-red-600" : "text-ink/50"}`}>
                           {formatDeadline(task.deadline)}
                         </span>
-                      </td>
-                      <td className="px-5 py-4 text-xs font-bold text-ink/50">
-                        {task.spentHours || 0}/{task.estimatedHours || 0}
                       </td>
                       <td className="px-5 py-4">
                         <button
@@ -506,13 +502,6 @@ function MyTaskCard({ task, projects, userMap, canManage, onMoveForward, onMoveB
           <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
             <CalendarDays className="h-3 w-3" />
             {formatDeadline(task.deadline)}
-          </span>
-        )}
-
-        {(task.spentHours > 0 || task.estimatedHours > 0) && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
-            <Clock className="h-3 w-3" />
-            {task.spentHours || 0}/{task.estimatedHours || 0}
           </span>
         )}
 

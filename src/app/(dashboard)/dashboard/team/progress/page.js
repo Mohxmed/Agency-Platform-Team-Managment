@@ -9,7 +9,6 @@ import {
   FolderKanban,
   Loader2,
   CheckCircle2,
-  Clock,
   Users,
   ListChecks,
   TrendingUp,
@@ -80,16 +79,6 @@ export default function TeamProgressPage() {
         icon: CheckCircle2,
         footer: "completion",
       },
-      {
-        label: "ساعات العمل",
-        value: tasks.reduce(
-          (sum, task) => sum + Number(task.spentHours || 0),
-          0,
-        ),
-        description: "إجمالي الساعات المسجلة.",
-        icon: Clock,
-        footer: "hours",
-      },
     ],
     [projects, tasks],
   );
@@ -129,7 +118,6 @@ export default function TeamProgressPage() {
             tasks: projectTasks,
             progress: calcProjectProgress(projectTasks),
             overdue,
-            hours,
           };
         })
         .sort((a, b) => b.progress - a.progress),
@@ -413,10 +401,6 @@ export default function TeamProgressPage() {
                     </div>
 
                     <div className="flex items-center gap-5">
-                      <span className="hidden text-xs font-bold text-ink/40 sm:block">
-                        {project.hours} ساعة
-                      </span>
-
                       <span className="hidden text-xs font-bold text-ink/40 sm:block">
                         الاستحقاق: {formatDeadline(project.deadline)}
                       </span>
