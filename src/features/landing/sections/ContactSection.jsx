@@ -97,6 +97,18 @@ export default function ContactSection() {
   const badgeTitle = content.badgeTitle || CONTACT_SECTION.badgeTitle;
   const heading = content.heading || CONTACT_SECTION.heading;
   const headingHighlight = content.headingHighlight || CONTACT_SECTION.headingHighlight;
+  const description =
+    content.description ||
+    "كلمنا دلوقتي واحكيلنا عن شغلك، وإحنا هنساعدك نحول فكرتك لحاجة احترافية توصل لجمهورك وتحققلك النتيجة اللي مستنيها.";
+  const emailLabel = content.emailLabel || "البريد الإلكتروني";
+  const phoneLabel = content.phoneLabel || "تليفون / واتساب";
+  const addressLabel = content.addressLabel || "مكاننا";
+  const mapButton = content.mapButton || "افتح مكاننا على الخريطة";
+  const whatsappButton = content.whatsappButton || "كلمنا على واتساب";
+  const formTitle = content.formTitle || "احكيلنا عن مشروعك";
+  const formSubtitle =
+    content.formSubtitle || "املأ البيانات وإحنا هنتواصل معاك في أقرب وقت.";
+  const submitLabel = content.submitLabel || "ابعتلنا";
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [loading, setLoading] = useState(false);
@@ -400,8 +412,7 @@ export default function ContactSection() {
                 sm:text-base
               "
             >
-              كلمنا دلوقتي واحكيلنا عن شغلك، وإحنا هنساعدك نحول فكرتك
-              لحاجة احترافية توصل لجمهورك وتحققلك النتيجة اللي مستنيها.
+              {description}
             </p>
 
             {/* Contact Info */}
@@ -419,21 +430,21 @@ export default function ContactSection() {
 
               <ContactItem
                 icon={<Mail size={18} />}
-                label="البريد الإلكتروني"
+                label={emailLabel}
                 value={settings.contactSectionEmail || "hello@nokta.com"}
                 href={`mailto:${settings.contactSectionEmail || "hello@nokta.com"}`}
               />
 
               <ContactItem
                 icon={<Phone size={18} />}
-                label="تليفون / واتساب"
+                label={phoneLabel}
                 value={`${settings.contactSectionPhone || "01064571025"} / ${settings.contactSectionWhatsapp || "+201066855480"}`}
                 href={`tel:${(settings.contactSectionPhone || "01064571025").replace(/[^0-9]/g, "")}`}
               />
 
               <ContactItem
                 icon={<MapPin size={18} />}
-                label="مكاننا"
+                label={addressLabel}
                 value={settings.contactSectionAddress || "طلخا، المنصورة - مصر"}
               />
 
@@ -478,7 +489,7 @@ export default function ContactSection() {
                 blank
               >
                 <MapPin size={18} />
-                افتح مكاننا على الخريطة
+                {mapButton}
               </Button>
 
               <Button
@@ -492,7 +503,7 @@ export default function ContactSection() {
                 blank
               >
                 <FaWhatsapp size={20} />
-                كلمنا على واتساب
+                {whatsappButton}
               </Button>
 
             </motion.div>
@@ -612,11 +623,11 @@ export default function ContactSection() {
                     </div>
 
                     <h3 className="text-xl font-bold text-white">
-                      احكيلنا عن مشروعك
+                      {formTitle}
                     </h3>
 
                     <p className="mt-2 text-xs leading-6 text-white/35">
-                      املأ البيانات وإحنا هنتواصل معاك في أقرب وقت.
+                      {formSubtitle}
                     </p>
                   </div>
 
@@ -740,7 +751,7 @@ export default function ContactSection() {
                         "
                       >
                         <Send size={17} />
-                        {loading ? "جاري الإرسال..." : "ابعتلنا"}
+                        {loading ? "جاري الإرسال..." : submitLabel}
                       </Button>
                     </motion.div>
                   )}

@@ -16,8 +16,9 @@ import { ServicesSkeleton } from "@/shared/ui/skeletons/Skeletons";
 import { resolveIcon } from "@/shared/ui/icons/resolveIcon";
 import { collection, query, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { useSettings } from "@/contexts/SettingsContext";
 
-const moreCard = {
+const moreCardDefaults = {
   more: "true",
   title: "المزيد..",
   description:
@@ -97,6 +98,22 @@ const cardAnimation = {
 export default function ServicesSection() {
   const [featured, setFeatured] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { settings } = useSettings();
+  const content = settings.content?.services || {};
+
+  const badge = content.badge || "خدماتنا";
+  const title = content.title || "كل شئ انت محتاجه";
+  const redTitle = content.redTitle || "";
+  const description =
+    content.description ||
+    "احنا بندمج الابداع والتخطيط والتكنولوجيا عشان نقدم حلول تسويقية تساعد المشاريع تبني براندات قوية تحقق ارقام قياسية ونمو ملحوظ على مدى زمني قصير";
+
+  const moreCard = {
+    ...moreCardDefaults,
+    title: content.moreTitle || moreCardDefaults.title,
+    description: content.moreDescription || moreCardDefaults.description,
+    moreLink: content.moreLink || ROUTES.SERVICES,
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -221,17 +238,15 @@ export default function ServicesSection() {
           >
             <OutlinedBadge>
               <Sparkles />
-              خدماتنا
+              {badge}
             </OutlinedBadge>
           </motion.div>
 
           {/* Title */}
 
           <motion.div variants={headerItem}>
-            <SectionTitle title="كل شئ انت محتاجه">
-              احنا بندمج الابداع والتخطيط والتكنولوجيا عشان نقدم حلول تسويقية
-              تساعد المشاريع تبني براندات قوية تحقق ارقام قياسية ونمو ملحوظ على
-              مدى زمني قصير
+            <SectionTitle title={title} redTitle={redTitle}>
+              {description}
             </SectionTitle>
           </motion.div>
 
@@ -287,6 +302,7 @@ export default function ServicesSection() {
                 <ServiceCard
                   varient={service.more ? "black" : "default"}
                   service={service}
+                  moreHref={service.moreLink}
                 />
 
               </motion.div>

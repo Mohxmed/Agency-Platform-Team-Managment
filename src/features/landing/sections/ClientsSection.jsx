@@ -32,6 +32,7 @@ import {
 import { HomeClientsSkeleton } from "@/shared/ui/skeletons/Skeletons";
 
 import { ROUTES } from "@/constants/routes";
+import { useSettings } from "@/contexts/SettingsContext";
 
 /* =========================================================
    ANIMATION VARIANTS
@@ -92,6 +93,19 @@ const sliderVariants = {
 
 export default function ClientsSection() {
   const { clients, loading, error } = useClients();
+  const { settings } = useSettings();
+  const content = settings.content?.clients || {};
+
+  const badge = content.badge || "شركاء النجاح";
+  const title = content.title || "ابرز";
+  const redTitle = content.redTitle || "شركائنا";
+  const description =
+    content.description ||
+    "خلف كل نجاح قصة، وخلف كل قصة شراكة حقيقية. نفخر بأننا كنا جزءًا من رحلة العديد من المعلمين وصناع المحتوى، وساهمنا في تحويل أفكارهم إلى تأثير يصل إلى الآلاف والملايين.";
+  const ctaPrimary = content.ctaPrimary || "تصفح جميع العملاء";
+  const ctaPrimaryLink = content.ctaPrimaryLink || ROUTES.CLIENTS;
+  const ctaSecondary = content.ctaSecondary || "انضم الينا";
+  const ctaSecondaryLink = content.ctaSecondaryLink || ROUTES.CONTACT;
 
   return (
     <section
@@ -303,7 +317,7 @@ export default function ClientsSection() {
                   <Users size={16} />
                 </motion.span>
 
-                شركاء النجاح
+                {badge}
               </OutlinedBadge>
             </motion.div>
           </motion.div>
@@ -313,13 +327,10 @@ export default function ClientsSection() {
           <motion.div variants={fadeUp}>
             <SectionTitle
               variant="light"
-              title="ابرز"
-              redTitle="شركائنا"
+              title={title}
+              redTitle={redTitle}
             >
-              خلف كل نجاح قصة، وخلف كل قصة شراكة حقيقية.
-              نفخر بأننا كنا جزءًا من رحلة العديد من
-              المعلمين وصناع المحتوى، وساهمنا في تحويل
-              أفكارهم إلى تأثير يصل إلى الآلاف والملايين.
+              {description}
             </SectionTitle>
           </motion.div>
         </motion.div>
@@ -550,7 +561,7 @@ export default function ClientsSection() {
           >
             <Button
               variant="outline"
-              href={ROUTES.CLIENTS}
+              href={ctaPrimaryLink}
             >
               <motion.span
                 whileHover={{
@@ -560,7 +571,7 @@ export default function ClientsSection() {
                 <Users />
               </motion.span>
 
-              تصفح جميع العملاء
+              {ctaPrimary}
             </Button>
           </motion.div>
 
@@ -574,7 +585,7 @@ export default function ClientsSection() {
               scale: 0.97,
             }}
           >
-            <Button href={ROUTES.CONTACT}>
+            <Button href={ctaSecondaryLink}>
               <motion.span
                 animate={{
                   rotate: [0, -8, 8, 0],
@@ -589,7 +600,7 @@ export default function ClientsSection() {
                 <Star />
               </motion.span>
 
-              انضم الينا
+              {ctaSecondary}
             </Button>
           </motion.div>
         </motion.div>

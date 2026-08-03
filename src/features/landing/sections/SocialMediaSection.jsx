@@ -52,6 +52,7 @@ export default function SocialMediaSection() {
   const socialTitle = content.title || SOCIAL_SECTION.title;
   const socialRedTitle = content.redTitle || SOCIAL_SECTION.redTitle;
   const socialDescription = content.description || SOCIAL_SECTION.description;
+  const bottomText = content.bottomText || "كن جزءًا من مجتمع نقطة";
 
   /* =======================================================
      MOUSE PARALLAX
@@ -842,7 +843,7 @@ export default function SocialMediaSection() {
             }}
           />
 
-          <span>كن جزءًا من مجتمع نقطة</span>
+          <span>{bottomText}</span>
         </motion.div>
       </motion.div>
     </section>

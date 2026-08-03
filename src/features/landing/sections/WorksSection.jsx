@@ -28,6 +28,7 @@ import { motion } from "framer-motion";
 
 import { useWorks } from "@/features/landing/hooks/useWorks";
 import { HomeWorksSkeleton } from "@/shared/ui/skeletons/Skeletons";
+import { useSettings } from "@/contexts/SettingsContext";
 
 /* =========================================================
    CONSTANTS
@@ -71,6 +72,15 @@ const staggerContainer = {
 
 export default function WorksSection() {
   const { works: allWorks, loading } = useWorks();
+  const { settings } = useSettings();
+  const content = settings.content?.works || {};
+
+  const badge = content.badge || "محفظة أعمالنا";
+  const title = content.title || "";
+  const redTitle = content.redTitle || "أفكار بتتحول لأرقام";
+  const description =
+    content.description ||
+    "كل مشروع بيعكس شغفنا للإبداع والتخطيط والأداء. بنصنع تجربة تربط الهوية بالجمهور وتحول الأفكار إلى نمو محسوب.";
 
   const projects = allWorks.slice(0, PROJECTS_LIMIT);
 
@@ -141,7 +151,7 @@ export default function WorksSection() {
           >
             <OutlinedBadge>
               <GalleryVerticalEnd size={16} />
-              محفظة أعمالنا
+              {badge}
             </OutlinedBadge>
           </motion.div>
 
@@ -149,11 +159,10 @@ export default function WorksSection() {
 
           <motion.div variants={fadeUp}>
             <SectionTitle
-              title=""
-              redTitle="أفكار بتتحول لأرقام"
+              title={title}
+              redTitle={redTitle}
             >
-              كل مشروع بيعكس شغفنا للإبداع والتخطيط والأداء. بنصنع تجربة تربط
-              الهوية بالجمهور وتحول الأفكار إلى نمو محسوب.
+              {description}
             </SectionTitle>
           </motion.div>
 
@@ -367,6 +376,20 @@ export default function WorksSection() {
 ========================================================= */
 
 function CallToActionWorks() {
+  const { settings } = useSettings();
+  const content = settings.content?.works || {};
+
+  const ctaBadge = content.ctaBadge || "خطوات فعلية لنجاحات واقعية";
+  const ctaHeading = content.ctaHeading || "مزيج بين البساطة";
+  const ctaHeadingHighlight = content.ctaHeadingHighlight || "والإحترافية";
+  const ctaDescription =
+    content.ctaDescription ||
+    "احنا بنقدم تجربة رقمية مزيج بين البساطة والإبداع والسرعة والتصميم عشان نضيف قيمة وأثر في كل عين.";
+  const ctaPrimary = content.ctaPrimary || "عرض كل الأعمال";
+  const ctaPrimaryLink = content.ctaPrimaryLink || ROUTES.PORTFOLIO;
+  const ctaSecondary = content.ctaSecondary || "كلمنا دلوقتي";
+  const ctaSecondaryLink = content.ctaSecondaryLink || ROUTES.CONTACT;
+
   return (
     <motion.div
       initial={{
@@ -534,7 +557,7 @@ function CallToActionWorks() {
               dark:text-neutral-400
             "
           >
-            خطوات فعلية لنجاحات واقعية
+              {ctaBadge}
           </OutlinedBadge>
 
         </motion.div>
@@ -569,11 +592,11 @@ function CallToActionWorks() {
             dark:text-white
           "
         >
-          مزيج بين البساطة
+          {ctaHeading}
           <br />
 
           <span className="text-primary-600">
-            والإحترافية
+            {ctaHeadingHighlight}
           </span>
 
         </motion.h2>
@@ -606,8 +629,7 @@ function CallToActionWorks() {
             dark:text-neutral-400
           "
         >
-          احنا بنقدم تجربة رقمية مزيج بين البساطة والإبداع والسرعة والتصميم
-          عشان نضيف قيمة وأثر في كل عين.
+          {ctaDescription}
         </motion.p>
 
         {/* Buttons */}
@@ -642,20 +664,20 @@ function CallToActionWorks() {
             variant="primary"
             hasEffects={false}
             className="px-10 py-3"
-            href={ROUTES.PORTFOLIO}
+            href={ctaPrimaryLink}
           >
             <BriefcaseBusiness />
-            عرض كل الأعمال
+            {ctaPrimary}
           </Button>
 
           <Button
             variant="secondary"
             hasEffects={false}
             className="px-10 py-3"
-            href={ROUTES.CONTACT}
+            href={ctaSecondaryLink}
           >
             <MessageSquareHeart />
-            كلمنا دلوقتي
+            {ctaSecondary}
           </Button>
 
         </motion.div>

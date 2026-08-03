@@ -1,5 +1,6 @@
 "use client";
 
+import { createElement } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -20,6 +21,7 @@ import HighlightText from "@/shared/ui/typography/HighlightText";
 
 import { SITE, HERO } from "@/constants/content";
 import { useSettings } from "@/contexts/SettingsContext";
+import { resolveIcon } from "@/shared/ui/icons/resolveIcon";
 
 import logoIcon from "@/assets/identity/logo-icon.png";
 import roket from "@/assets/svg/roket.svg";
@@ -412,11 +414,28 @@ function GlassShowcase() {
 
   const reduceMotion = useReducedMotion();
 
-  const {
-    campaign,
-    analytics,
-    growth,
-  } = HERO_CONFIG.showcase;
+  const { settings } = useSettings();
+  const heroContent = settings.content?.hero || {};
+  const showcaseDefaults = HERO_CONFIG.showcase;
+
+  const campaign = {
+    title: heroContent.campaign?.title || showcaseDefaults.campaign.title,
+    text: heroContent.campaign?.text || showcaseDefaults.campaign.text,
+    likes: heroContent.campaign?.likes || showcaseDefaults.campaign.likes,
+    comments: heroContent.campaign?.comments || showcaseDefaults.campaign.comments,
+  };
+
+  const analytics = {
+    title: heroContent.analytics?.title || showcaseDefaults.analytics.title,
+    growth: heroContent.analytics?.growth || showcaseDefaults.analytics.growth,
+    text: heroContent.analytics?.text || showcaseDefaults.analytics.text,
+  };
+
+  const growth = {
+    value: heroContent.growth?.value || showcaseDefaults.growth.value,
+    label: heroContent.growth?.label || showcaseDefaults.growth.label,
+    period: heroContent.growth?.period || showcaseDefaults.growth.period,
+  };
 
 
 
@@ -954,17 +973,47 @@ function HeroActions(){
     settings
   } = useSettings();
 
+  const hero =
+    settings.content?.hero
+    || {};
+
 
   const primary =
-    settings.content?.hero?.ctaPrimary
+    hero.ctaPrimary
     ||
     HERO.ctaPrimary;
 
+  const primaryLink =
+    hero.ctaPrimaryLink
+    ||
+    "/contact";
+
+  const primaryIcon =
+    createElement(
+      resolveIcon(hero.ctaPrimaryIcon, ArrowLeft),
+      {
+        size: 18,
+        className:
+          "transition-transform duration-300 group-hover:-translate-x-1",
+      },
+    );
+
 
   const secondary =
-    settings.content?.hero?.ctaSecondary
+    hero.ctaSecondary
     ||
     HERO.ctaSecondary;
+
+  const secondaryLink =
+    hero.ctaSecondaryLink
+    ||
+    "/portfolio";
+
+  const secondaryIcon =
+    createElement(
+      resolveIcon(hero.ctaSecondaryIcon, Play),
+      { size: 17 },
+    );
 
 
 
@@ -982,7 +1031,7 @@ function HeroActions(){
     >
 
 
-      <Link href={"/contact"}
+      <Link href={primaryLink}
 
         className="
           group
@@ -1014,22 +1063,12 @@ function HeroActions(){
         {primary}
 
 
-        <ArrowLeft
-
-          size={18}
-
-          className="
-            transition-transform
-            duration-300
-            group-hover:-translate-x-1
-          "
-
-        />
+        {primaryIcon}
 
 
       </Link>
 
-      <Link href={"/portfolio"}
+      <Link href={secondaryLink}
 
         className="
           flex
@@ -1056,7 +1095,7 @@ function HeroActions(){
 
       >
 
-        <Play size={17}/>
+        {secondaryIcon}
 
         {secondary}
 
@@ -1116,6 +1155,21 @@ function HeroContent(){
     settings.content?.hero?.badge
     ||
     HERO.badge;
+
+  const titlePrefix =
+    settings.content?.hero?.titlePrefix
+    ||
+    "ومن";
+
+  const titleHighlight =
+    settings.content?.hero?.titleHighlight
+    ||
+    "أول السطر،";
+
+  const titleSuffix =
+    settings.content?.hero?.titleSuffix
+    ||
+    "هنبدأ حكايات جديدة..";
 
 
   const stats =
@@ -1189,11 +1243,13 @@ function HeroContent(){
         </span>
 
 
-        {" ومن "}
+        {" "}
+        {titlePrefix}
+        {" "}
 
 
         <HighlightText>
-          أول السطر،
+          {titleHighlight}
         </HighlightText>
 
 
@@ -1205,7 +1261,7 @@ function HeroContent(){
             text-ink/90
           "
         >
-هنبدأ حكايات جديدة..
+          {titleSuffix}
         </span>
 
 
@@ -1282,11 +1338,28 @@ function HeroContent(){
 
 function MobileShowcase() {
 
-  const {
-    campaign,
-    analytics,
-    growth,
-  } = HERO_CONFIG.showcase;
+  const { settings } = useSettings();
+  const heroContent = settings.content?.hero || {};
+  const showcaseDefaults = HERO_CONFIG.showcase;
+
+  const campaign = {
+    title: heroContent.campaign?.title || showcaseDefaults.campaign.title,
+    text: heroContent.campaign?.text || showcaseDefaults.campaign.text,
+    likes: heroContent.campaign?.likes || showcaseDefaults.campaign.likes,
+    comments: heroContent.campaign?.comments || showcaseDefaults.campaign.comments,
+  };
+
+  const analytics = {
+    title: heroContent.analytics?.title || showcaseDefaults.analytics.title,
+    growth: heroContent.analytics?.growth || showcaseDefaults.analytics.growth,
+    text: heroContent.analytics?.text || showcaseDefaults.analytics.text,
+  };
+
+  const growth = {
+    value: heroContent.growth?.value || showcaseDefaults.growth.value,
+    label: heroContent.growth?.label || showcaseDefaults.growth.label,
+    period: heroContent.growth?.period || showcaseDefaults.growth.period,
+  };
 
 
   return (

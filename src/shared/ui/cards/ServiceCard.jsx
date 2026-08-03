@@ -5,7 +5,7 @@ import Button from "../buttons/Buttons";
 import { ROUTES } from "@/constants/routes";
 import CardMotion from "@/shared/animations/CardMotion";
 
-export default function ServiceCard({ service, varient = "default" }) {
+export default function ServiceCard({ service, varient = "default", moreHref }) {
   const Icon = service.icon;
   const isBlack = varient === "black";
 
@@ -247,7 +247,7 @@ export default function ServiceCard({ service, varient = "default" }) {
         <div className="mt-auto pt-9">
           {service.more ? (
             <Button
-              href={ROUTES.SERVICES}
+              href={moreHref || ROUTES.SERVICES}
               variant="outline"
               hasEffects={false}
               rounded="full"

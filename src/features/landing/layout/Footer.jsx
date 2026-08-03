@@ -55,6 +55,22 @@ export default function Footer() {
   const footerDescription = settings.content?.footer?.description || FOOTER.description;
   const copyright = settings.copyright || FOOTER.copyright.replace("{year}", new Date().getFullYear().toString());
 
+  const footerContent = settings.content?.footer || {};
+
+  const column1 = {
+    title: footerContent.column1Title || FOOTER.columns[0].title,
+    links: footerContent.column1Links?.length
+      ? footerContent.column1Links
+      : FOOTER.columns[0].links,
+  };
+
+  const column2 = {
+    title: footerContent.column2Title || FOOTER.columns[1].title,
+    links: footerContent.column2Links?.length
+      ? footerContent.column2Links
+      : FOOTER.columns[1].links,
+  };
+
   /* =======================================================
      MOUSE PARALLAX
   ======================================================= */
@@ -94,8 +110,8 @@ export default function Footer() {
   };
 
   const links = {
-  company: FOOTER.columns[0].links,
-  services: FOOTER.columns[1].links,
+  company: column1.links,
+  services: column2.links,
 };
 
   const currentYear = new Date().getFullYear();
@@ -460,7 +476,7 @@ export default function Footer() {
           ================================================== */}
 
           <motion.div variants={reveal}>
-            <FooterColumn title={FOOTER.columns[0].title} items={links.company} />
+            <FooterColumn title={column1.title} items={links.company} />
           </motion.div>
 
           {/* =================================================
@@ -468,7 +484,7 @@ export default function Footer() {
           ================================================== */}
 
           <motion.div variants={reveal}>
-            <FooterColumn title={FOOTER.columns[1].title} items={links.services} />
+            <FooterColumn title={column2.title} items={links.services} />
           </motion.div>
 
           {/* =================================================
