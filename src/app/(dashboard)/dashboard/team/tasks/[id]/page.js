@@ -56,6 +56,8 @@ import {
 
 import { updateDocument, removeDocument } from "@/lib/firestoreService";
 
+import { notifyMany, getTaskRecipientUserIds } from "@/lib/notificationService";
+
 import { useToast } from "@/hooks/useToast";
 
 export default function TaskDetailPage() {
@@ -69,7 +71,8 @@ export default function TaskDetailPage() {
 
   const canManage = canManageTeam(profile?.role);
 
-  const { tasks, projects, activeUsers, userMap, loading } = useTeamData();
+  const { tasks, projects, users, activeUsers, userMap, loading } =
+    useTeamData();
 
   const taskId = params?.id;
 
@@ -172,6 +175,19 @@ export default function TaskDetailPage() {
           `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
         ),
       });
+
+      notifyMany(
+        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+        {
+          title: "تم تحديث حالة المهمة",
+          message: `تم نقل المهمة "${task.title}" من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}".`,
+          type: "task",
+          link: `/dashboard/team/tasks/${task.id}`,
+          projectId: task.projectId,
+          projectTitle: project?.title || "",
+          eventKey: "tasks",
+        },
+      );
     } catch (error) {
       console.error("Failed to move task:", error);
       showToast({
@@ -198,6 +214,19 @@ export default function TaskDetailPage() {
         checklist,
         activity: addActivity(task, "checklist", "تم تحديث قائمة التحقق"),
       });
+
+      notifyMany(
+        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+        {
+          title: "تم تحديث قائمة التحقق",
+          message: `تم تحديث قائمة تحقق المهمة "${task.title}".`,
+          type: "task",
+          link: `/dashboard/team/tasks/${task.id}`,
+          projectId: task.projectId,
+          projectTitle: project?.title || "",
+          eventKey: "tasks",
+        },
+      );
     } catch (error) {
       console.error("Failed to update checklist:", error);
       showToast({
@@ -235,6 +264,19 @@ export default function TaskDetailPage() {
         ],
         activity: addActivity(task, "comment", "تمت إضافة تعليق"),
       });
+
+      notifyMany(
+        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+        {
+          title: "تعليق جديد على مهمة",
+          message: `علّق ${currentAuthorName} على مهمة "${task.title}".`,
+          type: "comment",
+          link: `/dashboard/team/tasks/${task.id}`,
+          projectId: task.projectId,
+          projectTitle: project?.title || "",
+          eventKey: "tasks",
+        },
+      );
 
       setComment("");
     } catch (error) {

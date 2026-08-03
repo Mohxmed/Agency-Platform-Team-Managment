@@ -58,6 +58,8 @@ import {
   removeDocument,
 } from "@/lib/firestoreService";
 
+import { notifyMany, getTaskRecipientUserIds } from "@/lib/notificationService";
+
 export default function ProjectDetailPage() {
   const params = useParams();
 
@@ -69,7 +71,7 @@ export default function ProjectDetailPage() {
 
   const canManage = canManageTeam(profile?.role);
 
-  const { projects, tasks, activeUsers, userMap, clientMap, clients, loading } =
+  const { projects, tasks, users, activeUsers, userMap, clientMap, clients, loading } =
     useTeamData();
 
   const projectId = params?.id;
@@ -175,6 +177,19 @@ export default function ProjectDetailPage() {
           `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
         ),
       });
+
+      notifyMany(
+        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+        {
+          title: "تم تحديث حالة المهمة",
+          message: `تم نقل المهمة "${task.title}" من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}".`,
+          type: "task",
+          link: `/dashboard/team/tasks/${task.id}`,
+          projectId: task.projectId,
+          projectTitle: project?.title || "",
+          eventKey: "tasks",
+        },
+      );
     } catch (error) {
       console.error("Failed to move task:", error);
       showToast({

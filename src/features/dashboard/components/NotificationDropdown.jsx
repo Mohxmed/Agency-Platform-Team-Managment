@@ -10,6 +10,7 @@ import {
   Users,
   PackageCheck,
   ListChecks,
+  MessageSquare,
   AlertCircle,
   Info,
 } from "lucide-react";
@@ -114,6 +115,12 @@ export default function NotificationDropdown() {
         return {
           icon: ListChecks,
           className: "bg-sky-50 text-sky-600",
+        };
+
+      case "comment":
+        return {
+          icon: MessageSquare,
+          className: "bg-indigo-50 text-indigo-600",
         };
 
       case "warning":

@@ -17,7 +17,14 @@ import Modal from "@/features/dashboard/ui/Modal";
 import Button from "@/features/dashboard/ui/Button";
 import Input, { Textarea, Select } from "@/features/dashboard/ui/Input";
 
-import { createDocument, updateDocument, notifyUser } from "@/lib/firestoreService";
+import { createDocument, updateDocument } from "@/lib/firestoreService";
+
+import {
+  notifyMany,
+  getManagerUserIds,
+  getProjectMemberUserIds,
+  getTaskRecipientUserIds,
+} from "@/lib/notificationService";
 
 import { WORKFLOW_STATUSES, PRIORITIES } from "@/constants/workflow";
 import { uid } from "../lib/teamUtils";
@@ -221,6 +228,12 @@ export default function TaskModal({
 
       const projectTitle = project?.title || "";
 
+      const actorId = currentUser?.uid || "";
+
+      const statusLabel =
+        WORKFLOW_STATUSES.find((status) => status.value === form.status)
+          ?.labelAr || form.status;
+
       if (editing) {
         const wasAssignedTo = editing.assigneeProfileId || editing.assigneeId || "";
 
@@ -231,10 +244,9 @@ export default function TaskModal({
         if (
           form.assigneeProfileId &&
           form.assigneeProfileId !== wasAssignedTo &&
-          form.assigneeProfileId !== currentUser?.uid
+          form.assigneeProfileId !== actorId
         ) {
-          notifyUser({
-            userId: form.assigneeProfileId,
+          notifyMany([form.assigneeProfileId], {
             title: "مهمة جديدة مسندة إليك",
             message: `تم إسناد مهمة "${payload.title}" إليك.`,
             type: "task",
@@ -245,19 +257,19 @@ export default function TaskModal({
           });
         }
 
-        if (statusChanged && form.assigneeProfileId && form.assigneeProfileId !== currentUser?.uid) {
-          notifyUser({
-            userId: form.assigneeProfileId,
-            title: "تم تحديث حالة المهمة",
-            message: `تم تغيير حالة مهمة "${payload.title}" إلى "${
-              WORKFLOW_STATUSES.find((status) => status.value === form.status)?.labelAr || form.status
-            }".`,
-            type: "task",
-            link: `/dashboard/team/tasks/${editing.id}`,
-            projectId: form.projectId,
-            projectTitle,
-            eventKey: "tasks",
-          });
+        if (statusChanged) {
+          notifyMany(
+            getTaskRecipientUserIds(editing, users, actorId),
+            {
+              title: "تم تحديث حالة المهمة",
+              message: `تم تغيير حالة مهمة "${payload.title}" إلى "${statusLabel}".`,
+              type: "task",
+              link: `/dashboard/team/tasks/${editing.id}`,
+              projectId: form.projectId,
+              projectTitle,
+              eventKey: "tasks",
+            },
+          );
         }
       } else {
         const taskRef = await createDocument("tasks", {
@@ -266,9 +278,8 @@ export default function TaskModal({
           reporterProfileId: currentUser?.uid || "",
         });
 
-        if (form.assigneeProfileId && form.assigneeProfileId !== currentUser?.uid) {
-          notifyUser({
-            userId: form.assigneeProfileId,
+        if (form.assigneeProfileId && form.assigneeProfileId !== actorId) {
+          notifyMany([form.assigneeProfileId], {
             title: "مهمة جديدة مسندة إليك",
             message: `تم إسناد مهمة "${payload.title}" إليك.`,
             type: "task",
@@ -278,6 +289,23 @@ export default function TaskModal({
             eventKey: "tasks",
           });
         }
+
+        const crew = [
+          ...new Set([
+            ...getProjectMemberUserIds(project, actorId),
+            ...getManagerUserIds(users, actorId),
+          ]),
+        ].filter((id) => id !== form.assigneeProfileId);
+
+        notifyMany(crew, {
+          title: "مهمة جديدة في مشروع",
+          message: `تمت إضافة مهمة "${payload.title}" إلى مشروع "${projectTitle}".`,
+          type: "task",
+          link: `/dashboard/team/tasks/${taskRef.id}`,
+          projectId: form.projectId,
+          projectTitle,
+          eventKey: "tasks",
+        });
       }
 
       onSaved?.();

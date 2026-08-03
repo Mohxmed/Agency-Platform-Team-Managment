@@ -28,6 +28,8 @@ import { WORKFLOW_STATUSES } from "@/constants/workflow";
 
 import { updateDocument } from "@/lib/firestoreService";
 
+import { notifyMany, getTaskRecipientUserIds } from "@/lib/notificationService";
+
 import {
   formatDeadline,
   getAssigneeId,
@@ -59,7 +61,7 @@ export default function MyTasksPage() {
 
   const { user: currentUser, profile } = useAuth();
 
-  const { tasks, projects, userMap, loading } = useTeamData();
+  const { tasks, projects, users, userMap, loading } = useTeamData();
 
   const [search, setSearch] = useState("");
 
@@ -219,6 +221,19 @@ export default function MyTasksPage() {
           `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
         ),
       });
+
+      notifyMany(
+        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+        {
+          title: "تم تحديث حالة المهمة",
+          message: `تم نقل المهمة "${task.title}" من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}".`,
+          type: "task",
+          link: `/dashboard/team/tasks/${task.id}`,
+          projectId: task.projectId,
+          projectTitle: getProjectTitle(task.projectId),
+          eventKey: "tasks",
+        },
+      );
     } catch (error) {
       console.error("Failed to move task:", error);
       showToast({
