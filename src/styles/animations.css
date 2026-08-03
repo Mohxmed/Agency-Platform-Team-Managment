@@ -27,6 +27,7 @@
 
 .marquee-track {
   display: flex;
+  align-items: stretch;
   width: max-content;
   animation-name: marquee-scroll;
   animation-timing-function: linear;
@@ -38,12 +39,6 @@
 .marquee-slide {
   flex-shrink: 0;
   direction: rtl;
-}
-
-@media (hover: hover) {
-  .marquee-track:hover {
-    animation-play-state: paused;
-  }
 }
 
 @keyframes marquee-scroll {

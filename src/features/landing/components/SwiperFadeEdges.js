@@ -48,13 +48,15 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
         className={`
           pointer-events-none
           absolute
-          -left-20
+          -left-16
           top-0
           z-20
           h-full
-          w-32
+          w-16
+          blur-lg
+          sm:w-32
+          sm:blur-2xl
           lg:w-56
-          blur-2xl
           ${colors.left}
         `}
       />
@@ -64,13 +66,16 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
         className={`
           pointer-events-none
           absolute
-          -right-20
+          -right-16
           top-0
           z-20
           h-full
-          w-32
+          w-16
+          blur-lg
+          sm:w-32
+          sm:blur-2xl
           lg:w-56
-          blur-3xl
+          lg:blur-3xl
           ${colors.right}
         `}
       />

@@ -50,6 +50,9 @@ export default function ClientCard({ teacher }) {
       className="
         group
         relative
+        flex
+        h-full
+        flex-col
         overflow-hidden
         rounded-[2rem]
         border
@@ -341,7 +344,7 @@ export default function ClientCard({ teacher }) {
           CTA
       ====================================================== */}
 
-      <div className="p-5">
+      <div className="mt-auto p-5">
         <Link
           href={`/clients/${teacher?.link}`}
           className="

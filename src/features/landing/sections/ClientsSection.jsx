@@ -431,10 +431,7 @@ export default function ClientsSection() {
             !error &&
             clients.length > 0 && (
               <SwiperFadeEdges>
-                <Marquee
-                  duration={clients.length * 2.5}
-                  slideClassName="w-[82vw] max-w-[330px] px-4 py-8 sm:w-auto sm:max-w-none"
-                >
+                <Marquee slideClassName="h-full px-4 py-8">
                   {clients.map((client) => (
                     <motion.div
                       key={client.id}
@@ -459,6 +456,7 @@ export default function ClientsSection() {
                           1,
                         ],
                       }}
+                      className="h-full"
                     >
                       <ClientCard
                         teacher={client}
