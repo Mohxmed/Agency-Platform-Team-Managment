@@ -596,7 +596,7 @@ return works.find((item) => {
                     max-w-5xl
                     text-5xl
                     font-black
-                    leading-[1]
+                    leading-[25]
                     tracking-[-0.05em]
                     text-black
                     sm:text-6xl
@@ -638,23 +638,6 @@ return works.find((item) => {
 
 
 
-              <motion.div
-                variants={scaleReveal}
-
-                className="
-                  rounded-3xl
-                  border
-                  border-black/10
-                  bg-white/60
-                  p-6
-                  shadow-xl
-                  backdrop-blur-xl
-                  dark:border-white/10
-                  dark:bg-white/5
-                "
-              >
-
-
                 <InfoItem
                   icon={<CalendarDays/>}
                   title="السنة"
@@ -668,9 +651,7 @@ return works.find((item) => {
                   value={categoryName}
                 />
 
-              </motion.div>
-
-
+      
             </div>
 
 
@@ -1116,23 +1097,6 @@ return works.find((item) => {
 
           {project.description ||
           "كل مشروع هو تجربة مختلفة تجمع بين الاستراتيجية، التصميم، والهوية البصرية لصناعة تأثير حقيقي."}
-
-        </p>
-
-
-
-        <p
-          className="
-            mt-7
-            text-base
-            leading-8
-            text-black/45
-            dark:text-white/55
-          "
-        >
-
-          نركز على بناء حلول واضحة ومميزة تجعل العلامة التجارية أكثر حضوراً
-          وقرباً من جمهورها، بداية من الفكرة وحتى التفاصيل النهائية.
 
         </p>
 
