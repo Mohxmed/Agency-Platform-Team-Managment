@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
 
 import {
   ClipboardList,
@@ -8,16 +9,15 @@ import {
   Loader2,
   Timer,
   Search,
-  X,
   ChevronLeft,
   ChevronRight,
   CalendarDays,
   ListChecks,
-  MessageSquare,
-  Eye,
-  Pencil,
-  Trash2,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
 
@@ -27,12 +27,9 @@ import { WORKFLOW_STATUSES } from "@/constants/workflow";
 
 import { updateDocument } from "@/lib/firestoreService";
 
-import { notifyMany, getTaskRecipientUserIds } from "@/lib/notificationService";
-
 import {
   formatDeadline,
   getAssigneeId,
-  getWorkflowMeta,
   isDeadlineOverdue,
   canManageTeam,
   canMemberAdvance,
@@ -45,107 +42,260 @@ import { useToast } from "@/hooks/useToast";
 
 import TeamHero from "@/features/team/components/TeamHero";
 
-import Input from "@/features/dashboard/ui/Input";
-
 import PriorityBadge from "@/features/team/components/PriorityBadge";
 
 import Avatar from "@/features/dashboard/ui/Avatar";
 
-import Link from "next/link";
+import StatsCard from "@/features/dashboard/ui/StatsCard";
+
 
 export default function MyTasksPage() {
   const theme = usePageTheme();
 
   const { showToast } = useToast();
 
-  const { user: currentUser, profile } = useAuth();
+  const {
+    user: currentUser,
+    profile,
+  } = useAuth();
 
-  const { tasks, projects, users, userMap, loading } = useTeamData();
+
+  const {
+    tasks,
+    projects,
+    users,
+    userMap,
+    loading,
+  } = useTeamData();
+
 
   const [search, setSearch] = useState("");
 
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [statusFilter, setStatusFilter] =
+    useState("all");
 
-  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] =
+    useState("all");
 
-  const [projectFilter, setProjectFilter] = useState("all");
+  const [projectFilter, setProjectFilter] =
+    useState("all");
 
-  const [viewMode, setViewMode] = useState("kanban");
+  const [viewMode, setViewMode] =
+    useState("kanban");
+
 
   const myTasks = useMemo(() => {
     if (!currentUser) return [];
-    return tasks.filter((task) => getAssigneeId(task) === currentUser.uid);
-  }, [tasks, currentUser]);
 
-  const filteredTasks = useMemo(() => {
-    const query = search.trim().toLowerCase();
+    return tasks.filter(
+      (task) =>
+        getAssigneeId(task) ===
+        currentUser.uid,
+    );
+  }, [
+    tasks,
+    currentUser,
+  ]);
 
-    return myTasks.filter((task) => {
-      const matchesSearch =
-        !query ||
-        task.title?.toLowerCase().includes(query) ||
-        task.description?.toLowerCase().includes(query);
 
-      const matchesProject = projectFilter === "all" || task.projectId === projectFilter;
+  const taskStats = useMemo(() => {
+    return myTasks.reduce(
+      (result, task) => {
+        const status = task.status;
 
-      const matchesStatus = statusFilter === "all" || task.status === statusFilter;
+        if (
+          status === "done" ||
+          status === "approved"
+        ) {
+          result.completed++;
+        }
 
-      const matchesPriority = priorityFilter === "all" || task.priority === priorityFilter;
+        if (
+          status === "in-progress"
+        ) {
+          result.active++;
+        }
 
-      return matchesSearch && matchesProject && matchesStatus && matchesPriority;
-    });
-  }, [myTasks, search, projectFilter, statusFilter, priorityFilter]);
+        if (
+          status === "review" ||
+          status === "revision"
+        ) {
+          result.review++;
+        }
 
-  const tasksByStatus = useMemo(() => {
-    const map = {};
-    WORKFLOW_STATUSES.forEach((status) => {
-      map[status.value] = filteredTasks.filter((task) => task.status === status.value);
-    });
-    return map;
-  }, [filteredTasks]);
+        if (
+          status !== "done" &&
+          isDeadlineOverdue(
+            task.deadline,
+          )
+        ) {
+          result.overdue++;
+        }
+
+        return result;
+      },
+      {
+        completed: 0,
+        active: 0,
+        review: 0,
+        overdue: 0,
+      },
+    );
+  }, [
+    myTasks,
+  ]);
+
+
+  const completionRate = useMemo(() => {
+    if (!myTasks.length) return 0;
+
+    return Math.round(
+      (taskStats.completed /
+        myTasks.length) *
+        100,
+    );
+  }, [
+    taskStats.completed,
+    myTasks.length,
+  ]);
+
 
   const stats = useMemo(
     () => [
       {
         label: "مهماتي",
         value: myTasks.length,
-        description: "إجمالي المهام المسندة لي.",
+        description:
+          "إجمالي المهام المسندة إليك.",
         icon: ClipboardList,
+        footer:
+          "TOTAL TASKS",
       },
+
       {
         label: "قيد التنفيذ",
-        value: myTasks.filter((task) => task.status === "in-progress").length,
-        description: "مهام أعمل عليها حاليًا.",
+        value: taskStats.active,
+        description:
+          "المهام التي تعمل عليها الآن.",
         icon: Loader2,
+        footer:
+          "ACTIVE",
       },
+
       {
         label: "المراجعة",
-        value: myTasks.filter((task) => task.status === "review" || task.status === "revision").length,
-        description: "مهام في انتظار المراجعة.",
+        value: taskStats.review,
+        description:
+          "المهام المنتظرة للمراجعة.",
         icon: Search,
+        footer:
+          "REVIEW",
       },
+
       {
-        label: "المكتملة",
-        value: myTasks.filter((task) => task.status === "done").length,
-        description: "مهام أنهيتها.",
+        label: "الإنجاز",
+        value: `${completionRate}%`,
+        description:
+          "نسبة اكتمال مهامك.",
         icon: CheckCircle2,
+        footer:
+          "COMPLETION",
       },
+
       {
         label: "متأخرة",
-        value: myTasks.filter(
-          (task) =>
-            !(task.status === "done") && isDeadlineOverdue(task.deadline),
-        ).length,
-        description: "مهام تجاوزت موعد الاستحقاق.",
+        value: taskStats.overdue,
+        description:
+          "مهام تجاوزت الموعد المحدد.",
         icon: Timer,
+        footer:
+          "OVERDUE",
       },
     ],
-    [myTasks],
+    [
+      myTasks.length,
+      taskStats,
+      completionRate,
+    ],
   );
 
+
+  const filteredTasks = useMemo(() => {
+    const query =
+      search.trim().toLowerCase();
+
+    return myTasks.filter((task) => {
+      const matchesSearch =
+        !query ||
+        task.title
+          ?.toLowerCase()
+          .includes(query) ||
+        task.description
+          ?.toLowerCase()
+          .includes(query);
+
+
+      const matchesProject =
+        projectFilter === "all" ||
+        task.projectId === projectFilter;
+
+
+      const matchesStatus =
+        statusFilter === "all" ||
+        task.status === statusFilter;
+
+
+      const matchesPriority =
+        priorityFilter === "all" ||
+        task.priority === priorityFilter;
+
+
+      return (
+        matchesSearch &&
+        matchesProject &&
+        matchesStatus &&
+        matchesPriority
+      );
+    });
+  }, [
+    myTasks,
+    search,
+    projectFilter,
+    statusFilter,
+    priorityFilter,
+  ]);
+
+
+  const tasksByStatus = useMemo(() => {
+    const result = {};
+
+    WORKFLOW_STATUSES.forEach(
+      (status) => {
+        result[status.value] =
+          filteredTasks.filter(
+            (task) =>
+              task.status ===
+              status.value,
+          );
+      },
+    );
+
+    return result;
+  }, [
+    filteredTasks,
+  ]);
+
+
   function getProjectTitle(projectId) {
-    return projects.find((project) => project.id === projectId)?.title || "بدون مشروع";
+    return (
+      projects.find(
+        (project) =>
+          project.id === projectId,
+      )?.title ||
+      "بدون مشروع"
+    );
   }
+
 
   const currentAuthorName =
     userMap.get(currentUser?.uid)?.name ||
@@ -153,8 +303,17 @@ export default function MyTasksPage() {
     currentUser?.displayName ||
     "مستخدم";
 
-  function addActivity(task, type, text) {
-    const activity = Array.isArray(task.activity) ? task.activity : [];
+
+  function addActivity(
+    task,
+    type,
+    text,
+  ) {
+    const activity =
+      Array.isArray(task.activity)
+        ? task.activity
+        : [];
+
 
     return [
       ...activity,
@@ -162,42 +321,63 @@ export default function MyTasksPage() {
         id: uid(),
         type,
         text,
-        authorId: currentUser?.uid || "",
-        authorName: currentAuthorName,
-        createdAt: new Date().toISOString(),
+        authorId:
+          currentUser?.uid ||
+          "",
+        authorName:
+          currentAuthorName,
+        createdAt:
+          new Date().toISOString(),
       },
     ];
   }
-
   async function handleMove(task, direction) {
     const role = profile?.role;
 
-    // Members may only advance the workflow (never move backward).
-    if (direction === "backward" && !canManageTeam(role)) {
+    if (
+      direction === "backward" &&
+      !canManageTeam(role)
+    ) {
       showToast({
         type: "warning",
         title: "صلاحيات غير كافية",
-        message: "لا يمكنك التراجع في مراحل المهمة.",
+        message:
+          "لا يمكنك التراجع في مراحل المهمة.",
       });
+
       return;
     }
 
-    const currentIndex = WORKFLOW_STATUSES.findIndex((s) => s.value === task.status);
 
-    const delta = direction === "forward" ? 1 : -1;
+    const currentIndex =
+      WORKFLOW_STATUSES.findIndex(
+        (status) =>
+          status.value === task.status,
+      );
+
+
+    const delta =
+      direction === "forward"
+        ? 1
+        : -1;
+
 
     const nextIndex = Math.min(
-      Math.max(currentIndex + delta, 0),
+      Math.max(
+        currentIndex + delta,
+        0,
+      ),
       WORKFLOW_STATUSES.length - 1,
     );
 
-    if (nextIndex === currentIndex) return;
 
-    const fromMeta = WORKFLOW_STATUSES[currentIndex];
+    if (
+      currentIndex === nextIndex
+    ) {
+      return;
+    }
 
-    const toMeta = WORKFLOW_STATUSES[nextIndex];
 
-    // Members cannot move past "review" (no revision / done).
     if (
       direction === "forward" &&
       !canManageTeam(role) &&
@@ -205,335 +385,1236 @@ export default function MyTasksPage() {
     ) {
       showToast({
         type: "warning",
-        title: "انتهت مراحل العضو",
-        message: "بعد الإرسال للمراجعة، يتولى المسؤول قرار التعديلات أو التسليم.",
+        title: "لا يمكن التقدم",
+        message:
+          "تم إرسال المهمة للمراجعة وينتظر القرار.",
       });
+
       return;
     }
 
-    try {
-      await updateDocument("tasks", task.id, {
-        status: toMeta.value,
-        activity: addActivity(
-          task,
-          "status",
-          `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
-        ),
-      });
 
-      notifyMany(
-        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+    const from =
+      WORKFLOW_STATUSES[currentIndex];
+
+    const to =
+      WORKFLOW_STATUSES[nextIndex];
+
+
+    try {
+      await updateDocument(
+        "tasks",
+        task.id,
         {
-          title: "تم تحديث حالة المهمة",
-          message: `تم نقل المهمة "${task.title}" من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}".`,
-          type: "task",
-          link: `/dashboard/team/tasks/${task.id}`,
-          projectId: task.projectId,
-          projectTitle: getProjectTitle(task.projectId),
-          eventKey: "tasks",
+          status: to.value,
+
+          activity: addActivity(
+            task,
+            "status",
+            `تم نقل المهمة من "${from.labelAr}" إلى "${to.labelAr}"`,
+          ),
         },
       );
+
     } catch (error) {
-      console.error("Failed to move task:", error);
+      console.error(
+        error,
+      );
+
       showToast({
         type: "error",
         title: "حدث خطأ",
-        message: "حصل خطأ أثناء نقل المهمة.",
+        message:
+          "تعذر تحديث حالة المهمة.",
       });
     }
   }
 
-  function handleMoveForward(task) {
-    return handleMove(task, "forward");
-  }
 
-  function handleMoveBackward(task) {
-    return handleMove(task, "backward");
-  }
+  const handleMoveForward = (
+    task,
+  ) =>
+    handleMove(
+      task,
+      "forward",
+    );
+
+
+  const handleMoveBackward = (
+    task,
+  ) =>
+    handleMove(
+      task,
+      "backward",
+    );
+
 
   return (
     <ProtectedRoute permission="my-tasks">
-      <div dir="rtl" className="space-y-6">
+      <div
+        dir="rtl"
+        className="space-y-8"
+      >
+
         <TeamHero
           icon={ClipboardList}
           title="مهماتي"
-          subtitle="تابع مهامك المسندة وحدّث حالاتها بكل سهولة."
+          subtitle="تابع تقدم مهامك، حدّث الحالات، ونظّم سير العمل."
         >
-          <div className="flex items-center gap-2">
-            <select
-              value={viewMode}
-              onChange={(e) => setViewMode(e.target.value)}
-              className="rounded-xl border border-ink/20 bg-card px-3 py-2 text-sm font-medium text-ink outline-none"
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+            "
+          >
+            <button
+              onClick={() =>
+                setViewMode(
+                  viewMode === "kanban"
+                    ? "list"
+                    : "kanban",
+                )
+              }
+              className="
+                flex
+                items-center
+                gap-2
+                rounded-xl
+                border
+                border-black/[0.06]
+                bg-white/60
+                px-4
+                py-2.5
+                text-xs
+                font-black
+                text-ink
+                backdrop-blur-xl
+                transition
+                hover:bg-white
+                dark:border-white/[0.08]
+                dark:bg-white/[0.05]
+              "
             >
-              <option value="kanban">لوحة كانبان</option>
-              <option value="list">قائمة</option>
-            </select>
+              {viewMode === "kanban"
+                ? "عرض القائمة"
+                : "عرض كانبان"}
+            </button>
           </div>
         </TeamHero>
 
+
         {loading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="h-32 animate-pulse rounded-2xl border border-gray-100 bg-gray-50" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {stats.map((stat, index) => (
-              <div
-                key={`${stat.label}-${index}`}
-                className="rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <stat.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-ink/40">{stat.label}</p>
-                    <p className="mt-1 text-2xl font-black text-ink">{stat.value}</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-xs text-ink/40">{stat.description}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="grid gap-3 rounded-[24px] border border-gray-200/80 bg-card p-4 shadow-[0_8px_30px_rgba(0,0,0,0.035)] lg:grid-cols-6">
-          <div className="relative lg:col-span-2">
-            <Search className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/30" />
-
-            <input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="ابحث في مهامي..."
-              className={`h-11 w-full rounded-xl border border-ink/40 bg-card pr-10 pl-3 text-sm text-ink outline-none transition placeholder:text-ink/30 ${theme.focus}`}
-            />
-          </div>
-
-          <select
-            value={projectFilter}
-            onChange={(event) => setProjectFilter(event.target.value)}
-            className={`h-11 w-full rounded-xl border border-ink/20 bg-card px-3 text-sm font-medium text-ink outline-none transition ${theme.focus}`}
+          <div
+            className="
+              grid
+              gap-4
+              sm:grid-cols-2
+              xl:grid-cols-5
+            "
           >
-            <option value="all">كل المشاريع</option>
-            {projects.map((project) => (
-              <option key={project.id} value={project.id}>
-                {project.title}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-            className={`h-11 w-full rounded-xl border border-ink/20 bg-card px-3 text-sm font-medium text-ink outline-none transition ${theme.focus}`}
-          >
-            <option value="all">كل الحالات</option>
-            {WORKFLOW_STATUSES.map((status) => (
-              <option key={status.value} value={status.value}>
-                {status.labelAr}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={priorityFilter}
-            onChange={(event) => setPriorityFilter(event.target.value)}
-            className={`h-11 w-full rounded-xl border border-ink/20 bg-card px-3 text-sm font-medium text-ink outline-none transition ${theme.focus}`}
-          >
-            <option value="all">كل الأولويات</option>
-            <option value="low">منخفضة</option>
-            <option value="medium">متوسطة</option>
-            <option value="high">عالية</option>
-            <option value="urgent">عاجلة</option>
-          </select>
-        </div>
-
-        {viewMode === "kanban" ? (
-          <div className="flex gap-4 overflow-x-auto pb-4 pt-1">
-            {WORKFLOW_STATUSES.map((status) => {
-              const columnTasks = tasksByStatus[status.value] || [];
-
-              return (
+            {[1,2,3,4,5].map(
+              (item)=>(
                 <div
-                  key={status.value}
-                  className="flex w-[280px] shrink-0 flex-col rounded-2xl border border-gray-200 bg-gray-50/70"
-                >
-                  <div className="flex items-center justify-between gap-2 px-4 py-3.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-gray-600">{status.labelAr}</span>
-                      <span className="text-[10px] font-bold text-ink/30">{status.label}</span>
-                    </div>
-                    <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-white/80 px-1.5 text-[11px] font-bold text-ink/50 ring-1 ring-ink/[0.06] dark:bg-white/15 dark:text-white/80">
-                      {columnTasks.length}
-                    </span>
-                  </div>
-
-                  <div className="flex-1 space-y-3 px-3 pb-3 overflow-y-auto max-h-[calc(100vh-400px)]">
-                    {columnTasks.length === 0 ? (
-                      <div className="flex min-h-[120px] w-full items-center justify-center gap-2 rounded-xl border border-dashed border-ink/[0.08] text-[11px] font-bold text-ink/30" />
-                    ) : (
-                      columnTasks.map((task) => (
-                        <MyTaskCard
-                          key={task.id}
-                          task={task}
-                          projects={projects}
-                          userMap={userMap}
-                          canManage={canManageTeam(profile?.role)}
-                          onMoveForward={handleMoveForward}
-                          onMoveBackward={handleMoveBackward}
-                        />
-                      ))
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+                  key={item}
+                  className="
+                    h-36
+                    animate-pulse
+                    rounded-[28px]
+                    bg-black/[0.04]
+                    dark:bg-white/[0.05]
+                  "
+                />
+              ),
+            )}
           </div>
         ) : (
-          <div className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
-            <table className="w-full min-w-[900px]">
-              <thead>
-                <tr className="border-b border-ink/10 bg-gray-50/50">
-                  {["المهمة", "المشروع", "الحالة", "الأولوية", "الاستحقاق", "الإجراءات"].map((label) => (
-                    <th key={label} className="whitespace-nowrap px-5 py-4 text-start text-[10px] font-black uppercase tracking-[0.08em] text-ink/40">
-                      {label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTasks.map((task) => {
-                  const overdue = !(task.status === "done") && isDeadlineOverdue(task.deadline);
-                  const projectTitle = getProjectTitle(task.projectId);
-
-                  return (
-                    <tr key={task.id} className="border-b border-ink/5 hover:bg-ink/[0.02]">
-                      <td className="max-w-[280px] px-5 py-4">
-                        <Link
-                          href={`/dashboard/team/tasks/${task.id || ""}`}
-                          className="block text-sm font-bold text-ink transition-colors hover:text-primary"
-                        >
-                          {task.title || "بدون عنوان"}
-                        </Link>
-                        <span className="mt-1 text-[11px] text-ink/35">{projectTitle}</span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <span
-                          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-black"
-                          style={{
-                            color: getWorkflowMeta(task.status).color,
-                            backgroundColor: `${getWorkflowMeta(task.status).color}14`,
-                          }}
-                        >
-                          <span
-                            className="h-1.5 w-1.5 rounded-full"
-                            style={{ backgroundColor: getWorkflowMeta(task.status).color }}
-                          />
-                          {getWorkflowMeta(task.status).labelAr}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4"><PriorityBadge priority={task.priority} /></td>
-                      <td className="px-5 py-4">
-                        <span className={`text-xs font-bold ${overdue ? "text-red-600" : "text-ink/50"}`}>
-                          {formatDeadline(task.deadline)}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <button
-                          onClick={() => handleMoveBackward(task)}
-                          disabled={!canManageTeam(profile?.role) || task.status === "backlog"}
-                          title="التراجع"
-                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 hover:bg-ink/[0.08] disabled:opacity-30"
-                        >
-                          <ChevronRight className="h-3.5 w-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleMoveForward(task)}
-                          disabled={task.status === "done" || (!canManageTeam(profile?.role) && !canMemberAdvance(task.status))}
-                          title="التقديم"
-                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white disabled:opacity-30"
-                        >
-                          <ChevronLeft className="h-3.5 w-3.5" />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <motion.div
+            initial={{
+              opacity:0,
+              y:20,
+            }}
+            animate={{
+              opacity:1,
+              y:0,
+            }}
+            className="
+              grid
+              gap-4
+              sm:grid-cols-2
+              xl:grid-cols-5
+            "
+          >
+            {stats.map(
+              (stat,index)=>(
+                <StatsCard
+                  key={
+                    `${stat.label}-${index}`
+                  }
+                  {...stat}
+                />
+              ),
+            )}
+          </motion.div>
         )}
+
+
+
+        <div
+          className="
+            rounded-[28px]
+            border
+            border-black/[0.06]
+            bg-white/70
+            p-4
+            backdrop-blur-2xl
+            dark:border-white/[0.08]
+            dark:bg-white/[0.04]
+          "
+        >
+
+          <div
+            className="
+              flex
+              flex-col
+              gap-3
+              lg:flex-row
+            "
+          >
+
+            <div
+              className="
+                relative
+                flex-1
+              "
+            >
+              <Search
+                className="
+                  pointer-events-none
+                  absolute
+                  right-4
+                  top-1/2
+                  h-4
+                  w-4
+                  -translate-y-1/2
+                  text-ink/30
+                "
+              />
+
+
+              <input
+                value={search}
+                onChange={(event)=>
+                  setSearch(
+                    event.target.value,
+                  )
+                }
+                placeholder="ابحث عن مهمة..."
+                className={`
+                  h-12
+                  w-full
+                  rounded-2xl
+                  border
+                  border-black/[0.08]
+                  bg-white/70
+                  pr-11
+                  pl-4
+                  text-sm
+                  font-medium
+                  text-ink
+                  outline-none
+                  transition
+                  ${theme.focus}
+                `}
+              />
+            </div>
+
+
+            <select
+              value={projectFilter}
+              onChange={(event)=>
+                setProjectFilter(
+                  event.target.value,
+                )
+              }
+              className="
+                h-12
+                rounded-2xl
+                border
+                border-black/[0.08]
+                bg-white/70
+                px-4
+                text-sm
+                font-bold
+                text-ink
+                outline-none
+              "
+            >
+              <option value="all">
+                كل المشاريع
+              </option>
+
+              {projects.map(
+                (project)=>(
+                  <option
+                    key={project.id}
+                    value={project.id}
+                  >
+                    {project.title}
+                  </option>
+                ),
+              )}
+            </select>
+
+
+            <select
+              value={statusFilter}
+              onChange={(event)=>
+                setStatusFilter(
+                  event.target.value,
+                )
+              }
+              className="
+                h-12
+                rounded-2xl
+                border
+                border-black/[0.08]
+                bg-white/70
+                px-4
+                text-sm
+                font-bold
+                text-ink
+                outline-none
+              "
+            >
+              <option value="all">
+                كل الحالات
+              </option>
+
+              {WORKFLOW_STATUSES.map(
+                (status)=>(
+                  <option
+                    key={status.value}
+                    value={status.value}
+                  >
+                    {status.labelAr}
+                  </option>
+                ),
+              )}
+            </select>
+
+
+            <select
+              value={priorityFilter}
+              onChange={(event)=>
+                setPriorityFilter(
+                  event.target.value,
+                )
+              }
+              className="
+                h-12
+                rounded-2xl
+                border
+                border-black/[0.08]
+                bg-white/70
+                px-4
+                text-sm
+                font-bold
+                text-ink
+                outline-none
+              "
+            >
+              <option value="all">
+                كل الأولويات
+              </option>
+
+              <option value="low">
+                منخفضة
+              </option>
+
+              <option value="medium">
+                متوسطة
+              </option>
+
+              <option value="high">
+                عالية
+              </option>
+
+              <option value="urgent">
+                عاجلة
+              </option>
+            </select>
+
+          </div>
+
+        </div>
+                {viewMode === "kanban" ? (
+          <div
+            className="
+              flex
+              gap-5
+              overflow-x-auto
+              pb-5
+            "
+          >
+            {WORKFLOW_STATUSES.map(
+              (status) => {
+                const columnTasks =
+                  tasksByStatus[
+                    status.value
+                  ] || [];
+
+
+                return (
+                  <motion.div
+                    key={status.value}
+                    initial={{
+                      opacity: 0,
+                      y: 15,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    className="
+                      flex
+                      w-[300px]
+                      shrink-0
+                      flex-col
+                      rounded-[28px]
+                      border
+                      border-black/[0.06]
+                      bg-black/[0.02]
+                      p-3
+                      dark:border-white/[0.08]
+                      dark:bg-white/[0.03]
+                    "
+                  >
+
+                    <div
+                      className="
+                        mb-3
+                        flex
+                        items-center
+                        justify-between
+                        px-2
+                        py-2
+                      "
+                    >
+
+                      <div
+                        className="
+                          flex
+                          items-center
+                          gap-2
+                        "
+                      >
+
+                        <span
+                          className="
+                            h-2.5
+                            w-2.5
+                            rounded-full
+                          "
+                          style={{
+                            backgroundColor:
+                              status.color,
+                          }}
+                        />
+
+
+                        <span
+                          className="
+                            text-sm
+                            font-black
+                            text-ink
+                          "
+                        >
+                          {status.labelAr}
+                        </span>
+
+                      </div>
+
+
+                      <span
+                        className="
+                          rounded-full
+                          bg-white
+                          px-2.5
+                          py-1
+                          text-[11px]
+                          font-black
+                          text-ink/40
+                          shadow-sm
+                          dark:bg-white/10
+                        "
+                      >
+                        {columnTasks.length}
+                      </span>
+
+                    </div>
+
+
+
+                    <div
+                      className="
+                        max-h-[650px]
+                        space-y-3
+                        overflow-y-auto
+                        px-1
+                        pb-2
+                      "
+                    >
+
+                      {columnTasks.length === 0 ? (
+
+                        <div
+                          className="
+                            flex
+                            h-40
+                            items-center
+                            justify-center
+                            rounded-2xl
+                            border
+                            border-dashed
+                            border-black/[0.08]
+                            text-xs
+                            font-bold
+                            text-ink/30
+                            dark:border-white/[0.1]
+                          "
+                        >
+                          لا توجد مهام
+                        </div>
+
+                      ) : (
+
+                        columnTasks.map(
+                          (task)=>(
+                            <MyTaskCard
+                              key={task.id}
+                              task={task}
+                              projects={projects}
+                              userMap={userMap}
+                              canManage={
+                                canManageTeam(
+                                  profile?.role,
+                                )
+                              }
+                              onMoveForward={
+                                handleMoveForward
+                              }
+                              onMoveBackward={
+                                handleMoveBackward
+                              }
+                            />
+                          ),
+                        )
+
+                      )}
+
+                    </div>
+
+                  </motion.div>
+                );
+              },
+            )}
+
+          </div>
+
+        ) : (
+
+          <TaskListView
+            tasks={filteredTasks}
+            projects={projects}
+            theme={theme}
+          />
+
+        )}
+
       </div>
     </ProtectedRoute>
   );
 }
 
-function MyTaskCard({ task, projects, userMap, canManage, onMoveForward, onMoveBackward }) {
-  const getProjectTitle = (projectId) => projects.find((p) => p.id === projectId)?.title || "بدون مشروع";
+
+
+
+
+function MyTaskCard({
+  task,
+  projects,
+  userMap,
+  canManage,
+  onMoveForward,
+  onMoveBackward,
+}) {
+
+
+  const project =
+    projects.find(
+      (item)=>
+        item.id === task.projectId,
+    );
+
+
+  const overdue =
+    task.status !== "done" &&
+    isDeadlineOverdue(
+      task.deadline,
+    );
+
+
+  const assignee =
+    userMap.get(
+      getAssigneeId(task),
+    );
+
+
+
+  const completedChecklist =
+    task.checklist?.filter(
+      (item)=>item.done,
+    ).length || 0;
+
 
   return (
-    <div className="group relative rounded-2xl border border-ink/[0.06] bg-card p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_10px_25px_rgba(0,0,0,0.06)]">
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <PriorityBadge priority={task.priority} />
-      </div>
 
-      <span className="block text-sm font-black leading-6 text-ink">{task.title || "بدون عنوان"}</span>
+    <motion.div
 
-      <Link
-        href={`/dashboard/team/tasks/${task.id || ""}`}
-        className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-primary/70 transition hover:text-primary"
+      initial={{
+        opacity:0,
+        scale:.96,
+      }}
+
+      animate={{
+        opacity:1,
+        scale:1,
+      }}
+
+      whileHover={{
+        y:-3,
+      }}
+
+      className="
+        group
+        rounded-[22px]
+        border
+        border-black/[0.06]
+        bg-card
+        p-4
+        shadow-sm
+        transition
+        hover:border-primary/30
+        hover:shadow-xl
+      "
+    >
+
+
+      <div
+        className="
+          flex
+          items-start
+          justify-between
+          gap-3
+        "
       >
-        عرض التفاصيل
-        <ChevronLeft className="h-3 w-3" />
-      </Link>
 
-      <div className="mt-2 text-[10px] font-bold text-ink/35">{getProjectTitle(task.projectId)}</div>
+        <div
+          className="
+            min-w-0
+          "
+        >
 
-      <div className="mt-2 flex items-center gap-2">
-        <div className="flex items-center gap-2">
-          <Avatar user={userMap.get(getAssigneeId(task))} size={24} />
+          <h4
+            className="
+              line-clamp-2
+              text-sm
+              font-black
+              leading-6
+              text-ink
+            "
+          >
+            {task.title ||
+              "بدون عنوان"}
+          </h4>
+
+
+          <p
+            className="
+              mt-1
+              truncate
+              text-[11px]
+              font-bold
+              text-ink/35
+            "
+          >
+            {project?.title ||
+              "بدون مشروع"}
+          </p>
+
         </div>
+
+
+        <PriorityBadge
+          priority={
+            task.priority
+          }
+        />
+
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-dashed border-ink/[0.06] pt-2.5">
+
+
+      <div
+        className="
+          mt-4
+          flex
+          items-center
+          justify-between
+        "
+      >
+
+        <Avatar
+          user={assignee}
+          size={28}
+        />
+
+
+        <Link
+          href={`/dashboard/team/tasks/${task.id}`}
+          className="
+            text-[11px]
+            font-black
+            text-primary
+            opacity-70
+            transition
+            hover:opacity-100
+          "
+        >
+          التفاصيل
+        </Link>
+
+      </div>
+
+
+
+
+      <div
+        className="
+          mt-4
+          flex
+          flex-wrap
+          gap-2
+        "
+      >
+
         {task.deadline && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
-            <CalendarDays className="h-3 w-3" />
-            {formatDeadline(task.deadline)}
+
+          <span
+            className={`
+              flex
+              items-center
+              gap-1
+              rounded-lg
+              px-2
+              py-1
+              text-[10px]
+              font-black
+              ${
+                overdue
+                  ? "bg-red-50 text-red-600"
+                  : "bg-black/[0.04] text-ink/50"
+              }
+            `}
+          >
+
+            <CalendarDays
+              className="
+                h-3
+                w-3
+              "
+            />
+
+            {formatDeadline(
+              task.deadline,
+            )}
+
           </span>
+
         )}
+
+
 
         {task.checklist?.length > 0 && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
-            <ListChecks className="h-3 w-3" />
-            {task.checklist.filter((c) => c.done).length}/{task.checklist.length}
+
+          <span
+            className="
+              flex
+              items-center
+              gap-1
+              rounded-lg
+              bg-black/[0.04]
+              px-2
+              py-1
+              text-[10px]
+              font-black
+              text-ink/50
+            "
+          >
+
+            <ListChecks
+              className="
+                h-3
+                w-3
+              "
+            />
+
+            {completedChecklist}/
+            {task.checklist.length}
+
           </span>
+
         )}
+
       </div>
 
-      <div className="mt-2.5 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => onMoveBackward(task)}
-          disabled={!canManage || task.status === "backlog"}
-          title="التراجع"
-          className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 hover:bg-ink/[0.08] disabled:pointer-events-none disabled:opacity-25"
-        >
-          <ChevronRight className="h-3.5 w-3.5" />
-        </button>
+
+
+
+      <div
+        className="
+          mt-4
+          flex
+          items-center
+          justify-between
+          border-t
+          border-dashed
+          border-black/[0.08]
+          pt-3
+        "
+      >
 
         <button
-          type="button"
-          onClick={() => onMoveForward(task)}
-          disabled={task.status === "done" || (!canManage && !canMemberAdvance(task.status))}
-          title="التقديم"
-          className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-25"
+
+          onClick={() =>
+            onMoveBackward(task)
+          }
+
+          disabled={
+            !canManage ||
+            task.status === "backlog"
+          }
+
+          className="
+            flex
+            h-8
+            w-8
+            items-center
+            justify-center
+            rounded-xl
+            bg-black/[0.05]
+            text-ink/40
+            transition
+            hover:bg-black/[0.1]
+            disabled:opacity-30
+          "
         >
-          <ChevronLeft className="h-3.5 w-3.5" />
+
+          <ChevronRight
+            className="
+              h-4
+              w-4
+            "
+          />
+
         </button>
+
+
+
+        <button
+
+          onClick={() =>
+            onMoveForward(task)
+          }
+
+          disabled={
+            task.status === "done"
+          }
+
+          className="
+            flex
+            h-8
+            w-8
+            items-center
+            justify-center
+            rounded-xl
+            bg-primary/10
+            text-primary
+            transition
+            hover:bg-primary
+            hover:text-white
+            disabled:opacity-30
+          "
+        >
+
+          <ChevronLeft
+            className="
+              h-4
+              w-4
+            "
+          />
+
+        </button>
+
+
       </div>
+
+
+    </motion.div>
+
+  );
+}
+function TaskListView({
+  tasks,
+  projects,
+  theme,
+}) {
+  if (!tasks.length) {
+    return (
+      <div
+        className="
+          flex
+          min-h-[300px]
+          flex-col
+          items-center
+          justify-center
+          gap-3
+          rounded-[28px]
+          border
+          border-dashed
+          border-black/[0.08]
+          bg-card
+          text-center
+        "
+      >
+        <ClipboardList
+          className="
+            h-10
+            w-10
+            text-ink/20
+          "
+        />
+
+        <p
+          className="
+            text-sm
+            font-black
+            text-ink/40
+          "
+        >
+          لا توجد مهام مطابقة
+        </p>
+
+      </div>
+    );
+  }
+
+
+  return (
+    <div
+      className="
+        overflow-hidden
+        rounded-[28px]
+        border
+        border-black/[0.06]
+        bg-card
+      "
+    >
+
+      <div
+        className="
+          overflow-x-auto
+        "
+      >
+
+        <table
+          className="
+            w-full
+            min-w-[900px]
+          "
+        >
+
+          <thead>
+
+            <tr
+              className="
+                border-b
+                border-black/[0.06]
+                bg-black/[0.02]
+              "
+            >
+
+              {[
+                "المهمة",
+                "المشروع",
+                "الحالة",
+                "الأولوية",
+                "الموعد",
+              ].map(
+                (item)=>(
+                  <th
+                    key={item}
+                    className="
+                      px-6
+                      py-4
+                      text-right
+                      text-[10px]
+                      font-black
+                      uppercase
+                      tracking-wider
+                      text-ink/40
+                    "
+                  >
+                    {item}
+                  </th>
+                ),
+              )}
+
+            </tr>
+
+          </thead>
+
+
+
+          <tbody>
+
+            {tasks.map(
+              (task)=>{
+
+                const project =
+                  projects.find(
+                    (item)=>
+                      item.id ===
+                      task.projectId,
+                  );
+
+
+                const overdue =
+                  task.status !== "done" &&
+                  isDeadlineOverdue(
+                    task.deadline,
+                  );
+
+
+                return (
+
+                  <tr
+                    key={task.id}
+                    className="
+                      border-b
+                      border-black/[0.04]
+                      transition
+                      hover:bg-black/[0.02]
+                    "
+                  >
+
+                    <td
+                      className="
+                        px-6
+                        py-5
+                      "
+                    >
+
+                      <Link
+                        href={`/dashboard/team/tasks/${task.id}`}
+                        className="
+                          text-sm
+                          font-black
+                          text-ink
+                          transition
+                          hover:text-primary
+                        "
+                      >
+                        {task.title ||
+                          "بدون عنوان"}
+                      </Link>
+
+
+                      <p
+                        className="
+                          mt-1
+                          text-[11px]
+                          font-bold
+                          text-ink/35
+                        "
+                      >
+                        {task.description?.slice(
+                          0,
+                          60,
+                        )}
+                      </p>
+
+                    </td>
+
+
+
+                    <td
+                      className="
+                        px-6
+                        py-5
+                      "
+                    >
+
+                      <span
+                        className="
+                          rounded-lg
+                          bg-black/[0.04]
+                          px-3
+                          py-1.5
+                          text-xs
+                          font-bold
+                          text-ink/60
+                        "
+                      >
+                        {project?.title ||
+                          "بدون مشروع"}
+                      </span>
+
+                    </td>
+
+
+
+
+                    <td
+                      className="
+                        px-6
+                        py-5
+                      "
+                    >
+
+                      <span
+                        className="
+                          inline-flex
+                          items-center
+                          gap-2
+                          rounded-full
+                          px-3
+                          py-1.5
+                          text-[11px]
+                          font-black
+                        "
+                        style={{
+                          color:
+                            getWorkflowColor(
+                              task.status,
+                            ),
+
+                          backgroundColor:
+                            `${getWorkflowColor(
+                              task.status,
+                            )}18`,
+                        }}
+                      >
+
+                        <span
+                          className="
+                            h-1.5
+                            w-1.5
+                            rounded-full
+                          "
+                          style={{
+                            backgroundColor:
+                              getWorkflowColor(
+                                task.status,
+                              ),
+                          }}
+                        />
+
+                        {
+                          WORKFLOW_STATUSES.find(
+                            (item)=>
+                              item.value ===
+                              task.status,
+                          )
+                            ?.labelAr
+                        }
+
+                      </span>
+
+                    </td>
+
+
+
+                    <td
+                      className="
+                        px-6
+                        py-5
+                      "
+                    >
+
+                      <PriorityBadge
+                        priority={
+                          task.priority
+                        }
+                      />
+
+                    </td>
+
+
+
+                    <td
+                      className="
+                        px-6
+                        py-5
+                      "
+                    >
+
+                      <span
+                        className={`
+                          text-xs
+                          font-black
+                          ${
+                            overdue
+                              ? "text-red-600"
+                              : "text-ink/50"
+                          }
+                        `}
+                      >
+                        {
+                          formatDeadline(
+                            task.deadline,
+                          )
+                        }
+                      </span>
+
+                    </td>
+
+
+                  </tr>
+
+                );
+              },
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
+  );
+}
+
+
+
+function getWorkflowColor(status) {
+  return (
+    WORKFLOW_STATUSES.find(
+      (item)=>
+        item.value === status,
+    )?.color ||
+    "#999"
   );
 }
