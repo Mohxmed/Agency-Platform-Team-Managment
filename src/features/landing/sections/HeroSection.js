@@ -351,7 +351,7 @@ function HeroBackground() {
             src={roket}
             alt=""
             fill
-            className="object-contain"
+            className="object-contain w-125 opacity-.5"
           />
 
 
