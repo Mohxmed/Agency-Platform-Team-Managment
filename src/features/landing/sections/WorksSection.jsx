@@ -24,7 +24,14 @@ import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
 import StatsBoard from "@/features/landing/components/StatsBoard";
 import { ROUTES } from "@/constants/routes";
 
-import { motion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
+  useReducedMotion,
+} from "framer-motion";
 
 import { useWorks } from "@/features/landing/hooks/useWorks";
 import { HomeWorksSkeleton } from "@/shared/ui/skeletons/Skeletons";
@@ -381,6 +388,8 @@ function CallToActionWorks() {
   const { settings } = useSettings();
   const content = settings.content?.works || {};
 
+  const reduceMotion = useReducedMotion();
+
   const ctaBadge = content.ctaBadge || "خطوات فعلية لنجاحات واقعية";
   const ctaHeading = content.ctaHeading || "مزيج بين البساطة";
   const ctaHeadingHighlight = content.ctaHeadingHighlight || "والإحترافية";
@@ -391,6 +400,42 @@ function CallToActionWorks() {
   const ctaPrimaryLink = content.ctaPrimaryLink || ROUTES.PORTFOLIO;
   const ctaSecondary = content.ctaSecondary || "كلمنا دلوقتي";
   const ctaSecondaryLink = content.ctaSecondaryLink || ROUTES.CONTACT;
+
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+
+  const springConfig = {
+    stiffness: 120,
+    damping: 16,
+    mass: 0.6,
+  };
+
+  const rotateX = useSpring(
+    useTransform(my, [0, 1], [5, -5]),
+    springConfig,
+  );
+
+  const rotateY = useSpring(
+    useTransform(mx, [0, 1], [-5, 5]),
+    springConfig,
+  );
+
+  const glareX = useTransform(mx, [0, 1], ["20%", "80%"]);
+  const glareY = useTransform(my, [0, 1], ["20%", "80%"]);
+
+  const glareBackground =
+    useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.22), transparent 55%)`;
+
+  function handleMouseMove(event) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    mx.set((event.clientX - rect.left) / rect.width);
+    my.set((event.clientY - rect.top) / rect.height);
+  }
+
+  function handleMouseLeave() {
+    mx.set(0.5);
+    my.set(0.5);
+  }
 
   return (
     <motion.div
@@ -413,29 +458,46 @@ function CallToActionWorks() {
         ease: [0.22, 1, 0.36, 1],
       }}
       className="
-        group
         relative
         mt-12
-        overflow-hidden
-        rounded-[40px]
-        border
-        border-black/[0.06]
-        bg-gradient-to-b
-        from-white
-        via-white
-        to-neutral-50
-        px-8
-        py-16
-        text-center
-        shadow-[0_30px_100px_rgba(0,0,0,0.07)]
-        sm:px-16
-        sm:py-24
-        dark:border-white/10
-        dark:from-card
-        dark:via-card
-        dark:to-card
+        [perspective:1200px]
       "
     >
+      <motion.div
+        onMouseMove={reduceMotion ? undefined : handleMouseMove}
+        onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
+        whileHover={{
+          scale: 1.01,
+        }}
+        style={{
+          rotateX: reduceMotion ? 0 : rotateX,
+          rotateY: reduceMotion ? 0 : rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className="
+          group
+          relative
+          overflow-hidden
+          rounded-[40px]
+          border
+          border-black/[0.06]
+          bg-gradient-to-b
+          from-white
+          via-white
+          to-neutral-50
+          px-8
+          py-16
+          text-center
+          shadow-[0_30px_100px_rgba(0,0,0,0.07)]
+          will-change-transform
+          sm:px-16
+          sm:py-24
+          dark:border-white/10
+          dark:from-card
+          dark:via-card
+          dark:to-card
+        "
+      >
 
       {/* AMBIENT GLOW */}
 
@@ -520,9 +582,33 @@ function CallToActionWorks() {
         "
       />
 
+      {/* GLARE (cursor tracking) */}
+
+      <motion.div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          z-20
+        "
+        style={{
+          background: reduceMotion ? "none" : glareBackground,
+        }}
+      />
+
       {/* CONTENT */}
 
-      <div className="relative z-10 mx-auto max-w-3xl">
+      <div
+        style={{
+          transform: "translateZ(40px)",
+        }}
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-3xl
+        "
+      >
 
         <motion.div
           initial={{
@@ -685,6 +771,8 @@ function CallToActionWorks() {
         </motion.div>
 
       </div>
+
+      </motion.div>
 
     </motion.div>
   );

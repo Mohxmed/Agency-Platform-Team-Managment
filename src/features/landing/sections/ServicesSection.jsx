@@ -164,6 +164,7 @@ export default function ServicesSection() {
       id="services"
       className="
         relative
+        isolate
         overflow-hidden
         py-18
         pb-24
@@ -171,39 +172,110 @@ export default function ServicesSection() {
     >
 
       {/* =====================================================
-          AMBIENT BACKGROUND
+          HERO-STYLE AMBIENT BACKGROUND
       ====================================================== */}
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          scale: 0.7,
-        }}
-        whileInView={{
-          opacity: 1,
-          scale: 1,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.2,
-        }}
-        transition={{
-          duration: 1.5,
-          ease: "easeOut",
-        }}
+      <div
         className="
           pointer-events-none
           absolute
-          left-1/2
-          top-[20%]
-          h-[500px]
-          w-[500px]
-          -translate-x-1/2
-          rounded-full
-          bg-primary-500/[0.035]
-          blur-[140px]
+          inset-0
+          -z-10
+          overflow-hidden
         "
-      />
+      >
+
+        {/* Base wash */}
+
+        <div
+          className="
+            hero-bg-base
+            absolute
+            inset-0
+          "
+        />
+
+        {/* Aurora orbs */}
+
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            hero-orb-red
+            absolute
+            -top-24
+            -start-32
+            h-[30rem]
+            w-[30rem]
+            rounded-full
+            opacity-70
+            blur-3xl
+          "
+        />
+
+        <motion.div
+          animate={{
+            scale: [1, 1.12, 1],
+            y: [0, 18, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1.2,
+          }}
+          className="
+            hero-orb-violet
+            absolute
+            -bottom-32
+            -end-40
+            h-[32rem]
+            w-[32rem]
+            rounded-full
+            opacity-70
+            blur-3xl
+          "
+        />
+
+        {/* Dot grid texture */}
+
+        <div
+          className="
+            hero-bg-grid
+            absolute
+            inset-0
+            opacity-60
+          "
+        />
+
+        {/* Film grain */}
+
+        <div
+          className="
+            hero-bg-noise
+            absolute
+            inset-0
+          "
+        />
+
+        {/* Vignette */}
+
+        <div
+          className="
+            hero-bg-vignette
+            absolute
+            inset-0
+          "
+        />
+
+      </div>
 
       <Container>
 

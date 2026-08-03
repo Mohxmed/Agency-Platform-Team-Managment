@@ -178,7 +178,7 @@ export default function ProjectCard({ project }) {
           </div>
 
           {/* =================================================
-              TITLE + DESCRIPTION
+              TITLE
           ================================================== */}
 
           <div className="absolute bottom-5 right-5 left-5">
@@ -194,22 +194,6 @@ export default function ProjectCard({ project }) {
             >
               {project?.title || "مشروع بدون عنوان"}
             </h3>
-
-            {project?.description && (
-              <p
-                className="
-                  mt-2
-                  line-clamp-2
-                  max-w-xl
-                  text-xs
-                  leading-6
-                  text-white/65
-                  sm:text-sm
-                "
-              >
-                {project.description}
-              </p>
-            )}
           </div>
         </div>
 
