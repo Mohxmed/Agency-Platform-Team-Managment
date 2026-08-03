@@ -6,12 +6,12 @@ import Image from "next/image";
 import {
   ArrowRight,
   ArrowUpLeft,
+  CheckCircle2,
+  ExternalLink,
   Globe,
   Mail,
   Phone,
   Sparkles,
-  ExternalLink,
-  CheckCircle2,
   Users,
 } from "lucide-react";
 
@@ -30,138 +30,110 @@ export default function ClientProfilePage({ params }) {
   const [link, setLink] = useState(null);
 
   useEffect(() => {
-    async function getParams() {
-      const resolvedParams = await params;
-      setLink(resolvedParams?.link || null);
+    let active = true;
+
+    async function resolveParams() {
+      const resolved = await params;
+      if (active) setLink(resolved?.link || null);
     }
-    getParams();
+
+    resolveParams();
+    return () => {
+      active = false;
+    };
   }, [params]);
 
   const { client, loading } = useClientByLink(link);
 
   /* ============================================================
-     LOADING
+     LOADING / NOT FOUND
   ============================================================ */
 
-  if (loading) {
+  if (!link || loading) {
     return <ProfileSkeleton />;
   }
-
-  /* ============================================================
-     NOT FOUND
-  ============================================================ */
 
   if (!client) {
     return <NotFound />;
   }
 
   /* ============================================================
-     STATS
+     DATA NORMALIZATION
   ============================================================ */
 
-  const stats = Array.isArray(client.stats)
-    ? client.stats.filter(
-        (stat) =>
-          stat &&
-          typeof stat === "object" &&
-          String(stat.label || "").trim() &&
-          String(stat.value ?? "").trim(),
-      )
-    : [];
+  const name = client.name || "بدون اسم";
 
-  /* ============================================================
-     SOCIAL LINKS
-  ============================================================ */
+  const stats = (Array.isArray(client.stats) ? client.stats : [])
+    .filter(
+      (stat) =>
+        stat &&
+        typeof stat === "object" &&
+        String(stat.label || "").trim() &&
+        String(stat.value ?? "").trim(),
+    )
+    .slice(0, 4);
 
-  const socialLinks = [
+  const contactItems = [
     {
-      key: "facebook",
-      label: "Facebook",
-      value: client.facebook,
-      icon: FaFacebook,
+      key: "email",
+      label: "البريد الإلكتروني",
+      value: client.email,
+      Icon: Mail,
+      href: client.email ? `mailto:${client.email}` : null,
     },
     {
-      key: "instagram",
-      label: "Instagram",
-      value: client.instagram,
-      icon: FaInstagram,
+      key: "phone",
+      label: "رقم الهاتف",
+      value: client.phone,
+      Icon: Phone,
+      href: client.phone ? `tel:${client.phone}` : null,
     },
     {
-      key: "linkedin",
-      label: "LinkedIn",
-      value: client.linkedin,
-      icon: FaLinkedin,
+      key: "website",
+      label: "الموقع الإلكتروني",
+      value: client.website ? cleanWebsite(client.website) : null,
+      Icon: Globe,
+      href: client.website ? normalizeUrl(client.website) : null,
+      external: true,
     },
-    {
-      key: "youtube",
-      label: "YouTube",
-      value: client.youtube,
-      icon: FaYoutube,
-    },
-    {
-      key: "tiktok",
-      label: "TikTok",
-      value: client.tiktok,
-      icon: FaTiktok,
-    },
-  ].filter((social) => typeof social.value === "string" && social.value.trim());
+  ].filter((item) => item.value);
+
+  const socials = [
+    { key: "facebook", label: "فيسبوك", value: client.facebook, Icon: FaFacebook },
+    { key: "instagram", label: "إنستجرام", value: client.instagram, Icon: FaInstagram },
+    { key: "linkedin", label: "لينكدإن", value: client.linkedin, Icon: FaLinkedin },
+    { key: "youtube", label: "يوتيوب", value: client.youtube, Icon: FaYoutube },
+    { key: "tiktok", label: "تيك توك", value: client.tiktok, Icon: FaTiktok },
+  ].filter((social) => String(social.value || "").trim());
 
   /* ============================================================
      PAGE
   ============================================================ */
 
   return (
-    <main dir="rtl" className="min-h-screen bg-[#fafafa] pb-20 sm:pb-28 dark:bg-background">
+    <main dir="rtl" className="min-h-screen bg-background pb-16 sm:pb-24">
       {/* =====================================================
           COVER
       ===================================================== */}
 
-      <section
-        className="
-          relative
-          h-[280px]
-          overflow-hidden
-          sm:h-[360px]
-          lg:h-[430px]
-        "
-      >
-        {client.coverImage ? (
-          <Image
-            src={client.coverImage}
-            alt={client.name || "Client cover"}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        ) : (
-          <div
-            className="
-              absolute
-              inset-0
-              bg-gradient-to-br
-              from-neutral-100
-              via-neutral-50
-              to-primary-50
-            "
-          />
-        )}
+      <header className="relative overflow-hidden">
+        <div className="relative h-44 sm:h-56 lg:h-64">
+          {client.coverImage ? (
+            <Image
+              src={client.coverImage}
+              alt={name}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-500 to-primary-400" />
+          )}
 
-        {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/60" />
 
-        <div
-          className="
-            absolute
-            inset-0
-            bg-gradient-to-t
-            from-black/70
-            via-black/20
-            to-black/10
-          "
-        />
-
-        <Container>
-          <div className="relative z-10 pt-6">
+          <Container className="relative z-10 pt-6">
             <Link
               href="/clients"
               className="
@@ -170,89 +142,76 @@ export default function ClientProfilePage({ params }) {
                 gap-2
                 rounded-full
                 border
-                border-white/20
-                bg-black/20
+                border-white/25
+                bg-black/25
                 px-4
-                py-2.5
+                py-2
                 text-xs
                 font-bold
                 text-white
                 backdrop-blur-xl
                 transition
-                hover:bg-black/30
+                hover:bg-black/40
               "
             >
               <ArrowRight className="h-4 w-4" />
               العودة للعملاء
             </Link>
-          </div>
-        </Container>
+          </Container>
 
-        {/* Badge */}
-
-        <div
-          className="
-            absolute
-            bottom-7
-            right-1/2
-            z-10
-            translate-x-1/2
-            sm:right-8
-            sm:translate-x-0
-            lg:right-12
-          "
-        >
           <div
             className="
-              inline-flex
-              items-center
-              gap-2
-              rounded-full
-              border
-              border-white/15
-              bg-black/25
-              px-4
-              py-2
-              text-xs
-              font-bold
-              text-white
-              backdrop-blur-xl
+              absolute
+              bottom-4
+              right-1/2
+              z-10
+              translate-x-1/2
+              sm:right-8
+              sm:translate-x-0
             "
           >
-            <Sparkles className="h-3.5 w-3.5" />
-            شريك نفتخر به
+            <span
+              className="
+                inline-flex
+                items-center
+                gap-1.5
+                rounded-full
+                border
+                border-white/25
+                bg-black/25
+                px-4
+                py-1.5
+                text-xs
+                font-bold
+                text-white
+                backdrop-blur-xl
+              "
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              شريك نفتخر به
+            </span>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* =====================================================
-          PROFILE
+          PROFILE CARD
       ===================================================== */}
 
       <Container>
-        <section className="relative z-20 -mt-20 sm:-mt-24">
-          <div
-            className="
-              rounded-[2rem]
-              border
-              border-black/[0.06]
-              bg-white
-              p-5
-              shadow-[0_20px_70px_rgba(0,0,0,0.08)]
-              sm:p-7
-              lg:p-9
-              dark:border-white/10
-              dark:bg-card
-            "
-          >
+        <section className="relative z-10 -mt-14 sm:-mt-16">
+          <Card className="p-6 sm:p-8">
             <div
               className="
                 flex
                 flex-col
-                gap-7
+                items-center
+                gap-6
+                text-center
                 lg:flex-row
                 lg:items-center
                 lg:justify-between
+                lg:text-right
               "
             >
               {/* Identity */}
@@ -263,64 +222,11 @@ export default function ClientProfilePage({ params }) {
                   flex-col
                   items-center
                   gap-5
-                  text-center
                   sm:flex-row
-                  sm:text-right
+                  sm:items-center
                 "
               >
-                {/* Logo */}
-
-                <div
-                  className="
-                    relative
-                    h-28
-                    w-28
-                    shrink-0
-                    overflow-hidden
-                    rounded-[1.75rem]
-                    border-[5px]
-                    border-white
-                    bg-white
-                    shadow-[0_12px_35px_rgba(0,0,0,0.13)]
-                    ring-1
-                    ring-black/[0.05]
-                    dark:border-card
-                    dark:bg-card
-                    dark:ring-white/10
-                    sm:h-32
-                    sm:w-32
-                  "
-                >
-                  {client.logo ? (
-                    <Image
-                      src={client.logo}
-                      alt={client.name || "Client logo"}
-                      fill
-                      sizes="128px"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="
-                        flex
-                        h-full
-                        w-full
-                        items-center
-                        justify-center
-                        bg-neutral-100
-                        text-3xl
-                        font-black
-                        text-neutral-400
-                        dark:bg-white/5
-                        dark:text-white/40
-                      "
-                    >
-                      {client.name?.charAt(0) || "?"}
-                    </div>
-                  )}
-                </div>
-
-                {/* Name */}
+                <Avatar name={name} logo={client.logo} />
 
                 <div>
                   <div
@@ -338,51 +244,25 @@ export default function ClientProfilePage({ params }) {
                         text-2xl
                         font-black
                         tracking-tight
-                        text-neutral-950
+                        text-ink
                         sm:text-3xl
-                        lg:text-4xl
                         dark:text-white
                       "
                     >
-                      {client.name || "بدون اسم"}
+                      {name}
                     </h1>
 
-                    <CheckCircle2
-                      className="
-                        h-5
-                        w-5
-                        fill-primary-600
-                        text-white
-                      "
-                    />
+                    <CheckCircle2 className="h-5 w-5 fill-primary-600 text-white" />
                   </div>
 
                   {client.specialty && (
-                    <p
-                      className="
-                        mt-2
-                        text-sm
-                        font-bold
-                        text-primary-600
-                        sm:text-base
-                      "
-                    >
+                    <p className="mt-1.5 text-sm font-bold text-primary-600 sm:text-base">
                       {client.specialty}
                     </p>
                   )}
 
                   {client.Spe && (
-                    <p
-                      className="
-                        mt-1
-                        text-sm
-                        font-medium
-                        text-black/45
-                        dark:text-white/60
-                      "
-                    >
-                      {client.Spe}
-                    </p>
+                    <p className="mt-1 text-xs font-medium text-muted">{client.Spe}</p>
                   )}
 
                   <div
@@ -402,22 +282,15 @@ export default function ClientProfilePage({ params }) {
                         items-center
                         gap-1.5
                         rounded-full
-                        bg-emerald-500/[0.07]
+                        bg-emerald-500/10
                         px-3
-                        py-1.5
+                        py-1
                         text-[10px]
                         font-bold
                         text-emerald-600
                       "
                     >
-                      <span
-                        className="
-                          h-1.5
-                          w-1.5
-                          rounded-full
-                          bg-emerald-500
-                        "
-                      />
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       عميل موثوق
                     </span>
 
@@ -430,11 +303,11 @@ export default function ClientProfilePage({ params }) {
                           rounded-full
                           bg-black/[0.04]
                           px-3
-                          py-1.5
+                          py-1
                           text-[10px]
                           font-bold
                           text-black/40
-                          dark:bg-white/5
+                          dark:bg-white/10
                           dark:text-white/60
                         "
                       >
@@ -446,7 +319,7 @@ export default function ClientProfilePage({ params }) {
                 </div>
               </div>
 
-              {/* Website */}
+              {/* Website CTA */}
 
               {client.website && (
                 <a
@@ -455,18 +328,19 @@ export default function ClientProfilePage({ params }) {
                   rel="noopener noreferrer"
                   className="
                     inline-flex
+                    shrink-0
                     items-center
                     justify-center
                     gap-2
                     rounded-2xl
                     bg-primary-600
                     px-5
-                    py-3.5
+                    py-3
                     text-sm
                     font-bold
                     text-white
                     shadow-lg
-                    shadow-primary-600/20
+                    shadow-primary-600/25
                     transition
                     hover:-translate-y-0.5
                     hover:bg-primary-700
@@ -477,7 +351,7 @@ export default function ClientProfilePage({ params }) {
                 </a>
               )}
             </div>
-          </div>
+          </Card>
         </section>
 
         {/* =====================================================
@@ -485,100 +359,10 @@ export default function ClientProfilePage({ params }) {
         ===================================================== */}
 
         {stats.length > 0 && (
-          <section className="mt-6">
-            <div
-              className="
-                grid
-                gap-3
-                sm:grid-cols-2
-                lg:grid-cols-3
-              "
-            >
-              {stats.map((stat, index) => (
-                <div
-                  key={`${stat.label}-${index}`}
-                  className="
-                    group
-                    relative
-                    overflow-hidden
-                    rounded-[1.5rem]
-                    border
-                    border-black/[0.06]
-                    bg-white
-                    p-5
-                    shadow-[0_8px_30px_rgba(0,0,0,0.035)]
-                    transition-all
-                    duration-300
-                    hover:-translate-y-1
-                    hover:shadow-[0_18px_45px_rgba(0,0,0,0.07)]
-                    dark:border-white/10
-                    dark:bg-card
-                  "
-                >
-                  <div
-                    className="
-                      absolute
-                      -left-8
-                      -top-8
-                      h-24
-                      w-24
-                      rounded-full
-                      bg-primary-500/[0.07]
-                      blur-2xl
-                      transition-transform
-                      duration-500
-                      group-hover:scale-150
-                    "
-                  />
-
-                  <div
-                    className="
-                      relative
-                      flex
-                      items-center
-                      justify-between
-                      gap-4
-                    "
-                  >
-                    <div>
-                      <p className="text-xs font-bold text-black/35 dark:text-white/40">
-                        {stat.label}
-                      </p>
-
-                      <p
-                        className="
-                          mt-2
-                          text-2xl
-                          font-black
-                          tracking-tight
-                          text-neutral-950
-                          sm:text-3xl
-                          dark:text-white
-                        "
-                      >
-                        {stat.value}
-                      </p>
-                    </div>
-
-                    <div
-                      className="
-                        flex
-                        h-11
-                        w-11
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-primary-500/[0.07]
-                        text-primary-600
-                      "
-                    >
-                      <Sparkles className="h-5 w-5" />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <section className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((stat, index) => (
+              <StatCard key={`${stat.label}-${index}`} label={stat.label} value={stat.value} />
+            ))}
           </section>
         )}
 
@@ -586,209 +370,105 @@ export default function ClientProfilePage({ params }) {
             ABOUT + CONTACT
         ===================================================== */}
 
-        <section
-          className="
-            mt-6
-            grid
-            gap-6
-            lg:grid-cols-[1.35fr_0.65fr]
-          "
-        >
-          {/* About */}
-
-          <div
-            className="
-              rounded-[2rem]
-              border
-              border-black/[0.06]
-              bg-white
-              p-6
-              shadow-[0_8px_30px_rgba(0,0,0,0.035)]
-              sm:p-8
-              dark:border-white/10
-              dark:bg-card
-            "
-          >
-            <SectionTitle
-              eyebrow="ABOUT"
-              title={`عن ${client.name || "العميل"}`}
-            />
+        <section className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
+          <Card className="p-6 sm:p-8">
+            <SectionHeading eyebrow="عن العميل" title={`عن ${name}`} />
 
             <p
               className="
-                mt-6
+                mt-4
                 text-sm
                 leading-8
-                text-black/55
+                text-muted
                 sm:text-base
-                dark:text-white/70
               "
             >
               {client.description || "لا يوجد وصف متاح لهذا العميل حاليًا."}
             </p>
-          </div>
+          </Card>
 
-          {/* Contact */}
+          <Card className="p-6 sm:p-8">
+            <SectionHeading eyebrow="التواصل" title="بيانات التواصل" />
 
-          <div
-            className="
-              rounded-[2rem]
-              border
-              border-black/[0.06]
-              bg-white
-              p-6
-              shadow-[0_8px_30px_rgba(0,0,0,0.035)]
-              sm:p-8
-              dark:border-white/10
-              dark:bg-card
-            "
-          >
-            <SectionTitle eyebrow="CONTACT" title="بيانات التواصل" />
-
-            <div className="mt-6 space-y-3">
-              {client.email && (
-                <ContactItem
-                  icon={Mail}
-                  label="البريد الإلكتروني"
-                  value={client.email}
-                  href={`mailto:${client.email}`}
-                />
-              )}
-
-              {client.phone && (
-                <ContactItem
-                  icon={Phone}
-                  label="رقم الهاتف"
-                  value={client.phone}
-                  href={`tel:${client.phone}`}
-                />
-              )}
-
-              {client.website && (
-                <ContactItem
-                  icon={Globe}
-                  label="الموقع الإلكتروني"
-                  value={cleanWebsite(client.website)}
-                  href={normalizeUrl(client.website)}
-                  external
-                />
-              )}
-
-              {!client.email && !client.phone && !client.website && (
-                <p className="text-sm text-black/35 dark:text-white/50">
-                  لا توجد بيانات تواصل متاحة.
-                </p>
+            <div className="mt-5 space-y-3">
+              {contactItems.length > 0 ? (
+                contactItems.map((item) => (
+                  <ContactItem
+                    key={item.key}
+                    icon={item.Icon}
+                    label={item.label}
+                    value={item.value}
+                    href={item.href}
+                    external={item.external}
+                  />
+                ))
+              ) : (
+                <p className="text-sm text-muted">لا توجد بيانات تواصل متاحة.</p>
               )}
             </div>
-          </div>
+          </Card>
         </section>
 
         {/* =====================================================
             SOCIAL
         ===================================================== */}
 
-        {socialLinks.length > 0 && (
-          <section
-            className="
-              mt-6
-              rounded-[2rem]
-              border
-              border-black/[0.06]
-              bg-white
-              p-6
-              shadow-[0_8px_30px_rgba(0,0,0,0.035)]
-              sm:p-8
-              dark:border-white/10
-              dark:bg-card
-            "
-          >
-            <SectionTitle eyebrow="SOCIAL" title="تابع العميل" />
+        {socials.length > 0 && (
+          <section className="mt-6">
+            <Card className="p-6 sm:p-8">
+              <SectionHeading eyebrow="تابعنا" title="تابع العميل" />
 
-            <div
-              className="
-                mt-6
-                grid
-                gap-3
-                sm:grid-cols-2
-                lg:grid-cols-5
-              "
-            >
-              {socialLinks.map(({ key, label, value, icon: Icon }) => (
-                <a
-                  key={key}
-                  href={normalizeUrl(value)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
+              <div className="mt-5 flex flex-wrap gap-3">
+                {socials.map(({ key, label, value, Icon }) => (
+                  <a
+                    key={key}
+                    href={normalizeUrl(value)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={label}
+                    className="
                       group
                       flex
                       items-center
-                      justify-between
-                      gap-3
+                      gap-2.5
                       rounded-2xl
                       border
                       border-black/[0.06]
-                      bg-[#fafafa]
-                      p-4
+                      bg-black/[0.02]
+                      px-4
+                      py-3
                       transition-all
-                      duration-300
-                      hover:-translate-y-1
-                      hover:border-primary-500/20
+                      hover:-translate-y-0.5
+                      hover:border-primary-500/25
                       dark:border-white/10
                       dark:bg-white/5
                     "
-                >
-                  <div className="flex items-center gap-3">
-                    <div
+                  >
+                    <Icon
                       className="
-                          flex
-                          h-10
-                          w-10
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-xl
-                          bg-white
-                          text-black/45
-                          shadow-sm
-                          ring-1
-                          ring-black/[0.05]
-                          transition-all
-                          group-hover:bg-primary-600
-                          group-hover:text-white
-                          dark:bg-white/10
-                          dark:text-white/70
-                          dark:ring-white/10
-                        "
-                    >
-                      <Icon className="h-4 w-4" />
-                    </div>
-
+                        h-5
+                        w-5
+                        text-black/45
+                        transition-colors
+                        group-hover:text-primary-600
+                        dark:text-white/60
+                      "
+                    />
                     <span
                       className="
-                          text-xs
-                          font-bold
-                          text-black/60
-                          dark:text-white/70
-                        "
+                        text-xs
+                        font-bold
+                        text-black/60
+                        group-hover:text-primary-600
+                        dark:text-white/70
+                      "
                     >
                       {label}
                     </span>
-                  </div>
-
-                  <ExternalLink
-                    className="
-                        h-3.5
-                        w-3.5
-                        text-black/20
-                        transition
-                        group-hover:text-primary-600
-                        dark:text-white/30
-                      "
-                  />
-                </a>
-              ))}
-            </div>
+                  </a>
+                ))}
+              </div>
+            </Card>
           </section>
         )}
 
@@ -806,6 +486,7 @@ export default function ClientProfilePage({ params }) {
             p-7
             text-white
             sm:p-9
+            dark:bg-neutral-900
           "
         >
           <div
@@ -821,23 +502,38 @@ export default function ClientProfilePage({ params }) {
               blur-[80px]
             "
           />
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -bottom-16
+              -right-16
+              h-56
+              w-56
+              rounded-full
+              bg-primary-500/10
+              blur-[70px]
+            "
+          />
 
           <div
             className="
               relative
               flex
               flex-col
-              gap-5
+              gap-6
               sm:flex-row
               sm:items-center
               sm:justify-between
             "
           >
             <div>
-              <p className="text-xs font-bold text-white/35">CLIENT PROFILE</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/35">
+                CLIENT PROFILE
+              </p>
 
               <h2 className="mt-2 text-xl font-black sm:text-2xl">
-                سعيدين بوجود {client.name || "هذا العميل"} معنا
+                سعيدين بوجود {name} معنا
               </h2>
 
               <p
@@ -846,7 +542,7 @@ export default function ClientProfilePage({ params }) {
                   max-w-xl
                   text-sm
                   leading-7
-                  text-white/45
+                  text-white/50
                 "
               >
                 نعتز بثقة عملائنا ونسعى دائمًا لبناء علاقات طويلة المدى مبنية
@@ -884,10 +580,93 @@ export default function ClientProfilePage({ params }) {
 }
 
 /* ============================================================
-   SECTION TITLE
+   CARD
 ============================================================ */
 
-function SectionTitle({ eyebrow, title }) {
+function Card({ children, className = "" }) {
+  return (
+    <div
+      className={`
+        rounded-[2rem]
+        border
+        border-black/[0.06]
+        bg-white
+        shadow-[0_8px_30px_rgba(0,0,0,0.04)]
+        dark:border-white/10
+        dark:bg-card
+        ${className}
+      `}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ============================================================
+   AVATAR
+============================================================ */
+
+function Avatar({ name, logo }) {
+  const initial = (name || "؟").charAt(0);
+
+  return (
+    <div
+      className="
+        relative
+        h-24
+        w-24
+        shrink-0
+        overflow-hidden
+        rounded-3xl
+        border-4
+        border-white
+        bg-white
+        shadow-lg
+        ring-1
+        ring-black/5
+        dark:border-card
+        dark:bg-card
+        dark:ring-white/10
+        sm:h-28
+        sm:w-28
+      "
+    >
+      {logo ? (
+        <Image
+          src={logo}
+          alt={name || "شعار العميل"}
+          fill
+          sizes="112px"
+          className="object-cover"
+        />
+      ) : (
+        <div
+          className="
+            flex
+            h-full
+            w-full
+            items-center
+            justify-center
+            bg-gradient-to-br
+            from-primary-600
+            to-primary-400
+            text-3xl
+            font-black
+            text-white
+          "
+        >
+          {initial}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+   SECTION HEADING
+============================================================ */
+
+function SectionHeading({ eyebrow, title }) {
   return (
     <div>
       <p
@@ -908,7 +687,7 @@ function SectionTitle({ eyebrow, title }) {
           text-xl
           font-black
           tracking-tight
-          text-neutral-950
+          text-ink
           sm:text-2xl
           dark:text-white
         "
@@ -920,13 +699,77 @@ function SectionTitle({ eyebrow, title }) {
 }
 
 /* ============================================================
+   STAT CARD
+============================================================ */
+
+function StatCard({ label, value }) {
+  return (
+    <div
+      className="
+        group
+        relative
+        overflow-hidden
+        rounded-3xl
+        border
+        border-black/[0.06]
+        bg-white
+        p-6
+        text-center
+        shadow-[0_8px_30px_rgba(0,0,0,0.04)]
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:shadow-[0_18px_45px_rgba(0,0,0,0.08)]
+        dark:border-white/10
+        dark:bg-card
+      "
+    >
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -top-10
+          left-1/2
+          h-20
+          w-32
+          -translate-x-1/2
+          rounded-full
+          bg-primary-500/10
+          blur-2xl
+          transition-all
+          duration-500
+          group-hover:bg-primary-500/20
+        "
+      />
+
+      <p className="relative text-xs font-bold text-muted">{label}</p>
+
+      <p
+        className="
+          relative
+          mt-2
+          text-2xl
+          font-black
+          tracking-tight
+          text-ink
+          sm:text-3xl
+          dark:text-white
+        "
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+
+/* ============================================================
    CONTACT ITEM
 ============================================================ */
 
 function ContactItem({ icon: Icon, label, value, href, external = false }) {
-  const content = (
+  const inner = (
     <>
-      <div
+      <span
         className="
           flex
           h-10
@@ -935,51 +778,43 @@ function ContactItem({ icon: Icon, label, value, href, external = false }) {
           items-center
           justify-center
           rounded-xl
-          bg-black/[0.04]
-          text-black/45
-          transition
+          bg-primary-600/10
+          text-primary-600
+          transition-colors
           group-hover:bg-primary-600
           group-hover:text-white
-          dark:bg-white/5
-          dark:text-white/60
         "
       >
         <Icon className="h-4 w-4" />
-      </div>
+      </span>
 
-      <div className="min-w-0">
-        <p className="text-[10px] font-bold text-black/30 dark:text-white/40">{label}</p>
-
-        <p className="mt-0.5 truncate text-xs font-bold text-black/65 dark:text-white/80">
+      <span className="min-w-0">
+        <span className="block text-[10px] font-bold text-muted">{label}</span>
+        <span className="mt-0.5 block truncate text-xs font-bold text-ink dark:text-white/80">
           {value}
-        </p>
-      </div>
-
-      {external && (
-        <ExternalLink className="mr-auto h-3.5 w-3.5 text-black/20 dark:text-white/30" />
-      )}
+        </span>
+      </span>
     </>
   );
 
+  const cls = `
+    group
+    flex
+    items-center
+    gap-3
+    rounded-2xl
+    border
+    border-black/[0.05]
+    bg-black/[0.02]
+    p-3
+    transition
+    hover:border-primary-500/20
+    dark:border-white/10
+    dark:bg-white/5
+  `;
+
   if (!href) {
-    return (
-      <div
-        className="
-          flex
-          items-center
-          gap-3
-          rounded-2xl
-          border
-          border-black/[0.05]
-          bg-[#fafafa]
-          p-3
-          dark:border-white/10
-          dark:bg-white/5
-        "
-      >
-        {content}
-      </div>
-    );
+    return <div className={cls}>{inner}</div>;
   }
 
   return (
@@ -987,23 +822,22 @@ function ContactItem({ icon: Icon, label, value, href, external = false }) {
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className="
-        group
-        flex
-        items-center
-        gap-3
-        rounded-2xl
-        border
-        border-black/[0.05]
-        bg-[#fafafa]
-        p-3
-        transition
-        hover:border-primary-500/15
-        dark:border-white/10
-        dark:bg-white/5
-      "
+      className={cls}
     >
-      {content}
+      {inner}
+
+      {external && (
+        <ExternalLink
+          className="
+            mr-auto
+            h-3.5
+            w-3.5
+            text-muted
+            transition
+            group-hover:text-primary-600
+          "
+        />
+      )}
     </a>
   );
 }
@@ -1043,12 +877,12 @@ function cleanWebsite(url) {
 
 function NotFound() {
   return (
-    <main dir="rtl" className="min-h-screen bg-[#fafafa] py-20 dark:bg-background">
+    <main dir="rtl" className="min-h-screen bg-background py-20">
       <Container>
         <div
           className="
             flex
-            min-h-[500px]
+            min-h-[480px]
             flex-col
             items-center
             justify-center
@@ -1070,20 +904,18 @@ function NotFound() {
               items-center
               justify-center
               rounded-[1.5rem]
-              bg-black/[0.04]
-              text-black/25
-              dark:bg-white/5
-              dark:text-white/40
+              bg-primary-600/10
+              text-primary-600
             "
           >
             <Users className="h-9 w-9" />
           </div>
 
-          <h1 className="mt-6 text-2xl font-black text-neutral-950 dark:text-white">
+          <h1 className="mt-6 text-2xl font-black text-ink dark:text-white">
             العميل غير موجود
           </h1>
 
-          <p className="mt-3 max-w-md text-sm leading-7 text-black/40 dark:text-white/60">
+          <p className="mt-3 max-w-md text-sm leading-7 text-muted">
             يبدو أن الملف الذي تبحث عنه غير موجود أو تم حذفه.
           </p>
 
@@ -1122,75 +954,33 @@ function NotFound() {
 
 function ProfileSkeleton() {
   return (
-    <main dir="rtl" className="min-h-screen bg-[#fafafa] pb-20 dark:bg-background">
+    <main dir="rtl" className="min-h-screen bg-background pb-16">
       {/* Cover */}
 
-      <div
-        className="
-          h-[280px]
-          animate-pulse
-          bg-neutral-200
-          sm:h-[360px]
-          lg:h-[430px]
-          dark:bg-neutral-800
-        "
-      />
+      <div className="h-44 animate-pulse bg-neutral-200 sm:h-56 lg:h-64 dark:bg-neutral-800" />
 
       <Container>
-        {/* Profile */}
+        {/* Profile card */}
 
-        <div
-          className="
-            relative
-            z-10
-            -mt-20
-            rounded-[2rem]
-            bg-white
-            p-6
-            shadow-sm
-            sm:-mt-24
-            sm:p-8
-            dark:bg-card
-          "
-        >
+        <div className="relative z-10 -mt-14 rounded-[2rem] bg-white p-6 shadow-sm sm:-mt-16 sm:p-8 dark:bg-card">
           <div className="flex flex-col items-center gap-5 sm:flex-row">
-            <div
-              className="
-                h-28
-                w-28
-                shrink-0
-                animate-pulse
-                rounded-[1.75rem]
-                bg-neutral-200
-                sm:h-32
-                sm:w-32
-                dark:bg-neutral-800
-              "
-            />
+            <div className="h-24 w-24 shrink-0 animate-pulse rounded-3xl bg-neutral-200 sm:h-28 sm:w-28 dark:bg-neutral-800" />
 
             <div className="w-full space-y-3">
-              <div className="h-8 w-48 animate-pulse rounded-xl bg-neutral-100 dark:bg-neutral-800" />
-
-              <div className="h-4 w-32 animate-pulse rounded-lg bg-neutral-100 dark:bg-neutral-800" />
-
-              <div className="h-7 w-40 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-800" />
+              <div className="h-7 w-44 animate-pulse rounded-xl bg-neutral-200 dark:bg-neutral-800" />
+              <div className="h-4 w-28 animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-800" />
+              <div className="h-6 w-36 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-800" />
             </div>
           </div>
         </div>
 
         {/* Stats */}
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((item) => (
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((item) => (
             <div
               key={item}
-              className="
-                h-28
-                animate-pulse
-                rounded-[1.5rem]
-                bg-neutral-100
-                dark:bg-neutral-800
-              "
+              className="h-28 animate-pulse rounded-3xl bg-neutral-200 dark:bg-neutral-800"
             />
           ))}
         </div>
@@ -1198,9 +988,8 @@ function ProfileSkeleton() {
         {/* Content */}
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="h-72 animate-pulse rounded-[2rem] bg-neutral-100 dark:bg-neutral-800" />
-
-          <div className="h-72 animate-pulse rounded-[2rem] bg-neutral-100 dark:bg-neutral-800" />
+          <div className="h-64 animate-pulse rounded-[2rem] bg-neutral-200 dark:bg-neutral-800" />
+          <div className="h-64 animate-pulse rounded-[2rem] bg-neutral-200 dark:bg-neutral-800" />
         </div>
       </Container>
     </main>
