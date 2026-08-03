@@ -720,6 +720,17 @@ function GlassShowcase() {
     period: heroContent.growth?.period || showcaseDefaults.growth.period,
   };
 
+  const flying = HERO_CONFIG.flying.map((def, i) => ({
+    title: heroContent.flying?.[i]?.title || def.title,
+    text: heroContent.flying?.[i]?.text || def.text,
+    value: heroContent.flying?.[i]?.value || def.value,
+    label: heroContent.flying?.[i]?.label || def.label,
+    icon: heroContent.flying?.[i]?.icon || def.icon,
+    metric: heroContent.flying?.[i]?.metric || def.metric,
+    animated: heroContent.flying?.[i]?.animated ?? def.animated,
+    color: heroContent.flying?.[i]?.color || def.color,
+  }));
+
 
 
   const floating = (delay = 0) => {
