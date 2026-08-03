@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 import {
   ArrowRight,
@@ -15,10 +15,6 @@ import {
   Trash2,
   Users,
   Lock,
-  CheckCircle2,
-  Clock3,
-  Layers3,
-  Activity,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -35,10 +31,7 @@ import ProjectModal from "@/features/team/components/ProjectModal";
 
 import { useToast } from "@/hooks/useToast";
 
-import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
-
 import { ProjectIcon } from "@/constants/projectIcons";
-
 import { WORKFLOW_STATUSES } from "@/constants/workflow";
 
 import {
@@ -67,14 +60,11 @@ import {
 } from "@/lib/notificationService";
 
 
-
 export default function ProjectDetailPage() {
 
   const params = useParams();
 
   const router = useRouter();
-
-  const theme = usePageTheme();
 
   const { showToast } = useToast();
 
@@ -83,10 +73,6 @@ export default function ProjectDetailPage() {
     user: currentUser,
     profile,
   } = useAuth();
-
-
-  const canManage =
-    canManageTeam(profile?.role);
 
 
 
@@ -103,16 +89,17 @@ export default function ProjectDetailPage() {
 
 
 
-  const projectId =
-    params?.id;
+  const projectId = params?.id;
 
 
 
-  const project =
-    projects.find(
-      (item) =>
-        item.id === projectId,
-    );
+  const project = useMemo(
+    () =>
+      projects.find(
+        (item) => item.id === projectId,
+      ),
+    [projects, projectId],
+  );
 
 
 
@@ -137,118 +124,81 @@ export default function ProjectDetailPage() {
 
 
 
-  const projectProgress =
-    useMemo(
-      () =>
-        calcProjectProgress(
-          projectTasks,
-        ),
-      [
+  const workflowStats = useMemo(
+    () =>
+      WORKFLOW_STATUSES.map(
+        (status) => ({
+          ...status,
+          count:
+            projectTasks.filter(
+              (task) =>
+                task.status === status.value,
+            ).length,
+        }),
+      ),
+
+    [
+      projectTasks,
+    ],
+  );
+
+
+
+  const projectProgress = useMemo(
+    () =>
+      calcProjectProgress(
         projectTasks,
-      ],
-    );
+      ),
+
+    [
+      projectTasks,
+    ],
+  );
 
 
 
-  const projectMembers =
-    useMemo(
-      () =>
-        getProjectMemberIds(
-          project,
-        ),
-
-      [
+  const projectMembers = useMemo(
+    () =>
+      getProjectMemberIds(
         project,
-      ],
+      ),
+
+    [
+      project,
+    ],
+  );
+
+
+
+  const [taskModalOpen, setTaskModalOpen] =
+    useState(false);
+
+
+
+  const [editingTask, setEditingTask] =
+    useState(null);
+
+
+
+  const [defaultStatus, setDefaultStatus] =
+    useState("backlog");
+
+
+
+  const [projectModalOpen, setProjectModalOpen] =
+    useState(false);
+
+
+
+  const [busy, setBusy] =
+    useState(false);
+
+
+
+  const canManage =
+    canManageTeam(
+      profile?.role,
     );
-
-
-
-  const workflowStats =
-    useMemo(
-      () =>
-        WORKFLOW_STATUSES.map(
-          (status) => ({
-            ...status,
-            count:
-              projectTasks.filter(
-                (task) =>
-                  task.status ===
-                  status.value,
-              ).length,
-          }),
-        ),
-
-      [
-        projectTasks,
-      ],
-    );
-
-
-
-  const completedTasks =
-    useMemo(
-      () =>
-        projectTasks.filter(
-          (task) =>
-            task.status === "done",
-        ).length,
-
-      [
-        projectTasks,
-      ],
-    );
-
-
-
-  const activeTasks =
-    useMemo(
-      () =>
-        projectTasks.filter(
-          (task) =>
-            task.status !== "done",
-        ).length,
-
-      [
-        projectTasks,
-      ],
-    );
-
-
-
-  const [
-    taskModalOpen,
-    setTaskModalOpen,
-  ] = useState(false);
-
-
-
-  const [
-    editingTask,
-    setEditingTask,
-  ] = useState(null);
-
-
-
-  const [
-    defaultStatus,
-    setDefaultStatus,
-  ] = useState("backlog");
-
-
-
-  const [
-    projectModalOpen,
-    setProjectModalOpen,
-  ] = useState(false);
-
-
-
-  const [
-    busy,
-    setBusy,
-  ] = useState(false);
-
 
 
 
@@ -258,6 +208,7 @@ export default function ProjectDetailPage() {
     )?.name ||
     currentUser?.displayName ||
     "مستخدم";
+
 
 
 
@@ -292,27 +243,47 @@ export default function ProjectDetailPage() {
         createdAt:
           new Date().toISOString(),
       },
+
     ];
   }
-    async function handleMove(task, direction) {
-    if (busy) return;
+
+
+
+
+
+  async function handleMove(
+    task,
+    direction,
+  ) {
+
+
+    if (busy)
+      return;
+
 
 
     const isAssignee =
-      getAssigneeId(task) === currentUser?.uid;
+      getAssigneeId(task) ===
+      currentUser?.uid;
 
 
 
     if (!canManage && !isAssignee) {
+
       showToast({
         type: "warning",
-        title: "صلاحيات غير كافية",
+
+        title:
+          "صلاحيات غير كافية",
+
         message:
           "ليس لديك صلاحية تعديل حالة هذه المهمة.",
       });
 
+
       return;
     }
+
 
 
 
@@ -320,15 +291,21 @@ export default function ProjectDetailPage() {
       direction === "backward" &&
       !canManage
     ) {
+
       showToast({
         type: "warning",
-        title: "صلاحيات غير كافية",
+
+        title:
+          "صلاحيات غير كافية",
+
         message:
           "لا يمكنك التراجع في مراحل المهمة.",
       });
 
+
       return;
     }
+
 
 
 
@@ -352,9 +329,9 @@ export default function ProjectDetailPage() {
 
     if (
       nextStatus === task.status
-    ) {
+    )
       return;
-    }
+
 
 
 
@@ -365,15 +342,21 @@ export default function ProjectDetailPage() {
         task.status,
       )
     ) {
+
       showToast({
         type: "warning",
-        title: "توقف التقدم",
+
+        title:
+          "انتهت مراحل العضو",
+
         message:
-          "بعد المراجعة يتولى المسؤول قرار التسليم أو التعديل.",
+          "بعد الإرسال للمراجعة يتولى المسؤول القرار.",
       });
+
 
       return;
     }
+
 
 
 
@@ -387,18 +370,26 @@ export default function ProjectDetailPage() {
     setBusy(true);
 
 
+
     try {
+
 
       await updateDocument(
         "tasks",
+
         task.id,
+
         {
-          status: nextStatus,
+          status:
+            nextStatus,
+
 
           activity:
             addActivity(
               task,
+
               "status",
+
               `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
             ),
         },
@@ -407,51 +398,68 @@ export default function ProjectDetailPage() {
 
 
       notifyMany(
+
         getTaskRecipientUserIds(
           task,
+
           users,
+
           currentUser?.uid || "",
         ),
+
 
         {
           title:
             "تم تحديث حالة المهمة",
 
+
           message:
             `تم نقل المهمة "${task.title}" من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}".`,
+
 
           type:
             "task",
 
+
           link:
             `/dashboard/team/tasks/${task.id}`,
+
 
           projectId:
             task.projectId,
 
+
           projectTitle:
             project?.title || "",
+
 
           eventKey:
             "tasks",
         },
+
       );
 
 
     } catch(error) {
 
+
       console.error(
-        "Move task error:",
         error,
       );
 
 
       showToast({
-        type: "error",
-        title: "حدث خطأ",
+
+        type:
+          "error",
+
+        title:
+          "حدث خطأ",
+
         message:
-          "تعذر تحديث حالة المهمة.",
+          "حصل خطأ أثناء تحديث المهمة.",
       });
+
 
 
     } finally {
@@ -459,6 +467,7 @@ export default function ProjectDetailPage() {
       setBusy(false);
 
     }
+
   }
 
 
@@ -479,6 +488,7 @@ export default function ProjectDetailPage() {
 
 
 
+
   function openEditTask(task) {
 
     setEditingTask(task);
@@ -487,33 +497,24 @@ export default function ProjectDetailPage() {
 
   }
 
-
-
-
   async function handleDeleteTask(task) {
-
     if (!canManage) {
-
       showToast({
-        type:"warning",
-        title:"صلاحيات غير كافية",
-        message:
-          "لا يمكنك حذف المهام.",
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المهام.",
       });
 
       return;
     }
 
 
-
-    const confirmDelete =
-      window.confirm(
-        `هل تريد حذف "${task.title}"؟`,
-      );
+    const confirmed = window.confirm(
+      `هل أنت متأكد من حذف مهمة "${task.title}"؟`,
+    );
 
 
-
-    if (!confirmDelete)
+    if (!confirmed)
       return;
 
 
@@ -526,20 +527,28 @@ export default function ProjectDetailPage() {
       );
 
 
+      showToast({
+        type: "success",
+        title: "تم الحذف",
+        message: "تم حذف المهمة بنجاح.",
+      });
+
+
     } catch(error) {
 
-      console.error(error);
+      console.error(
+        "Failed to delete task:",
+        error,
+      );
 
 
       showToast({
-        type:"error",
-        title:"حدث خطأ",
-        message:
-          "تعذر حذف المهمة.",
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المهمة.",
       });
 
     }
-
   }
 
 
@@ -550,26 +559,31 @@ export default function ProjectDetailPage() {
     if (!canManage) {
 
       showToast({
-        type:"warning",
-        title:"صلاحيات غير كافية",
-        message:
-          "لا يمكنك حذف المشروع.",
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المشروع.",
       });
 
-      return;
 
+      return;
     }
 
 
 
-    const confirmDelete =
+
+    if (!project)
+      return;
+
+
+
+    const confirmed =
       window.confirm(
-        `هل تريد حذف المشروع "${project.title}" وجميع المهام؟`,
+        `هل أنت متأكد من حذف مشروع "${project.title}" وجميع المهام؟`,
       );
 
 
 
-    if (!confirmDelete)
+    if (!confirmed)
       return;
 
 
@@ -590,7 +604,7 @@ export default function ProjectDetailPage() {
 
 
         ...projectTasks.map(
-          (task)=>
+          (task) =>
             removeDocument(
               "tasks",
               task.id,
@@ -606,19 +620,32 @@ export default function ProjectDetailPage() {
       );
 
 
+
     } catch(error) {
 
 
-      console.error(error);
+      console.error(
+        "Failed to delete project:",
+        error,
+      );
+
 
 
       showToast({
-        type:"error",
-        title:"حدث خطأ",
+
+        type:
+          "error",
+
+        title:
+          "حدث خطأ",
+
         message:
-          "تعذر حذف المشروع.",
+          "حصل خطأ أثناء حذف المشروع.",
       });
 
+
+
+    } finally {
 
       setBusy(false);
 
@@ -654,14 +681,30 @@ export default function ProjectDetailPage() {
 
           <div
             className="
-              h-72
+              h-44
               animate-pulse
-              rounded-[32px]
-              bg-black/[0.04]
+              rounded-[28px]
+              border
+              border-ink/10
+              bg-card
             "
           />
 
+
+          <div
+            className="
+              h-96
+              animate-pulse
+              rounded-[28px]
+              border
+              border-ink/10
+              bg-card
+            "
+          />
+
+
         </div>
+
 
       </ProtectedRoute>
 
@@ -672,18 +715,14 @@ export default function ProjectDetailPage() {
 
 
 
+
   return (
 
     <ProtectedRoute permission="projects">
-
       <div
         dir="rtl"
-        className="
-          space-y-6
-        "
+        className="space-y-6"
       >
-
-
         <Link
           href="/dashboard/team"
           className="
@@ -691,7 +730,7 @@ export default function ProjectDetailPage() {
             items-center
             gap-2
             text-xs
-            font-black
+            font-bold
             text-ink/40
             transition
             hover:text-primary
@@ -702,11 +741,9 @@ export default function ProjectDetailPage() {
             className="h-4 w-4"
           />
 
-          العودة للمشاريع
+          العودة إلى المشاريع
 
         </Link>
-
-
 
         {!isProjectMember ? (
 
@@ -717,19 +754,21 @@ export default function ProjectDetailPage() {
               flex-col
               items-center
               justify-center
-              rounded-[32px]
+              rounded-[28px]
               border
               border-dashed
-              border-red-200
-              bg-red-50/40
+              border-ink/10
+              bg-card
+              text-center
+              px-6
             "
           >
 
             <Lock
               className="
-                h-10
-                w-10
-                text-red-400
+                h-9
+                w-9
+                text-ink/20
               "
             />
 
@@ -737,12 +776,25 @@ export default function ProjectDetailPage() {
             <h2
               className="
                 mt-4
-                text-xl
+                text-lg
                 font-black
+                text-ink
               "
             >
-              لا يمكنك الوصول للمشروع
+              لا يمكنك الوصول لهذا المشروع
             </h2>
+
+
+            <p
+              className="
+                mt-2
+                max-w-md
+                text-sm
+                text-ink/40
+              "
+            >
+              هذا المشروع غير متاح ضمن صلاحيات حسابك.
+            </p>
 
 
           </div>
@@ -750,43 +802,88 @@ export default function ProjectDetailPage() {
 
         ) : !project ? (
 
+
           <div
             className="
-              rounded-[32px]
+              flex
+              min-h-[320px]
+              flex-col
+              items-center
+              justify-center
+              rounded-[28px]
+              border
+              border-dashed
+              border-ink/10
               bg-card
-              p-10
               text-center
             "
           >
 
-            المشروع غير موجود
+            <ClipboardList
+              className="
+                h-9
+                w-9
+                text-ink/20
+              "
+            />
+
+
+            <h2
+              className="
+                mt-4
+                text-lg
+                font-black
+                text-ink
+              "
+            >
+              المشروع غير موجود
+            </h2>
+
+
+
+            <Link
+              href="/dashboard/team"
+              className="
+                mt-5
+                rounded-xl
+                bg-primary
+                px-4
+                py-2
+                text-sm
+                font-bold
+                text-white
+              "
+            >
+              العودة للمشاريع
+            </Link>
+
 
           </div>
 
 
         ) : (
-
           <>
-
             <section
               className="
                 relative
                 overflow-hidden
-                rounded-[36px]
+                rounded-[32px]
                 border
-                border-black/[0.06]
+                border-ink/[0.06]
                 bg-card
                 p-6
-                shadow-[0_20px_60px_rgba(0,0,0,.06)]
+                shadow-[0_20px_60px_rgba(0,0,0,0.05)]
                 sm:p-8
               "
             >
 
+              {/* Ambient Glow */}
               <div
                 className="
+                  pointer-events-none
                   absolute
-                  -left-24
-                  -top-24
+                  -right-32
+                  -top-32
                   h-72
                   w-72
                   rounded-full
@@ -799,38 +896,47 @@ export default function ProjectDetailPage() {
               <div
                 className="
                   relative
+                  space-y-8
                 "
               >
 
+
+                {/* Header */}
                 <div
                   className="
                     flex
                     flex-col
                     gap-6
                     lg:flex-row
+                    lg:items-start
                     lg:justify-between
                   "
                 >
 
+
                   <div
                     className="
                       flex
+                      items-start
                       gap-4
                     "
                   >
+
 
                     <div
                       className="
                         flex
                         h-16
                         w-16
+                        shrink-0
                         items-center
                         justify-center
-                        rounded-3xl
+                        rounded-[22px]
                         bg-gradient-to-br
                         from-primary
                         to-primary/70
                         text-white
+                        shadow-lg
                       "
                     >
 
@@ -842,56 +948,179 @@ export default function ProjectDetailPage() {
                     </div>
 
 
-                    <div>
 
-                      <div className="flex gap-2">
+
+                    <div
+                      className="
+                        min-w-0
+                      "
+                    >
+
+                      <div
+                        className="
+                          flex
+                          flex-wrap
+                          items-center
+                          gap-2
+                        "
+                      >
 
                         <WorkflowBadge
                           status={project.status}
                         />
 
+
                         <PriorityBadge
                           priority={project.priority}
                         />
 
+
                       </div>
+
+
 
 
                       <h1
                         className="
                           mt-3
-                          text-3xl
+                          text-2xl
                           font-black
+                          tracking-tight
+                          text-ink
+                          sm:text-3xl
                         "
                       >
-                        {project.title}
+                        {project.title || "بدون عنوان"}
                       </h1>
 
 
-                      <p
+
+
+                      {project.description && (
+
+                        <p
+                          className="
+                            mt-3
+                            max-w-2xl
+                            text-sm
+                            leading-7
+                            text-ink/45
+                          "
+                        >
+                          {project.description}
+                        </p>
+
+                      )}
+
+
+
+                      <div
                         className="
-                          mt-2
-                          max-w-xl
-                          text-sm
-                          font-medium
+                          mt-5
+                          flex
+                          flex-wrap
+                          gap-x-5
+                          gap-y-3
+                          text-xs
+                          font-bold
                           text-ink/45
                         "
                       >
-                        {project.description}
-                      </p>
+
+
+                        <span
+                          className="
+                            inline-flex
+                            items-center
+                            gap-2
+                          "
+                        >
+
+                          <Building2
+                            className="
+                              h-4
+                              w-4
+                              text-ink/30
+                            "
+                          />
+
+                          {getClientName(
+                            clientMap,
+                            project.clientId,
+                          )}
+
+                        </span>
+
+
+
+
+                        <span
+                          className="
+                            inline-flex
+                            items-center
+                            gap-2
+                          "
+                        >
+
+                          <CalendarDays
+                            className="
+                              h-4
+                              w-4
+                              text-ink/30
+                            "
+                          />
+
+                          {formatDeadline(
+                            project.deadline,
+                          )}
+
+                        </span>
+
+
+
+
+                        <span
+                          className="
+                            inline-flex
+                            items-center
+                            gap-2
+                          "
+                        >
+
+                          <ClipboardList
+                            className="
+                              h-4
+                              w-4
+                              text-ink/30
+                            "
+                          />
+
+                          {projectTasks.length} مهمة
+
+                        </span>
+
+
+                      </div>
 
 
                     </div>
 
+
                   </div>
-                                    <div
+
+
+
+
+
+                  {/* Actions */}
+                  <div
                     className="
                       flex
-                      shrink-0
-                      items-center
+                      flex-wrap
                       gap-2
                     "
                   >
+
 
                     <button
                       type="button"
@@ -902,17 +1131,17 @@ export default function ProjectDetailPage() {
                         inline-flex
                         items-center
                         gap-2
-                        rounded-2xl
+                        rounded-xl
                         border
-                        border-black/[0.08]
+                        border-ink/10
                         bg-card
                         px-4
-                        py-3
+                        py-2.5
                         text-xs
                         font-black
                         text-ink/70
                         transition
-                        hover:border-black/20
+                        hover:border-ink/20
                         hover:text-ink
                       "
                     >
@@ -926,6 +1155,8 @@ export default function ProjectDetailPage() {
                     </button>
 
 
+
+
                     <button
                       type="button"
                       onClick={handleDeleteProject}
@@ -934,10 +1165,10 @@ export default function ProjectDetailPage() {
                         inline-flex
                         items-center
                         gap-2
-                        rounded-2xl
+                        rounded-xl
                         bg-red-500
                         px-4
-                        py-3
+                        py-2.5
                         text-xs
                         font-black
                         text-white
@@ -956,19 +1187,24 @@ export default function ProjectDetailPage() {
                     </button>
 
 
+
+
+
                     <button
                       type="button"
                       onClick={() =>
-                        openCreateTask("backlog")
+                        openCreateTask(
+                          "backlog",
+                        )
                       }
                       className="
                         inline-flex
                         items-center
                         gap-2
-                        rounded-2xl
+                        rounded-xl
                         bg-primary
-                        px-5
-                        py-3
+                        px-4
+                        py-2.5
                         text-xs
                         font-black
                         text-white
@@ -987,39 +1223,39 @@ export default function ProjectDetailPage() {
 
                     </button>
 
+
                   </div>
 
+
                 </div>
-
-
-
-
+                {/* Project Overview */}
                 <div
                   className="
-                    mt-8
                     grid
                     gap-5
-                    lg:grid-cols-[1fr_320px]
+                    lg:grid-cols-3
                   "
                 >
 
 
+                  {/* Progress */}
                   <div
                     className="
-                      rounded-[28px]
+                      rounded-[24px]
                       border
-                      border-black/[0.06]
-                      bg-black/[0.015]
+                      border-ink/[0.06]
+                      bg-ink/[0.015]
                       p-5
+                      lg:col-span-2
                     "
                   >
 
                     <div
                       className="
-                        mb-4
                         flex
                         items-center
                         justify-between
+                        gap-3
                       "
                     >
 
@@ -1027,9 +1263,9 @@ export default function ProjectDetailPage() {
 
                         <p
                           className="
-                            text-xs
+                            text-sm
                             font-black
-                            text-ink/40
+                            text-ink
                           "
                         >
                           تقدم المشروع
@@ -1039,69 +1275,42 @@ export default function ProjectDetailPage() {
                         <p
                           className="
                             mt-1
-                            text-3xl
-                            font-black
+                            text-xs
+                            font-semibold
+                            text-ink/40
                           "
                         >
-                          {projectProgress}%
-
+                          نسبة الإنجاز الحالية
                         </p>
 
                       </div>
 
 
 
-                      <Activity
+                      <span
                         className="
-                          h-8
-                          w-8
-                          text-primary/50
+                          rounded-xl
+                          bg-primary/10
+                          px-3
+                          py-1.5
+                          text-sm
+                          font-black
+                          text-primary
                         "
-                      />
+                      >
+                        {projectProgress}%
+                      </span>
+
 
                     </div>
 
 
 
-                    <ProgressBar
-                      value={projectProgress}
-                    />
 
+                    <div className="mt-5">
 
-
-                    <div
-                      className="
-                        mt-6
-                        grid
-                        grid-cols-3
-                        gap-3
-                      "
-                    >
-
-                      <ProjectMetric
-                        icon={ClipboardList}
-                        label="المهام"
-                        value={
-                          projectTasks.length
-                        }
-                      />
-
-
-                      <ProjectMetric
-                        icon={CheckCircle2}
-                        label="مكتملة"
-                        value={
-                          completedTasks
-                        }
-                      />
-
-
-                      <ProjectMetric
-                        icon={Clock3}
-                        label="نشطة"
-                        value={
-                          activeTasks
-                        }
+                      <ProgressBar
+                        value={projectProgress}
                       />
 
                     </div>
@@ -1113,128 +1322,101 @@ export default function ProjectDetailPage() {
 
 
 
+
+                  {/* Workflow */}
                   <div
                     className="
-                      rounded-[28px]
+                      rounded-[24px]
                       border
-                      border-black/[0.06]
-                      bg-card
+                      border-ink/[0.06]
+                      bg-ink/[0.015]
                       p-5
                     "
                   >
 
-                    <div
+                    <p
                       className="
-                        flex
-                        items-center
-                        gap-2
+                        text-sm
+                        font-black
+                        text-ink
                       "
                     >
-
-                      <Users
-                        className="
-                          h-4
-                          w-4
-                          text-ink/40
-                        "
-                      />
-
-
-                      <p
-                        className="
-                          text-sm
-                          font-black
-                        "
-                      >
-                        فريق العمل
-                      </p>
-
-                    </div>
+                      حالة المهام
+                    </p>
 
 
 
                     <div
                       className="
-                        mt-5
-                        space-y-3
+                        mt-4
+                        space-y-2.5
                       "
                     >
 
-                      {projectMembers.length === 0 ? (
+                      {workflowStats.map(
+                        (status) => (
 
-                        <p
-                          className="
-                            text-xs
-                            font-bold
-                            text-ink/35
-                          "
-                        >
-                          لا يوجد أعضاء
-                        </p>
-
-                      ) : (
-
-                        projectMembers.map(
-                          (memberId)=>(
+                          <div
+                            key={status.value}
+                            className="
+                              flex
+                              items-center
+                              justify-between
+                              rounded-xl
+                              bg-card
+                              px-3
+                              py-2.5
+                            "
+                          >
 
                             <div
-                              key={memberId}
                               className="
                                 flex
                                 items-center
-                                gap-3
-                                rounded-2xl
-                                bg-black/[0.03]
-                                p-2.5
+                                gap-2
                               "
                             >
 
-                              <Avatar
-                                user={
-                                  userMap.get(
-                                    memberId,
-                                  )
-                                }
-                                size={34}
+                              <span
+                                className="
+                                  h-2
+                                  w-2
+                                  rounded-full
+                                "
+                                style={{
+                                  backgroundColor:
+                                    status.color,
+                                }}
                               />
 
-
-                              <div>
-
-                                <p
-                                  className="
-                                    text-xs
-                                    font-black
-                                  "
-                                >
-                                  {
-                                    getUserName(
-                                      userMap,
-                                      memberId,
-                                    )
-                                  }
-                                </p>
-
-
-                                <p
-                                  className="
-                                    text-[10px]
-                                    font-bold
-                                    text-ink/35
-                                  "
-                                >
-                                  عضو في المشروع
-                                </p>
-
-
-                              </div>
-
+                              <span
+                                className="
+                                  text-xs
+                                  font-bold
+                                  text-ink/60
+                                "
+                              >
+                                {status.labelAr}
+                              </span>
 
                             </div>
 
-                          ),
-                        )
 
+
+                            <span
+                              className="
+                                text-xs
+                                font-black
+                                text-ink
+                              "
+                            >
+                              {status.count}
+                            </span>
+
+
+                          </div>
+
+                        ),
                       )}
 
                     </div>
@@ -1245,276 +1427,184 @@ export default function ProjectDetailPage() {
 
                 </div>
 
+
+
+
+
+
+                {/* Team Members */}
+                <div
+                  className="
+                    rounded-[24px]
+                    border
+                    border-ink/[0.06]
+                    bg-ink/[0.015]
+                    p-5
+                  "
+                >
+
+                  <div
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                    "
+                  >
+
+                    <Users
+                      className="
+                        h-4
+                        w-4
+                        text-ink/40
+                      "
+                    />
+
+
+                    <p
+                      className="
+                        text-sm
+                        font-black
+                        text-ink
+                      "
+                    >
+                      فريق المشروع
+                    </p>
+
+
+                    <span
+                      className="
+                        rounded-lg
+                        bg-ink/[0.05]
+                        px-2
+                        py-1
+                        text-[10px]
+                        font-black
+                        text-ink/40
+                      "
+                    >
+                      {projectMembers.length}
+                    </span>
+
+
+                  </div>
+
+
+
+
+                  <div
+                    className="
+                      mt-4
+                      flex
+                      flex-wrap
+                      gap-2
+                    "
+                  >
+
+                    {projectMembers.length === 0 ? (
+
+                      <p
+                        className="
+                          text-xs
+                          font-bold
+                          text-ink/35
+                        "
+                      >
+                        لم يتم إضافة أعضاء بعد
+                      </p>
+
+                    ) : (
+
+                      projectMembers.map(
+                        (memberId) => (
+
+                          <div
+                            key={memberId}
+                            className="
+                              flex
+                              items-center
+                              gap-2
+                              rounded-full
+                              border
+                              border-ink/[0.06]
+                              bg-card
+                              px-3
+                              py-1.5
+                            "
+                          >
+
+                            <Avatar
+                              user={
+                                userMap.get(
+                                  memberId,
+                                )
+                              }
+                              size={26}
+                            />
+
+
+                            <span
+                              className="
+                                text-xs
+                                font-bold
+                                text-ink/70
+                              "
+                            >
+                              {getUserName(
+                                userMap,
+                                memberId,
+                              )}
+                            </span>
+
+
+                          </div>
+
+                        ),
+                      )
+
+                    )}
+
+                  </div>
+
+
+                </div>
+
+
               </div>
+
 
             </section>
 
 
 
 
-            <div
-              className="
-                grid
-                gap-6
-                xl:grid-cols-[1fr_340px]
-              "
-            >
-
-              <div
-                className="
-                  min-w-0
-                "
-              ></div>
-                              <TaskBoard
-                  tasks={projectTasks}
-                  userMap={userMap}
-
-                  onMoveForward={(task) =>
-                    handleMove(
-                      task,
-                      "forward",
-                    )
-                  }
-
-                  onMoveBackward={(task) =>
-                    handleMove(
-                      task,
-                      "backward",
-                    )
-                  }
-
-                  onEdit={openEditTask}
-
-                  onDelete={handleDeleteTask}
-
-                  onAddTask={(status) =>
-                    openCreateTask(status)
-                  }
-                />
-
-              </div>
 
 
 
+            {/* Tasks Board */}
 
-              <aside
-                className="
-                  space-y-5
-                "
-              >
-
-                <div
-                  className="
-                    rounded-[28px]
-                    border
-                    border-black/[0.06]
-                    bg-card
-                    p-5
-                  "
-                >
-
-                  <div
-                    className="
-                      flex
-                      items-center
-                      gap-2
-                    "
-                  >
-
-                    <Layers3
-                      className="
-                        h-4
-                        w-4
-                        text-primary
-                      "
-                    />
-
-
-                    <h3
-                      className="
-                        text-sm
-                        font-black
-                      "
-                    >
-                      معلومات المشروع
-                    </h3>
-
-                  </div>
-
-
-
-                  <div
-                    className="
-                      mt-5
-                      space-y-4
-                    "
-                  >
-
-                    <ProjectInfoRow
-                      label="العميل"
-                      value={
-                        getClientName(
-                          clientMap,
-                          project.clientId,
-                        )
-                      }
-                    />
-
-
-                    <ProjectInfoRow
-                      label="موعد التسليم"
-                      value={
-                        formatDeadline(
-                          project.deadline,
-                        )
-                      }
-                    />
-
-
-                    <ProjectInfoRow
-                      label="عدد المهام"
-                      value={
-                        `${projectTasks.length} مهمة`
-                      }
-                    />
-
-
-                    <ProjectInfoRow
-                      label="الحالة"
-                      value={
-                        <WorkflowBadge
-                          status={
-                            project.status
-                          }
-                        />
-                      }
-                    />
-
-
-                  </div>
-
-
-                </div>
-
-
-
-
-
-                <div
-                  className="
-                    rounded-[28px]
-                    border
-                    border-black/[0.06]
-                    bg-card
-                    p-5
-                  "
-                >
-
-                  <div
-                    className="
-                      flex
-                      items-center
-                      gap-2
-                    "
-                  >
-
-                    <ClipboardList
-                      className="
-                        h-4
-                        w-4
-                        text-primary
-                      "
-                    />
-
-
-                    <h3
-                      className="
-                        text-sm
-                        font-black
-                      "
-                    >
-                      توزيع العمل
-                    </h3>
-
-
-                  </div>
-
-
-
-
-                  <div
-                    className="
-                      mt-5
-                      space-y-3
-                    "
-                  >
-
-                    {
-                      workflowStats.map(
-                        (status)=>(
-                          <div
-                            key={
-                              status.value
-                            }
-                            className="
-                              flex
-                              items-center
-                              justify-between
-                              rounded-xl
-                              bg-black/[0.03]
-                              px-3
-                              py-2.5
-                            "
-                          >
-
-                            <span
-                              className="
-                                text-xs
-                                font-bold
-                                text-ink/60
-                              "
-                            >
-                              {
-                                status.labelAr
-                              }
-                            </span>
-
-
-                            <span
-                              className="
-                                flex
-                                h-6
-                                min-w-6
-                                items-center
-                                justify-center
-                                rounded-lg
-                                bg-card
-                                px-2
-                                text-[11px]
-                                font-black
-                              "
-                            >
-                              {
-                                status.count
-                              }
-                            </span>
-
-
-                          </div>
-                        ),
-                      )
-                    }
-
-                  </div>
-
-
-                </div>
-
-
-              </aside>
-
-
-            </div>
+            <TaskBoard
+              tasks={projectTasks}
+              userMap={userMap}
+              onMoveForward={(task) =>
+                handleMove(
+                  task,
+                  "forward",
+                )
+              }
+              onMoveBackward={(task) =>
+                handleMove(
+                  task,
+                  "backward",
+                )
+              }
+              onEdit={openEditTask}
+              onDelete={handleDeleteTask}
+              onAddTask={(status) =>
+                openCreateTask(
+                  status,
+                )
+              }
+            />
 
 
           </>
@@ -1525,171 +1615,34 @@ export default function ProjectDetailPage() {
 
 
 
-
       <TaskModal
-        open={
-          taskModalOpen
-        }
-
+        open={taskModalOpen}
         onClose={() =>
           setTaskModalOpen(false)
         }
-
-        editing={
-          editingTask
-        }
-
-        projects={
-          projects
-        }
-
-        users={
-          activeUsers
-        }
-
-        defaultProjectId={
-          projectId
-        }
-
-        defaultStatus={
-          defaultStatus
-        }
-
-        currentUser={
-          currentUser
-        }
-
+        editing={editingTask}
+        projects={projects}
+        users={activeUsers}
+        defaultProjectId={projectId}
+        defaultStatus={defaultStatus}
+        currentUser={currentUser}
         onSaved={() => {}}
       />
 
 
 
-
       <ProjectModal
-        open={
-          projectModalOpen
-        }
-
+        open={projectModalOpen}
         onClose={() =>
           setProjectModalOpen(false)
         }
-
-        editing={
-          project
-        }
-
-        users={
-          activeUsers
-        }
-
-        clients={
-          clients
-        }
+        editing={project}
+        users={activeUsers}
+        clients={clients}
       />
 
 
     </ProtectedRoute>
-
-  );
-
-}
-
-
-
-
-
-function ProjectInfoRow({
-  label,
-  value,
-}) {
-
-  return (
-
-    <div
-      className="
-        flex
-        items-center
-        justify-between
-        gap-3
-      "
-    >
-
-      <span
-        className="
-          text-xs
-          font-bold
-          text-ink/35
-        "
-      >
-        {label}
-      </span>
-
-
-      <span
-        className="
-          text-xs
-          font-black
-          text-ink
-        "
-      >
-        {value}
-      </span>
-
-
-    </div>
-
-  );
-
-}
-function ProjectMetric({
-  icon: Icon,
-  label,
-  value,
-}) {
-
-  return (
-
-    <div
-      className="
-        rounded-2xl
-        bg-card
-        p-4
-        border
-        border-black/[0.05]
-      "
-    >
-
-      <Icon
-        className="
-          h-4
-          w-4
-          text-primary
-        "
-      />
-
-
-      <p
-        className="
-          mt-3
-          text-xl
-          font-black
-        "
-      >
-        {value}
-      </p>
-
-
-      <p
-        className="
-          text-[11px]
-          font-bold
-          text-ink/40
-        "
-      >
-        {label}
-      </p>
-
-    </div>
 
   );
 
