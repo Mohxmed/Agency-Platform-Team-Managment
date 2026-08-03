@@ -12,7 +12,6 @@ import {
   Heart,
   MessageCircle,
   TrendingUp,
-  Mail,
 } from "lucide-react";
 
 import { Container } from "@/features/landing";
@@ -24,7 +23,6 @@ import { useSettings } from "@/contexts/SettingsContext";
 
 import logoIcon from "@/assets/identity/logo-icon.png";
 import roket from "@/assets/svg/roket.svg";
-import Button from "@/features/dashboard/ui/Button";
 
 
 /* =========================================================
@@ -1004,28 +1002,28 @@ function HeroActions(){
 
       >
 
+        {primary}
 
 
-        <Mail
+        <ArrowLeft
 
-size={18}
+          size={18}
 
           className="
-          transition-transform
-          duration-300
-          group-hover:-translate-x-1
+            transition-transform
+            duration-300
+            group-hover:-translate-x-1
           "
 
-          />
-          {primary}
+        />
 
 
       </button>
 
 
 
-      <Button
-        variant="outline"
+      <button
+
         className="
           flex
           items-center
@@ -1056,7 +1054,7 @@ size={18}
         {secondary}
 
 
-      </Button>
+      </button>
 
 
     </div>
