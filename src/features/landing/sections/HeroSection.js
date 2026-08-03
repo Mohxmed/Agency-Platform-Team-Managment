@@ -1576,6 +1576,7 @@ export default function HeroSection(){
 
       className="
         relative
+        isolate
         flex
         items-center
         min-h-[calc(100svh-64px)]
