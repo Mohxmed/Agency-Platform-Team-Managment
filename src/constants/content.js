@@ -38,10 +38,10 @@ export const FOOTER = {
     {
       title: "المزيد عن",
       links: [
-        { label: "حقوق النشر", href: "#" },
-        { label: "سياسة الخصوصية", href: "#" },
-        { label: "اتفاقية الاستخدام", href: "#" },
-        { label: "الشكاوى والإقتراحات", href: "#" },
+        { label: "حقوق النشر", href: "/copyrights" },
+        { label: "سياسة الخصوصية", href: "/privacy-policy" },
+        { label: "اتفاقية الاستخدام", href: "/terms-of-use" },
+        { label: "الشكاوى والإقتراحات", href: "/reports" },
       ],
     },
   ],
