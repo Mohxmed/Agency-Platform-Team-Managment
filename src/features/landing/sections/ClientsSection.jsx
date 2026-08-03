@@ -433,7 +433,7 @@ export default function ClientsSection() {
               <SwiperFadeEdges>
                 <Marquee
                   duration={clients.length * 2.5}
-                  slideClassName="px-4 py-8"
+                  slideClassName="w-[82vw] max-w-[330px] px-4 py-8 sm:w-auto sm:max-w-none"
                 >
                   {clients.map((client) => (
                     <motion.div

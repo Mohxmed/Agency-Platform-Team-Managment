@@ -209,7 +209,7 @@ export default function WorksSection() {
 
                 <Marquee
                   duration={projects.length * 3.2}
-                  slideClassName="h-auto px-3 py-8"
+                  slideClassName="h-auto w-[80vw] max-w-[360px] px-3 py-8 sm:w-auto sm:max-w-none"
                 >
 
                   {projects.map((project, index) => (

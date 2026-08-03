@@ -16,11 +16,13 @@
 /* ======================
    Infinite marquee
    (seamless loop: first → last → first)
+   Direction-isolated so it works identically in RTL/LTR
 ====================== */
 
 .marquee {
   overflow: hidden;
   width: 100%;
+  direction: ltr;
 }
 
 .marquee-track {
@@ -30,14 +32,18 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
+  transform: translateZ(0);
 }
 
 .marquee-slide {
   flex-shrink: 0;
+  direction: rtl;
+}
+
+@media (hover: hover) {
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes marquee-scroll {

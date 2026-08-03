@@ -162,7 +162,7 @@ export function SettingsProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchSettings(false);
+      const data = migrateSettings(await fetchSettings(false));
       if (data) {
         setSettings(deepMerge(EMPTY, data));
       } else {
@@ -210,6 +210,15 @@ export function useSettings() {
     throw new Error("useSettings must be used within <SettingsProvider>");
   }
   return ctx;
+}
+
+function migrateSettings(data) {
+  if (!data) return data;
+  const contact = data.content?.contact;
+  if (contact && contact.mapButton === "افتح مكاننا على الخريطة") {
+    contact.mapButton = "موقعنا على الخريطة";
+  }
+  return data;
 }
 
 function deepMerge(defaults, overrides) {

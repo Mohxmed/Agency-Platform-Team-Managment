@@ -85,7 +85,7 @@ export default function ProjectCard({ project }) {
         <div
           className="
             relative
-            h-[260px]
+            h-[185px]
             overflow-hidden
             sm:h-[280px]
           "
@@ -181,10 +181,10 @@ export default function ProjectCard({ project }) {
               TITLE
           ================================================== */}
 
-          <div className="absolute bottom-5 right-5 left-5">
+          <div className="absolute bottom-4 right-5 left-5">
             <h3
               className="
-                text-xl
+                text-lg
                 font-black
                 leading-tight
                 tracking-tight
@@ -208,7 +208,7 @@ export default function ProjectCard({ project }) {
             flex
             flex-1
             flex-col
-            p-5
+            p-4
             sm:p-6
           "
         >
@@ -216,7 +216,7 @@ export default function ProjectCard({ project }) {
               PROJECT META
           ================================================== */}
 
-          <div className="mb-5 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between">
             {/* YEAR */}
 
             {project?.year ? (
