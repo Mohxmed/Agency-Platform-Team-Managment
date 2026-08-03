@@ -1036,10 +1036,10 @@ function HeroActions(){
           text-ink
           border
           backdrop-blur-xl
-          bg-white/40
+          bg-white/20
           transition-all
           duration-300
-          hover:bg-white/70
+          hover:bg-white/30
         "
 
         style={{
