@@ -91,6 +91,25 @@
   background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 62%);
 }
 
+/* Violet accent (used by Services section) */
+.hero-orb-violet {
+  background: radial-gradient(
+    circle at center,
+    rgba(139, 92, 246, 0.3) 0%,
+    rgba(124, 58, 237, 0.16) 38%,
+    transparent 72%
+  );
+}
+
+.dark .hero-orb-violet {
+  background: radial-gradient(
+    circle at center,
+    rgba(167, 139, 250, 0.32) 0%,
+    rgba(124, 58, 237, 0.14) 36%,
+    transparent 70%
+  );
+}
+
 /* Cinematic light beams */
 .hero-beam-a {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);

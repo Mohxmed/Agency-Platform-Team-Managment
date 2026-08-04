@@ -490,20 +490,7 @@ export default function ContactSection() {
 
             {/* Form Card */}
 
-            <div
-              className="
-                relative
-                overflow-hidden
-                rounded-[32px]
-                border
-                border-white/[0.08]
-                bg-white/[0.04]
-                p-6
-                shadow-[0_30px_100px_rgba(0,0,0,0.35)]
-                sm:p-8
-                lg:p-10
-              "
-            >
+            <div className="glass-panel glass-panel--dark p-6 sm:p-8 lg:p-10">
 
               {/* Card Top Shine */}
 
@@ -643,26 +630,7 @@ export default function ContactSection() {
                       rows={5}
                       placeholder="عرفنا أكتر عن اللي انت محتاجه..."
                       required
-                      className="
-                        w-full
-                        resize-none
-                        rounded-2xl
-                        border
-                        border-white/[0.08]
-                        bg-black/20
-                        px-4
-                        py-3.5
-                        text-sm
-                        text-white
-                        outline-none
-                        placeholder:text-white/20
-                        transition-all
-                        duration-300
-                        focus:border-primary-500/40
-                        focus:bg-black/30
-                        focus:ring-4
-                        focus:ring-primary-500/[0.06]
-                      "
+                      className="glass-input resize-none px-4 py-3.5"
                     />
 
                   </div>
@@ -870,26 +838,7 @@ function PremiumInput({
         onChange={onChange}
         required={required}
         placeholder={placeholder}
-        className="
-          h-12
-          w-full
-          rounded-2xl
-          border
-          border-white/[0.08]
-          bg-black/20
-          px-4
-          text-sm
-          text-white
-          outline-none
-          placeholder:text-white/20
-          transition-all
-          duration-300
-          hover:border-white/[0.12]
-          focus:border-primary-500/40
-          focus:bg-black/30
-          focus:ring-4
-          focus:ring-primary-500/[0.06]
-        "
+        className="glass-input h-12 text-sm"
       />
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,9 +12,18 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
+
 import {
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  Megaphone,
   Play,
+  Rocket,
   TrendingUp,
 } from "lucide-react";
 
@@ -22,13 +31,15 @@ import { Container } from "@/features/landing";
 
 import ScrollIndicator from "@/shared/ui/ScrollIndicator";
 import HighlightText from "@/shared/ui/typography/HighlightText";
+import { OutlinedBadge } from "@/shared/ui/badges/OutlinedBadge";
 
 import { SITE, HERO } from "@/constants/content";
 
 import { useSettings } from "@/contexts/SettingsContext";
 
-import logoIcon from "@/assets/identity/logo-icon.png";
 import roket from "@/assets/svg/rocket.webp";
+
+import { EASE } from "@/features/landing/components/sectionMotion";
 
 /* =========================================================
    CONFIG
@@ -40,25 +51,24 @@ const HERO_CONFIG = {
     { value: "+500", label: "مشروع ناجح" },
     { value: "4.9", label: "تقييم العملاء" },
   ],
-  showcase: {
-    title: "نمو العلامات",
-    value: "+24%",
-    description: "نساعد العلامات التجارية على بناء حضور رقمي مؤثر.",
-  },
 };
+
+const SLIDE_BARS = [
+  [45, 65, 40, 75, 55, 85, 70],
+  [40, 55, 70, 50, 80, 65, 90],
+  [35, 50, 45, 70, 85, 60, 75],
+];
 
 /* =========================================================
    MOTION VARIANTS
 ========================================================= */
-
-const easing = [0.16, 1, 0.3, 1];
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: easing },
+    transition: { duration: 0.7, ease: EASE },
   },
 };
 
@@ -71,7 +81,8 @@ const container = {
 };
 
 /* =========================================================
-   PREMIUM BACKGROUND WITH MOVING ROCKET ANIMATION
+   PREMIUM BACKGROUND
+   Theme-aware layers (tokens flip in dark) + moving rocket.
 ========================================================= */
 
 function HeroBackground() {
@@ -96,31 +107,28 @@ function HeroBackground() {
   const glowY = useTransform(y, (v) => v * 20);
 
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-background" />
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* Base wash */}
+      <div className="hero-bg-base absolute inset-0" />
 
-      {/* Brand Glow */}
+      {/* Brand glow (mouse parallax) */}
       <motion.div
         style={{
           x: reduceMotion ? 0 : glowX,
           y: reduceMotion ? 0 : glowY,
         }}
-        className="absolute -top-48 -right-48 h-[520px] w-[520px] rounded-full opacity-40"
+        className="absolute -start-48 -top-48 h-[520px] w-[520px] rounded-full opacity-40"
       >
-        <div
-          className="h-full w-full rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(217,4,41,.18), transparent 70%)",
-          }}
-        />
+        <div className="hero-orb-red h-full w-full rounded-full" />
       </motion.div>
 
-      {/* Soft Grid */}
-      <div className="absolute inset-0 opacity-[0.035]">
-        <div className="h-full w-full bg-[linear-gradient(var(--color-ink)_1px,transparent_1px),linear-gradient(90deg,var(--color-ink)_1px,transparent_1px)] bg-[size:48px_48px]" />
-      </div>
+      {/* Deep crimson accent */}
+      <div className="hero-orb-deep absolute -end-40 -bottom-32 h-[540px] w-[540px] rounded-full opacity-50" />
 
-      {/* Animated Rocket with Continuous Flight & Floating Effect */}
+      {/* Soft grid */}
+      <div className="hero-bg-grid absolute inset-0" />
+
+      {/* Animated rocket */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8, y: 40 }}
         animate={
@@ -145,72 +153,269 @@ function HeroBackground() {
                 rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
               }
         }
-        className="absolute left-[5%] top-[8%] hidden h-80 w-80 lg:block pointer-events-none z-999"
+        className="pointer-events-none absolute left-[5%] top-[8%] z-0 hidden h-80 w-80 lg:block"
       >
         <Image
           src={roket}
           alt="Rocket Animation"
           fill
           priority
-          className="object-contain filter drop-shadow-[0_25px_60px_rgba(217,4,41,0.35)]"
+          className="object-contain drop-shadow-[0_25px_60px_rgba(217,4,41,0.35)]"
         />
       </motion.div>
 
-      {/* Noise */}
-      <div className="absolute inset-0 opacity-[0.04] bg-noise" />
+      {/* Noise + vignette */}
+      <div className="hero-bg-noise absolute inset-0" />
+      <div className="hero-bg-vignette absolute inset-0" />
     </div>
   );
 }
 
 /* =========================================================
-   GLASS CARD
+   FOG / CLOUD EDGE GLOWS
+   Float outside the slider edges → depth + reveal.
 ========================================================= */
 
-function GlassCard({ children, className = "" }) {
+function HeroClouds() {
   return (
-    <div
-      className={`
-        relative
-        overflow-hidden
-        rounded-[32px]
-        border
-        border-black/10
-        dark:border-white/10
-        bg-white/70
-        dark:bg-white/[0.06]
-        backdrop-blur-2xl
-        shadow-[0_30px_80px_rgba(0,0,0,.12)]
-        ${className}
-      `}
-    >
+    <>
       <div
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-br
-          from-white/40
-          dark:from-white/10
-          to-transparent
-          pointer-events-none
-        "
+        aria-hidden
+        className="hero-cloud-left"
+        style={{ top: "46%" }}
       />
-      {children}
-    </div>
+      <div
+        aria-hidden
+        className="hero-cloud-right"
+        style={{ top: "74%" }}
+      />
+    </>
   );
 }
 
 /* =========================================================
-   EYEBROW
+   HERO SLIDE DATA
 ========================================================= */
 
-function Eyebrow({ text, variants }) {
+function buildSlides(hero) {
+  const campaign = hero.campaign || {};
+  const analytics = hero.analytics || {};
+  const growth = hero.growth || {};
+
+  return [
+    {
+      key: "campaign",
+      icon: Megaphone,
+      tag: "Campaign",
+      title: campaign.title || "حملة تسويقية",
+      valueLabel: "أداء الحملة",
+      bigValue: campaign.likes || "2.4K",
+      description:
+        campaign.text ||
+        "وصلنا لأكثر من 200 ألف متابع مستهدف خلال أسبوعين.",
+      bars: SLIDE_BARS[0],
+      stats: [
+        { value: campaign.likes || "2.4K", label: "إعجاب" },
+        { value: campaign.comments || "318", label: "تعليق" },
+        { value: "×3", label: "متوسط التفاعل" },
+      ],
+    },
+    {
+      key: "analytics",
+      icon: TrendingUp,
+      tag: "Analytics",
+      title: analytics.title || "محتوى أسبوعي",
+      valueLabel: "نمو العلامة",
+      bigValue: analytics.growth || "+24%",
+      description:
+        analytics.text || "تفاعل أعلى من المتوسط بثلاث أضعاف.",
+      bars: SLIDE_BARS[1],
+      stats: [
+        { value: analytics.growth || "+24%", label: "نمو" },
+        { value: "3×", label: "متوسط التفاعل" },
+        { value: "52", label: "أسبوع" },
+      ],
+    },
+    {
+      key: "growth",
+      icon: Rocket,
+      tag: "Growth",
+      title: "نمو العلامة",
+      valueLabel: growth.period || "هذا الشهر",
+      bigValue: growth.value || "+150K",
+      description:
+        "نساعد العلامات التجارية على بناء حضور رقمي مؤثر ينمو باستمرار.",
+      bars: SLIDE_BARS[2],
+      stats: [
+        { value: growth.value || "+150K", label: "متابع جديد" },
+        { value: "200K+", label: "مستهدف" },
+        { value: "4.9", label: "تقييم" },
+      ],
+    },
+  ];
+}
+
+/* =========================================================
+   SLIDE CARD — Liquid glass
+========================================================= */
+
+function HeroSlideCard({ slide, active }) {
+  const Icon = slide.icon;
+
   return (
     <motion.div
-      variants={variants.item}
-      className="mb-6 flex items-center justify-center gap-3 text-sm font-bold text-muted lg:justify-start"
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      className="glass-panel glass-panel--tint p-7 pb-16 sm:p-9"
     >
-      <span className="h-[2px] w-10 rounded-full bg-primary-600" />
-      {text}
+      {/* Header */}
+      <div className="relative flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-primary-500 to-primary-700 text-white shadow-lg shadow-primary-600/30">
+            <Icon size={22} strokeWidth={1.8} />
+          </div>
+          <div>
+            <p className="text-sm font-black text-ink">{slide.title}</p>
+            <p className="mt-0.5 text-[11px] text-muted">{slide.valueLabel}</p>
+          </div>
+        </div>
+
+        <span className="rounded-full bg-primary-600/10 px-3 py-1 text-[10px] font-bold text-primary-600 dark:bg-primary-500/15 dark:text-primary-400">
+          {slide.tag}
+        </span>
+      </div>
+
+      {/* Value + bars */}
+      <div className="relative mt-9 flex items-end justify-between gap-6">
+        <div className="min-w-0">
+          <p className="text-6xl font-black tracking-tight text-ink sm:text-7xl">
+            {slide.bigValue}
+          </p>
+          <p className="mt-3 max-w-xs text-sm leading-7 text-muted">
+            {slide.description}
+          </p>
+        </div>
+
+        <div
+          aria-hidden
+          className="hidden h-24 shrink-0 items-end gap-1.5 sm:flex"
+        >
+          {slide.bars.map((height, i) => (
+            <motion.span
+              key={i}
+              animate={
+                active
+                  ? { scaleY: 1, opacity: 1 }
+                  : { scaleY: 0.35, opacity: 0.4 }
+              }
+              transition={{
+                type: "spring",
+                stiffness: 240,
+                damping: 22,
+                delay: i * 0.05,
+              }}
+              style={{ height: `${height}%` }}
+              className="w-2 origin-bottom rounded-full bg-linear-to-t from-primary-700 to-primary-400"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Mini stats */}
+      <div className="relative mt-8 grid grid-cols-3 gap-3">
+        {slide.stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-2xl border border-black/[0.05] bg-white/50 p-3 text-center backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.05]"
+          >
+            <p className="text-sm font-black tracking-tight text-ink sm:text-base">
+              {stat.value}
+            </p>
+            <p className="mt-1 text-[10px] text-muted">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   HERO SLIDER
+   Fades between premium glass slides with autoplay,
+   custom pagination, arrows and native touch gestures.
+========================================================= */
+
+function HeroSlider() {
+  const { settings } = useSettings();
+  const hero = settings.content?.hero || {};
+  const reduceMotion = useReducedMotion();
+
+  const swiperRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const slides = buildSlides(hero);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
+      className="relative"
+    >
+      <Swiper
+        modules={[EffectFade, Autoplay, Pagination]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        speed={reduceMotion ? 0 : 900}
+        loop
+        grabCursor
+        touchReleaseOnEdges
+        autoplay={
+          reduceMotion
+            ? false
+            : {
+                delay: 5200,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }
+        }
+        pagination={{ clickable: true, el: ".hero-slider-pagination" }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          setActiveIndex(swiper.realIndex || 0);
+        }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        dir="rtl"
+        className="hero-slider"
+      >
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.key}>
+            <HeroSlideCard slide={slide} active={slide.key === slides[activeIndex]?.key} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Custom pagination */}
+      <div className="hero-slider-pagination" />
+
+      {/* Arrows */}
+      <button
+        type="button"
+        aria-label="السابق"
+        onClick={() => swiperRef.current?.slidePrev()}
+        className="hero-slider-arrow hero-slider-arrow--prev"
+      >
+        <ChevronRight size={18} />
+      </button>
+
+      <button
+        type="button"
+        aria-label="التالي"
+        onClick={() => swiperRef.current?.slideNext()}
+        className="hero-slider-arrow hero-slider-arrow--next"
+      >
+        <ChevronLeft size={18} />
+      </button>
     </motion.div>
   );
 }
@@ -299,11 +504,11 @@ function HeroStats({ stats, variants }) {
         mt-12
         grid
         grid-cols-3
-        gap-5
+        gap-4
         border-t
         border-black/10
-        dark:border-white/10
         pt-8
+        dark:border-white/10
       "
     >
       {stats.slice(0, 3).map((item) => (
@@ -311,9 +516,7 @@ function HeroStats({ stats, variants }) {
           <p className="text-2xl font-black text-ink sm:text-3xl">
             {item.value}
           </p>
-          <p className="mt-1 text-xs text-muted sm:text-sm">
-            {item.label}
-          </p>
+          <p className="mt-1 text-xs text-muted sm:text-sm">{item.label}</p>
         </div>
       ))}
     </motion.div>
@@ -347,7 +550,15 @@ function HeroContent() {
       animate="visible"
       className="max-w-xl text-center lg:text-start"
     >
-      <Eyebrow text={badge} variants={variants} />
+      <motion.div
+        variants={variants.item}
+        className="mb-6 flex items-center justify-center gap-3 lg:justify-start"
+      >
+        <OutlinedBadge>
+          <span className="h-1.5 w-1.5 rounded-full bg-primary-600" />
+          {badge}
+        </OutlinedBadge>
+      </motion.div>
 
       <motion.h1
         variants={variants.item}
@@ -360,11 +571,9 @@ function HeroContent() {
           sm:text-6xl
         "
       >
-        <span className="text-primary-600">{siteName}</span>{" "}
-        تصنع
+        <span className="text-primary-600">{siteName}</span> تصنع
         <br />
-        علامات
-        <HighlightText>مؤثرة</HighlightText>
+        علامات <HighlightText>مؤثرة</HighlightText>
       </motion.h1>
 
       <motion.p
@@ -384,67 +593,6 @@ function HeroContent() {
 }
 
 /* =========================================================
-   ANALYTICS SHOWCASE CARD (Secondary right column)
-========================================================= */
-
-function AnalyticsShowcase() {
-  const { settings } = useSettings();
-  const hero = settings.content?.hero || {};
-
-  const showcase = {
-    title: hero.showcase?.title || HERO_CONFIG.showcase.title,
-    value: hero.showcase?.value || HERO_CONFIG.showcase.value,
-    description: hero.showcase?.description || HERO_CONFIG.showcase.description,
-  };
-
-  return (
-    <motion.div variants={reveal} className="relative mx-auto w-full max-w-[380px]">
-      <GlassCard className="p-7">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-600 text-white shadow-lg">
-              <TrendingUp size={22} />
-            </div>
-            <div>
-              <p className="text-sm font-black text-ink">{showcase.title}</p>
-              <p className="mt-1 text-[11px] text-muted">أداء العلامة التجارية</p>
-            </div>
-          </div>
-          <span className="rounded-full bg-primary-600/10 px-3 py-1 text-[10px] font-bold text-primary-600">
-            Growth
-          </span>
-        </div>
-
-        <div className="mt-10">
-          <p className="text-6xl font-black tracking-tight text-ink">
-            {showcase.value}
-          </p>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-            {showcase.description}
-          </p>
-        </div>
-
-        <div className="mt-8 grid grid-cols-3 gap-3">
-          {[
-            { value: "+150", label: "عميل" },
-            { value: "+500", label: "حملة" },
-            { value: "4.9", label: "تقييم" },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="rounded-2xl bg-black/[0.04] dark:bg-white/[0.05] p-3 text-center"
-            >
-              <p className="text-sm font-black text-ink">{item.value}</p>
-              <p className="mt-1 text-[10px] text-muted">{item.label}</p>
-            </div>
-          ))}
-        </div>
-      </GlassCard>
-    </motion.div>
-  );
-}
-
-/* =========================================================
    HERO SECTION
 ========================================================= */
 
@@ -452,14 +600,14 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      aria-labelledby="hero-heading"
+      aria-label="Hero section"
       className="
         relative
         isolate
         flex
+        min-h-[calc(100svh-72px)]
         flex-col
         justify-center
-        min-h-[calc(100svh-72px)]
         overflow-hidden
         py-16
         sm:py-20
@@ -468,38 +616,36 @@ export default function HeroSection() {
       {/* Background */}
       <HeroBackground />
 
+      {/* Fog / cloud edges — outside the slider for depth */}
+      <HeroClouds />
+
       <Container className="relative z-10 w-full">
         <div
           className="
             grid
             grid-cols-1
             items-center
-            gap-14
-            lg:grid-cols-[1fr_.9fr]
-            lg:gap-20
+            gap-16
+            lg:grid-cols-[1fr_0.95fr]
+            lg:gap-10
           "
         >
           {/* Content */}
           <HeroContent />
 
-          {/* Desktop Showcase */}
-          <div className="hidden lg:block">
-            <AnalyticsShowcase />
+          {/* Premium slider — bleeds past the container edge */}
+          <div className="hero-slider-frame">
+            <HeroSlider />
           </div>
-        </div>
-
-        {/* Mobile Showcase */}
-        <div className="mt-12 lg:hidden">
-          <AnalyticsShowcase />
         </div>
       </Container>
 
-      {/* Scroll Indicator */}
+      {/* Scroll indicator */}
       <Container className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8, ease: easing }}
+          transition={{ delay: 1, duration: 0.8, ease: EASE }}
           className="mt-12 hidden justify-center sm:flex"
         >
           <ScrollIndicator className="h-14 w-9" />

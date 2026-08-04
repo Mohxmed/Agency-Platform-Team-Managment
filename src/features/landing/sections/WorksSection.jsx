@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import Button from "@/shared/ui/buttons/Buttons";
 import { OutlinedBadge } from "@/shared/ui/badges/OutlinedBadge";
 
@@ -11,13 +9,12 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 
-import SectionTitle from "@/features/landing/layout/SectionTitle";
 import { Container } from "@/features/landing";
 import ProjectCard from "@/shared/ui/cards/ProjectCard";
 import Marquee from "@/features/landing/components/Marquee";
-
 import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
 import StatsBoard from "@/features/landing/components/StatsBoard";
+import SectionHeading from "@/features/landing/components/SectionHeading";
 import { ROUTES } from "@/constants/routes";
 
 import {
@@ -33,41 +30,13 @@ import { useWorks } from "@/features/landing/hooks/useWorks";
 import { HomeWorksSkeleton } from "@/shared/ui/skeletons/Skeletons";
 import { useSettings } from "@/contexts/SettingsContext";
 
+import { viewportOnce } from "@/features/landing/components/sectionMotion";
+
 /* =========================================================
    CONSTANTS
 ========================================================= */
 
 const PROJECTS_LIMIT = 8;
-
-/* =========================================================
-   ANIMATION VARIANTS
-========================================================= */
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 35,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const staggerContainer = {
-  hidden: {},
-
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
 
 /* =========================================================
    WORKS SECTION
@@ -87,328 +56,99 @@ export default function WorksSection() {
 
   const projects = allWorks.slice(0, PROJECTS_LIMIT);
 
- return (
-  <section
-    id="works"
-    className="
-      relative
-      overflow-hidden
-      py-18
-    "
-  >
+  return (
+    <section id="works" className="relative overflow-hidden py-18">
+      {/* =====================================================
+          BACKGROUND ATMOSPHERE
+      ====================================================== */}
 
-    {/* =====================================================
-        BACKGROUND ATMOSPHERE
-    ====================================================== */}
+      <div className="pointer-events-none absolute left-1/2 top-[15%] h-[500px] w-[500px] -translate-x-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.04),transparent_65%)]" />
 
-    <div
-      className="
-        pointer-events-none
-        absolute
-        left-1/2
-        top-[15%]
-        h-[500px]
-        w-[500px]
-        -translate-x-1/2
-        rounded-full
-        [background:radial-gradient(circle_at_center,rgba(217,4,41,0.04),transparent_65%)]
-      "
-    />
+      <div className="pointer-events-none absolute -right-40 top-[35%] h-[350px] w-[350px] rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_65%)]" />
 
-    <div
-      className="
-        pointer-events-none
-        absolute
-        -right-40
-        top-[35%]
-        h-[350px]
-        w-[350px]
-        rounded-full
-        [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_65%)]
-      "
-    />
+      {/* =====================================================
+          HEADER
+      ====================================================== */}
 
+      <Container>
+        <SectionHeading
+          badge={badge}
+          badgeIcon={<GalleryVerticalEnd size={16} />}
+          title={title}
+          redTitle={redTitle}
+        >
+          {description}
+        </SectionHeading>
+      </Container>
 
-
-    {/* =====================================================
-        HEADER
-    ====================================================== */}
-
-    <Container>
+      {/* =====================================================
+          PROJECTS SLIDER — FULL WIDTH
+      ====================================================== */}
 
       <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{
-          once:true,
-          amount:0.3,
-        }}
-        className="
-          mx-auto
-          max-w-3xl
-          text-center
-        "
+        initial={{ opacity: 0, y: 45 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewportOnce(0.15)}
+        transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="mt-8 w-full"
       >
+        <SwiperFadeEdges variant="white">
+          {loading ? (
+            <HomeWorksSkeleton />
+          ) : projects.length > 0 ? (
+            <Marquee slideClassName="h-full px-3 py-8">
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 25, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={viewportOnce(0.15)}
+                  transition={{
+                    duration: 0.7,
+                    delay: Math.min(index * 0.08, 0.4),
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="h-full"
+                >
+                  <ProjectCard project={project} />
+                </motion.div>
+              ))}
+            </Marquee>
+          ) : (
+            <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-600/10 text-primary-600">
+                <GalleryVerticalEnd size={26} />
+              </div>
 
-        <motion.div
-          variants={fadeUp}
-          className="flex justify-center"
-        >
+              <h3 className="mt-5 text-lg font-bold">مفيش أعمال متاحة حاليًا</h3>
 
-          <OutlinedBadge>
-
-            <GalleryVerticalEnd size={16}/>
-
-            {badge}
-
-          </OutlinedBadge>
-
-        </motion.div>
-
-
-
-        <motion.div
-          variants={fadeUp}
-        >
-
-          <SectionTitle
-            title={title}
-            redTitle={redTitle}
-          >
-            {description}
-          </SectionTitle>
-
-        </motion.div>
-
-
-      </motion.div>
-
-
-    </Container>
-
-
-
-
-
-    {/* =====================================================
-        PROJECTS SLIDER — FULL WIDTH
-    ====================================================== */}
-
-
-    <motion.div
-
-      initial={{
-        opacity:0,
-        y:45,
-      }}
-
-      whileInView={{
-        opacity:1,
-        y:0,
-      }}
-
-      viewport={{
-        once:true,
-        amount:0.15,
-      }}
-
-      transition={{
-        duration:1,
-        delay:.15,
-        ease:[0.22,1,0.36,1],
-      }}
-
-      className="
-        mt-8
-        w-full
-      "
-
-    >
-
-      <SwiperFadeEdges variant="white">
-
-
-        {loading ? (
-
-          <HomeWorksSkeleton/>
-
-
-        ) : projects.length > 0 ? (
-
-
-          <Marquee
-            slideClassName="
-              h-full
-              px-3
-              py-8
-            "
-          >
-
-            {projects.map((project,index)=>(
-
-              <motion.div
-
-                key={project.id}
-
-                initial={{
-                  opacity:0,
-                  y:25,
-                  scale:.97,
-                }}
-
-                whileInView={{
-                  opacity:1,
-                  y:0,
-                  scale:1,
-                }}
-
-                viewport={{
-                  once:true,
-                  amount:.15,
-                }}
-
-                transition={{
-                  duration:.7,
-                  delay:Math.min(index*.08,.4),
-                  ease:[0.22,1,0.36,1],
-                }}
-
-                className="h-full"
-
-              >
-
-                <ProjectCard
-                  project={project}
-                />
-
-              </motion.div>
-
-            ))}
-
-
-          </Marquee>
-
-
-
-        ) : (
-
-
-          <div
-            className="
-              flex
-              min-h-[420px]
-              flex-col
-              items-center
-              justify-center
-              text-center
-            "
-          >
-
-            <div
-              className="
-                flex
-                h-16
-                w-16
-                items-center
-                justify-center
-                rounded-2xl
-                bg-primary-600/10
-                text-primary-600
-              "
-            >
-
-              <GalleryVerticalEnd size={26}/>
-
+              <p className="mt-2 text-sm text-black/40 dark:text-white/50">
+                هنضيف أعمال جديدة قريبًا.
+              </p>
             </div>
-
-
-            <h3
-              className="
-                mt-5
-                text-lg
-                font-bold
-              "
-            >
-              مفيش أعمال متاحة حاليًا
-            </h3>
-
-
-            <p
-              className="
-                mt-2
-                text-sm
-                text-black/40
-                dark:text-white/50
-              "
-            >
-              هنضيف أعمال جديدة قريبًا.
-            </p>
-
-
-          </div>
-
-
-        )}
-
-
-      </SwiperFadeEdges>
-
-
-    </motion.div>
-
-
-
-
-
-    {/* =====================================================
-        STATS + CTA
-    ====================================================== */}
-
-
-    <Container>
-
-
-      <motion.div
-
-        initial={{
-          opacity:0,
-          y:40,
-        }}
-
-        whileInView={{
-          opacity:1,
-          y:0,
-        }}
-
-        viewport={{
-          once:true,
-          amount:.2,
-        }}
-
-        transition={{
-          duration:.8,
-          ease:[0.22,1,0.36,1],
-        }}
-
-      >
-
-        <StatsBoard/>
-
-
+          )}
+        </SwiperFadeEdges>
       </motion.div>
 
+      {/* =====================================================
+          STATS + CTA
+      ====================================================== */}
 
+      <Container>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportOnce(0.2)}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <StatsBoard />
+        </motion.div>
 
-      <CallToActionWorks/>
-
-
-    </Container>
-
-
-
-  </section>
-);
+        <CallToActionWorks />
+      </Container>
+    </section>
+  );
+}
 
 /* =========================================================
    CTA
@@ -434,11 +174,7 @@ function CallToActionWorks() {
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
 
-  const springConfig = {
-    stiffness: 120,
-    damping: 16,
-    mass: 0.6,
-  };
+  const springConfig = { stiffness: 120, damping: 16, mass: 0.6 };
 
   const rotateX = useSpring(
     useTransform(my, [0, 1], [5, -5]),
@@ -469,36 +205,16 @@ function CallToActionWorks() {
 
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 60,
-        scale: 0.97,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-      }}
-      viewport={{
-        once: true,
-        amount: 0.2,
-      }}
-      transition={{
-        duration: 1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="
-        relative
-        mt-12
-        [perspective:1200px]
-      "
+      initial={{ opacity: 0, y: 60, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={viewportOnce(0.2)}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      className="relative mt-12 [perspective:1200px]"
     >
       <motion.div
         onMouseMove={reduceMotion ? undefined : handleMouseMove}
         onMouseLeave={reduceMotion ? undefined : handleMouseLeave}
-        whileHover={{
-          scale: 1.01,
-        }}
+        whileHover={{ scale: 1.01 }}
         style={{
           rotateX: reduceMotion ? 0 : rotateX,
           rotateY: reduceMotion ? 0 : rotateY,
@@ -528,260 +244,123 @@ function CallToActionWorks() {
           dark:to-card
         "
       >
+        {/* Ambient glow */}
+        <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]" />
 
-      {/* AMBIENT GLOW (static gradient — no filter) */}
+        <div className="pointer-events-none absolute bottom-0 left-1/2 h-60 w-[70%] -translate-x-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_70%)]" />
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-0
-          h-[420px]
-          w-[420px]
-          -translate-x-1/2
-          rounded-full
-          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
-        "
-      />
+        {/* Noise */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.025] bg-[radial-gradient(circle_at_1px_1px,#000_1px,transparent_0)] bg-[size:18px_18px]" />
 
-      {/* Bottom Glow (static gradient) */}
+        {/* Moving shine */}
+        <div className="anim-shine pointer-events-none absolute inset-y-0 left-0 w-1/4 rotate-12 bg-gradient-to-r from-transparent via-primary-500/[0.06] to-transparent" />
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          bottom-0
-          left-1/2
-          h-60
-          w-[70%]
-          -translate-x-1/2
-          rounded-full
-          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_70%)]
-        "
-      />
-
-      {/* NOISE */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          opacity-[0.025]
-          bg-[radial-gradient(circle_at_1px_1px,#000_1px,transparent_0)]
-          bg-[size:18px_18px]
-        "
-      />
-
-      {/* MOVING SHINE */}
-
-      <div
-        className="anim-shine
-          pointer-events-none
-          absolute
-          inset-y-0
-          left-0
-          w-1/4
-          rotate-12
-          bg-gradient-to-r
-          from-transparent
-          via-primary-500/[0.06]
-          to-transparent
-        "
-      />
-
-      {/* GLARE (cursor tracking) */}
-
-      <motion.div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          z-20
-        "
-        style={{
-          background: reduceMotion ? "none" : glareBackground,
-        }}
-      />
-
-      {/* CONTENT */}
-
-      <div
-        style={{
-          transform: "translateZ(40px)",
-        }}
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-3xl
-        "
-      >
-
+        {/* Cursor glare */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
-        >
+          className="pointer-events-none absolute inset-0 z-20"
+          style={{ background: reduceMotion ? "none" : glareBackground }}
+        />
 
-          <OutlinedBadge
+        {/* Content */}
+        <div
+          style={{ transform: "translateZ(40px)" }}
+          className="relative z-10 mx-auto max-w-3xl"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <OutlinedBadge
+              className="
+                inline-flex
+                rounded-full
+                border
+                border-neutral-200
+                bg-white/80
+                px-4
+                py-1.5
+                text-sm
+                font-medium
+                text-neutral-500
+                dark:border-white/10
+                dark:bg-white/5
+                dark:text-neutral-400
+              "
+            >
+              {ctaBadge}
+            </OutlinedBadge>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="
-              inline-flex
-              rounded-full
-              border
-              border-neutral-200
-              bg-white/80
-              px-4
-              py-1.5
-              text-sm
-              font-medium
+              mt-8
+              text-4xl
+              font-black
+              leading-tight
+              tracking-tight
+              text-neutral-900
+              sm:text-6xl
+              dark:text-white
+            "
+          >
+            {ctaHeading}
+            <br />
+            <span className="text-primary-600">{ctaHeadingHighlight}</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="
+              mx-auto
+              mt-6
+              max-w-2xl
+              text-lg
+              leading-8
               text-neutral-500
-              dark:border-white/10
-              dark:bg-white/5
               dark:text-neutral-400
             "
           >
-              {ctaBadge}
-          </OutlinedBadge>
+            {ctaDescription}
+          </motion.p>
 
-        </motion.div>
-
-        {/* Heading */}
-
-        <motion.h2
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.8,
-            delay: 0.1,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="
-            mt-8
-            text-4xl
-            font-black
-            leading-tight
-            tracking-tight
-            text-neutral-900
-            sm:text-6xl
-            dark:text-white
-          "
-        >
-          {ctaHeading}
-          <br />
-
-          <span className="text-primary-600">
-            {ctaHeadingHighlight}
-          </span>
-
-        </motion.h2>
-
-        {/* Description */}
-
-        <motion.p
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.2,
-          }}
-          className="
-            mx-auto
-            mt-6
-            max-w-2xl
-            text-lg
-            leading-8
-            text-neutral-500
-            dark:text-neutral-400
-          "
-        >
-          {ctaDescription}
-        </motion.p>
-
-        {/* Buttons */}
-
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.3,
-          }}
-          className="
-            mt-10
-            flex
-            flex-col
-            justify-center
-            gap-3
-            md:flex-row
-          "
-        >
-
-          <Button
-            variant="primary"
-            hasEffects={false}
-            className="px-10 py-3"
-            href={ctaPrimaryLink}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="mt-10 flex flex-col justify-center gap-3 md:flex-row"
           >
-            <BriefcaseBusiness />
-            {ctaPrimary}
-          </Button>
+            <Button
+              variant="primary"
+              hasEffects={false}
+              className="px-10 py-3"
+              href={ctaPrimaryLink}
+            >
+              <BriefcaseBusiness />
+              {ctaPrimary}
+            </Button>
 
-          <Button
-            variant="secondary"
-            hasEffects={false}
-            className="px-10 py-3"
-            href={ctaSecondaryLink}
-          >
-            <MessageSquareHeart />
-            {ctaSecondary}
-          </Button>
-
-        </motion.div>
-
-      </div>
-
+            <Button
+              variant="secondary"
+              hasEffects={false}
+              className="px-10 py-3"
+              href={ctaSecondaryLink}
+            >
+              <MessageSquareHeart />
+              {ctaSecondary}
+            </Button>
+          </motion.div>
+        </div>
       </motion.div>
-
     </motion.div>
   );
-}}
+}
