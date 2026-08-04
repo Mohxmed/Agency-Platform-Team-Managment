@@ -96,6 +96,7 @@ export default function WorksSection() {
         py-18
       "
     >
+      <Container>
       {/* =====================================================
           BACKGROUND ATMOSPHERE (static gradients — no filter)
       ====================================================== */}
@@ -299,7 +300,7 @@ export default function WorksSection() {
           </SwiperFadeEdges>
 
         </motion.div>
-
+</div>
         {/* =====================================================
             STATS
         ====================================================== */}
