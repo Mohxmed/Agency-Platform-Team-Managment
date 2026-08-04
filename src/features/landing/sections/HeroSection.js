@@ -266,7 +266,7 @@ function HeroBackground() {
       />
 
 
-      {/* Aurora orb — violet (parallax) */}
+      {/* Aurora orb — ink (black, parallax) */}
 
       <motion.div
 
@@ -276,7 +276,7 @@ function HeroBackground() {
         }}
 
         className="
-          hero-orb-violet
+          hero-orb-ink
           absolute
           -bottom-40
           -end-40
@@ -287,7 +287,7 @@ function HeroBackground() {
       />
 
 
-      {/* Aurora orb — amber (parallax) */}
+      {/* Aurora orb — deep crimson (parallax) */}
 
       <motion.div
 
@@ -297,7 +297,7 @@ function HeroBackground() {
         }}
 
         className="
-          hero-orb-amber
+          hero-orb-deep
           absolute
           top-[40%]
           start-[38%]
@@ -528,18 +528,18 @@ function ShowcaseGlow() {
   return (
     <>
       <div
-        className="absolute -start-16 top-24 h-64 w-64 rounded-full opacity-40"
+        className="absolute -start-16 top-24 h-80 w-80 rounded-full"
         style={{
           background:
-            "radial-gradient(circle,rgba(232,33,37,.22),transparent 70%)",
+            "radial-gradient(circle,rgba(232,33,37,.34) 0%,rgba(232,33,37,.14) 40%,transparent 72%)",
         }}
       />
 
       <div
-        className="absolute -end-10 bottom-16 h-72 w-72 rounded-full opacity-40"
+        className="absolute -end-10 bottom-16 h-96 w-96 rounded-full"
         style={{
           background:
-            "radial-gradient(circle,rgba(99,102,241,.18),transparent 70%)",
+            "radial-gradient(circle,rgba(17,24,39,.26) 0%,rgba(17,24,39,.1) 42%,transparent 74%)",
         }}
       />
     </>

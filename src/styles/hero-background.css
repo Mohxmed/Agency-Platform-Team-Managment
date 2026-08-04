@@ -23,29 +23,64 @@
   );
 }
 
-/* Aurora orbs */
+/* Aurora orbs — brand identity (red + ink) */
 .hero-orb-red {
-  background: radial-gradient(circle, rgba(232, 33, 37, 0.34), transparent 62%);
+  background: radial-gradient(
+    circle at center,
+    rgba(232, 33, 37, 0.55) 0%,
+    rgba(232, 33, 37, 0.3) 30%,
+    rgba(232, 33, 37, 0.12) 52%,
+    transparent 72%
+  );
 }
 
 .dark .hero-orb-red {
-  background: radial-gradient(circle, rgba(232, 33, 37, 0.3), transparent 62%);
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 66, 70, 0.5) 0%,
+    rgba(232, 33, 37, 0.28) 30%,
+    rgba(232, 33, 37, 0.12) 52%,
+    transparent 72%
+  );
 }
 
-.hero-orb-violet {
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.22), transparent 62%);
+/* Ink (black) glow */
+.hero-orb-ink {
+  background: radial-gradient(
+    circle at center,
+    rgba(17, 24, 39, 0.42) 0%,
+    rgba(17, 24, 39, 0.22) 34%,
+    rgba(17, 24, 39, 0.08) 56%,
+    transparent 74%
+  );
 }
 
-.dark .hero-orb-violet {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.28), transparent 62%);
+.dark .hero-orb-ink {
+  background: radial-gradient(
+    circle at center,
+    rgba(232, 33, 37, 0.18) 0%,
+    rgba(232, 33, 37, 0.09) 36%,
+    transparent 72%
+  );
 }
 
-.hero-orb-amber {
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.18), transparent 62%);
+/* Deep crimson accent */
+.hero-orb-deep {
+  background: radial-gradient(
+    circle at center,
+    rgba(178, 23, 26, 0.36) 0%,
+    rgba(178, 23, 26, 0.16) 38%,
+    transparent 72%
+  );
 }
 
-.dark .hero-orb-amber {
-  background: radial-gradient(circle, rgba(251, 146, 60, 0.2), transparent 62%);
+.dark .hero-orb-deep {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 66, 70, 0.32) 0%,
+    rgba(232, 33, 37, 0.14) 36%,
+    transparent 70%
+  );
 }
 
 .hero-orb-sky {
@@ -116,9 +151,19 @@
 
 /* Rocket glow */
 .hero-rocket-glow {
-  background: radial-gradient(circle, rgba(232, 33, 37, 0.28), transparent 65%);
+  background: radial-gradient(
+    circle at center,
+    rgba(232, 33, 37, 0.5) 0%,
+    rgba(232, 33, 37, 0.22) 42%,
+    transparent 72%
+  );
 }
 
 .dark .hero-rocket-glow {
-  background: radial-gradient(circle, rgba(232, 33, 37, 0.34), transparent 65%);
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 66, 70, 0.5) 0%,
+    rgba(232, 33, 37, 0.26) 42%,
+    transparent 72%
+  );
 }

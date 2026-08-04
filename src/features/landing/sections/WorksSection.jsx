@@ -169,9 +169,13 @@ export default function WorksSection() {
 
         </motion.div>
 
+      </Container>
+
         {/* =====================================================
-            PROJECTS SLIDER
+            PROJECTS SLIDER — full width (edge to edge)
         ====================================================== */}
+
+        <div className="w-full">
 
         <motion.div
           initial={{

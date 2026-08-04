@@ -2,37 +2,21 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
   const variants = {
     red: {
       left: `
-        bg-gradient-to-r
-        from-primary-700
-        via-primary-800/90
-        to-primary-900/50
+        [background:linear-gradient(to_left,rgba(137,17,18,0.98)_0%,rgba(178,23,26,0.6)_35%,rgba(232,33,37,0.12)_65%,rgba(232,33,37,0)_100%)]
       `,
       right: `
-        bg-gradient-to-l
-        from-primary-700
-        via-primary-800/90
-        to-primary-900/50
+        [background:linear-gradient(to_right,rgba(137,17,18,0.98)_0%,rgba(178,23,26,0.6)_35%,rgba(232,33,37,0.12)_65%,rgba(232,33,37,0)_100%)]
       `,
     },
 
     white: {
       left: `
-        bg-gradient-to-r
-        from-white
-        via-white/80
-        to-white/0
-        dark:from-card
-        dark:via-card/80
-        dark:to-card/0
+        [background:linear-gradient(to_left,#ffffff_0%,rgba(255,255,255,0.94)_35%,rgba(255,255,255,0.35)_65%,rgba(255,255,255,0)_100%)]
+        dark:[background:linear-gradient(to_left,#0a0a0f_0%,rgba(10,10,15,0.94)_35%,rgba(10,10,15,0.35)_65%,rgba(10,10,15,0)_100%)]
       `,
       right: `
-        bg-gradient-to-l
-        from-white
-        via-white/80
-        to-white/0
-        dark:from-card
-        dark:via-card/80
-        dark:to-card/0
+        [background:linear-gradient(to_right,#ffffff_0%,rgba(255,255,255,0.94)_35%,rgba(255,255,255,0.35)_65%,rgba(255,255,255,0)_100%)]
+        dark:[background:linear-gradient(to_right,#0a0a0f_0%,rgba(10,10,15,0.94)_35%,rgba(10,10,15,0.35)_65%,rgba(10,10,15,0)_100%)]
       `,
     },
   };
@@ -43,35 +27,37 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
     <div className="relative isolate">
       {children}
 
-      {/* Left Fade */}
+      {/* Left cloud fade — soft rounded mask keeps it cloud-like */}
       <div
         className={`
           pointer-events-none
           absolute
-          -left-16
-          top-0
+          inset-y-0
+          start-0
           z-20
-          h-full
-          w-16
-          sm:w-32
-          lg:w-56
+          w-32
+          sm:w-64
+          lg:w-[24rem]
           ${colors.left}
+          [mask-image:radial-gradient(ellipse_75%_90%_at_center,black_25%,transparent_80%)]
+          [mask-composite:intersect]
         `}
       />
 
-      {/* Right Fade */}
+      {/* Right cloud fade */}
       <div
         className={`
           pointer-events-none
           absolute
-          -right-16
-          top-0
+          inset-y-0
+          end-0
           z-20
-          h-full
-          w-16
-          sm:w-32
-          lg:w-56
+          w-32
+          sm:w-64
+          lg:w-[24rem]
           ${colors.right}
+          [mask-image:radial-gradient(ellipse_75%_90%_at_center,black_25%,transparent_80%)]
+          [mask-composite:intersect]
         `}
       />
     </div>
