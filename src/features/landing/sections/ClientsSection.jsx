@@ -7,8 +7,7 @@ import { useClients } from "@/features/landing/hooks/useClients";
 import Button from "@/shared/ui/buttons/Buttons";
 import ClientCard from "@/shared/ui/cards/ClientCard";
 
-import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
-import Marquee from "@/features/landing/components/Marquee";
+import InfiniteSlider from "@/features/landing/components/InfiniteSlider";
 import SectionHeading from "@/features/landing/components/SectionHeading";
 
 import { Container } from "@/features/landing";
@@ -106,22 +105,11 @@ export default function ClientsSection() {
             )}
 
             {!loading && !error && clients.length > 0 && (
-              <SwiperFadeEdges>
-                <Marquee slideClassName="h-full px-4 py-8">
-                  {clients.map((client) => (
-                    <motion.div
-                      key={client.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={viewportOnce(0.1)}
-                      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                      className="h-full"
-                    >
-                      <ClientCard teacher={client} />
-                    </motion.div>
-                  ))}
-                </Marquee>
-              </SwiperFadeEdges>
+              <InfiniteSlider variant="red" autoplay autoplayDelay={4500}>
+                {clients.map((client) => (
+                  <ClientCard key={client.id} teacher={client} />
+                ))}
+              </InfiniteSlider>
             )}
           </motion.div>
         </div>

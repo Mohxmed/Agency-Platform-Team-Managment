@@ -232,6 +232,172 @@
 }
 
 /* =========================================================
+   INFINITE SLIDER (clients / works)
+   Real Swiper loop with transparent edge masks + cloud glows.
+========================================================= */
+
+.infinite-slider {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Masked viewport — transparent edges blend into the section
+   background ("same color as the background"), no hardcoded colors. */
+.infinite-slider__viewport {
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .infinite-slider__viewport {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 18%,
+      black 82%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 18%,
+      black 82%,
+      transparent 100%
+    );
+  }
+}
+
+.infinite-slider__viewport .swiper {
+  overflow: hidden;
+  padding-block: 1.25rem;
+}
+
+/* Premium easing — overrides the global linear rule */
+.infinite-slider__viewport .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  align-items: stretch;
+}
+
+/* Equal-height slides */
+.infinite-slider__slide {
+  display: flex;
+  height: auto;
+}
+
+.infinite-slider__slide > * {
+  width: 100%;
+}
+
+/* Cloud glows beside each edge */
+.infinite-slider-cloud {
+  position: absolute;
+  top: 50%;
+  width: clamp(180px, 22vw, 340px);
+  height: clamp(240px, 30vw, 420px);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 20;
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .infinite-slider-cloud {
+    display: block;
+  }
+}
+
+.infinite-slider-cloud--start {
+  inset-inline-start: -clamp(2rem, 5vw, 5rem);
+}
+
+.infinite-slider-cloud--end {
+  inset-inline-end: -clamp(2rem, 5vw, 5rem);
+}
+
+/* Light variant — theme-aware (works section) */
+.infinite-slider--light .infinite-slider-cloud {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.85),
+      rgba(255, 255, 255, 0.3) 45%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse at 40% 60%,
+      color-mix(in srgb, var(--color-primary) 9%, transparent),
+      transparent 70%
+    );
+  opacity: 0.9;
+}
+
+.dark .infinite-slider--light .infinite-slider-cloud {
+  opacity: 0.5;
+}
+
+/* Red variant — clients band */
+.infinite-slider--red .infinite-slider-cloud {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.16) 45%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse at 40% 60%,
+      color-mix(in srgb, var(--color-primary) 26%, transparent),
+      transparent 70%
+    );
+  opacity: 0.8;
+}
+
+/* Arrows */
+.infinite-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: none;
+  height: 3rem;
+  width: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+  background: color-mix(in srgb, var(--color-card) 70%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .infinite-slider-arrow {
+    display: flex;
+  }
+}
+
+.infinite-slider-arrow:hover {
+  transform: translateY(-50%) scale(1.05);
+  border-color: var(--color-primary-600);
+  background: var(--color-primary-600);
+  color: #fff;
+}
+
+.infinite-slider-arrow--prev {
+  inset-inline-start: clamp(0.5rem, 3vw, 2.5rem);
+}
+
+.infinite-slider-arrow--next {
+  inset-inline-end: clamp(0.5rem, 3vw, 2.5rem);
+}
+
+/* =========================================================
    ACCESSIBILITY
 ========================================================= */
 

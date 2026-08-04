@@ -11,8 +11,7 @@ import {
 
 import { Container } from "@/features/landing";
 import ProjectCard from "@/shared/ui/cards/ProjectCard";
-import Marquee from "@/features/landing/components/Marquee";
-import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
+import InfiniteSlider from "@/features/landing/components/InfiniteSlider";
 import StatsBoard from "@/features/landing/components/StatsBoard";
 import SectionHeading from "@/features/landing/components/SectionHeading";
 import { ROUTES } from "@/constants/routes";
@@ -92,42 +91,27 @@ export default function WorksSection() {
         transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         className="mt-8 w-full"
       >
-        <SwiperFadeEdges variant="white">
-          {loading ? (
-            <HomeWorksSkeleton />
-          ) : projects.length > 0 ? (
-            <Marquee slideClassName="h-full px-3 py-8">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 25, scale: 0.97 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={viewportOnce(0.15)}
-                  transition={{
-                    duration: 0.7,
-                    delay: Math.min(index * 0.08, 0.4),
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="h-full"
-                >
-                  <ProjectCard project={project} />
-                </motion.div>
-              ))}
-            </Marquee>
-          ) : (
-            <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-600/10 text-primary-600">
-                <GalleryVerticalEnd size={26} />
-              </div>
-
-              <h3 className="mt-5 text-lg font-bold">مفيش أعمال متاحة حاليًا</h3>
-
-              <p className="mt-2 text-sm text-black/40 dark:text-white/50">
-                هنضيف أعمال جديدة قريبًا.
-              </p>
+        {loading ? (
+          <HomeWorksSkeleton />
+        ) : projects.length > 0 ? (
+          <InfiniteSlider variant="light" autoplay={false}>
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </InfiniteSlider>
+        ) : (
+          <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-600/10 text-primary-600">
+              <GalleryVerticalEnd size={26} />
             </div>
-          )}
-        </SwiperFadeEdges>
+
+            <h3 className="mt-5 text-lg font-bold">مفيش أعمال متاحة حاليًا</h3>
+
+            <p className="mt-2 text-sm text-black/40 dark:text-white/50">
+              هنضيف أعمال جديدة قريبًا.
+            </p>
+          </div>
+        )}
       </motion.div>
 
       {/* =====================================================
