@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useSettings } from "@/contexts/SettingsContext";
 
 function setMeta(attr, key, content) {
@@ -26,18 +27,30 @@ function setCanonical(href) {
 }
 
 export default function SeoInjector() {
+  const pathname = usePathname();
   const { settings, loading } = useSettings();
 
   useEffect(() => {
     if (loading) return;
 
     const seo = settings.seo || {};
+    const isHome = pathname === "/" || pathname === "";
+
+    // Google site verification is harmless on every page (it only confirms ownership).
+    if (seo.googleVerification) {
+      setMeta("name", "google-site-verification", seo.googleVerification);
+    }
+
+    // Only the homepage overrides server-rendered metadata with admin settings.
+    // Nested pages (services, portfolio, clients, ...) keep their own
+    // server-generated titles/canonical to avoid conflicts.
+    if (!isHome) return;
+
     const siteName = settings.siteName || "نقطة";
-    const description =
-      seo.description || settings.description || "";
+    const description = seo.description || settings.description || "";
     const title = seo.title || `${siteName} | ${settings.tagline || ""}`.trim();
 
-    document.title = title;
+    if (seo.title) document.title = title;
     setMeta("name", "description", description);
     setMeta("name", "keywords", seo.keywords);
     setMeta("name", "robots", seo.robots);
@@ -53,8 +66,7 @@ export default function SeoInjector() {
     if (seo.ogImage) setMeta("name", "twitter:image", seo.ogImage);
 
     if (seo.canonicalUrl) setCanonical(seo.canonicalUrl);
-    if (seo.googleVerification) setMeta("name", "google-site-verification", seo.googleVerification);
-  }, [settings, loading]);
+  }, [settings, loading, pathname]);
 
   return null;
 }

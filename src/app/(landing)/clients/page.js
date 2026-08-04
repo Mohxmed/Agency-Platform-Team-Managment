@@ -199,7 +199,11 @@ export default function ClientsPage() {
         "
       />
 
-      <motion.div
+      <div
+        style={{
+          animation:
+            "pf-float 8s ease-in-out infinite, pf-fade-soft 8s ease-in-out infinite",
+        }}
         className="
           pointer-events-none
           absolute
@@ -211,15 +215,6 @@ export default function ClientsPage() {
           bg-primary-500/[0.025]
           blur-[120px]
         "
-        animate={{
-          y: [0, -25, 0],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
       />
 
       <Container>
@@ -246,7 +241,8 @@ export default function ClientsPage() {
         >
           {/* Golden Glow */}
 
-          <motion.div
+          <div
+            style={{ animation: "pf-pulse 5s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -260,15 +256,6 @@ export default function ClientsPage() {
               bg-amber-400/10
               blur-3xl
             "
-            animate={{
-              scale: [1, 1.15, 1],
-              opacity: [0.45, 0.7, 0.45],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
           />
 
           {/* Small Label */}
@@ -337,7 +324,7 @@ export default function ClientsPage() {
                 damping: 15,
               }}
             >
-              <motion.span
+              <span
                 className="
                   absolute
                   inset-0
@@ -345,26 +332,11 @@ export default function ClientsPage() {
                   bg-amber-400/20
                   blur-md
                 "
-                animate={{
-                  scale: [0.8, 1.15, 0.8],
-                  opacity: [0.3, 0.7, 0.3],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                style={{ animation: "pf-pulse 3s ease-in-out infinite" }}
               />
 
-              <motion.div
-                animate={{
-                  rotate: [0, 8, -8, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
+                style={{ animation: "pf-wobble 4s ease-in-out infinite" }}
               >
                 <Star
                   size={17}
@@ -372,7 +344,7 @@ export default function ClientsPage() {
                   strokeWidth={1.5}
                   className="relative"
                 />
-              </motion.div>
+              </div>
             </motion.div>
 
             <motion.span

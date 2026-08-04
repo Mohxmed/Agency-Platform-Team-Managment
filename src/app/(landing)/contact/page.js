@@ -143,7 +143,8 @@ export default function ContactSection() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Primary glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-pulse 9s ease-in-out infinite" }}
           className="
             absolute
             -right-52
@@ -154,20 +155,12 @@ export default function ContactSection() {
             bg-primary-600/[0.07]
             blur-[150px]
           "
-          animate={{
-            scale: [1, 1.08, 1],
-            opacity: [0.55, 0.8, 0.55],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Secondary glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-drift 11s ease-in-out infinite" }}
           className="
             absolute
             -bottom-60
@@ -178,15 +171,6 @@ export default function ContactSection() {
             bg-primary-500/[0.05]
             blur-[150px]
           "
-          animate={{
-            x: [0, 25, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Small center glow */}
@@ -290,19 +274,11 @@ export default function ContactSection() {
               dark:text-primary-400
             "
           >
-            <motion.span
-              animate={{
-                rotate: [0, 8, -8, 0],
-                scale: [1, 1.08, 1],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+            <span
+              style={{ animation: "pf-wobble 3s ease-in-out infinite" }}
             >
               <Sparkles size={14} />
-            </motion.span>
+            </span>
             خلينا نبدأ حاجة جديدة
           </motion.div>
 
@@ -380,7 +356,8 @@ export default function ContactSection() {
           >
             {/* Background glow */}
 
-            <motion.div
+            <div
+              style={{ animation: "pf-pulse 7s ease-in-out infinite" }}
               className="
                 pointer-events-none
                 absolute
@@ -392,15 +369,6 @@ export default function ContactSection() {
                 bg-primary-600/15
                 blur-[100px]
               "
-              animate={{
-                scale: [1, 1.15, 1],
-                opacity: [0.5, 0.75, 0.5],
-              }}
-              transition={{
-                duration: 7,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
             />
 
             <div

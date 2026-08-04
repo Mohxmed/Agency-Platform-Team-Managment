@@ -112,7 +112,8 @@ export default function ServicesPage() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Top glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-pulse 9s ease-in-out infinite" }}
           className="
             absolute
             -top-72
@@ -124,20 +125,12 @@ export default function ServicesPage() {
             bg-primary-500/[0.065]
             blur-[170px]
           "
-          animate={{
-            scale: [1, 1.08, 1],
-            opacity: [0.45, 0.7, 0.45],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Right glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-drift-rev 12s ease-in-out infinite" }}
           className="
             absolute
             -right-72
@@ -148,20 +141,12 @@ export default function ServicesPage() {
             bg-primary-600/[0.035]
             blur-[160px]
           "
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 25, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Left glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-drift 14s ease-in-out infinite" }}
           className="
             absolute
             -left-72
@@ -172,15 +157,6 @@ export default function ServicesPage() {
             bg-primary-400/[0.035]
             blur-[160px]
           "
-          animate={{
-            x: [0, 35, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 14,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Grid */}
@@ -239,7 +215,8 @@ export default function ServicesPage() {
         >
           {/* Hero ambient */}
 
-          <motion.div
+          <div
+            style={{ animation: "pf-pulse 7s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -251,18 +228,10 @@ export default function ServicesPage() {
               bg-primary-500/20
               blur-[110px]
             "
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.35, 0.65, 0.35],
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
           />
 
-          <motion.div
+          <div
+            style={{ animation: "pf-drift 10s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -274,20 +243,12 @@ export default function ServicesPage() {
               bg-primary-700/10
               blur-[110px]
             "
-            animate={{
-              x: [0, 80, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
           />
 
           {/* Giant number */}
 
-          <motion.div
+          <div
+            style={{ animation: "pf-fade-soft 8s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -301,18 +262,9 @@ export default function ServicesPage() {
               text-white/[0.025]
               sm:text-[250px]
             "
-            animate={{
-              x: [0, 15, 0],
-              opacity: [0.3, 0.7, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
           >
             {String(services.length).padStart(2, "0")}
-          </motion.div>
+          </div>
 
           {/* Hero content */}
 
@@ -347,18 +299,11 @@ export default function ServicesPage() {
                 backdrop-blur-xl
               "
             >
-              <motion.span
-                animate={{
-                  rotate: [0, 12, -12, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <span
+                style={{ animation: "pf-wobble 3s ease-in-out infinite" }}
               >
                 <Sparkles size={14} />
-              </motion.span>
+              </span>
               حلول مصممة لعلامتك التجارية
             </motion.div>
 
@@ -377,26 +322,15 @@ export default function ServicesPage() {
               "
             >
               مش مجرد خدمات،
-              <motion.span
+              <span
                 className="
                   block
                   text-primary-400
                 "
-                animate={{
-                  textShadow: [
-                    "0 0 0px rgba(250,204,21,0)",
-                    "0 0 35px rgba(250,204,21,0.2)",
-                    "0 0 0px rgba(250,204,21,0)",
-                  ],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                style={{ animation: "pf-fade-soft 4s ease-in-out infinite" }}
               >
                 بنبني حضورك.
-              </motion.span>
+              </span>
             </motion.h1>
 
             {/* Description */}
@@ -441,7 +375,8 @@ export default function ServicesPage() {
 
           {/* Bottom line */}
 
-          <motion.div
+          <div
+            style={{ animation: "pf-line-sweep 5s ease-in-out infinite" }}
             className="
               absolute
               bottom-0
@@ -454,15 +389,6 @@ export default function ServicesPage() {
               via-primary-500/50
               to-transparent
             "
-            animate={{
-              opacity: [0.3, 0.8, 0.3],
-              scaleX: [0.8, 1, 0.8],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
           />
         </motion.section>
 
@@ -729,7 +655,8 @@ export default function ServicesPage() {
           >
             {/* Glow */}
 
-            <motion.div
+            <div
+              style={{ animation: "pf-pulse 6s ease-in-out infinite" }}
               className="
                 pointer-events-none
                 absolute
@@ -741,15 +668,6 @@ export default function ServicesPage() {
                 bg-white/10
                 blur-[90px]
               "
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.4, 0.7, 0.4],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
             />
 
             <div
@@ -858,19 +776,12 @@ function MiniStat({ value, label }) {
         backdrop-blur-xl
       "
     >
-      <motion.span
+      <span
         className="text-lg font-black text-primary-300"
-        animate={{
-          opacity: [0.7, 1, 0.7],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        style={{ animation: "pf-soft-pulse 3s ease-in-out infinite" }}
       >
         {value}
-      </motion.span>
+      </span>
 
       <span className="mt-0.5 text-[10px] text-white/35">{label}</span>
     </motion.div>
@@ -946,7 +857,7 @@ function ProcessStep({ number, title, description }) {
 
 function FloatingDot({ className, delay = 0 }) {
   return (
-    <motion.span
+    <span
       className={`
         absolute
         h-1
@@ -955,17 +866,9 @@ function FloatingDot({ className, delay = 0 }) {
         bg-primary-500/30
         ${className}
       `}
-      animate={{
-        y: [0, -20, 0],
-        x: [0, 8, 0],
-        opacity: [0.2, 0.7, 0.2],
-        scale: [0.8, 1.3, 0.8],
-      }}
-      transition={{
-        duration: 4 + delay,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
+      style={{
+        animation: "pf-rise 4.5s ease-in-out infinite",
+        animationDelay: `${delay}s`,
       }}
     />
   );

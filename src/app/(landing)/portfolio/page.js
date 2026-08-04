@@ -304,18 +304,8 @@ export default function PortfolioPage() {
         >
           {/* Glow */}
 
-          <motion.div
-            animate={{
-              x: [0, 35, 0],
-              y: [0, -20, 0],
-              scale: [1, 1.12, 1],
-              opacity: [0.35, 0.6, 0.35],
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+          <div
+            style={{ animation: "pf-glow 7s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -329,17 +319,8 @@ export default function PortfolioPage() {
             "
           />
 
-          <motion.div
-            animate={{
-              x: [0, -30, 0],
-              y: [0, 20, 0],
-              scale: [1, 1.15, 1],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+          <div
+            style={{ animation: "pf-glow-rev 8s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -355,16 +336,8 @@ export default function PortfolioPage() {
 
           {/* Giant Plus */}
 
-          <motion.div
-            animate={{
-              rotate: [0, 8, -8, 0],
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+          <div
+            style={{ animation: "pf-wobble 8s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -379,7 +352,7 @@ export default function PortfolioPage() {
             "
           >
             +
-          </motion.div>
+          </div>
 
           <HeroParticle className="left-[38%] top-[20%]" delay={0} />
 
@@ -410,17 +383,11 @@ export default function PortfolioPage() {
                     backdrop-blur-sm
                   "
                 >
-                  <motion.span
-                    animate={{
-                      rotate: [0, 12, -12, 0],
-                    }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Infinity,
-                    }}
+                  <span
+                    style={{ animation: "pf-wobble 2.5s ease-in-out infinite" }}
                   >
                     <Sparkles size={13} />
-                  </motion.span>
+                  </span>
 
                   <span>أعمالنا ومشاريعنا</span>
                 </motion.div>
@@ -1049,15 +1016,10 @@ export default function PortfolioPage() {
                     dark:bg-card
                   "
                 >
-                  <motion.div
-                    animate={{
-                      y: [0, -8, 0],
-                      rotate: [0, -3, 3, 0],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
+                  <div
+                    style={{
+                      animation:
+                        "pf-float 4s ease-in-out infinite, pf-wobble 4s ease-in-out infinite",
                     }}
                     className="
                       mb-5
@@ -1072,7 +1034,7 @@ export default function PortfolioPage() {
                     "
                   >
                     <Search size={26} />
-                  </motion.div>
+                  </div>
 
                   <h3 className="text-lg font-bold text-black dark:text-white">
                     مفيش مشاريع مطابقة
@@ -1214,17 +1176,9 @@ function AnimatedStat({ value, label }) {
         backdrop-blur-sm
       "
     >
-      <motion.div
-        animate={{
-          x: ["-120%", "120%"],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          repeatDelay: 4,
-          ease: "easeInOut",
-        }}
+      <div
         className="
+          anim-shine
           pointer-events-none
           absolute
           inset-y-0
@@ -1254,7 +1208,7 @@ function AnimatedStat({ value, label }) {
 
 function HeroParticle({ className, delay = 0 }) {
   return (
-    <motion.span
+    <span
       className={`
         pointer-events-none
         absolute
@@ -1264,17 +1218,9 @@ function HeroParticle({ className, delay = 0 }) {
         bg-white/50
         ${className}
       `}
-      animate={{
-        y: [0, -15, 0],
-        x: [0, 8, 0],
-        opacity: [0.15, 0.8, 0.15],
-        scale: [0.7, 1.4, 0.7],
-      }}
-      transition={{
-        duration: 3.5 + delay,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
+      style={{
+        animation: "pf-rise 4.5s ease-in-out infinite",
+        animationDelay: `${delay}s`,
       }}
     />
   );

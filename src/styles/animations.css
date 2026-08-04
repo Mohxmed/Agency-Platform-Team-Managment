@@ -185,6 +185,17 @@
   }
 }
 
+@keyframes pf-soft-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
 @keyframes pf-particle {
   0%,
   100% {

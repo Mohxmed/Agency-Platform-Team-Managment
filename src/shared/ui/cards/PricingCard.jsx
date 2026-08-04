@@ -30,10 +30,9 @@ export default function PricingCard({ plan }) {
     >
       {plan.popular && (
         <>
-          <motion.div
+          <div
             className="pointer-events-none absolute -right-28 -top-28 h-72 w-72 rounded-full bg-primary-600/20 blur-[90px]"
-            animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.7, 0.45] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ animation: "pf-pulse 5s ease-in-out infinite" }}
           />
           <div className="absolute left-6 top-5 rounded-full bg-primary-600 px-3 py-1.5 text-[10px] font-bold text-white shadow-lg shadow-primary-600/20">
             الأكثر طلبًا

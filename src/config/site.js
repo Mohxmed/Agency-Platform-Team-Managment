@@ -1,5 +1,24 @@
 // Site-wide configuration and metadata placeholders.
-// Fill these in with real values before launch.
+// Set NEXT_PUBLIC_SITE_URL (or a Vercel env) before launch to use absolute URLs.
+
+function resolveSiteUrl() {
+  if (typeof window !== "undefined") {
+    return window.location.origin;
+  }
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) {
+    return explicit.replace(/\/+$/, "");
+  }
+  const vercelProduction = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercelProduction) {
+    return `https://${vercelProduction}`;
+  }
+  const vercelUrl = process.env.VERCEL_URL;
+  if (vercelUrl) {
+    return `https://${vercelUrl}`;
+  }
+  return "http://localhost:3000";
+}
 
 export const siteConfig = {
   siteName: "نقطة",
@@ -17,8 +36,7 @@ export const siteConfig = {
     "مصر",
   ],
   author: "نقطة",
-  // ضع رابط الموقع الحقيقي هنا قبل الإطلاق
-  url: "",
+  url: resolveSiteUrl(),
   locale: "ar_EG",
   ogImage: "/icons/icon-512.png",
   twitterHandle: "@no2ta",

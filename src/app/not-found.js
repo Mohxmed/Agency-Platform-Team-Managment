@@ -24,15 +24,8 @@ export default function NotFound() {
         "
       >
         {/* Animated Background */}
-        <motion.div
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-          }}
+        <div
+          style={{ animation: "pf-pulse 6s ease-in-out infinite" }}
           className="
           absolute
           top-[-120px]
@@ -46,14 +39,8 @@ export default function NotFound() {
           "
         />
 
-        <motion.div
-          animate={{
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-          }}
+        <div
+          style={{ animation: "pf-float 8s ease-in-out infinite" }}
           className="
           absolute
           right-[-100px]
@@ -230,14 +217,9 @@ export default function NotFound() {
           </motion.div>
 
           {/* Floating Logo */}
-          <motion.div
-            animate={{
-              y: [0, -10, 0],
-              rotate: [0, 3, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
+          <div
+            style={{
+              animation: "pf-float 5s ease-in-out infinite, pf-wobble 5s ease-in-out infinite",
             }}
             className="
             mt-14
@@ -247,7 +229,7 @@ export default function NotFound() {
             "
           >
             <Image src={no2taIcon} width={80} alt="No2ta Logo" />
-          </motion.div>
+          </div>
         </div>
       </main>
     </>

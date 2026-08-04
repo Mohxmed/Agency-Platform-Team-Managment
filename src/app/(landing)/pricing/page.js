@@ -118,7 +118,8 @@ export default function PricingPage() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Main Glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-pulse 9s ease-in-out infinite" }}
           className="
             absolute
             -right-40
@@ -129,20 +130,12 @@ export default function PricingPage() {
             bg-primary-600/[0.07]
             blur-[140px]
           "
-          animate={{
-            scale: [1, 1.08, 1],
-            opacity: [0.55, 0.8, 0.55],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Bottom Glow */}
 
-        <motion.div
+        <div
+          style={{ animation: "pf-drift 11s ease-in-out infinite" }}
           className="
             absolute
             -bottom-60
@@ -153,15 +146,6 @@ export default function PricingPage() {
             bg-primary-900/[0.055]
             blur-[140px]
           "
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Center Glow */}
