@@ -40,7 +40,7 @@ export default function ShowcaseRocket({ config = {} }) {
       className="showcase-rocket absolute z-30"
       style={{
         top: "70%",
-        left: "6%",
+        right: "6%",
         width: size,
         height: size,
         opacity,

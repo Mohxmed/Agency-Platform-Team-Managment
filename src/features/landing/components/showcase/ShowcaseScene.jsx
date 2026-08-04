@@ -43,8 +43,6 @@ export default function ShowcaseScene() {
   }, [mouseX, mouseY, reduceMotion]);
 
   /* Scene glow drifts with the mouse (more than the cards) */
-  const glowX = useTransform(x, (v) => v * 22);
-  const glowY = useTransform(y, (v) => v * 16);
 
   const parallax = { x, y };
   const showCampaign = campaign.visible !== false;
@@ -55,13 +53,7 @@ export default function ShowcaseScene() {
     <>
       {/* Desktop floating scene */}
       <div className="showcase relative hidden min-h-[440px] w-full lg:block">
-        {/* Brand halo behind the cards */}
-        <motion.div
-          aria-hidden
-          style={{ x: glowX, y: glowY }}
-          className="showcase-glow absolute"
-        />
-
+        {/* Brand halo behind the cards */}      
         {/* Rocket — orbits behind the cards */}
         <ShowcaseRocket config={rocket} parallax={parallax} />
 
