@@ -30,7 +30,8 @@ import {
 } from "lucide-react";
 import Button from "@/features/dashboard/ui/Button";
 import Input, { Textarea } from "@/features/dashboard/ui/Input";
-import { SettingsCard } from "@/features/dashboard/ui/SettingsCard";
+import { SettingsCard, ToggleRow } from "@/features/dashboard/ui/SettingsCard";
+import ImageUploadField from "@/features/dashboard/components/ImageUploadField";
 import { useSettingsDashboard } from "@/hooks/useSettingsDashboard";
 import { DEFAULT_CONTENT } from "@/contexts/SettingsContext";
 
@@ -135,6 +136,8 @@ const groups = [
           { path: "content.hero.campaign.text", label: "نص البطاقة", type: "textarea" },
           { path: "content.hero.campaign.likes", label: "عدد الإعجابات", type: "text" },
           { path: "content.hero.campaign.comments", label: "عدد التعليقات", type: "text" },
+          { path: "content.hero.campaign.logo", label: "شعار الشركة", type: "image" },
+          { path: "content.hero.campaign.visible", label: "إظهار البطاقة", type: "toggle" },
         ],
       },
       {
@@ -143,6 +146,10 @@ const groups = [
           { path: "content.hero.analytics.title", label: "عنوان البطاقة", type: "text" },
           { path: "content.hero.analytics.growth", label: "نسبة النمو", type: "text" },
           { path: "content.hero.analytics.text", label: "نص البطاقة", type: "text" },
+          { path: "content.hero.analytics.ring", label: "قيمة Progress Ring (0-100)", type: "number" },
+          { path: "content.hero.analytics.chart", label: "قيم الرسم البياني (افصل بفاصلة)", type: "chart" },
+          { path: "content.hero.analytics.live", label: "شارة LIVE", type: "toggle" },
+          { path: "content.hero.analytics.visible", label: "إظهار البطاقة", type: "toggle" },
         ],
       },
       {
@@ -151,6 +158,19 @@ const groups = [
           { path: "content.hero.growth.value", label: "القيمة", type: "text" },
           { path: "content.hero.growth.label", label: "وصف القيمة", type: "text" },
           { path: "content.hero.growth.period", label: "الفترة", type: "text" },
+          { path: "content.hero.growth.color", label: "لون البطاقة (Hex)", type: "color" },
+          { path: "content.hero.growth.visible", label: "إظهار البطاقة", type: "toggle" },
+        ],
+      },
+      {
+        title: "الصاروخ",
+        fields: [
+          { path: "content.hero.rocket.visible", label: "إظهار الصاروخ", type: "toggle" },
+          { path: "content.hero.rocket.image", label: "صورة الصاروخ", type: "image" },
+          { path: "content.hero.rocket.speed", label: "السرعة (ثانية لكل دورة 18-25)", type: "number" },
+          { path: "content.hero.rocket.size", label: "الحجم (بكسل 120-260)", type: "number" },
+          { path: "content.hero.rocket.opacity", label: "الشفافية (0-1)", type: "number" },
+          { path: "content.hero.rocket.glow", label: "قوة التوهج (0-1)", type: "number" },
         ],
       },
     ],
@@ -341,14 +361,57 @@ function IconPicker({ label, value, onChange }) {
   );
 }
 
+function parseChartInput(value) {
+  return String(value)
+    .split(",")
+    .map((n) => Number(n.trim()))
+    .filter((n) => !Number.isNaN(n));
+}
+
 function FieldGroup({ group, settings, updatePath }) {
   const [open, setOpen] = useState(!!group.defaultOpen);
   const Icon = group.icon;
 
   const renderControl = (field) => {
     const value = getPath(settings, field.path);
-    const placeholder = getPath(DEFAULT_CONTENT, field.path) || "";
+    let placeholder = getPath(DEFAULT_CONTENT, field.path);
+    if (Array.isArray(placeholder)) placeholder = placeholder.join(", ");
+    placeholder = placeholder || "";
     const change = (next) => updatePath(field.path, next);
+
+    if (field.type === "toggle") {
+      return (
+        <ToggleRow
+          title={field.label}
+          checked={value !== false}
+          onChange={(next) => change(next)}
+        />
+      );
+    }
+
+    if (field.type === "image") {
+      return (
+        <ImageUploadField
+          label={field.label}
+          value={value || ""}
+          storagePath="hero"
+          onChange={(image) => change(image)}
+        />
+      );
+    }
+
+    if (field.type === "chart") {
+      return (
+        <Input
+          label={field.label}
+          value={Array.isArray(value) ? value.join(", ") : value}
+          placeholder={placeholder}
+          dir="ltr"
+          style={{ textAlign: "left" }}
+          onChange={(e) => change(parseChartInput(e.target.value))}
+        />
+      );
+    }
 
     if (field.type === "icon") {
       return <IconPicker label={field.label} value={value || placeholder} onChange={change} />;
@@ -371,8 +434,13 @@ function FieldGroup({ group, settings, updatePath }) {
         label={field.label}
         value={value}
         placeholder={placeholder}
-        dir={field.type === "link" ? "ltr" : undefined}
-        style={field.type === "link" ? { textAlign: "left" } : undefined}
+        type={field.type === "number" ? "number" : undefined}
+        dir={field.type === "link" || field.type === "color" ? "ltr" : undefined}
+        style={
+          field.type === "link" || field.type === "color"
+            ? { textAlign: "left" }
+            : undefined
+        }
         onChange={(e) => change(e.target.value)}
       />
     );
@@ -412,6 +480,8 @@ function FieldGroup({ group, settings, updatePath }) {
                 {section.fields.map((field) => {
                   const isWide =
                     field.type === "textarea" ||
+                    field.type === "toggle" ||
+                    field.type === "image" ||
                     field.path.includes("campaign.text") ||
                     field.path.includes(".description");
 

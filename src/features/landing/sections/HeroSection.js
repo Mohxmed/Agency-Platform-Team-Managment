@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -12,7 +11,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
-import { ArrowLeft, Megaphone, Play, TrendingUp } from "lucide-react";
+import { ArrowLeft, Play } from "lucide-react";
 
 import { Container } from "@/features/landing";
 
@@ -24,7 +23,7 @@ import { SITE, HERO } from "@/constants/content";
 
 import { useSettings } from "@/contexts/SettingsContext";
 
-import roket from "@/assets/svg/rocket.webp";
+import ShowcaseScene from "@/features/landing/components/showcase/ShowcaseScene";
 
 import { EASE } from "@/features/landing/components/sectionMotion";
 
@@ -39,8 +38,6 @@ const HERO_CONFIG = {
     { value: "4.9", label: "تقييم العملاء" },
   ],
 };
-
-const CARD_BARS = [45, 65, 40, 75, 55, 85, 70];
 
 /* =========================================================
    MOTION VARIANTS
@@ -115,159 +112,6 @@ function HeroBackground() {
       <div className="hero-bg-noise absolute inset-0" />
       <div className="hero-bg-vignette absolute inset-0" />
     </div>
-  );
-}
-
-/* =========================================================
-   HERO CARD DATA
-========================================================= */
-
-function buildCard(hero) {
-  const campaign = hero.campaign || {};
-  const analytics = hero.analytics || {};
-  const growth = hero.growth || {};
-
-  return {
-    icon: Megaphone,
-    tag: "Campaign",
-    title: campaign.title || "حملة تسويقية",
-    valueLabel: "أداء الحملة",
-    bigValue: campaign.likes || "2.4K",
-    description:
-      campaign.text ||
-      "وصلنا لأكثر من 200 ألف متابع مستهدف خلال أسبوعين.",
-    bars: CARD_BARS,
-    stats: [
-      { value: campaign.likes || "2.4K", label: "إعجاب" },
-      { value: campaign.comments || "318", label: "تعليق" },
-      { value: analytics.growth || "+24%", label: "نمو العلامة" },
-    ],
-    growth: growth.value || "+150K",
-    growthLabel: growth.period || "نمو العلامة",
-  };
-}
-
-/* =========================================================
-   HERO CARD — single liquid-glass card with cloud edges
-   and a rocket floating above it (higher z-index).
-========================================================= */
-
-function HeroCardFrame() {
-  const { settings } = useSettings();
-  const hero = settings.content?.hero || {};
-
-  const card = buildCard(hero);
-  const Icon = card.icon;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-      className="hero-card-frame relative"
-    >
-      {/* Blurred brand halo behind the card */}
-      <div aria-hidden className="hero-card-glow" />
-
-      {/* Cloud puffs hugging the card edges */}
-      <div aria-hidden className="hero-card-cloud hero-card-cloud--top" />
-      <div aria-hidden className="hero-card-cloud hero-card-cloud--bottom" />
-
-      {/* Rocket floating above the card */}
-      <div aria-hidden className="hero-rocket">
-        <div className="hero-rocket__flight">
-          <Image
-            src={roket}
-            alt=""
-            fill
-            priority
-            sizes="(min-width: 1024px) 220px, 160px"
-            className="object-contain"
-          />
-        </div>
-      </div>
-
-      {/* Card */}
-      <div className="glass-panel glass-panel--tint p-6 sm:p-7">
-        {/* Header */}
-        <div className="relative flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-primary-500 to-primary-700 text-white shadow-lg shadow-primary-600/30">
-              <Icon size={20} strokeWidth={1.8} />
-            </div>
-            <div>
-              <p className="text-sm font-black text-ink">{card.title}</p>
-              <p className="mt-0.5 text-[11px] text-muted">{card.valueLabel}</p>
-            </div>
-          </div>
-
-          <span className="rounded-full bg-primary-600/10 px-3 py-1 text-[10px] font-bold text-primary-600 dark:bg-primary-500/15 dark:text-primary-400">
-            {card.tag}
-          </span>
-        </div>
-
-        {/* Value + bars */}
-        <div className="relative mt-7 flex items-end justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-5xl font-black tracking-tight text-ink sm:text-6xl">
-              {card.bigValue}
-            </p>
-            <p className="mt-2 text-sm leading-6 text-muted">
-              {card.description}
-            </p>
-          </div>
-
-          <div
-            aria-hidden
-            className="hidden h-20 shrink-0 items-end gap-1 sm:flex"
-          >
-            {card.bars.map((height, i) => (
-              <motion.span
-                key={i}
-                initial={{ scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 220,
-                  damping: 24,
-                  delay: 0.5 + i * 0.05,
-                }}
-                style={{ height: `${height}%` }}
-                className="w-1.5 origin-bottom rounded-full bg-linear-to-t from-primary-700 to-primary-400"
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Mini stats */}
-        <div className="relative mt-7 grid grid-cols-3 gap-3">
-          {card.stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-black/[0.05] bg-white/50 p-2.5 text-center backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.05]"
-            >
-              <p className="text-sm font-black tracking-tight text-ink">
-                {stat.value}
-              </p>
-              <p className="mt-0.5 text-[10px] text-muted">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Growth strip */}
-        <div className="relative mt-4 flex items-center justify-between rounded-2xl border border-primary-600/15 bg-primary-600/[0.06] px-4 py-3 dark:bg-primary-500/[0.08]">
-          <div className="flex items-center gap-2">
-            <TrendingUp size={15} className="text-primary-600" />
-            <span className="text-[11px] font-bold text-muted">
-              {card.growthLabel}
-            </span>
-          </div>
-          <span className="text-sm font-black text-primary-600">
-            {card.growth}
-          </span>
-        </div>
-      </div>
-    </motion.div>
   );
 }
 
@@ -482,8 +326,8 @@ export default function HeroSection() {
           {/* Content — ~2/3 of the width */}
           <HeroContent />
 
-          {/* Single premium card — ~1/3 of the width */}
-          <HeroCardFrame />
+          {/* Floating showcase — ~1/3 of the width */}
+          <ShowcaseScene />
         </div>
       </Container>
 
