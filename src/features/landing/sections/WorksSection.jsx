@@ -87,255 +87,328 @@ export default function WorksSection() {
 
   const projects = allWorks.slice(0, PROJECTS_LIMIT);
 
-  return (
-    <section
-      id="works"
+ return (
+  <section
+    id="works"
+    className="
+      relative
+      overflow-hidden
+      py-18
+    "
+  >
+
+    {/* =====================================================
+        BACKGROUND ATMOSPHERE
+    ====================================================== */}
+
+    <div
       className="
-        relative
-        overflow-hidden
-        py-18
+        pointer-events-none
+        absolute
+        left-1/2
+        top-[15%]
+        h-[500px]
+        w-[500px]
+        -translate-x-1/2
+        rounded-full
+        [background:radial-gradient(circle_at_center,rgba(217,4,41,0.04),transparent_65%)]
       "
-    >
-      <Container>
-      {/* =====================================================
-          BACKGROUND ATMOSPHERE (static gradients — no filter)
-      ====================================================== */}
+    />
 
-      <div
+    <div
+      className="
+        pointer-events-none
+        absolute
+        -right-40
+        top-[35%]
+        h-[350px]
+        w-[350px]
+        rounded-full
+        [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_65%)]
+      "
+    />
+
+
+
+    {/* =====================================================
+        HEADER
+    ====================================================== */}
+
+    <Container>
+
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{
+          once:true,
+          amount:0.3,
+        }}
         className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-[15%]
-          h-[500px]
-          w-[500px]
-          -translate-x-1/2
-          rounded-full
-          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.035),transparent_62%)]
+          mx-auto
+          max-w-3xl
+          text-center
         "
-      />
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -right-40
-          top-[35%]
-          h-[350px]
-          w-[350px]
-          rounded-full
-          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_62%)]
-        "
-      />
-
-      <Container>
-
-        {/* =====================================================
-            HEADER
-        ====================================================== */}
+      >
 
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          className="mx-auto max-w-3xl text-center"
+          variants={fadeUp}
+          className="flex justify-center"
         >
 
-          {/* Badge */}
+          <OutlinedBadge>
 
-          <motion.div
-            variants={fadeUp}
-            className="flex justify-center"
-          >
-            <OutlinedBadge>
-              <GalleryVerticalEnd size={16} />
-              {badge}
-            </OutlinedBadge>
-          </motion.div>
+            <GalleryVerticalEnd size={16}/>
 
-          {/* Title */}
+            {badge}
 
-          <motion.div variants={fadeUp}>
-            <SectionTitle
-              title={title}
-              redTitle={redTitle}
-            >
-              {description}
-            </SectionTitle>
-          </motion.div>
+          </OutlinedBadge>
 
         </motion.div>
 
-      </Container>
 
-        {/* =====================================================
-            PROJECTS SLIDER — full width (edge to edge)
-        ====================================================== */}
-
-        <div className="w-full">
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 45,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          transition={{
-            duration: 1,
-            delay: 0.15,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+          variants={fadeUp}
         >
 
-          <SwiperFadeEdges variant="white">
+          <SectionTitle
+            title={title}
+            redTitle={redTitle}
+          >
+            {description}
+          </SectionTitle>
 
-            <div className="mt-4">
+        </motion.div>
 
-              {/* =================================================
-                  LOADING
-              ================================================= */}
 
-              {loading ? (
-                <HomeWorksSkeleton />
-              ) : projects.length > 0 ? (
+      </motion.div>
 
-                <Marquee slideClassName="h-full px-3 py-8">
 
-                  {projects.map((project, index) => (
+    </Container>
 
-                    <motion.div
-                      key={project.id}
-                      initial={{
-                        opacity: 0,
-                        y: 25,
-                        scale: 0.97,
-                      }}
-                      whileInView={{
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                      }}
-                      viewport={{
-                        once: true,
-                        amount: 0.15,
-                      }}
-                      transition={{
-                        duration: 0.7,
-                        delay: Math.min(
-                          index * 0.08,
-                          0.4
-                        ),
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                      className="h-full"
-                    >
 
-                      <ProjectCard
-                        project={project}
-                      />
 
-                    </motion.div>
 
-                  ))}
 
-                </Marquee>
+    {/* =====================================================
+        PROJECTS SLIDER — FULL WIDTH
+    ====================================================== */}
 
-              ) : (
 
-                /* =================================================
-                   EMPTY
-                ================================================= */
+    <motion.div
 
-                <div
-                  className="
-                    flex
-                    min-h-[420px]
-                    flex-col
-                    items-center
-                    justify-center
-                    text-center
-                  "
-                >
+      initial={{
+        opacity:0,
+        y:45,
+      }}
 
-                  <div
-                    className="
-                      flex
-                      h-16
-                      w-16
-                      items-center
-                      justify-center
-                      rounded-2xl
-                      bg-primary-600/10
-                      text-primary-600
-                    "
-                  >
-                    <GalleryVerticalEnd size={26} />
-                  </div>
+      whileInView={{
+        opacity:1,
+        y:0,
+      }}
 
-                  <h3 className="mt-5 text-lg font-bold">
-                    مفيش أعمال متاحة حاليًا
-                  </h3>
+      viewport={{
+        once:true,
+        amount:0.15,
+      }}
 
-                  <p className="mt-2 text-sm text-black/40 dark:text-white/50">
-                    هنضيف أعمال جديدة قريبًا.
-                  </p>
+      transition={{
+        duration:1,
+        delay:.15,
+        ease:[0.22,1,0.36,1],
+      }}
 
-                </div>
+      className="
+        mt-8
+        w-full
+      "
 
-              )}
+    >
+
+      <SwiperFadeEdges variant="white">
+
+
+        {loading ? (
+
+          <HomeWorksSkeleton/>
+
+
+        ) : projects.length > 0 ? (
+
+
+          <Marquee
+            slideClassName="
+              h-full
+              px-3
+              py-8
+            "
+          >
+
+            {projects.map((project,index)=>(
+
+              <motion.div
+
+                key={project.id}
+
+                initial={{
+                  opacity:0,
+                  y:25,
+                  scale:.97,
+                }}
+
+                whileInView={{
+                  opacity:1,
+                  y:0,
+                  scale:1,
+                }}
+
+                viewport={{
+                  once:true,
+                  amount:.15,
+                }}
+
+                transition={{
+                  duration:.7,
+                  delay:Math.min(index*.08,.4),
+                  ease:[0.22,1,0.36,1],
+                }}
+
+                className="h-full"
+
+              >
+
+                <ProjectCard
+                  project={project}
+                />
+
+              </motion.div>
+
+            ))}
+
+
+          </Marquee>
+
+
+
+        ) : (
+
+
+          <div
+            className="
+              flex
+              min-h-[420px]
+              flex-col
+              items-center
+              justify-center
+              text-center
+            "
+          >
+
+            <div
+              className="
+                flex
+                h-16
+                w-16
+                items-center
+                justify-center
+                rounded-2xl
+                bg-primary-600/10
+                text-primary-600
+              "
+            >
+
+              <GalleryVerticalEnd size={26}/>
 
             </div>
 
-          </SwiperFadeEdges>
 
-        </motion.div>
-</div>
-        {/* =====================================================
-            STATS
-        ====================================================== */}
+            <h3
+              className="
+                mt-5
+                text-lg
+                font-bold
+              "
+            >
+              مفيش أعمال متاحة حاليًا
+            </h3>
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 40,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          <StatsBoard />
-        </motion.div>
 
-        {/* =====================================================
-            CTA
-        ====================================================== */}
+            <p
+              className="
+                mt-2
+                text-sm
+                text-black/40
+                dark:text-white/50
+              "
+            >
+              هنضيف أعمال جديدة قريبًا.
+            </p>
 
-        <CallToActionWorks />
 
-      </Container>
-    </section>
-  );
-}
+          </div>
+
+
+        )}
+
+
+      </SwiperFadeEdges>
+
+
+    </motion.div>
+
+
+
+
+
+    {/* =====================================================
+        STATS + CTA
+    ====================================================== */}
+
+
+    <Container>
+
+
+      <motion.div
+
+        initial={{
+          opacity:0,
+          y:40,
+        }}
+
+        whileInView={{
+          opacity:1,
+          y:0,
+        }}
+
+        viewport={{
+          once:true,
+          amount:.2,
+        }}
+
+        transition={{
+          duration:.8,
+          ease:[0.22,1,0.36,1],
+        }}
+
+      >
+
+        <StatsBoard/>
+
+
+      </motion.div>
+
+
+
+      <CallToActionWorks/>
+
+
+    </Container>
+
+
+
+  </section>
+);
 
 /* =========================================================
    CTA
