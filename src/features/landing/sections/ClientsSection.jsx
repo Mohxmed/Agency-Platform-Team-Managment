@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 import { useClients } from "@/features/landing/hooks/useClients";
 
-// UI
 import Button from "@/shared/ui/buttons/Buttons";
 import ClientCard from "@/shared/ui/cards/ClientCard";
 import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
@@ -13,489 +12,665 @@ import { OutlinedBadge } from "@/shared/ui/badges/OutlinedBadge";
 import SectionTitle from "@/features/landing/layout/SectionTitle";
 import { Container } from "@/features/landing";
 
-// Icons
 import {
-  Star,
   Users,
+  ArrowLeft,
 } from "lucide-react";
 
-import { HomeClientsSkeleton } from "@/shared/ui/skeletons/Skeletons";
+import {
+  HomeClientsSkeleton,
+} from "@/shared/ui/skeletons/Skeletons";
 
-import { ROUTES } from "@/constants/routes";
-import { useSettings } from "@/contexts/SettingsContext";
+import {
+  ROUTES,
+} from "@/constants/routes";
 
-/* =========================================================
-   ANIMATION VARIANTS
-========================================================= */
+import {
+  useSettings,
+} from "@/contexts/SettingsContext";
 
-const sectionVariants = {
-  hidden: {},
-
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-
-    transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const sliderVariants = {
-  hidden: {
-    opacity: 0,
-    y: 45,
-    scale: 0.98,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-
-    transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
 
 /* =========================================================
-   CLIENTS SECTION
+   MOTION SYSTEM
 ========================================================= */
 
-export default function ClientsSection() {
-  const { clients, loading, error } = useClients();
-  const { settings } = useSettings();
-  const content = settings.content?.clients || {};
 
-  const badge = content.badge || "شركاء النجاح";
-  const title = content.title || "ابرز";
-  const redTitle = content.redTitle || "شركائنا";
+const easing = [
+  0.16,
+  1,
+  0.3,
+  1,
+];
+
+
+const reveal = {
+
+  hidden:{
+    opacity:0,
+    y:28,
+  },
+
+
+  visible:{
+
+    opacity:1,
+
+    y:0,
+
+    transition:{
+      duration:.75,
+      ease:easing,
+    },
+
+  },
+
+};
+
+
+
+const container = {
+
+  hidden:{},
+
+
+  visible:{
+
+    transition:{
+      staggerChildren:.12,
+    },
+
+  },
+
+};
+
+
+
+/* =========================================================
+   DEFAULT CONTENT
+========================================================= */
+
+
+const CLIENTS_DEFAULTS = {
+
+  badge:
+  "شركاء النجاح",
+
+
+  title:
+  "أبرز",
+
+
+  redTitle:
+  "شركائنا",
+
+
+  description:
+  "خلف كل نجاح قصة، وخلف كل قصة شراكة حقيقية. نساعد العلامات وصناع المحتوى على بناء حضور أقوى وتأثير يصل للجمهور المناسب.",
+
+
+  primary:
+  "تصفح جميع العملاء",
+
+
+  secondary:
+  "ابدأ معنا",
+
+
+};
+
+
+
+/* =========================================================
+   PREMIUM CARD MOTION
+========================================================= */
+
+
+const cardMotion = {
+
+  hidden:{
+    opacity:0,
+    scale:.96,
+  },
+
+
+  visible:{
+
+    opacity:1,
+
+    scale:1,
+
+    transition:{
+      duration:.7,
+      ease:easing,
+    },
+
+  },
+
+};
+export default function ClientsSection(){
+
+  const {
+    clients,
+    loading,
+    error,
+  } = useClients();
+
+
+  const {
+    settings,
+  } = useSettings();
+
+
+
+  const content =
+    settings.content?.clients || {};
+
+
+
+  const badge =
+    content.badge
+    ||
+    CLIENTS_DEFAULTS.badge;
+
+
+
+  const title =
+    content.title
+    ||
+    CLIENTS_DEFAULTS.title;
+
+
+
+  const redTitle =
+    content.redTitle
+    ||
+    CLIENTS_DEFAULTS.redTitle;
+
+
+
   const description =
-    content.description ||
-    "خلف كل نجاح قصة، وخلف كل قصة شراكة حقيقية. نفخر بأننا كنا جزءًا من رحلة العديد من المعلمين وصناع المحتوى، وساهمنا في تحويل أفكارهم إلى تأثير يصل إلى الآلاف والملايين.";
-  const ctaPrimary = content.ctaPrimary || "تصفح جميع العملاء";
-  const ctaPrimaryLink = content.ctaPrimaryLink || ROUTES.CLIENTS;
-  const ctaSecondary = content.ctaSecondary || "انضم الينا";
-  const ctaSecondaryLink = content.ctaSecondaryLink || ROUTES.CONTACT;
+    content.description
+    ||
+    CLIENTS_DEFAULTS.description;
+
+
+
+  const ctaPrimary =
+    content.ctaPrimary
+    ||
+    CLIENTS_DEFAULTS.primary;
+
+
+
+  const ctaPrimaryLink =
+    content.ctaPrimaryLink
+    ||
+    ROUTES.CLIENTS;
+
+
+
+  const ctaSecondary =
+    content.ctaSecondary
+    ||
+    CLIENTS_DEFAULTS.secondary;
+
+
+
+  const ctaSecondaryLink =
+    content.ctaSecondaryLink
+    ||
+    ROUTES.CONTACT;
+
+
 
   return (
+
     <section
+
       id="clients"
+
       className="
         relative
         isolate
         overflow-hidden
-        bg-linear-to-bl
-        from-primary-600
-        to-primary-900
-        py-18
+        py-24
       "
+
     >
-      {/* =====================================================
-          PREMIUM BACKGROUND
-      ====================================================== */}
 
-      {/* Main Glow */}
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          scale: 0.7,
-        }}
-        whileInView={{
-          opacity: 1,
-          scale: 1,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.2,
-        }}
-        transition={{
-          duration: 1.5,
-          ease: "easeOut",
-        }}
+      {/* Premium background */}
+
+
+      <div
+
         className="
-          pointer-events-none
           absolute
-          left-1/2
-          top-1/2
+          inset-0
           -z-10
-          h-[500px]
-          w-[700px]
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_62%)]
+          bg-background
         "
+
       />
 
-      {/* Top Glow (static gradient — no filter) */}
+
 
       <div
+
         className="
           pointer-events-none
           absolute
-          -right-40
           -top-40
-          h-[500px]
-          w-[500px]
+          left-1/2
+          h-[420px]
+          w-[420px]
+          -translate-x-1/2
           rounded-full
-          [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_62%)]
+          opacity-20
         "
+
+        style={{
+
+          background:
+          "radial-gradient(circle, rgba(217,4,41,.25), transparent 70%)"
+
+        }}
+
       />
 
-      {/* Bottom Glow (static gradient) */}
+
 
       <div
+
         className="
           pointer-events-none
           absolute
-          -bottom-48
-          -left-40
-          h-[500px]
-          w-[500px]
-          rounded-full
-          [background:radial-gradient(circle_at_center,rgba(0,0,0,0.20),transparent_62%)]
+          inset-x-0
+          bottom-0
+          h-32
+          bg-gradient-to-t
+          from-black/[0.03]
+          to-transparent
         "
+
       />
 
-      {/* Decorative Star */}
 
-      <div
-        className="anim-wobble
-          pointer-events-none
-          absolute
-          right-[8%]
-          top-[18%]
-          text-white/20
-        "
-      >
-        <Star
-          size={24}
-          fill="currentColor"
-        />
-      </div>
 
-      {/* Decorative Star */}
 
-      <div
-        className="anim-wobble
-          pointer-events-none
-          absolute
-          bottom-[18%]
-          left-[8%]
-          text-white/15
-        "
-        style={{ animationDelay: "0.5s" }}
-      >
-        <Star
-          size={18}
-          fill="currentColor"
-        />
-      </div>
 
       <Container>
-        {/* =====================================================
-            HEADER
-        ====================================================== */}
+
+
+        {/* HEADER */}
+
 
         <motion.div
-          variants={sectionVariants}
+
+          variants={container}
+
           initial="hidden"
+
           whileInView="visible"
+
           viewport={{
-            once: true,
-            amount: 0.25,
+            once:true,
+            amount:.3,
           }}
+
           className="
             mx-auto
             max-w-3xl
             text-center
           "
+
         >
-          {/* Badge */}
+
 
           <motion.div
-            variants={fadeUp}
+
+            variants={reveal}
+
             className="
               flex
-              w-full
               justify-center
             "
+
           >
-            <motion.div
-              whileHover={{
-                scale: 1.04,
-                y: -2,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-              }}
-            >
-              <OutlinedBadge variant="white">
-                <span className="anim-wobble inline-flex">
-                  <Users size={16} />
-                </span>
 
-                {badge}
-              </OutlinedBadge>
-            </motion.div>
+
+            <OutlinedBadge>
+
+              <Users
+                size={15}
+              />
+
+              {badge}
+
+            </OutlinedBadge>
+
+
           </motion.div>
 
-          {/* Title */}
 
-          <motion.div variants={fadeUp}>
+
+
+          <motion.div
+
+            variants={reveal}
+
+            className="
+              mt-6
+            "
+
+          >
+
             <SectionTitle
-              variant="light"
+
               title={title}
+
               redTitle={redTitle}
+
             >
+
               {description}
+
             </SectionTitle>
+
+
           </motion.div>
+
+
         </motion.div>
 
-        {/* =====================================================
-            CLIENTS SLIDER
-        ====================================================== */}
+                {/* CLIENTS CONTENT */}
+
 
         <motion.div
+
+          variants={reveal}
+
           initial="hidden"
+
           whileInView="visible"
+
           viewport={{
-            once: true,
-            amount: 0.15,
+            once:true,
+            amount:.15,
           }}
-          variants={sliderVariants}
-          className="mt-4"
+
+          className="
+            mt-14
+          "
+
         >
-          {/* ===================================================
-              LOADING
-          =================================================== */}
 
-          {loading && <HomeClientsSkeleton />}
 
-          {/* ===================================================
-              ERROR
-          =================================================== */}
+
+          {/* Loading */}
+
+
+          {loading && (
+
+            <HomeClientsSkeleton/>
+
+          )}
+
+
+
+
+          {/* Error */}
+
 
           {!loading && error && (
+
             <div
+
               className="
                 flex
-                min-h-[260px]
+                min-h-[240px]
                 items-center
                 justify-center
                 text-center
               "
-            >
-              <div>
-                <p
-                  className="
-                    text-sm
-                    font-bold
-                    text-white/70
-                  "
-                >
-                  تعذر تحميل بيانات العملاء حاليًا.
-                </p>
 
-                <p
-                  className="
-                    mt-2
-                    text-xs
-                    text-white/40
-                  "
-                >
-                  حاول تحديث الصفحة مرة أخرى.
-                </p>
-              </div>
+            >
+
+              <p
+
+                className="
+                  text-sm
+                  text-muted
+                "
+
+              >
+
+                تعذر تحميل بيانات العملاء حاليًا.
+
+              </p>
+
+
             </div>
+
           )}
 
-          {/* ===================================================
-              EMPTY
-          =================================================== */}
+
+
+
+
+
+          {/* Empty */}
+
 
           {!loading &&
-            !error &&
-            clients.length === 0 && (
-              <div
+          !error &&
+          clients.length === 0 && (
+
+            <div
+
+              className="
+                flex
+                min-h-[240px]
+                flex-col
+                items-center
+                justify-center
+                text-center
+              "
+
+            >
+
+              <Users
+
                 className="
-                  flex
-                  min-h-[260px]
-                  items-center
-                  justify-center
-                  text-center
+                  h-10
+                  w-10
+                  text-muted
                 "
+
+              />
+
+
+              <p
+
+                className="
+                  mt-4
+                  text-sm
+                  text-muted
+                "
+
               >
-                <div>
-                  <Users
-                    className="
-                      mx-auto
-                      h-10
-                      w-10
-                      text-white/30
-                    "
-                  />
 
-                  <p
-                    className="
-                      mt-4
-                      text-sm
-                      font-bold
-                      text-white/60
-                    "
-                  >
-                    لا يوجد عملاء حتى الآن.
-                  </p>
-                </div>
-              </div>
-            )}
+                لا يوجد عملاء حتى الآن.
 
-          {/* ===================================================
-              INFINITE CLIENTS MARQUEE
-          =================================================== */}
+              </p>
+
+
+            </div>
+
+          )}
+
+
+
+
+
+
+
+          {/* Clients Marquee */}
+
+
 
           {!loading &&
-            !error &&
-            clients.length > 0 && (
-              <SwiperFadeEdges>
-                <Marquee slideClassName="h-full px-4 py-8">
-                  {clients.map((client) => (
-                    <motion.div
-                      key={client.id}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      whileInView={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      viewport={{
-                        once: true,
-                        amount: 0.1,
-                      }}
-                      transition={{
-                        duration: 0.7,
-                        ease: [
-                          0.22,
-                          1,
-                          0.36,
-                          1,
-                        ],
-                      }}
-                      className="h-full"
-                    >
-                      <ClientCard
-                        teacher={client}
-                      />
-                    </motion.div>
-                  ))}
-                </Marquee>
-              </SwiperFadeEdges>
-            )}
+          !error &&
+          clients.length > 0 && (
+
+
+            <SwiperFadeEdges>
+
+
+              <Marquee
+
+                slideClassName="
+                  h-full
+                  px-3
+                  py-8
+                "
+
+              >
+
+
+                {
+                  clients.map(
+                    client => (
+
+                      <motion.div
+
+                        key={client.id}
+
+                        variants={cardMotion}
+
+                        initial="hidden"
+
+                        whileInView="visible"
+
+                        viewport={{
+                          once:true,
+                          amount:.2,
+                        }}
+
+                      >
+
+                        <ClientCard
+
+                          teacher={client}
+
+                        />
+
+
+                      </motion.div>
+
+                    )
+                  )
+                }
+
+
+              </Marquee>
+
+
+            </SwiperFadeEdges>
+
+
+          )}
+
+
+
         </motion.div>
 
-        {/* =====================================================
-            CTA
-        ====================================================== */}
+
+
+
+
+
+
+        {/* CTA */}
+
+
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
+
+          variants={reveal}
+
+          initial="hidden"
+
+          whileInView="visible"
+
           viewport={{
-            once: true,
-            amount: 0.4,
+            once:true,
           }}
-          transition={{
-            duration: 0.8,
-            delay: 0.15,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+
           className="
-            mt-8
+            mt-12
             flex
             flex-col
             items-center
             justify-center
-            gap-3
+            gap-4
             sm:flex-row
-            sm:gap-4
           "
+
         >
-          {/* All Clients */}
 
-          <motion.div
-            whileHover={{
-              y: -3,
-            }}
-            whileTap={{
-              scale: 0.97,
-            }}
+
+
+          <Button
+
+            href={ctaPrimaryLink}
+
+            variant="outline"
+
           >
-            <Button
-              variant="outline"
-              href={ctaPrimaryLink}
-            >
-              <motion.span
-                whileHover={{
-                  scale: 1.1,
-                }}
-              >
-                <Users />
-              </motion.span>
 
-              {ctaPrimary}
-            </Button>
-          </motion.div>
+            <Users size={17}/>
 
-          {/* Join */}
+            {ctaPrimary}
 
-          <motion.div
-            whileHover={{
-              y: -3,
-            }}
-            whileTap={{
-              scale: 0.97,
-            }}
+
+          </Button>
+
+
+
+
+
+          <Button
+
+            href={ctaSecondaryLink}
+
           >
-            <Button href={ctaSecondaryLink}>
-              <span className="anim-wobble inline-flex">
-                <Star />
-              </span>
 
-              {ctaSecondary}
-            </Button>
-          </motion.div>
+            {ctaSecondary}
+
+
+            <ArrowLeft
+
+              size={17}
+
+            />
+
+
+          </Button>
+
+
+
+
         </motion.div>
+
+
+
+
       </Container>
+
+
     </section>
+
   );
+
 }
