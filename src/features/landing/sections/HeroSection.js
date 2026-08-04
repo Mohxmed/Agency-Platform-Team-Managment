@@ -145,7 +145,7 @@ function HeroBackground() {
                 rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
               }
         }
-        className="absolute left-[5%] top-[8%] hidden h-80 w-80 lg:block pointer-events-none z-50"
+        className="absolute left-[5%] top-[8%] hidden h-80 w-80 lg:block pointer-events-none z-999"
       >
         <Image
           src={roket}

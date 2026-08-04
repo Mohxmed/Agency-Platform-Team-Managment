@@ -53,6 +53,7 @@ export default function Header() {
         className={`
           sticky
           top-0
+          h-18
           z-50
           w-full
           bg-white/95
