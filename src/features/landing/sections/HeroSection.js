@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,20 +12,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-fade";
-
-import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  Megaphone,
-  Play,
-  Rocket,
-  TrendingUp,
-} from "lucide-react";
+import { ArrowLeft, Megaphone, Play, TrendingUp } from "lucide-react";
 
 import { Container } from "@/features/landing";
 
@@ -53,11 +40,7 @@ const HERO_CONFIG = {
   ],
 };
 
-const SLIDE_BARS = [
-  [45, 65, 40, 75, 55, 85, 70],
-  [40, 55, 70, 50, 80, 65, 90],
-  [35, 50, 45, 70, 85, 60, 75],
-];
+const CARD_BARS = [45, 65, 40, 75, 55, 85, 70];
 
 /* =========================================================
    MOTION VARIANTS
@@ -76,13 +59,13 @@ const container = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.07, delayChildren: 0.05 },
   },
 };
 
 /* =========================================================
    PREMIUM BACKGROUND
-   Theme-aware layers (tokens flip in dark) + moving rocket.
+   Theme-aware layers (tokens flip in dark) + mouse parallax.
 ========================================================= */
 
 function HeroBackground() {
@@ -128,42 +111,6 @@ function HeroBackground() {
       {/* Soft grid */}
       <div className="hero-bg-grid absolute inset-0" />
 
-      {/* Animated rocket */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8, y: 40 }}
-        animate={
-          reduceMotion
-            ? { opacity: 0.35, scale: 1, y: 0 }
-            : {
-                opacity: 0.45,
-                scale: 1,
-                y: [-12, 14, -12],
-                x: [-6, 6, -6],
-                rotate: [-3, 3, -3],
-              }
-        }
-        transition={
-          reduceMotion
-            ? { duration: 1 }
-            : {
-                opacity: { duration: 1 },
-                scale: { duration: 1 },
-                y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-                x: { duration: 7, repeat: Infinity, ease: "easeInOut" },
-                rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-              }
-        }
-        className="pointer-events-none absolute left-[5%] top-[8%] z-0 hidden h-80 w-80 lg:block"
-      >
-        <Image
-          src={roket}
-          alt="Rocket Animation"
-          fill
-          priority
-          className="object-contain drop-shadow-[0_25px_60px_rgba(217,4,41,0.35)]"
-        />
-      </motion.div>
-
       {/* Noise + vignette */}
       <div className="hero-bg-noise absolute inset-0" />
       <div className="hero-bg-vignette absolute inset-0" />
@@ -172,250 +119,160 @@ function HeroBackground() {
 }
 
 /* =========================================================
-   FOG / CLOUD EDGE GLOWS
-   Float outside the slider edges → depth + reveal.
+   HERO CARD DATA
 ========================================================= */
 
-function HeroClouds() {
-  return (
-    <>
-      <div
-        aria-hidden
-        className="hero-cloud-left"
-        style={{ top: "46%" }}
-      />
-      <div
-        aria-hidden
-        className="hero-cloud-right"
-        style={{ top: "74%" }}
-      />
-    </>
-  );
-}
-
-/* =========================================================
-   HERO SLIDE DATA
-========================================================= */
-
-function buildSlides(hero) {
+function buildCard(hero) {
   const campaign = hero.campaign || {};
   const analytics = hero.analytics || {};
   const growth = hero.growth || {};
 
-  return [
-    {
-      key: "campaign",
-      icon: Megaphone,
-      tag: "Campaign",
-      title: campaign.title || "حملة تسويقية",
-      valueLabel: "أداء الحملة",
-      bigValue: campaign.likes || "2.4K",
-      description:
-        campaign.text ||
-        "وصلنا لأكثر من 200 ألف متابع مستهدف خلال أسبوعين.",
-      bars: SLIDE_BARS[0],
-      stats: [
-        { value: campaign.likes || "2.4K", label: "إعجاب" },
-        { value: campaign.comments || "318", label: "تعليق" },
-        { value: "×3", label: "متوسط التفاعل" },
-      ],
-    },
-    {
-      key: "analytics",
-      icon: TrendingUp,
-      tag: "Analytics",
-      title: analytics.title || "محتوى أسبوعي",
-      valueLabel: "نمو العلامة",
-      bigValue: analytics.growth || "+24%",
-      description:
-        analytics.text || "تفاعل أعلى من المتوسط بثلاث أضعاف.",
-      bars: SLIDE_BARS[1],
-      stats: [
-        { value: analytics.growth || "+24%", label: "نمو" },
-        { value: "3×", label: "متوسط التفاعل" },
-        { value: "52", label: "أسبوع" },
-      ],
-    },
-    {
-      key: "growth",
-      icon: Rocket,
-      tag: "Growth",
-      title: "نمو العلامة",
-      valueLabel: growth.period || "هذا الشهر",
-      bigValue: growth.value || "+150K",
-      description:
-        "نساعد العلامات التجارية على بناء حضور رقمي مؤثر ينمو باستمرار.",
-      bars: SLIDE_BARS[2],
-      stats: [
-        { value: growth.value || "+150K", label: "متابع جديد" },
-        { value: "200K+", label: "مستهدف" },
-        { value: "4.9", label: "تقييم" },
-      ],
-    },
-  ];
+  return {
+    icon: Megaphone,
+    tag: "Campaign",
+    title: campaign.title || "حملة تسويقية",
+    valueLabel: "أداء الحملة",
+    bigValue: campaign.likes || "2.4K",
+    description:
+      campaign.text ||
+      "وصلنا لأكثر من 200 ألف متابع مستهدف خلال أسبوعين.",
+    bars: CARD_BARS,
+    stats: [
+      { value: campaign.likes || "2.4K", label: "إعجاب" },
+      { value: campaign.comments || "318", label: "تعليق" },
+      { value: analytics.growth || "+24%", label: "نمو العلامة" },
+    ],
+    growth: growth.value || "+150K",
+    growthLabel: growth.period || "نمو العلامة",
+  };
 }
 
 /* =========================================================
-   SLIDE CARD — Liquid glass
+   HERO CARD — single liquid-glass card with cloud edges
+   and a rocket floating above it (higher z-index).
 ========================================================= */
 
-function HeroSlideCard({ slide, active }) {
-  const Icon = slide.icon;
-
-  return (
-    <motion.div
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="glass-panel glass-panel--tint p-7 pb-16 sm:p-9"
-    >
-      {/* Header */}
-      <div className="relative flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-primary-500 to-primary-700 text-white shadow-lg shadow-primary-600/30">
-            <Icon size={22} strokeWidth={1.8} />
-          </div>
-          <div>
-            <p className="text-sm font-black text-ink">{slide.title}</p>
-            <p className="mt-0.5 text-[11px] text-muted">{slide.valueLabel}</p>
-          </div>
-        </div>
-
-        <span className="rounded-full bg-primary-600/10 px-3 py-1 text-[10px] font-bold text-primary-600 dark:bg-primary-500/15 dark:text-primary-400">
-          {slide.tag}
-        </span>
-      </div>
-
-      {/* Value + bars */}
-      <div className="relative mt-9 flex items-end justify-between gap-6">
-        <div className="min-w-0">
-          <p className="text-6xl font-black tracking-tight text-ink sm:text-7xl">
-            {slide.bigValue}
-          </p>
-          <p className="mt-3 max-w-xs text-sm leading-7 text-muted">
-            {slide.description}
-          </p>
-        </div>
-
-        <div
-          aria-hidden
-          className="hidden h-24 shrink-0 items-end gap-1.5 sm:flex"
-        >
-          {slide.bars.map((height, i) => (
-            <motion.span
-              key={i}
-              animate={
-                active
-                  ? { scaleY: 1, opacity: 1 }
-                  : { scaleY: 0.35, opacity: 0.4 }
-              }
-              transition={{
-                type: "spring",
-                stiffness: 240,
-                damping: 22,
-                delay: i * 0.05,
-              }}
-              style={{ height: `${height}%` }}
-              className="w-2 origin-bottom rounded-full bg-linear-to-t from-primary-700 to-primary-400"
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Mini stats */}
-      <div className="relative mt-8 grid grid-cols-3 gap-3">
-        {slide.stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-2xl border border-black/[0.05] bg-white/50 p-3 text-center backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.05]"
-          >
-            <p className="text-sm font-black tracking-tight text-ink sm:text-base">
-              {stat.value}
-            </p>
-            <p className="mt-1 text-[10px] text-muted">{stat.label}</p>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-/* =========================================================
-   HERO SLIDER
-   Fades between premium glass slides with autoplay,
-   custom pagination, arrows and native touch gestures.
-========================================================= */
-
-function HeroSlider() {
+function HeroCardFrame() {
   const { settings } = useSettings();
   const hero = settings.content?.hero || {};
   const reduceMotion = useReducedMotion();
 
-  const swiperRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const slides = buildSlides(hero);
+  const card = buildCard(hero);
+  const Icon = card.icon;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
-      className="relative"
+      transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+      className="hero-card-frame relative"
     >
-      <Swiper
-        modules={[EffectFade, Autoplay, Pagination]}
-        effect="fade"
-        fadeEffect={{ crossFade: true }}
-        speed={reduceMotion ? 0 : 900}
-        loop
-        grabCursor
-        touchReleaseOnEdges
-        autoplay={
-          reduceMotion
-            ? false
-            : {
-                delay: 5200,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }
-        }
-        pagination={{ clickable: true, el: ".hero-slider-pagination" }}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-          setActiveIndex(swiper.realIndex || 0);
-        }}
-        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        dir="rtl"
-        className="hero-slider"
-      >
-        {slides.map((slide) => (
-          <SwiperSlide key={slide.key}>
-            <HeroSlideCard slide={slide} active={slide.key === slides[activeIndex]?.key} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {/* Blurred brand halo behind the card */}
+      <div aria-hidden className="hero-card-glow" />
 
-      {/* Custom pagination */}
-      <div className="hero-slider-pagination" />
+      {/* Cloud puffs hugging the card edges */}
+      <div aria-hidden className="hero-card-cloud hero-card-cloud--top" />
+      <div aria-hidden className="hero-card-cloud hero-card-cloud--bottom" />
 
-      {/* Arrows */}
-      <button
-        type="button"
-        aria-label="السابق"
-        onClick={() => swiperRef.current?.slidePrev()}
-        className="hero-slider-arrow hero-slider-arrow--prev"
-      >
-        <ChevronRight size={18} />
-      </button>
+      {/* Rocket floating above the card */}
+      <div aria-hidden className="hero-rocket">
+        <motion.div
+          className="relative h-full w-full"
+          initial={false}
+          animate={reduceMotion ? { y: 0 } : { y: [0, -12, 0] }}
+          transition={{ y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" } }}
+        >
+          <Image
+            src={roket}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 170px, 120px"
+            className="object-contain"
+          />
+        </motion.div>
+      </div>
 
-      <button
-        type="button"
-        aria-label="التالي"
-        onClick={() => swiperRef.current?.slideNext()}
-        className="hero-slider-arrow hero-slider-arrow--next"
-      >
-        <ChevronLeft size={18} />
-      </button>
+      {/* Card */}
+      <div className="glass-panel glass-panel--tint p-6 sm:p-7">
+        {/* Header */}
+        <div className="relative flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-primary-500 to-primary-700 text-white shadow-lg shadow-primary-600/30">
+              <Icon size={20} strokeWidth={1.8} />
+            </div>
+            <div>
+              <p className="text-sm font-black text-ink">{card.title}</p>
+              <p className="mt-0.5 text-[11px] text-muted">{card.valueLabel}</p>
+            </div>
+          </div>
+
+          <span className="rounded-full bg-primary-600/10 px-3 py-1 text-[10px] font-bold text-primary-600 dark:bg-primary-500/15 dark:text-primary-400">
+            {card.tag}
+          </span>
+        </div>
+
+        {/* Value + bars */}
+        <div className="relative mt-7 flex items-end justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-5xl font-black tracking-tight text-ink sm:text-6xl">
+              {card.bigValue}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              {card.description}
+            </p>
+          </div>
+
+          <div
+            aria-hidden
+            className="hidden h-20 shrink-0 items-end gap-1 sm:flex"
+          >
+            {card.bars.map((height, i) => (
+              <motion.span
+                key={i}
+                initial={{ scaleY: 0, opacity: 0 }}
+                animate={{ scaleY: 1, opacity: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 220,
+                  damping: 24,
+                  delay: 0.5 + i * 0.05,
+                }}
+                style={{ height: `${height}%` }}
+                className="w-1.5 origin-bottom rounded-full bg-linear-to-t from-primary-700 to-primary-400"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Mini stats */}
+        <div className="relative mt-7 grid grid-cols-3 gap-3">
+          {card.stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-2xl border border-black/[0.05] bg-white/50 p-2.5 text-center backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.05]"
+            >
+              <p className="text-sm font-black tracking-tight text-ink">
+                {stat.value}
+              </p>
+              <p className="mt-0.5 text-[10px] text-muted">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Growth strip */}
+        <div className="relative mt-4 flex items-center justify-between rounded-2xl border border-primary-600/15 bg-primary-600/[0.06] px-4 py-3 dark:bg-primary-500/[0.08]">
+          <div className="flex items-center gap-2">
+            <TrendingUp size={15} className="text-primary-600" />
+            <span className="text-[11px] font-bold text-muted">
+              {card.growthLabel}
+            </span>
+          </div>
+          <span className="text-sm font-black text-primary-600">
+            {card.growth}
+          </span>
+        </div>
+      </div>
     </motion.div>
   );
 }
@@ -525,6 +382,7 @@ function HeroStats({ stats, variants }) {
 
 /* =========================================================
    HERO CONTENT
+   Text column sized at ~2/3 of the hero width.
 ========================================================= */
 
 function HeroContent() {
@@ -548,7 +406,7 @@ function HeroContent() {
       variants={variants.container}
       initial="hidden"
       animate="visible"
-      className="max-w-xl text-center lg:text-start"
+      className="max-w-2xl text-center lg:text-start"
     >
       <motion.div
         variants={variants.item}
@@ -578,7 +436,7 @@ function HeroContent() {
 
       <motion.p
         variants={variants.item}
-        className="mt-6 max-w-lg text-base leading-relaxed text-muted sm:text-lg"
+        className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
       >
         {description}
       </motion.p>
@@ -616,9 +474,6 @@ export default function HeroSection() {
       {/* Background */}
       <HeroBackground />
 
-      {/* Fog / cloud edges — outside the slider for depth */}
-      <HeroClouds />
-
       <Container className="relative z-10 w-full">
         <div
           className="
@@ -626,17 +481,15 @@ export default function HeroSection() {
             grid-cols-1
             items-center
             gap-16
-            lg:grid-cols-[1fr_0.95fr]
-            lg:gap-10
+            lg:grid-cols-[1.5fr_1fr]
+            lg:gap-14
           "
         >
-          {/* Content */}
+          {/* Content — ~2/3 of the width */}
           <HeroContent />
 
-          {/* Premium slider — bleeds past the container edge */}
-          <div className="hero-slider-frame">
-            <HeroSlider />
-          </div>
+          {/* Single premium card — ~1/3 of the width */}
+          <HeroCardFrame />
         </div>
       </Container>
 
@@ -645,7 +498,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8, ease: EASE }}
+          transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
           className="mt-12 hidden justify-center sm:flex"
         >
           <ScrollIndicator className="h-14 w-9" />
