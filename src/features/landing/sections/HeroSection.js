@@ -181,11 +181,9 @@ function HeroCardFrame() {
             alt=""
             fill
             priority
-            sizes="(min-width: 1024px) 170px, 120px"
+            sizes="(min-width: 1024px) 220px, 160px"
             className="object-contain"
           />
-          {/* Flickering thrust flame under the rocket */}
-          <span aria-hidden className="hero-rocket__flame" />
         </div>
       </div>
 
