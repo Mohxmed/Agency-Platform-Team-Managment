@@ -39,7 +39,7 @@ export default function ShowcaseRocket({
   const visible = config.visible !== false;
   const speed = clamp(toNum(config.speed, 20), 18, 25);
   const size = clamp(toNum(config.size, 170), 120, 260);
-  const opacity = clamp(toNum(config.opacity, 0.5), 0, 1);
+  const opacity = clamp(toNum(config.opacity, 0.8), 0, 1);
   const glow = clamp(toNum(config.glow, 0.35), 0, 1);
   const src = config.image || roket;
 
@@ -52,7 +52,7 @@ export default function ShowcaseRocket({
   return (
     <motion.div
       aria-hidden
-      className="showcase-rocket absolute z-0"
+      className="showcase-rocket absolute z-30"
       style={{ width: size, height: size, opacity, x: rocketX, y: rocketY }}
       initial={{ top: ROCKET_PATH.top[0], left: ROCKET_PATH.left[0], rotate: ROCKET_PATH.rotate[0] }}
       animate={

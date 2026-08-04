@@ -155,7 +155,7 @@
   will-change: transform;
 }
 
-/* Orbiting rocket — rendered behind the cards */
+/* Orbiting rocket — rendered above the cards */
 .showcase-rocket {
   pointer-events: none;
   will-change: transform;

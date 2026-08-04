@@ -59,7 +59,7 @@ const EMPTY = {
         image: "",
         speed: 20,
         size: 170,
-        opacity: 0.5,
+        opacity: 0.8,
         glow: 0.35,
       },
     },
