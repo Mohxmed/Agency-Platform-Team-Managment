@@ -17,10 +17,10 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
       "
     >
       {/* =====================================================
-          AMBIENT BACKGROUND
+          AMBIENT BACKGROUND (static gradients — no filter)
       ====================================================== */}
 
-      <motion.div
+      <div
         className="
           pointer-events-none
           absolute
@@ -29,23 +29,11 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
           h-[500px]
           w-[500px]
           rounded-full
-          bg-primary-600/10
-          blur-[130px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
         "
-        animate={{
-          x: [0, -25, 0],
-          y: [0, 20, 0],
-          scale: [1, 1.08, 1],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
       />
 
-      <motion.div
+      <div
         className="
           pointer-events-none
           absolute
@@ -54,19 +42,8 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
           h-[500px]
           w-[500px]
           rounded-full
-          bg-primary-700/10
-          blur-[140px]
+          [background:radial-gradient(circle_at_center,rgba(190,18,60,0.10),transparent_62%)]
         "
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -25, 0],
-          scale: [1, 1.06, 1],
-        }}
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
       />
 
       {/* =====================================================
@@ -101,10 +78,10 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
         "
       >
         {/* =================================================
-            PANEL GLOWS
+            PANEL GLOWS (static gradients)
         ================================================== */}
 
-        <motion.div
+        <div
           className="
             pointer-events-none
             absolute
@@ -113,21 +90,11 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
             h-[500px]
             w-[500px]
             rounded-full
-            bg-white/10
-            blur-[100px]
+            [background:radial-gradient(circle_at_center,rgba(255,255,255,0.14),transparent_62%)]
           "
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.25, 0.45, 0.25],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
-        <motion.div
+        <div
           className="
             pointer-events-none
             absolute
@@ -136,18 +103,8 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
             h-[400px]
             w-[400px]
             rounded-full
-            bg-black/10
-            blur-[100px]
+            [background:radial-gradient(circle_at_center,rgba(0,0,0,0.14),transparent_62%)]
           "
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* =================================================
@@ -238,12 +195,10 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
             initial={{
               opacity: 0,
               y: 35,
-              filter: "blur(8px)",
             }}
             animate={{
               opacity: 1,
               y: 0,
-              filter: "blur(0px)",
             }}
             transition={{
               delay: 0.25,
@@ -346,9 +301,9 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
           md:p-10
         "
       >
-        {/* Mobile Glow */}
+        {/* Mobile Glow (static gradient) */}
 
-        <motion.div
+        <div
           className="
             pointer-events-none
             absolute
@@ -357,19 +312,9 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
             h-96
             w-96
             rounded-full
-            bg-primary-600/10
-            blur-[120px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
             md:hidden
           "
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.4, 0.7, 0.4],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* =================================================
@@ -382,14 +327,12 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
             x: 50,
             y: 15,
             scale: 0.97,
-            filter: "blur(8px)",
           }}
           animate={{
             opacity: 1,
             x: 0,
             y: 0,
             scale: 1,
-            filter: "blur(0px)",
           }}
           transition={{
             delay: 0.2,
@@ -421,7 +364,7 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
               sm:p-9
             "
           >
-            {/* Card Glow */}
+            {/* Card Glow (static gradient) */}
 
             <div
               className="
@@ -432,8 +375,7 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
                 h-48
                 w-48
                 rounded-full
-                bg-primary-600/10
-                blur-[80px]
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
               "
             />
 
@@ -507,12 +449,10 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
                 initial={{
                   opacity: 0,
                   y: 15,
-                  filter: "blur(5px)",
                 }}
                 animate={{
                   opacity: 1,
                   y: 0,
-                  filter: "blur(0px)",
                 }}
                 transition={{
                   delay: 0.48,

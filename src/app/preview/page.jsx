@@ -9,8 +9,8 @@ export default function LoadingPreview() {
       className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-[#fafafa]"
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/[0.045] blur-[100px]" />
-        <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/[0.035] blur-[60px]" />
+        <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(220,38,38,0.045),transparent_62%)]" />
+        <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(220,38,38,0.035),transparent_62%)]" />
       </div>
       <div className="relative flex flex-col items-center">
         <div className="relative flex h-44 w-44 items-center justify-center">

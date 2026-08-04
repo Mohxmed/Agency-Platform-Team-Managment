@@ -195,10 +195,10 @@ export default function ServicesSection() {
           "
         />
 
-        {/* Aurora orbs */}
+        {/* Aurora orbs (static gradients — no filter) */}
 
         <div
-          className="anim-glow
+          className="
             hero-orb-red
             absolute
             -top-24
@@ -207,12 +207,11 @@ export default function ServicesSection() {
             w-[30rem]
             rounded-full
             opacity-70
-            blur-3xl
           "
         />
 
         <div
-          className="anim-glow-rev
+          className="
             hero-orb-violet
             absolute
             -bottom-32
@@ -221,7 +220,6 @@ export default function ServicesSection() {
             w-[32rem]
             rounded-full
             opacity-70
-            blur-3xl
           "
         />
 

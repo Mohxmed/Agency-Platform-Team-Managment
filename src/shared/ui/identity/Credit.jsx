@@ -29,10 +29,8 @@ export default function DeveloperCredit() {
         border-black/5
         dark:border-white/10
 
-        bg-white/60
+        bg-white/85
         dark:bg-white/[0.06]
-
-        backdrop-blur-xl
 
         px-4
         py-2.5

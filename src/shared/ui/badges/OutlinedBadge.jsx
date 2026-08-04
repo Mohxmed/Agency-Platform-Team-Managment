@@ -8,7 +8,7 @@ export function OutlinedBadge({ children, className, variant = "primary" }) {
           "border-primary-200 text-primary-600 dark:border-primary-500/40 dark:text-primary-400":
             variant === "primary",
 
-          "border-white/30 bg-white/10 text-white backdrop-blur-sm":
+          "border-white/30 bg-white/15 text-white":
             variant === "white",
         },
         className,

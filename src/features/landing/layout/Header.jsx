@@ -55,13 +55,12 @@ export default function Header() {
           top-0
           z-50
           w-full
-          bg-white/90
+          bg-white/95
           shadow
-          backdrop-blur
           transition-transform
           duration-500
           ease-out
-          dark:bg-background/90
+          dark:bg-background/95
           ${hidden ? "-translate-y-full" : "translate-y-0"}
         `}
       >

@@ -30,13 +30,11 @@ const fadeUp = {
   hidden: {
     opacity: 0,
     y: 24,
-    filter: "blur(7px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       ease: [0.22, 1, 0.36, 1],
@@ -60,14 +58,12 @@ const cardItem = {
     opacity: 0,
     y: 22,
     scale: 0.97,
-    filter: "blur(5px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.55,
       ease: [0.22, 1, 0.36, 1],
@@ -194,16 +190,11 @@ export default function ClientsPage() {
           w-[420px]
           -translate-x-1/2
           rounded-full
-          bg-primary-500/[0.035]
-          blur-[120px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.035),transparent_62%)]
         "
       />
 
       <div
-        style={{
-          animation:
-            "pf-float 8s ease-in-out infinite, pf-fade-soft 8s ease-in-out infinite",
-        }}
         className="
           pointer-events-none
           absolute
@@ -212,8 +203,7 @@ export default function ClientsPage() {
           h-[350px]
           w-[350px]
           rounded-full
-          bg-primary-500/[0.025]
-          blur-[120px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_62%)]
         "
       />
 
@@ -239,10 +229,9 @@ export default function ClientsPage() {
             amount: 0.4,
           }}
         >
-          {/* Golden Glow */}
+          {/* Golden Glow (static gradient — no filter) */}
 
           <div
-            style={{ animation: "pf-pulse 5s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -253,8 +242,7 @@ export default function ClientsPage() {
               -translate-x-1/2
               -translate-y-1/2
               rounded-full
-              bg-amber-400/10
-              blur-3xl
+              [background:radial-gradient(circle_at_center,rgba(251,191,36,0.10),transparent_62%)]
             "
           />
 
@@ -329,10 +317,8 @@ export default function ClientsPage() {
                   absolute
                   inset-0
                   rounded-full
-                  bg-amber-400/20
-                  blur-md
+                  [background:radial-gradient(circle_at_center,rgba(251,191,36,0.20),transparent_65%)]
                 "
-                style={{ animation: "pf-pulse 3s ease-in-out infinite" }}
               />
 
               <div

@@ -167,12 +167,11 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
                       rounded-full
                       border
                       border-white/20
-                      bg-black/40
+                      bg-black/50
                       px-2.5
                       text-xs
                       font-bold
                       text-white
-                      backdrop-blur-md
                     "
                   >
                     {String(index + 1).padStart(2, "0")}
@@ -193,11 +192,10 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
                       items-center
                       justify-center
                       rounded-full
-                      bg-white/90
+                      bg-white/95
                       text-black
                       opacity-0
                       shadow-lg
-                      backdrop-blur-md
                       transition-all
                       duration-300
                       group-hover:translate-y-0
@@ -313,7 +311,6 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
             justify-center
             bg-black/95
             p-4
-            backdrop-blur-sm
             sm:p-8
           "
           onClick={closeGallery}
@@ -339,9 +336,8 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
               rounded-full
               border
               border-white/10
-              bg-white/10
+              bg-white/15
               text-white
-              backdrop-blur-md
               transition
               hover:bg-white
               hover:text-black
@@ -364,13 +360,12 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
               rounded-full
               border
               border-white/10
-              bg-white/10
+              bg-white/15
               px-4
               py-2
               text-xs
               font-medium
               text-white/80
-              backdrop-blur-md
               sm:top-7
             "
           >
@@ -400,9 +395,8 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
                 rounded-full
                 border
                 border-white/10
-                bg-white/10
+                bg-white/15
                 text-white
-                backdrop-blur-md
                 transition
                 hover:bg-white
                 hover:text-black
@@ -464,9 +458,8 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
                 rounded-full
                 border
                 border-white/10
-                bg-white/10
+                bg-white/15
                 text-white
-                backdrop-blur-md
                 transition
                 hover:bg-white
                 hover:text-black

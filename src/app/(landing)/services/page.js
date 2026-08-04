@@ -26,13 +26,11 @@ const fadeUp = {
   hidden: {
     opacity: 0,
     y: 35,
-    filter: "blur(8px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
 
     transition: {
       duration: 0.75,
@@ -68,14 +66,12 @@ const cardItem = {
     opacity: 0,
     y: 45,
     scale: 0.96,
-    filter: "blur(7px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
 
     transition: {
       duration: 0.65,
@@ -113,7 +109,6 @@ export default function ServicesPage() {
         {/* Top glow */}
 
         <div
-          style={{ animation: "pf-pulse 9s ease-in-out infinite" }}
           className="
             absolute
             -top-72
@@ -122,15 +117,13 @@ export default function ServicesPage() {
             w-[1000px]
             -translate-x-1/2
             rounded-full
-            bg-primary-500/[0.065]
-            blur-[170px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.065),transparent_62%)]
           "
         />
 
-        {/* Right glow */}
+        {/* Right glow (static gradient — no filter) */}
 
         <div
-          style={{ animation: "pf-drift-rev 12s ease-in-out infinite" }}
           className="
             absolute
             -right-72
@@ -138,15 +131,13 @@ export default function ServicesPage() {
             h-[650px]
             w-[650px]
             rounded-full
-            bg-primary-600/[0.035]
-            blur-[160px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.035),transparent_62%)]
           "
         />
 
-        {/* Left glow */}
+        {/* Left glow (static gradient) */}
 
         <div
-          style={{ animation: "pf-drift 14s ease-in-out infinite" }}
           className="
             absolute
             -left-72
@@ -154,8 +145,7 @@ export default function ServicesPage() {
             h-[600px]
             w-[600px]
             rounded-full
-            bg-primary-400/[0.035]
-            blur-[160px]
+            [background:radial-gradient(circle_at_center,rgba(249,115,22,0.035),transparent_62%)]
           "
         />
 
@@ -213,10 +203,9 @@ export default function ServicesPage() {
             lg:py-20
           "
         >
-          {/* Hero ambient */}
+          {/* Hero ambient (static gradients — no filter) */}
 
           <div
-            style={{ animation: "pf-pulse 7s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -225,13 +214,11 @@ export default function ServicesPage() {
               h-[450px]
               w-[450px]
               rounded-full
-              bg-primary-500/20
-              blur-[110px]
+              [background:radial-gradient(circle_at_center,rgba(217,4,41,0.20),transparent_62%)]
             "
           />
 
           <div
-            style={{ animation: "pf-drift 10s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -240,8 +227,7 @@ export default function ServicesPage() {
               h-[400px]
               w-[400px]
               rounded-full
-              bg-primary-700/10
-              blur-[110px]
+              [background:radial-gradient(circle_at_center,rgba(190,18,60,0.10),transparent_62%)]
             "
           />
 
@@ -296,7 +282,6 @@ export default function ServicesPage() {
                 text-xs
                 font-medium
                 text-primary-300
-                backdrop-blur-xl
               "
             >
               <span
@@ -564,8 +549,7 @@ export default function ServicesPage() {
                 h-48
                 w-48
                 rounded-full
-                bg-primary-500/[0.07]
-                blur-3xl
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.07),transparent_65%)]
               "
             />
 
@@ -653,10 +637,9 @@ export default function ServicesPage() {
               lg:px-14
             "
           >
-            {/* Glow */}
+            {/* Glow (static gradient — no filter) */}
 
             <div
-              style={{ animation: "pf-pulse 6s ease-in-out infinite" }}
               className="
                 pointer-events-none
                 absolute
@@ -665,8 +648,7 @@ export default function ServicesPage() {
                 h-72
                 w-72
                 rounded-full
-                bg-white/10
-                blur-[90px]
+                [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_65%)]
               "
             />
 
@@ -770,10 +752,9 @@ function MiniStat({ value, label }) {
         rounded-2xl
         border
         border-white/10
-        bg-white/[0.04]
+        bg-white/[0.06]
         px-5
         py-3
-        backdrop-blur-xl
       "
     >
       <span

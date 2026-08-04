@@ -8,7 +8,7 @@ export default function StatsBoard() {
   const stats = settings.stats || [];
 
   return (
-    <div className="relative mt-4 overflow-hidden rounded-[40px] border border-white/15 bg-primary-600 px-8 py-12 shadow-[0_30px_100px_rgba(105,1,2,0.35)] before:absolute before:inset-0 before:bg-white/6 before:backdrop-blur-xl before:content-['']">
+    <div className="relative mt-4 overflow-hidden rounded-[40px] border border-white/15 bg-primary-600 px-8 py-12 shadow-[0_30px_100px_rgba(105,1,2,0.35)] before:absolute before:inset-0 before:bg-white/[0.06] before:content-['']">
       {/* Background Numbers */}
       <div className="pointer-events-none absolute -right-10 -top-24 text-[220px] font-black leading-none text-white/10">
         120
@@ -45,9 +45,8 @@ export default function StatsBoard() {
                   rounded-2xl
                   border
                   border-white/20
-                  bg-white/10
+                  bg-white/15
                   text-white
-                  backdrop-blur-md
                   transition-all
                   duration-300
                   group-hover/stat:-translate-y-1

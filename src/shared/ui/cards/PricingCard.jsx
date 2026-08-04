@@ -5,9 +5,9 @@ import { ArrowLeft, Check } from "lucide-react";
 import { resolveIcon } from "@/shared/ui/icons/resolveIcon";
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 45, scale: 0.97, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 45, scale: 0.97 },
   visible: {
-    opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
+    opacity: 1, y: 0, scale: 1,
     transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
@@ -31,8 +31,7 @@ export default function PricingCard({ plan }) {
       {plan.popular && (
         <>
           <div
-            className="pointer-events-none absolute -right-28 -top-28 h-72 w-72 rounded-full bg-primary-600/20 blur-[90px]"
-            style={{ animation: "pf-pulse 5s ease-in-out infinite" }}
+            className="pointer-events-none absolute -right-28 -top-28 h-72 w-72 rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.20),transparent_62%)]"
           />
           <div className="absolute left-6 top-5 rounded-full bg-primary-600 px-3 py-1.5 text-[10px] font-bold text-white shadow-lg shadow-primary-600/20">
             الأكثر طلبًا

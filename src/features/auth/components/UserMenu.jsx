@@ -103,19 +103,18 @@ export default function UserMenu() {
           rounded-full
           border
           border-ink/10
-          bg-white/60
+          bg-white/85
           p-1.5
           pl-2
           text-ink
           shadow-[0_8px_30px_rgba(0,0,0,0.06)]
-          backdrop-blur-xl
           transition-all
           duration-300
-          hover:bg-white/80
+          hover:bg-white
           hover:shadow-[0_12px_40px_rgba(232,33,37,0.15)]
           dark:border-white/10
-          dark:bg-white/5
-          dark:hover:bg-white/10
+          dark:bg-white/10
+          dark:hover:bg-white/15
         "
         aria-expanded={isOpen}
         aria-haspopup="menu"
@@ -204,15 +203,14 @@ export default function UserMenu() {
               rounded-[24px]
               border
               border-white/40
-              bg-white/70
+              bg-white/90
               shadow-[0_30px_80px_rgba(0,0,0,0.12)]
-              backdrop-blur-2xl
               dark:border-white/10
-              dark:bg-[#12121a]/90
+              dark:bg-[#12121a]
             "
             role="menu"
           >
-            {/* Decorative top glow */}
+            {/* Decorative top glow (static gradient) */}
             <div
               className="
                 pointer-events-none
@@ -222,8 +220,7 @@ export default function UserMenu() {
                 h-40
                 w-40
                 rounded-full
-                bg-primary-500/15
-                blur-3xl
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.15),transparent_62%)]
               "
             />
 

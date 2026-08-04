@@ -23,9 +23,8 @@ export default function NotFound() {
         px-6
         "
       >
-        {/* Animated Background */}
+        {/* Background (static gradients — no filter) */}
         <div
-          style={{ animation: "pf-pulse 6s ease-in-out infinite" }}
           className="
           absolute
           top-[-120px]
@@ -34,13 +33,11 @@ export default function NotFound() {
           w-[500px]
           h-[500px]
           rounded-full
-          bg-red-500/20
-          blur-[120px]
+          [background:radial-gradient(circle_at_center,rgba(239,68,68,0.20),transparent_62%)]
           "
         />
 
         <div
-          style={{ animation: "pf-float 8s ease-in-out infinite" }}
           className="
           absolute
           right-[-100px]
@@ -48,8 +45,7 @@ export default function NotFound() {
           w-80
           h-80
           rounded-full
-          bg-black/10
-          blur-3xl
+          [background:radial-gradient(circle_at_center,rgba(0,0,0,0.10),transparent_62%)]
           "
         />
 
@@ -81,7 +77,7 @@ export default function NotFound() {
               alt="No2ta"
               width={350}
               className="
-              blur-[1px]
+              opacity-70
               "
             />
           </motion.div>

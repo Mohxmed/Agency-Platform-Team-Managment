@@ -53,9 +53,7 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
           z-20
           h-full
           w-16
-          blur-lg
           sm:w-32
-          sm:blur-2xl
           lg:w-56
           ${colors.left}
         `}
@@ -71,11 +69,8 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
           z-20
           h-full
           w-16
-          blur-lg
           sm:w-32
-          sm:blur-2xl
           lg:w-56
-          lg:blur-3xl
           ${colors.right}
         `}
       />

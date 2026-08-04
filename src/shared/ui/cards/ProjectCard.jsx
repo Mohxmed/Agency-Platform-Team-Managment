@@ -24,8 +24,7 @@ export default function ProjectCard({ project }) {
           -z-10
           rounded-[2.1rem]
           bg-primary-600/0
-          blur-2xl
-          transition-all
+          transition-colors
           duration-700
           group-hover:bg-primary-600/15
         "
@@ -69,12 +68,10 @@ export default function ProjectCard({ project }) {
             h-52
             w-52
             rounded-full
-            bg-primary-500/10
-            blur-[70px]
-            transition-all
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
+            transition-transform
             duration-700
             group-hover:scale-125
-            group-hover:bg-primary-500/20
           "
         />
 
@@ -134,13 +131,12 @@ export default function ProjectCard({ project }) {
                 rounded-full
                 border
                 border-white/20
-                bg-black/25
+                bg-black/40
                 px-3.5
                 py-2
                 text-[11px]
                 font-semibold
                 text-white
-                backdrop-blur-md
               "
             >
               <Sparkles size={12} />
@@ -166,12 +162,11 @@ export default function ProjectCard({ project }) {
               rounded-full
               border
               border-white/15
-              bg-black/20
+              bg-black/35
               px-2
               text-[11px]
               font-bold
               text-white/80
-              backdrop-blur-md
             "
           >
             {project?.index ? String(project.index).padStart(2, "0") : "01"}

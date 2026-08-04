@@ -29,13 +29,11 @@ const itemVariants = {
   hidden: {
     opacity: 0,
     y: 30,
-    filter: "blur(7px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       ease: [0.22, 1, 0.36, 1],
@@ -48,14 +46,12 @@ const cardVariants = {
     opacity: 0,
     y: 45,
     scale: 0.97,
-    filter: "blur(8px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       ease: [0.22, 1, 0.36, 1],
@@ -116,10 +112,9 @@ export default function PricingPage() {
       ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Main Glow */}
+        {/* Main Glow (static gradient — no filter) */}
 
         <div
-          style={{ animation: "pf-pulse 9s ease-in-out infinite" }}
           className="
             absolute
             -right-40
@@ -127,15 +122,13 @@ export default function PricingPage() {
             h-[550px]
             w-[550px]
             rounded-full
-            bg-primary-600/[0.07]
-            blur-[140px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.07),transparent_62%)]
           "
         />
 
-        {/* Bottom Glow */}
+        {/* Bottom Glow (static gradient) */}
 
         <div
-          style={{ animation: "pf-drift 11s ease-in-out infinite" }}
           className="
             absolute
             -bottom-60
@@ -143,12 +136,11 @@ export default function PricingPage() {
             h-[550px]
             w-[550px]
             rounded-full
-            bg-primary-900/[0.055]
-            blur-[140px]
+            [background:radial-gradient(circle_at_center,rgba(153,27,27,0.055),transparent_62%)]
           "
         />
 
-        {/* Center Glow */}
+        {/* Center Glow (static gradient) */}
 
         <div
           className="
@@ -159,8 +151,7 @@ export default function PricingPage() {
             w-80
             -translate-x-1/2
             rounded-full
-            bg-primary-500/[0.025]
-            blur-[120px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_65%)]
           "
         />
 
@@ -271,12 +262,10 @@ export default function PricingPage() {
           initial={{
             opacity: 0,
             y: 35,
-            filter: "blur(7px)",
           }}
           whileInView={{
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
           }}
           viewport={{
             once: true,
@@ -302,7 +291,7 @@ export default function PricingPage() {
             dark:bg-card
           "
         >
-          {/* Glow */}
+          {/* Glow (static gradient — no filter) */}
 
           <div
             className="
@@ -313,8 +302,7 @@ export default function PricingPage() {
               h-64
               w-64
               rounded-full
-              bg-primary-600/[0.07]
-              blur-[80px]
+              [background:radial-gradient(circle_at_center,rgba(217,4,41,0.07),transparent_65%)]
             "
           />
 

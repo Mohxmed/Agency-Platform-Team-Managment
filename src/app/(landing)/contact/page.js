@@ -37,12 +37,10 @@ const fadeUp = {
   hidden: {
     opacity: 0,
     y: 25,
-    filter: "blur(7px)",
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       ease: [0.22, 1, 0.36, 1],
@@ -55,13 +53,11 @@ const cardAnimation = {
     opacity: 0,
     y: 35,
     scale: 0.98,
-    filter: "blur(6px)",
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.75,
       ease: [0.22, 1, 0.36, 1],
@@ -141,39 +137,33 @@ export default function ContactSection() {
       ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Primary glow */}
+        {/* Primary glow (static radial gradient — no filter) */}
 
         <div
-          style={{ animation: "pf-pulse 9s ease-in-out infinite" }}
           className="
             absolute
             -right-52
             -top-52
             h-[650px]
             w-[650px]
-            rounded-full
-            bg-primary-600/[0.07]
-            blur-[150px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.07),transparent_62%)]
           "
         />
 
-        {/* Secondary glow */}
+        {/* Secondary glow (static) */}
 
         <div
-          style={{ animation: "pf-drift 11s ease-in-out infinite" }}
           className="
             absolute
             -bottom-60
             -left-52
             h-[600px]
             w-[600px]
-            rounded-full
-            bg-primary-500/[0.05]
-            blur-[150px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.05),transparent_62%)]
           "
         />
 
-        {/* Small center glow */}
+        {/* Small center glow (static) */}
 
         <div
           className="
@@ -183,9 +173,7 @@ export default function ContactSection() {
             h-72
             w-72
             -translate-x-1/2
-            rounded-full
-            bg-primary-600/[0.025]
-            blur-[120px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_65%)]
           "
         />
 
@@ -268,7 +256,6 @@ export default function ContactSection() {
               font-semibold
               text-primary-700
               shadow-sm
-              backdrop-blur-sm
               dark:border-primary-600/20
               dark:bg-primary-600/10
               dark:text-primary-400
@@ -354,10 +341,9 @@ export default function ContactSection() {
               sm:p-9
             "
           >
-            {/* Background glow */}
+            {/* Background glow (static radial gradient — no filter) */}
 
             <div
-              style={{ animation: "pf-pulse 7s ease-in-out infinite" }}
               className="
                 pointer-events-none
                 absolute
@@ -365,9 +351,7 @@ export default function ContactSection() {
                 -top-28
                 h-80
                 w-80
-                rounded-full
-                bg-primary-600/15
-                blur-[100px]
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.18),transparent_65%)]
               "
             />
 
@@ -379,9 +363,7 @@ export default function ContactSection() {
                 -left-24
                 h-72
                 w-72
-                rounded-full
-                bg-primary-900/30
-                blur-[100px]
+                [background:radial-gradient(circle_at_center,rgba(190,18,60,0.30),transparent_65%)]
               "
             />
 
@@ -508,7 +490,7 @@ export default function ContactSection() {
               dark:bg-card
             "
           >
-            {/* Top glow */}
+            {/* Top glow (static gradient — no filter) */}
 
             <div
               className="
@@ -518,9 +500,7 @@ export default function ContactSection() {
                 -top-24
                 h-52
                 w-52
-                rounded-full
-                bg-primary-600/[0.06]
-                blur-[80px]
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.06),transparent_65%)]
               "
             />
 
@@ -996,9 +976,8 @@ function ContactInfo({ icon, title, value, href }) {
         rounded-2xl
         border
         border-white/[0.07]
-        bg-white/[0.035]
+        bg-white/[0.05]
         p-4
-        backdrop-blur-sm
       "
     >
       <div

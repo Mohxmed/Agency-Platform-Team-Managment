@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 
 import logo from "@/assets/identity/logo-icon.png";
@@ -27,12 +27,10 @@ const itemVariants = {
   hidden: {
     opacity: 0,
     y: 35,
-    filter: "blur(10px)",
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.9,
       ease: [0.22, 1, 0.36, 1],
@@ -53,63 +51,6 @@ export default function SocialMediaSection() {
   const socialRedTitle = content.redTitle || SOCIAL_SECTION.redTitle;
   const socialDescription = content.description || SOCIAL_SECTION.description;
   const bottomText = content.bottomText || "كن جزءًا من مجتمع نقطة";
-
-  /* =======================================================
-     MOUSE PARALLAX
-  ======================================================= */
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [10, -10]),
-    {
-      stiffness: 120,
-      damping: 18,
-      mass: 0.5,
-    }
-  );
-
-  const rotateY = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-10, 10]),
-    {
-      stiffness: 120,
-      damping: 18,
-      mass: 0.5,
-    }
-  );
-
-  const logoX = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-12, 12]),
-    {
-      stiffness: 100,
-      damping: 20,
-    }
-  );
-
-  const logoY = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [-12, 12]),
-    {
-      stiffness: 100,
-      damping: 20,
-    }
-  );
-
-  const handleMouseMove = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setIsHoveringLogo(false);
-  };
 
   return (
     <section
@@ -135,11 +76,10 @@ export default function SocialMediaSection() {
       ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Main ambient glow */}
+        {/* Main ambient glow (static gradient — no filter) */}
 
         <div
           className="
-            anim-pulse
             absolute
             left-1/2
             top-1/2
@@ -148,8 +88,7 @@ export default function SocialMediaSection() {
             -translate-x-1/2
             -translate-y-1/2
             rounded-full
-            bg-primary-600/15
-            blur-[120px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.15),transparent_62%)]
             sm:h-[450px]
             sm:w-[450px]
           "
@@ -176,33 +115,29 @@ export default function SocialMediaSection() {
           }}
         />
 
-        {/* Secondary glow */}
+        {/* Secondary glow (static gradient) */}
 
         <div
           className="
-            anim-drift
             absolute
             left-[18%]
             top-[25%]
             h-36
             w-36
             rounded-full
-            bg-primary-400/10
-            blur-[90px]
+            [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
           "
         />
 
         <div
           className="
-            anim-drift-rev
             absolute
             bottom-[20%]
             right-[18%]
             h-44
             w-44
             rounded-full
-            bg-primary-700/10
-            blur-[100px]
+            [background:radial-gradient(circle_at_center,rgba(190,18,60,0.10),transparent_62%)]
           "
         />
 
@@ -275,8 +210,6 @@ export default function SocialMediaSection() {
             sm:h-[340px]
             sm:w-[340px]
           "
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
         >
           {/* ===============================================
               OUTER ORBIT
@@ -396,10 +329,8 @@ export default function SocialMediaSection() {
               absolute
               inset-[65px]
               rounded-full
-              bg-primary-600/10
-              blur-[55px]
+              [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
             "
-            style={{ animation: "pf-pulse 4.5s ease-in-out infinite" }}
           />
 
           {/* ===============================================
@@ -407,13 +338,6 @@ export default function SocialMediaSection() {
           ================================================ */}
 
           <motion.div
-            style={{
-              rotateX,
-              rotateY,
-              x: logoX,
-              y: logoY,
-              transformPerspective: 900,
-            }}
             whileHover={{
               scale: 1.08,
               transition: {
@@ -433,18 +357,15 @@ export default function SocialMediaSection() {
               rounded-full
             "
           >
-            {/* Logo aura */}
+            {/* Logo aura (static gradient — no filter) */}
 
             <div
               className="
-                anim-pulse
                 absolute
                 inset-[-20px]
                 rounded-full
-                bg-primary-600/15
-                blur-2xl
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.15),transparent_62%)]
               "
-              style={{ animationDuration: "4s" }}
             />
 
             {/* Logo shadow platform */}
@@ -458,9 +379,7 @@ export default function SocialMediaSection() {
                 w-32
                 -translate-x-1/2
                 rounded-full
-                bg-black/10
-                opacity-25
-                blur-xl
+                [background:radial-gradient(ellipse_at_center,rgba(0,0,0,0.12),transparent_70%)]
               "
             />
 
@@ -646,11 +565,10 @@ export default function SocialMediaSection() {
               rounded-[2rem]
               border
               border-black/[0.04]
-              bg-white/60
+              bg-white/85
               px-5
               py-4
               shadow-[0_25px_80px_rgba(0,0,0,0.07)]
-              backdrop-blur-xl
               sm:px-7
               sm:py-5
               dark:border-white/10

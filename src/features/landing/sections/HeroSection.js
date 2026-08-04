@@ -262,7 +262,6 @@ function HeroBackground() {
           h-[34rem]
           w-[34rem]
           rounded-full
-          blur-3xl
         "
       />
 
@@ -284,7 +283,6 @@ function HeroBackground() {
           h-[36rem]
           w-[36rem]
           rounded-full
-          blur-3xl
         "
       />
 
@@ -306,7 +304,6 @@ function HeroBackground() {
           h-[26rem]
           w-[26rem]
           rounded-full
-          blur-3xl
         "
       />
 
@@ -326,7 +323,6 @@ function HeroBackground() {
           h-[60%]
           w-[45%]
           rotate-[18deg]
-          blur-2xl
         "
       />
 
@@ -339,7 +335,6 @@ function HeroBackground() {
           h-[55%]
           w-[38%]
           -rotate-[14deg]
-          blur-2xl
         "
       />
 
@@ -501,8 +496,7 @@ function GlassCard({
         rounded-[28px]
         border
         border-white/40
-        bg-white/40
-        backdrop-blur-2xl
+        bg-white/85
         shadow-[0_30px_80px_rgba(0,0,0,0.08)]
         ${className}
       `}
@@ -534,7 +528,7 @@ function ShowcaseGlow() {
   return (
     <>
       <div
-        className="anim-glow absolute -start-16 top-24 h-64 w-64 rounded-full opacity-40 blur-3xl"
+        className="absolute -start-16 top-24 h-64 w-64 rounded-full opacity-40"
         style={{
           background:
             "radial-gradient(circle,rgba(232,33,37,.22),transparent 70%)",
@@ -542,7 +536,7 @@ function ShowcaseGlow() {
       />
 
       <div
-        className="anim-glow-rev absolute -end-10 bottom-16 h-72 w-72 rounded-full opacity-40 blur-3xl"
+        className="absolute -end-10 bottom-16 h-72 w-72 rounded-full opacity-40"
         style={{
           background:
             "radial-gradient(circle,rgba(99,102,241,.18),transparent 70%)",
@@ -1539,11 +1533,10 @@ function HeroActions(){
           font-bold
           text-ink
           border
-          backdrop-blur-xl
-          bg-white/20
+          bg-white/25
           transition-all
           duration-300
-          hover:bg-white/30
+          hover:bg-white/35
         "
 
         style={{
@@ -1901,8 +1894,7 @@ function MobileShowcase() {
         className="
           rounded-3xl
           border
-          bg-white/50
-          backdrop-blur-xl
+          bg-white/80
           p-4
         "
 

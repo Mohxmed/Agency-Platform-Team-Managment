@@ -46,7 +46,7 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
           #
         </span>
 
-        {/* Top Glow */}
+        {/* Top Glow (static gradient — no filter) */}
 
         <div
           className="
@@ -56,15 +56,14 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
             h-72
             w-72
             rounded-full
-            bg-primary-300/20
-            blur-3xl
-            transition-all
+            [background:radial-gradient(circle_at_center,rgba(255,255,255,0.18),transparent_62%)]
+            transition-transform
             duration-700
             group-hover:scale-125
           "
         />
 
-        {/* Bottom Glow */}
+        {/* Bottom Glow (static gradient) */}
 
         <div
           className="
@@ -74,8 +73,7 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
             h-72
             w-72
             rounded-full
-            bg-primary-950/70
-            blur-3xl
+            [background:radial-gradient(circle_at_center,rgba(0,0,0,0.45),transparent_62%)]
           "
         />
 
@@ -108,7 +106,6 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
             via-primary-300/10
             to-transparent
             opacity-0
-            blur-2xl
             transition-all
             duration-1000
             group-hover:left-[130%]
@@ -140,7 +137,6 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
             font-medium
             tracking-wide
             text-primary-100/70
-            backdrop-blur-sm
           "
         >
           <span
@@ -173,7 +169,6 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
             bg-primary-950/25
             text-primary-50
             shadow-[0_20px_50px_rgba(0,0,0,0.22)]
-            backdrop-blur-sm
             transition-all
             duration-500
             group-hover:-translate-y-1
@@ -186,11 +181,10 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
               absolute
               inset-4
               rounded-[1.5rem]
-              bg-primary-400/20
-              blur-xl
+              [background:radial-gradient(circle_at_center,rgba(255,255,255,0.14),transparent_70%)]
               transition
               duration-500
-              group-hover:bg-primary-300/30
+              group-hover:opacity-100
             "
           />
 
@@ -255,7 +249,6 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
                 !border-primary-200/20
                 !bg-primary-950/20
                 !text-primary-50
-                backdrop-blur-sm
                 transition-all
                 hover:!border-primary-200/40
                 hover:!bg-primary-950/40
@@ -282,7 +275,6 @@ export default function ServiceCard({ service, varient = "default", moreHref }) 
                 !border-primary-200/20
                 !bg-primary-950/20
                 !text-primary-50
-                backdrop-blur-sm
                 transition-all
                 hover:!border-primary-200/40
                 hover:!bg-primary-950/40

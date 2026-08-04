@@ -31,11 +31,10 @@ export default function IconButton({
     glass: `
       border
       border-white/40
-      bg-white/30
+      bg-white/55
       text-neutral-700
-      backdrop-blur-xl
       shadow-[0_10px_40px_rgba(0,0,0,0.08)]
-      hover:bg-white/60
+      hover:bg-white/70
       hover:text-primary-600
     `,
 

@@ -81,12 +81,10 @@ export default function ClientCard({ teacher }) {
           h-48
           w-48
           rounded-full
-          bg-primary-500/25
-          blur-[70px]
-          transition-all
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.25),transparent_62%)]
+          transition-opacity
           duration-700
-          group-hover:scale-125
-          group-hover:bg-primary-500/40
+          group-hover:opacity-100
         "
       />
 
@@ -100,11 +98,10 @@ export default function ClientCard({ teacher }) {
           h-40
           w-40
           rounded-full
-          bg-primary-400/15
-          blur-[60px]
-          transition-all
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.15),transparent_62%)]
+          transition-opacity
           duration-700
-          group-hover:bg-primary-400/25
+          group-hover:opacity-100
         "
       />
 
@@ -169,13 +166,12 @@ export default function ClientCard({ teacher }) {
             rounded-full
             border
             border-white/20
-            bg-black/25
+            bg-black/40
             px-3
             py-1.5
             text-[11px]
             font-semibold
             text-white
-            backdrop-blur-md
           "
         >
           <Sparkles size={12} />

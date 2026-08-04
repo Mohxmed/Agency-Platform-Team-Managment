@@ -45,13 +45,11 @@ const revealUp = {
   hidden: {
     opacity: 0,
     y: 35,
-    filter: "blur(8px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.75,
       ease: [0.22, 1, 0.36, 1],
@@ -64,14 +62,12 @@ const projectVariants = {
     opacity: 0,
     y: 30,
     scale: 0.97,
-    filter: "blur(8px)",
   },
 
   visible: (index) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.65,
       delay: index * 0.07,
@@ -83,7 +79,6 @@ const projectVariants = {
     opacity: 0,
     y: -15,
     scale: 0.97,
-    filter: "blur(6px)",
     transition: {
       duration: 0.25,
       ease: "easeInOut",
@@ -302,10 +297,9 @@ export default function PortfolioPage() {
             lg:px-10
           "
         >
-          {/* Glow */}
+          {/* Glow (static gradients — no filter) */}
 
           <div
-            style={{ animation: "pf-glow 7s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -314,13 +308,11 @@ export default function PortfolioPage() {
               h-56
               w-56
               rounded-full
-              bg-white/10
-              blur-3xl
+              [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_65%)]
             "
           />
 
           <div
-            style={{ animation: "pf-glow-rev 8s ease-in-out infinite" }}
             className="
               pointer-events-none
               absolute
@@ -329,8 +321,7 @@ export default function PortfolioPage() {
               h-60
               w-60
               rounded-full
-              bg-black/10
-              blur-3xl
+              [background:radial-gradient(circle_at_center,rgba(0,0,0,0.10),transparent_65%)]
             "
           />
 
@@ -380,7 +371,6 @@ export default function PortfolioPage() {
                     py-1.5
                     text-xs
                     font-medium
-                    backdrop-blur-sm
                   "
                 >
                   <span
@@ -1169,11 +1159,10 @@ function AnimatedStat({ value, label }) {
         rounded-2xl
         border
         border-white/10
-        bg-white/10
+        bg-white/[0.14]
         px-4
         py-3
         text-center
-        backdrop-blur-sm
       "
     >
       <div

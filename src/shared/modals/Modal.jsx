@@ -48,20 +48,16 @@ export default function Modal({ isOpen, setIsOpen, children }) {
             className="
               absolute
               inset-0
-              bg-black/60
-              backdrop-blur-md
+              bg-black/70
             "
             initial={{
               opacity: 0,
-              backdropFilter: "blur(0px)",
             }}
             animate={{
               opacity: 1,
-              backdropFilter: "blur(8px)",
             }}
             exit={{
               opacity: 0,
-              backdropFilter: "blur(0px)",
             }}
             transition={{
               duration: 0.35,
@@ -83,8 +79,7 @@ export default function Modal({ isOpen, setIsOpen, children }) {
               -translate-x-1/2
               -translate-y-1/2
               rounded-full
-              bg-primary-600/10
-              blur-[120px]
+              [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
             "
             initial={{
               opacity: 0,
@@ -116,19 +111,16 @@ export default function Modal({ isOpen, setIsOpen, children }) {
               opacity: 0,
               y: 35,
               scale: 0.94,
-              filter: "blur(8px)",
             }}
             animate={{
               opacity: 1,
               y: 0,
               scale: 1,
-              filter: "blur(0px)",
             }}
             exit={{
               opacity: 0,
               y: 20,
               scale: 0.96,
-              filter: "blur(6px)",
             }}
             transition={{
               duration: 0.45,
@@ -165,8 +157,7 @@ export default function Modal({ isOpen, setIsOpen, children }) {
                 h-48
                 w-48
                 rounded-full
-                bg-primary-600/10
-                blur-[80px]
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_65%)]
               "
             />
 
@@ -207,11 +198,10 @@ export default function Modal({ isOpen, setIsOpen, children }) {
                 className="
                   border
                   border-black/[0.06]
-                  bg-white/80
+                  bg-white/90
                   p-3
                   text-black/50
                   shadow-sm
-                  backdrop-blur-xl
                   transition-all
                   duration-300
                   hover:rotate-90

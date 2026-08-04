@@ -13,8 +13,8 @@ export default function MaintenancePage() {
   return (
     <main dir="rtl" className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-[#080706]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-600/[0.09] blur-[120px]" />
-        <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-500/[0.07] blur-[70px]" />
+        <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.09),transparent_62%)]" />
+        <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full [background:radial-gradient(circle_at_center,rgba(217,4,41,0.07),transparent_62%)]" />
       </div>
 
       <div className="relative flex flex-col items-center px-6 text-center">
@@ -28,7 +28,7 @@ export default function MaintenancePage() {
             style={{ animation: "pf-spin 7s linear infinite" }}
           />
           <div
-            className="anim-float relative flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/[0.06] bg-white/[0.03] text-primary-400 backdrop-blur-md"
+            className="anim-float relative flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/[0.06] bg-white/[0.05] text-primary-400"
           >
             <Wrench size={32} />
           </div>

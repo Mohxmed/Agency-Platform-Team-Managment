@@ -88,9 +88,9 @@ export function ShareModal() {
       <div className="relative border-b border-black/[0.06] px-6 pb-6 pt-7 sm:px-8 dark:border-white/10">
         {/* Decorative */}
 
-        <div className="pointer-events-none absolute -left-10 -top-16 h-32 w-32 rounded-full bg-primary-600/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-10 -top-16 h-32 w-32 rounded-full [background:radial-gradient(circle,rgba(217,4,41,0.10),transparent_65%)]" />
 
-        <div className="pointer-events-none absolute -right-10 -top-20 h-36 w-36 rounded-full bg-primary-600/[0.06] blur-3xl" />
+        <div className="pointer-events-none absolute -right-10 -top-20 h-36 w-36 rounded-full [background:radial-gradient(circle,rgba(217,4,41,0.06),transparent_65%)]" />
 
         <div className="relative z-10 flex flex-col items-center text-center">
           {/* Badge */}

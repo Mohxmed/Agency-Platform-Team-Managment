@@ -117,7 +117,6 @@
 /* Rocket glow */
 .hero-rocket-glow {
   background: radial-gradient(circle, rgba(232, 33, 37, 0.28), transparent 65%);
-  filter: blur(30px);
 }
 
 .dark .hero-rocket-glow {

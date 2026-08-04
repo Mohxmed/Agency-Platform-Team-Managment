@@ -48,15 +48,13 @@ export default function SectionsNavigator() {
           rounded-full
           border
           border-white/60
-          bg-white/40
+          bg-white/70
           px-3
           py-4
           shadow-[0_8px_40px_rgba(0,0,0,0.12)]
-          backdrop-blur-2xl
-          backdrop-saturate-150
           lg:block
           dark:border-white/10
-          dark:bg-black/40
+          dark:bg-black/60
         "
       >
         <ul className="flex flex-col items-center gap-4">
@@ -97,7 +95,6 @@ export default function SectionsNavigator() {
           border
           border-black/5
           bg-white/95
-          backdrop-blur-xl
           shadow-[0_-8px_40px_rgba(0,0,0,0.12)]
           dark:border-white/10
           dark:bg-card/95

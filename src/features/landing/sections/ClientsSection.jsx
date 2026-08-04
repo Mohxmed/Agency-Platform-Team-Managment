@@ -43,13 +43,11 @@ const fadeUp = {
   hidden: {
     opacity: 0,
     y: 30,
-    filter: "blur(8px)",
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
 
     transition: {
       duration: 0.8,
@@ -144,15 +142,14 @@ export default function ClientsSection() {
           -translate-x-1/2
           -translate-y-1/2
           rounded-full
-          bg-primary-300/10
-          blur-[140px]
+          [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_62%)]
         "
       />
 
-      {/* Top Glow */}
+      {/* Top Glow (static gradient — no filter) */}
 
       <div
-        className="anim-drift
+        className="
           pointer-events-none
           absolute
           -right-40
@@ -160,15 +157,14 @@ export default function ClientsSection() {
           h-[500px]
           w-[500px]
           rounded-full
-          bg-white/10
-          blur-[130px]
+          [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_62%)]
         "
       />
 
-      {/* Bottom Glow */}
+      {/* Bottom Glow (static gradient) */}
 
       <div
-        className="anim-drift-rev
+        className="
           pointer-events-none
           absolute
           -bottom-48
@@ -176,8 +172,7 @@ export default function ClientsSection() {
           h-[500px]
           w-[500px]
           rounded-full
-          bg-black/20
-          blur-[130px]
+          [background:radial-gradient(circle_at_center,rgba(0,0,0,0.20),transparent_62%)]
         "
       />
 

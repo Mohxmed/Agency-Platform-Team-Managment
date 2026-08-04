@@ -593,13 +593,12 @@ export default function ProjectPage({ params }) {
                     rounded-full
                     border
                     border-white/15
-                    bg-black/45
+                    bg-black/55
                     px-4
                     py-2.5
                     text-xs
                     font-medium
                     text-white
-                    backdrop-blur-md
                   "
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-primary-400" />
@@ -841,8 +840,7 @@ export default function ProjectPage({ params }) {
                 h-56
                 w-56
                 rounded-full
-                bg-white/10
-                blur-3xl
+                [background:radial-gradient(circle_at_center,rgba(255,255,255,0.10),transparent_65%)]
               "
             />
 
@@ -855,8 +853,7 @@ export default function ProjectPage({ params }) {
                 h-64
                 w-64
                 rounded-full
-                bg-black/10
-                blur-3xl
+                [background:radial-gradient(circle_at_center,rgba(0,0,0,0.10),transparent_65%)]
               "
             />
 

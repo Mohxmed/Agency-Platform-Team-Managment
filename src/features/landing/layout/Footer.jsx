@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import logo from "@/assets/identity/no2ta-logo-light.png";
@@ -49,7 +49,6 @@ const stagger = {
 ========================================================= */
 
 export default function Footer() {
-  const footerRef = useRef(null);
   const { settings } = useSettings();
 
   const footerDescription = settings.content?.footer?.description || FOOTER.description;
@@ -71,44 +70,6 @@ export default function Footer() {
       : FOOTER.columns[1].links,
   };
 
-  /* =======================================================
-     MOUSE PARALLAX
-  ======================================================= */
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const glowX = useSpring(mouseX, {
-    stiffness: 40,
-    damping: 20,
-  });
-
-  const glowY = useSpring(mouseY, {
-    stiffness: 40,
-    damping: 20,
-  });
-
-  const translateX = useTransform(glowX, [-0.5, 0.5], [-40, 40]);
-  const translateY = useTransform(glowY, [-0.5, 0.5], [-30, 30]);
-
-  const handleMouseMove = (event) => {
-    if (!footerRef.current) return;
-
-    const rect = footerRef.current.getBoundingClientRect();
-
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
   const links = {
   company: column1.links,
   services: column2.links,
@@ -118,10 +79,7 @@ export default function Footer() {
 
   return (
     <motion.footer
-      ref={footerRef}
       dir="rtl"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       initial="hidden"
       whileInView="visible"
       viewport={{
@@ -145,65 +103,20 @@ export default function Footer() {
           AMBIENT BACKGROUND
       ====================================================== */}
 
-      {/* Main atmosphere */}
+      {/* Main atmosphere (static radial gradient — no filter) */}
 
-      <motion.div
-        style={{
-          x: translateX,
-          y: translateY,
-        }}
+      <div
         className="
           pointer-events-none
           absolute
           -top-[320px]
           left-1/2
-          h-[700px]
-          w-[1000px]
-          -translate-x-1/2
-          rounded-full
-          bg-primary-500/[0.07]
-          blur-[170px]
-        "
-      />
-
-      {/* Right ambient */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -right-[220px]
-          top-[60px]
           h-[500px]
-          w-[500px]
-          rounded-full
-          bg-primary-600/[0.055]
-          blur-[150px]
+          w-[800px]
+          -translate-x-1/2
+          opacity-60
+          [background:radial-gradient(ellipse_at_center,rgba(217,4,41,0.07),transparent_65%)]
         "
-        style={{
-          animation:
-            "pf-drift 9s ease-in-out infinite, pf-pulse 9s ease-in-out infinite",
-        }}
-      />
-
-      {/* Left ambient */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -left-[250px]
-          bottom-[50px]
-          h-[450px]
-          w-[450px]
-          rounded-full
-          bg-primary-500/[0.05]
-          blur-[150px]
-        "
-        style={{
-          animation:
-            "pf-drift-rev 11s ease-in-out infinite, pf-pulse 11s ease-in-out infinite",
-        }}
       />
 
       {/* =====================================================
@@ -319,11 +232,10 @@ export default function Footer() {
                 rounded-2xl
                 border
                 border-black/[0.05]
-                bg-white/70
+                bg-white/90
                 px-4
                 py-2
                 shadow-[0_15px_40px_rgba(0,0,0,0.05)]
-                backdrop-blur-xl
                 dark:border-white/10
                 dark:bg-white/5
               "
@@ -558,12 +470,11 @@ export default function Footer() {
       </Container>
 
       {/* =====================================================
-          BOTTOM FADE
+          BOTTOM FADE (static gradient — no filter)
       ====================================================== */}
 
       <div
         className="
-          anim-fade-soft
           pointer-events-none
           absolute
           bottom-0
@@ -571,9 +482,7 @@ export default function Footer() {
           h-[100px]
           w-[60%]
           -translate-x-1/2
-          rounded-full
-          bg-primary-500/[0.06]
-          blur-[80px]
+          [background:radial-gradient(ellipse_at_center,rgba(217,4,41,0.05),transparent_70%)]
         "
       />
     </motion.footer>
@@ -746,11 +655,10 @@ function ContactCard({ children, icon, href = "#", disabled = false }) {
         rounded-2xl
         border
         border-black/[0.05]
-        bg-white/70
+        bg-white/90
         px-4
         py-3
         shadow-[0_8px_25px_rgba(0,0,0,0.025)]
-        backdrop-blur-xl
         transition-all
         duration-300
         hover:border-primary-500/20

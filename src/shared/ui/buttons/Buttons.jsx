@@ -86,7 +86,6 @@ export default function Button({
               absolute
               inset-0
               bg-white/0
-              backdrop-blur-sm
               transition-all
               duration-300
               group-hover/button:bg-white/10

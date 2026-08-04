@@ -58,11 +58,7 @@ export default function TermsPage() {
 
           rounded-full
 
-          blur-3xl
-
-          bg-primary-600/10
-
-          dark:bg-primary-500/10
+          [background:radial-gradient(circle,rgba(217,4,41,0.10),transparent_62%)]
         "
       />
 
@@ -84,10 +80,8 @@ export default function TermsPage() {
             border-black/5
             dark:border-white/10
 
-            bg-white/70
+            bg-white/85
             dark:bg-white/[0.06]
-
-            backdrop-blur-2xl
 
             shadow-[0_30px_100px_rgba(0,0,0,0.08)]
             dark:shadow-[0_30px_100px_rgba(0,0,0,0.35)]

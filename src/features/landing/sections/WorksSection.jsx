@@ -97,7 +97,7 @@ export default function WorksSection() {
       "
     >
       {/* =====================================================
-          BACKGROUND ATMOSPHERE
+          BACKGROUND ATMOSPHERE (static gradients — no filter)
       ====================================================== */}
 
       <div
@@ -110,8 +110,7 @@ export default function WorksSection() {
           w-[500px]
           -translate-x-1/2
           rounded-full
-          bg-primary-500/[0.035]
-          blur-[130px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.035),transparent_62%)]
         "
       />
 
@@ -124,8 +123,7 @@ export default function WorksSection() {
           h-[350px]
           w-[350px]
           rounded-full
-          bg-primary-600/[0.025]
-          blur-[120px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_62%)]
         "
       />
 
@@ -453,10 +451,10 @@ function CallToActionWorks() {
         "
       >
 
-      {/* AMBIENT GLOW */}
+      {/* AMBIENT GLOW (static gradient — no filter) */}
 
       <div
-        className="anim-pulse
+        className="
           pointer-events-none
           absolute
           left-1/2
@@ -465,12 +463,11 @@ function CallToActionWorks() {
           w-[420px]
           -translate-x-1/2
           rounded-full
-          bg-primary-500/10
-          blur-[120px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
         "
       />
 
-      {/* Bottom Glow */}
+      {/* Bottom Glow (static gradient) */}
 
       <div
         className="
@@ -482,8 +479,7 @@ function CallToActionWorks() {
           w-[70%]
           -translate-x-1/2
           rounded-full
-          bg-primary-500/[0.025]
-          blur-[90px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.025),transparent_70%)]
         "
       />
 
@@ -514,7 +510,6 @@ function CallToActionWorks() {
           from-transparent
           via-primary-500/[0.06]
           to-transparent
-          blur-2xl
         "
       />
 
@@ -575,7 +570,6 @@ function CallToActionWorks() {
               text-sm
               font-medium
               text-neutral-500
-              backdrop-blur
               dark:border-white/10
               dark:bg-white/5
               dark:text-neutral-400

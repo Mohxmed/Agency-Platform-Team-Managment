@@ -168,10 +168,10 @@ export default function ContactSection() {
           BACKGROUND
       ====================================================== */}
 
-      {/* Main Glow */}
+      {/* Main Glow (static radial gradient — no filter) */}
 
       <div
-        className="anim-pulse
+        className="
           pointer-events-none
           absolute
           left-1/2
@@ -180,41 +180,35 @@ export default function ContactSection() {
           w-[650px]
           -translate-x-1/2
           -translate-y-1/2
-          rounded-full
-          bg-primary-600/[0.08]
-          blur-[150px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
         "
       />
 
-      {/* Right Glow */}
+      {/* Right Glow (static) */}
 
       <div
-        className="anim-drift-rev
+        className="
           pointer-events-none
           absolute
           -right-40
           top-20
           h-[450px]
           w-[450px]
-          rounded-full
-          bg-primary-700/[0.10]
-          blur-[140px]
+          [background:radial-gradient(circle_at_center,rgba(153,27,27,0.10),transparent_65%)]
         "
       />
 
-      {/* Left Glow */}
+      {/* Left Glow (static) */}
 
       <div
-        className="anim-drift-slow
+        className="
           pointer-events-none
           absolute
           -left-40
           bottom-10
           h-[400px]
           w-[400px]
-          rounded-full
-          bg-primary-500/[0.07]
-          blur-[140px]
+          [background:radial-gradient(circle_at_center,rgba(217,4,41,0.08),transparent_65%)]
         "
       />
 
@@ -482,7 +476,7 @@ export default function ContactSection() {
             className="relative"
           >
 
-            {/* Form Glow */}
+            {/* Form Glow (static gradient — no filter) */}
 
             <div
               className="
@@ -490,8 +484,7 @@ export default function ContactSection() {
                 absolute
                 -inset-5
                 rounded-[40px]
-                bg-primary-500/[0.05]
-                blur-3xl
+                [background:radial-gradient(circle_at_center,rgba(217,4,41,0.07),transparent_70%)]
               "
             />
 
@@ -504,10 +497,9 @@ export default function ContactSection() {
                 rounded-[32px]
                 border
                 border-white/[0.08]
-                bg-white/[0.035]
+                bg-white/[0.04]
                 p-6
                 shadow-[0_30px_100px_rgba(0,0,0,0.35)]
-                backdrop-blur-2xl
                 sm:p-8
                 lg:p-10
               "
@@ -543,7 +535,6 @@ export default function ContactSection() {
                   from-transparent
                   via-primary-300/[0.04]
                   to-transparent
-                  blur-2xl
                 "
               />
 

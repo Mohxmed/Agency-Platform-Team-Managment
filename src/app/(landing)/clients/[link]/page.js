@@ -143,15 +143,14 @@ export default function ClientProfilePage({ params }) {
                 rounded-full
                 border
                 border-white/25
-                bg-black/25
+                bg-black/35
                 px-4
                 py-2
                 text-xs
                 font-bold
                 text-white
-                backdrop-blur-xl
                 transition
-                hover:bg-black/40
+                hover:bg-black/50
               "
             >
               <ArrowRight className="h-4 w-4" />
@@ -178,13 +177,12 @@ export default function ClientProfilePage({ params }) {
                 rounded-full
                 border
                 border-white/25
-                bg-black/25
+                bg-black/35
                 px-4
                 py-1.5
                 text-xs
                 font-bold
                 text-white
-                backdrop-blur-xl
               "
             >
               <Sparkles className="h-3.5 w-3.5" />
@@ -498,8 +496,7 @@ export default function ClientProfilePage({ params }) {
               h-64
               w-64
               rounded-full
-              bg-primary-500/20
-              blur-[80px]
+              [background:radial-gradient(circle_at_center,rgba(217,4,41,0.20),transparent_62%)]
             "
           />
           <div
@@ -511,8 +508,7 @@ export default function ClientProfilePage({ params }) {
               h-56
               w-56
               rounded-full
-              bg-primary-500/10
-              blur-[70px]
+              [background:radial-gradient(circle_at_center,rgba(217,4,41,0.10),transparent_62%)]
             "
           />
 
@@ -734,11 +730,10 @@ function StatCard({ label, value }) {
           w-32
           -translate-x-1/2
           rounded-full
-          bg-primary-500/10
-          blur-2xl
+          [background:radial-gradient(ellipse_at_center,rgba(217,4,41,0.10),transparent_65%)]
           transition-all
           duration-500
-          group-hover:bg-primary-500/20
+          group-hover:opacity-100
         "
       />
 
