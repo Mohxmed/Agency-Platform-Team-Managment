@@ -228,7 +228,72 @@
   width: clamp(120px, 15vw, 170px);
   height: clamp(120px, 15vw, 170px);
   pointer-events: none;
+  opacity: 0.5;
+  transform: scale(0.5);
   filter: drop-shadow(0 30px 50px rgba(217, 4, 41, 0.35));
+}
+
+/* Real hovering rocket: gentle bob + stabilizing tilt + slow upward drift.
+   Transforms compose with the parent scale → GPU-only motion. */
+.hero-rocket__flight {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  animation: hero-rocket-flight 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes hero-rocket-flight {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+
+  25% {
+    transform: translate3d(0, -10px, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, -16px, 0) rotate(2deg);
+  }
+
+  75% {
+    transform: translate3d(0, -6px, 0) rotate(0deg);
+  }
+}
+
+/* Flickering thrust flame under the rocket */
+.hero-rocket__flame {
+  position: absolute;
+  top: 88%;
+  left: 50%;
+  width: 36%;
+  height: 50%;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  border-radius: 50% 50% 45% 45%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center 18%,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 170, 60, 0.9) 35%,
+    rgba(232, 33, 37, 0.6) 62%,
+    transparent 78%
+  );
+  animation: hero-rocket-flame 0.45s ease-in-out infinite;
+}
+
+@keyframes hero-rocket-flame {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleY(0.9) scaleX(1);
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translateX(-50%) scaleY(1.25) scaleX(0.9);
+    opacity: 1;
+  }
 }
 
 /* =========================================================
@@ -403,7 +468,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-card-cloud--top,
-  .hero-card-cloud--bottom {
+  .hero-card-cloud--bottom,
+  .hero-rocket__flight,
+  .hero-rocket__flame {
     animation: none;
   }
 }

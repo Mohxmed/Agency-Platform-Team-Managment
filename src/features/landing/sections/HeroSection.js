@@ -155,7 +155,6 @@ function buildCard(hero) {
 function HeroCardFrame() {
   const { settings } = useSettings();
   const hero = settings.content?.hero || {};
-  const reduceMotion = useReducedMotion();
 
   const card = buildCard(hero);
   const Icon = card.icon;
@@ -176,12 +175,7 @@ function HeroCardFrame() {
 
       {/* Rocket floating above the card */}
       <div aria-hidden className="hero-rocket">
-        <motion.div
-          className="relative h-full w-full"
-          initial={false}
-          animate={reduceMotion ? { y: 0 } : { y: [0, -12, 0] }}
-          transition={{ y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" } }}
-        >
+        <div className="hero-rocket__flight">
           <Image
             src={roket}
             alt=""
@@ -190,7 +184,9 @@ function HeroCardFrame() {
             sizes="(min-width: 1024px) 170px, 120px"
             className="object-contain"
           />
-        </motion.div>
+          {/* Flickering thrust flame under the rocket */}
+          <span aria-hidden className="hero-rocket__flame" />
+        </div>
       </div>
 
       {/* Card */}
