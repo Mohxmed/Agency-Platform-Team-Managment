@@ -1,22 +1,25 @@
-export default function SwiperFadeEdges({ children, variant = "red" }) {
+export default function SwiperFadeEdges({
+  children,
+  variant = "red",
+}) {
   const variants = {
     red: {
-      left: `
-        [background:linear-gradient(to_left,rgba(137,17,18,0.98)_0%,rgba(178,23,26,0.6)_35%,rgba(232,33,37,0.12)_65%,rgba(232,33,37,0)_100%)]
-      `,
-      right: `
-        [background:linear-gradient(to_right,rgba(137,17,18,0.98)_0%,rgba(178,23,26,0.6)_35%,rgba(232,33,37,0.12)_65%,rgba(232,33,37,0)_100%)]
-      `,
+      left:
+        "[background:linear-gradient(to_right,rgb(137,17,18)_0%,rgba(137,17,18,.95)_18%,rgba(137,17,18,.75)_40%,rgba(137,17,18,.35)_70%,transparent_100%)]",
+
+      right:
+        "[background:linear-gradient(to_left,rgb(137,17,18)_0%,rgba(137,17,18,.95)_18%,rgba(137,17,18,.75)_40%,rgba(137,17,18,.35)_70%,transparent_100%)]",
     },
 
     white: {
       left: `
-        [background:linear-gradient(to_left,#ffffff_0%,rgba(255,255,255,0.94)_35%,rgba(255,255,255,0.35)_65%,rgba(255,255,255,0)_100%)]
-        dark:[background:linear-gradient(to_left,#0a0a0f_0%,rgba(10,10,15,0.94)_35%,rgba(10,10,15,0.35)_65%,rgba(10,10,15,0)_100%)]
+        [background:linear-gradient(to_right,#fff_0%,rgba(255,255,255,.96)_18%,rgba(255,255,255,.75)_40%,rgba(255,255,255,.3)_70%,transparent_100%)]
+        dark:[background:linear-gradient(to_right,#0a0a0f_0%,rgba(10,10,15,.96)_18%,rgba(10,10,15,.75)_40%,rgba(10,10,15,.3)_70%,transparent_100%)]
       `,
+
       right: `
-        [background:linear-gradient(to_right,#ffffff_0%,rgba(255,255,255,0.94)_35%,rgba(255,255,255,0.35)_65%,rgba(255,255,255,0)_100%)]
-        dark:[background:linear-gradient(to_right,#0a0a0f_0%,rgba(10,10,15,0.94)_35%,rgba(10,10,15,0.35)_65%,rgba(10,10,15,0)_100%)]
+        [background:linear-gradient(to_left,#fff_0%,rgba(255,255,255,.96)_18%,rgba(255,255,255,.75)_40%,rgba(255,255,255,.3)_70%,transparent_100%)]
+        dark:[background:linear-gradient(to_left,#0a0a0f_0%,rgba(10,10,15,.96)_18%,rgba(10,10,15,.75)_40%,rgba(10,10,15,.3)_70%,transparent_100%)]
       `,
     },
   };
@@ -24,40 +27,36 @@ export default function SwiperFadeEdges({ children, variant = "red" }) {
   const colors = variants[variant];
 
   return (
-    <div className="relative isolate">
+    <div className="relative isolate overflow-hidden">
       {children}
 
-      {/* Left cloud fade — soft rounded mask keeps it cloud-like */}
       <div
         className={`
           pointer-events-none
           absolute
           inset-y-0
-          start-0
+          left-0
           z-20
-          w-32
-          sm:w-64
-          lg:w-[24rem]
+          w-24
+          sm:w-40
+          lg:w-60
           ${colors.left}
-          [mask-image:radial-gradient(ellipse_75%_90%_at_center,black_25%,transparent_80%)]
-          [mask-composite:intersect]
+          blur-xl
         `}
       />
 
-      {/* Right cloud fade */}
       <div
         className={`
           pointer-events-none
           absolute
           inset-y-0
-          end-0
+          right-0
           z-20
-          w-32
-          sm:w-64
-          lg:w-[24rem]
+          w-24
+          sm:w-40
+          lg:w-60
           ${colors.right}
-          [mask-image:radial-gradient(ellipse_75%_90%_at_center,black_25%,transparent_80%)]
-          [mask-composite:intersect]
+          blur-xl
         `}
       />
     </div>

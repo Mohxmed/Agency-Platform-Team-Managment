@@ -523,23 +523,55 @@ function GlassCard({
 /* =========================================================
    SHOWCASE GLOW ORBS
 ========================================================= */
-
 function ShowcaseGlow() {
   return (
     <>
+      {/* Left red ambient glow */}
       <div
-        className="absolute -start-16 top-24 h-80 w-80 rounded-full"
+        className="
+          absolute
+          -start-32
+          top-1/4
+          h-[28rem]
+          w-[28rem]
+          rounded-full
+          blur-[100px]
+          opacity-40
+        "
         style={{
           background:
-            "radial-gradient(circle,rgba(232,33,37,.34) 0%,rgba(232,33,37,.14) 40%,transparent 72%)",
+            "radial-gradient(circle, rgba(232,33,37,0.35) 0%, rgba(232,33,37,0.12) 35%, transparent 70%)",
         }}
       />
 
+      {/* Bottom dark depth */}
       <div
-        className="absolute -end-10 bottom-16 h-96 w-96 rounded-full"
+        className="
+          absolute
+          -end-32
+          bottom-0
+          h-[32rem]
+          w-[32rem]
+          rounded-full
+          blur-[120px]
+          opacity-30
+        "
         style={{
           background:
-            "radial-gradient(circle,rgba(17,24,39,.26) 0%,rgba(17,24,39,.1) 42%,transparent 74%)",
+            "radial-gradient(circle, rgba(17,24,39,0.28) 0%, rgba(17,24,39,0.08) 45%, transparent 75%)",
+        }}
+      />
+
+      {/* Center subtle light */}
+      <div
+        className="
+          absolute
+          inset-0
+          opacity-60
+        "
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(255,255,255,0.18), transparent 55%)",
         }}
       />
     </>
@@ -1076,16 +1108,15 @@ function GlassShowcase() {
       <ShowcaseGlow />
 
       {/* Center interactive panel */}
-
-      <div
-        className="
-          absolute
-          inset-0
-          flex
-          items-center
-          justify-center
-        "
-      >
+<div
+  className="
+    relative
+    flex
+    items-center
+    justify-center
+    h-full
+  "
+>
         <TiltResultsPanel />
       </div>
 
