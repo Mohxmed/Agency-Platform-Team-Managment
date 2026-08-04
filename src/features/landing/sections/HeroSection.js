@@ -1,17 +1,11 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  useRef,
-} from "react";
-
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import {
   motion,
-  AnimatePresence,
   useMotionValue,
   useSpring,
   useTransform,
@@ -20,36 +14,24 @@ import {
 
 import {
   ArrowLeft,
-  ArrowRight,
   Play,
   TrendingUp,
-  Sparkles,
-  Layers,
-  Globe,
-  Zap,
 } from "lucide-react";
 
-import {
-  Container,
-} from "@/features/landing";
+import { Container } from "@/features/landing";
 
 import ScrollIndicator from "@/shared/ui/ScrollIndicator";
 import HighlightText from "@/shared/ui/typography/HighlightText";
 
-import {
-  SITE,
-  HERO,
-} from "@/constants/content";
+import { SITE, HERO } from "@/constants/content";
 
-import {
-  useSettings,
-} from "@/contexts/SettingsContext";
+import { useSettings } from "@/contexts/SettingsContext";
 
 import logoIcon from "@/assets/identity/logo-icon.png";
 import roket from "@/assets/svg/rocket.webp";
 
 /* =========================================================
-   CONFIG & SLIDES
+   CONFIG
 ========================================================= */
 
 const HERO_CONFIG = {
@@ -64,49 +46,6 @@ const HERO_CONFIG = {
     description: "نساعد العلامات التجارية على بناء حضور رقمي مؤثر.",
   },
 };
-
-const HERO_SLIDES = [
-  {
-    id: 1,
-    tag: "Creative Direction",
-    title: "هوية بصرية استثنائية",
-    value: "100%",
-    metricLabel: "تفرد وعصرية",
-    description: "نصنع هويات بصرية تنطق بشخصية علامتك وتترك أثراً لا ينسى في ذهن جمهورك.",
-    badge: "Branding",
-    icon: Sparkles,
-  },
-  {
-    id: 2,
-    tag: "Digital Growth",
-    title: "نمو متسارع وأرقام حقيقية",
-    value: "+240%",
-    metricLabel: "متوسط نمو العملاء",
-    description: "حملات استراتيجية موجهة بالبيانات لتحقيق أقصى عائد على الاستثمار.",
-    badge: "Marketing",
-    icon: TrendingUp,
-  },
-  {
-    id: 3,
-    tag: "UI/UX & Web Craft",
-    title: "تجربة مستخدم ساحرة",
-    value: "4.9/5",
-    metricLabel: "تقييم الجودة والتجربة",
-    description: "واجهات رقمية تجمع بين جمال التصميم الفائق وسلاسة الأداء البرمجي.",
-    badge: "Development",
-    icon: Globe,
-  },
-  {
-    id: 4,
-    tag: "Media & Production",
-    title: "إنتاج إعلامي مبهر",
-    value: "+500",
-    metricLabel: "مشروع ناجح",
-    description: "نحول رؤيتك إلى محتوى مرئي يخطف الأنظار ويقود التفاعل.",
-    badge: "Production",
-    icon: Zap,
-  },
-];
 
 /* =========================================================
    MOTION VARIANTS
@@ -132,7 +71,7 @@ const container = {
 };
 
 /* =========================================================
-   PREMIUM BACKGROUND
+   PREMIUM BACKGROUND WITH MOVING ROCKET ANIMATION
 ========================================================= */
 
 function HeroBackground() {
@@ -178,19 +117,43 @@ function HeroBackground() {
 
       {/* Soft Grid */}
       <div className="absolute inset-0 opacity-[0.035]">
-        <div
-          className="h-full w-full bg-[linear-gradient(var(--color-ink)_1px,transparent_1px),linear-gradient(90deg,var(--color-ink)_1px,transparent_1px)] bg-[size:48px_48px]"
-        />
+        <div className="h-full w-full bg-[linear-gradient(var(--color-ink)_1px,transparent_1px),linear-gradient(90deg,var(--color-ink)_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
-      {/* Rocket */}
+      {/* Animated Rocket with Continuous Flight & Floating Effect */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 0.12, scale: 1 }}
-        transition={{ duration: 1.2 }}
-        className="absolute right-[8%] top-[12%] hidden h-64 w-64 lg:block"
+        initial={{ opacity: 0, scale: 0.8, y: 40 }}
+        animate={
+          reduceMotion
+            ? { opacity: 0.35, scale: 1, y: 0 }
+            : {
+                opacity: 0.45,
+                scale: 1,
+                y: [-12, 14, -12],
+                x: [-6, 6, -6],
+                rotate: [-3, 3, -3],
+              }
+        }
+        transition={
+          reduceMotion
+            ? { duration: 1 }
+            : {
+                opacity: { duration: 1 },
+                scale: { duration: 1 },
+                y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+                x: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+              }
+        }
+        className="absolute right-[5%] top-[8%] hidden h-80 w-80 lg:block pointer-events-none z-0"
       >
-        <Image src={roket} alt="" fill className="object-contain" />
+        <Image
+          src={roket}
+          alt="Rocket Animation"
+          fill
+          priority
+          className="object-contain filter drop-shadow-[0_25px_60px_rgba(217,4,41,0.35)]"
+        />
       </motion.div>
 
       {/* Noise */}
@@ -233,203 +196,6 @@ function GlassCard({ children, className = "" }) {
       />
       {children}
     </div>
-  );
-}
-
-/* =========================================================
-   LIGHTWEIGHT PREMIUM SLIDER (Hero Section)
-========================================================= */
-
-function HeroAgencySlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const reduceMotion = useReducedMotion();
-
-  // Auto-advance slider if not hovered
-  useEffect(() => {
-    if (isHovered || reduceMotion) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, [isHovered, reduceMotion]);
-
-  const slide = HERO_SLIDES[currentIndex];
-  const IconComponent = slide.icon;
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-  };
-
-  return (
-    <motion.div
-      variants={reveal}
-      className="relative mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8 mt-12 lg:mt-16"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* =========================================================
-         FLOATING CLOUD / FOG GLOW EFFECTS (Outside the Slider)
-      ========================================================= */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -left-12
-          top-1/2
-          -translate-y-1/2
-          h-[320px]
-          w-[320px]
-          rounded-full
-          bg-primary-600/15
-          blur-[90px]
-          -z-10
-          hidden
-          md:block
-        "
-      />
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -right-12
-          top-1/2
-          -translate-y-1/2
-          h-[320px]
-          w-[320px]
-          rounded-full
-          bg-purple-600/15
-          blur-[90px]
-          -z-10
-          hidden
-          md:block
-        "
-      />
-
-      <GlassCard className="p-8 sm:p-12 lg:p-14 overflow-hidden">
-        {/* Ambient slide gradient */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-r ${slide.gradient} opacity-60 transition-colors duration-700 pointer-events-none`}
-        />
-
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center">
-          {/* Left Slide Content */}
-          <motion.div
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(e, { offset, velocity }) => {
-              if (offset.x < -50 || velocity.x < -500) {
-                handleNext();
-              } else if (offset.x > 50 || velocity.x > 500) {
-                handlePrev();
-              }
-            }}
-            className="cursor-grab active:cursor-grabbing select-none"
-          >
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full bg-primary-600/10 dark:bg-primary-500/20 px-4 py-1.5 text-xs font-bold text-primary-600 dark:text-primary-400">
-                <IconComponent size={14} />
-                {slide.tag}
-              </span>
-              <span className="text-xs font-medium text-muted">
-                0{currentIndex + 1} / 0{HERO_SLIDES.length}
-              </span>
-            </div>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={slide.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: easing }}
-                className="mt-6"
-              >
-                <h3 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
-                  {slide.title}
-                </h3>
-                <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-xl">
-                  {slide.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Navigation & Indicators */}
-            <div className="mt-8 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {HERO_SLIDES.map((s, idx) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setCurrentIndex(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      currentIndex === idx
-                        ? "w-8 bg-primary-600"
-                        : "w-2.5 bg-black/20 dark:bg-white/20 hover:bg-primary-600/50"
-                    }`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handlePrev}
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/5 text-ink hover:bg-primary-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
-                  aria-label="Previous slide"
-                >
-                  <ArrowRight size={18} />
-                </button>
-                <button
-                  onClick={handleNext}
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/5 text-ink hover:bg-primary-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
-                  aria-label="Next slide"
-                >
-                  <ArrowLeft size={18} />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Slide Metric Card / Interactive Preview */}
-          <div className="flex justify-center lg:justify-end">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={slide.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: easing }}
-                className="w-full max-w-[340px] rounded-[28px] bg-white/80 dark:bg-white/[0.08] border border-black/10 dark:border-white/10 p-7 shadow-xl backdrop-blur-xl"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-muted">أداء مميز</span>
-                  <span className="rounded-full bg-primary-600/10 px-3 py-1 text-[11px] font-bold text-primary-600">
-                    {slide.badge}
-                  </span>
-                </div>
-                <div className="mt-6">
-                  <p className="text-5xl font-black tracking-tight text-ink">
-                    {slide.value}
-                  </p>
-                  <p className="mt-2 text-sm font-bold text-muted">
-                    {slide.metricLabel}
-                  </p>
-                </div>
-                <div className="mt-6 pt-5 border-t border-black/10 dark:border-white/10 flex items-center justify-between text-xs text-muted">
-                  <span>وكالة نقطة الإبداعية</span>
-                  <span className="font-bold text-primary-600">مؤشر موثوق</span>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      </GlassCard>
-    </motion.div>
   );
 }
 
@@ -727,9 +493,6 @@ export default function HeroSection() {
           <AnalyticsShowcase />
         </div>
       </Container>
-
-      {/* Lightweight Premium Agency Slider extending outside standard container */}
-      <HeroAgencySlider />
 
       {/* Scroll Indicator */}
       <Container className="relative z-10">
