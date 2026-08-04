@@ -119,3 +119,18 @@ See more: https://nextjs.org/docs/app/guides/local-development
   29 |       "Firebase is not configured. Missing env variables:",
   30 |       missing.join(", "),
   31 |     ); (src/lib/firebase.js:28:13)
+ GET /manifest.webmanifest 200 in 655ms (next.js: 647ms, application-code: 8ms)
+ GET / 200 in 10.1s (next.js: 2.9s, application-code: 7.2s)
+[browser] Firebase is not configured. Missing env variables: NEXT_PUBLIC_FIREBASE_PROJECT_ID, NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET, NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID, NEXT_PUBLIC_FIREBASE_APP_ID 
+    at module evaluation (src/lib/firebase.js:28:13)
+    at module evaluation (src/features/auth/repos/profile.repo.js:3:1)
+    at module evaluation (src/features/auth/services/profile.service.js:1:1)
+    at module evaluation (src/features/auth/providers/AuthProvider.js:9:1)
+  26 |
+  27 |   if (missing.length > 0) {
+> 28 |     console.error(
+     |             ^
+  29 |       "Firebase is not configured. Missing env variables:",
+  30 |       missing.join(", "),
+  31 |     ); (src/lib/firebase.js:28:13)
+[browser] Image with src "/_next/static/media/no2ta-logo.1yf9d1cwz4fl-.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.

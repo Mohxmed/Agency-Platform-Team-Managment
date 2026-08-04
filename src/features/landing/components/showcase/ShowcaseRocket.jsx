@@ -5,8 +5,6 @@ import { motion, useReducedMotion } from "framer-motion";
 
 import roket from "@/assets/svg/rocket.webp";
 
-import useParallax from "./useParallax";
-
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -17,35 +15,22 @@ function toNum(value, fallback) {
 }
 
 /* =========================================================
-   SHOWCASE ROCKET — cinematic elliptical orbit around the
-   cards, rendered BEHIND them (z-0). Slow, eased, with a
-   subtle up/down drift, motion-tilt and breathing scale,
-   plus a red glow beneath.
+   SHOWCASE ROCKET — stationary rocket with a very subtle
+   idle hover (tight up/down, slight tilt and a faint scale
+   breathing). No large path/orbit/translate motion, so it
+   quietly hovers in place above the cards.
 ========================================================= */
 
-const ROCKET_PATH = {
-  top: ["70%", "16%", "44%", "88%", "70%"],
-  left: ["6%", "48%", "86%", "40%", "6%"],
-  rotate: [-14, 18, -6, 8, -14],
-  scale: [1, 0.92, 1, 0.96, 1],
-};
-
-export default function ShowcaseRocket({
-  config = {},
-  parallax = { x: null, y: null },
-}) {
+export default function ShowcaseRocket({ config = {} }) {
   const reduceMotion = useReducedMotion();
 
   const visible = config.visible !== false;
-  const speed = clamp(toNum(config.speed, 20), 18, 25);
+  /* Idle hover duration (3-5s). The `speed` setting now drives it. */
+  const duration = clamp(toNum(config.speed, 4), 3, 5);
   const size = clamp(toNum(config.size, 170), 120, 260);
   const opacity = clamp(toNum(config.opacity, 0.8), 0, 1);
   const glow = clamp(toNum(config.glow, 0.35), 0, 1);
   const src = config.image || roket;
-
-  /* Mouse parallax — the rocket follows the cursor lightly */
-  const rocketX = useParallax(parallax.x, 9);
-  const rocketY = useParallax(parallax.y, 6);
 
   if (!visible) return null;
 
@@ -53,19 +38,13 @@ export default function ShowcaseRocket({
     <motion.div
       aria-hidden
       className="showcase-rocket absolute z-30"
-      style={{ width: size, height: size, opacity, x: rocketX, y: rocketY }}
-      initial={{ top: ROCKET_PATH.top[0], left: ROCKET_PATH.left[0], rotate: ROCKET_PATH.rotate[0] }}
-      animate={
-        reduceMotion
-          ? {}
-          : {
-              top: ROCKET_PATH.top,
-              left: ROCKET_PATH.left,
-              rotate: ROCKET_PATH.rotate,
-              scale: ROCKET_PATH.scale,
-            }
-      }
-      transition={{ duration: speed, repeat: Infinity, ease: "easeInOut", repeatType: "loop" }}
+      style={{
+        top: "70%",
+        left: "6%",
+        width: size,
+        height: size,
+        opacity,
+      }}
     >
       <motion.div
         className="relative h-full w-full"
@@ -73,11 +52,12 @@ export default function ShowcaseRocket({
           reduceMotion
             ? {}
             : {
-                y: [0, -10, 0],
-                x: [0, 6, 0],
+                y: [0, -7, 0], // subtle up/down (4-8px)
+                rotate: [-2, 2, -2], // slight tilt (±2°)
+                scale: [1, 1.02, 1], // faint breathing
               }
         }
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration, repeat: Infinity, ease: "easeInOut" }}
       >
         <Image
           src={src}
