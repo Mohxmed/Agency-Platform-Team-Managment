@@ -6,48 +6,50 @@ import { useClients } from "@/features/landing/hooks/useClients";
 
 import Button from "@/shared/ui/buttons/Buttons";
 import ClientCard from "@/shared/ui/cards/ClientCard";
+
 import SwiperFadeEdges from "@/features/landing/components/SwiperFadeEdges";
 import Marquee from "@/features/landing/components/Marquee";
+
 import { OutlinedBadge } from "@/shared/ui/badges/OutlinedBadge";
 import SectionTitle from "@/features/landing/layout/SectionTitle";
-import { Container } from "@/features/landing";
 
 import {
+  Container,
+} from "@/features/landing";
+
+
+import {
+  Star,
   Users,
-  ArrowLeft,
 } from "lucide-react";
+
 
 import {
   HomeClientsSkeleton,
 } from "@/shared/ui/skeletons/Skeletons";
 
+
 import {
   ROUTES,
 } from "@/constants/routes";
+
 
 import {
   useSettings,
 } from "@/contexts/SettingsContext";
 
 
-/* =========================================================
-   MOTION SYSTEM
-========================================================= */
 
-
-const easing = [
-  0.16,
-  1,
-  0.3,
-  1,
-];
+/* =====================================================
+   MOTION
+===================================================== */
 
 
 const reveal = {
 
   hidden:{
     opacity:0,
-    y:28,
+    y:30,
   },
 
 
@@ -57,9 +59,18 @@ const reveal = {
 
     y:0,
 
+
     transition:{
-      duration:.75,
-      ease:easing,
+
+      duration:.7,
+
+      ease:[
+        .22,
+        1,
+        .36,
+        1,
+      ],
+
     },
 
   },
@@ -76,7 +87,9 @@ const container = {
   visible:{
 
     transition:{
+
       staggerChildren:.12,
+
     },
 
   },
@@ -85,69 +98,14 @@ const container = {
 
 
 
-/* =========================================================
-   DEFAULT CONTENT
-========================================================= */
+
+/* =====================================================
+   SECTION
+===================================================== */
 
 
-const CLIENTS_DEFAULTS = {
-
-  badge:
-  "شركاء النجاح",
-
-
-  title:
-  "أبرز",
-
-
-  redTitle:
-  "شركائنا",
-
-
-  description:
-  "خلف كل نجاح قصة، وخلف كل قصة شراكة حقيقية. نساعد العلامات وصناع المحتوى على بناء حضور أقوى وتأثير يصل للجمهور المناسب.",
-
-
-  primary:
-  "تصفح جميع العملاء",
-
-
-  secondary:
-  "ابدأ معنا",
-
-
-};
-
-
-
-/* =========================================================
-   PREMIUM CARD MOTION
-========================================================= */
-
-
-const cardMotion = {
-
-  hidden:{
-    opacity:0,
-    scale:.96,
-  },
-
-
-  visible:{
-
-    opacity:1,
-
-    scale:1,
-
-    transition:{
-      duration:.7,
-      ease:easing,
-    },
-
-  },
-
-};
 export default function ClientsSection(){
+
 
   const {
     clients,
@@ -156,520 +114,668 @@ export default function ClientsSection(){
   } = useClients();
 
 
+
   const {
     settings,
   } = useSettings();
 
 
 
+
   const content =
-    settings.content?.clients || {};
+  settings.content?.clients || {};
 
 
 
   const badge =
-    content.badge
-    ||
-    CLIENTS_DEFAULTS.badge;
+  content.badge ||
+  "شركاء النجاح";
 
 
 
   const title =
-    content.title
-    ||
-    CLIENTS_DEFAULTS.title;
+  content.title ||
+  "أبرز";
 
 
 
   const redTitle =
-    content.redTitle
-    ||
-    CLIENTS_DEFAULTS.redTitle;
+  content.redTitle ||
+  "شركائنا";
 
 
 
   const description =
-    content.description
-    ||
-    CLIENTS_DEFAULTS.description;
+  content.description ||
+  "نبني شراكات حقيقية مع صناع المحتوى والعلامات التجارية ونحول الأفكار إلى تأثير ملموس.";
 
 
 
   const ctaPrimary =
-    content.ctaPrimary
-    ||
-    CLIENTS_DEFAULTS.primary;
+  content.ctaPrimary ||
+  "تصفح جميع العملاء";
 
 
 
   const ctaPrimaryLink =
-    content.ctaPrimaryLink
-    ||
-    ROUTES.CLIENTS;
+  content.ctaPrimaryLink ||
+  ROUTES.CLIENTS;
 
 
 
   const ctaSecondary =
-    content.ctaSecondary
-    ||
-    CLIENTS_DEFAULTS.secondary;
+  content.ctaSecondary ||
+  "انضم إلينا";
 
 
 
   const ctaSecondaryLink =
-    content.ctaSecondaryLink
-    ||
-    ROUTES.CONTACT;
+  content.ctaSecondaryLink ||
+  ROUTES.CONTACT;
 
 
 
   return (
 
-    <section
+<section
 
-      id="clients"
+id="clients"
 
-      className="
-        relative
-        isolate
-        overflow-hidden
-        py-24
-      "
+className="
+relative
+isolate
+overflow-hidden
+bg-gradient-to-br
+from-primary-700
+via-primary-600
+to-primary-900
+py-20
+"
 
-    >
 
+>
 
-      {/* Premium background */}
 
+{/* GLOWS */}
 
-      <div
 
-        className="
-          absolute
-          inset-0
-          -z-10
-          bg-background
-        "
+<div
 
-      />
+className="
+pointer-events-none
+absolute
+-left-60
+top-1/2
+h-[480px]
+w-[480px]
+-translate-y-1/2
+rounded-full
+opacity-40
+[background:radial-gradient(circle,rgba(255,255,255,.18),transparent_70%)]
+"
 
+/>
 
 
-      <div
 
-        className="
-          pointer-events-none
-          absolute
-          -top-40
-          left-1/2
-          h-[420px]
-          w-[420px]
-          -translate-x-1/2
-          rounded-full
-          opacity-20
-        "
+<div
 
-        style={{
+className="
+pointer-events-none
+absolute
+-right-60
+top-1/3
+h-[520px]
+w-[520px]
+rounded-full
+opacity-30
+[background:radial-gradient(circle,rgba(255,255,255,.16),transparent_70%)]
+"
 
-          background:
-          "radial-gradient(circle, rgba(217,4,41,.25), transparent 70%)"
+/>
 
-        }}
 
-      />
 
+<Container>
 
 
-      <div
+<motion.div
 
-        className="
-          pointer-events-none
-          absolute
-          inset-x-0
-          bottom-0
-          h-32
-          bg-gradient-to-t
-          from-black/[0.03]
-          to-transparent
-        "
+variants={container}
 
-      />
+initial="hidden"
 
+whileInView="visible"
 
+viewport={{
+once:true,
+amount:.2,
+}}
 
+className="
+mx-auto
+max-w-3xl
+text-center
+"
 
+>
 
-      <Container>
 
+<motion.div variants={reveal}>
 
-        {/* HEADER */}
 
+<OutlinedBadge variant="white">
 
-        <motion.div
+<Users size={16}/>
 
-          variants={container}
+{badge}
 
-          initial="hidden"
 
-          whileInView="visible"
+</OutlinedBadge>
 
-          viewport={{
-            once:true,
-            amount:.3,
-          }}
 
-          className="
-            mx-auto
-            max-w-3xl
-            text-center
-          "
+</motion.div>
 
-        >
 
 
-          <motion.div
+<motion.div
 
-            variants={reveal}
+variants={reveal}
 
-            className="
-              flex
-              justify-center
-            "
+className="
+mt-6
+"
 
-          >
+>
 
+<SectionTitle
 
-            <OutlinedBadge>
+variant="light"
 
-              <Users
-                size={15}
-              />
+title={title}
 
-              {badge}
+redTitle={redTitle}
 
-            </OutlinedBadge>
+>
 
+{description}
 
-          </motion.div>
+</SectionTitle>
 
 
+</motion.div>
 
 
-          <motion.div
+</motion.div>
 
-            variants={reveal}
 
-            className="
-              mt-6
-            "
+</Container>
+{/* =====================================================
+    FULL WIDTH SLIDER
+===================================================== */}
 
-          >
 
-            <SectionTitle
+<div
 
-              title={title}
+className="
+relative
+mt-12
+w-full
+"
 
-              redTitle={redTitle}
+>
 
-            >
 
-              {description}
+<div
 
-            </SectionTitle>
+className="
+mx-auto
+w-full
+max-w-[1500px]
+"
 
+>
 
-          </motion.div>
 
+<motion.div
 
-        </motion.div>
+variants={reveal}
 
-                {/* CLIENTS CONTENT */}
+initial="hidden"
 
+whileInView="visible"
 
-        <motion.div
+viewport={{
+once:true,
+amount:.15,
+}}
 
-          variants={reveal}
+>
 
-          initial="hidden"
 
-          whileInView="visible"
+{/* LOADING */}
 
-          viewport={{
-            once:true,
-            amount:.15,
-          }}
+{
+loading && (
 
-          className="
-            mt-14
-          "
+<HomeClientsSkeleton/>
 
-        >
+)
+}
 
 
 
-          {/* Loading */}
 
+{/* ERROR */}
 
-          {loading && (
+{
+!loading && error && (
 
-            <HomeClientsSkeleton/>
+<div
 
-          )}
+className="
+flex
+min-h-[260px]
+items-center
+justify-center
+text-center
+text-white
+"
 
+>
 
+<div>
 
 
-          {/* Error */}
+<p
 
+className="
+text-sm
+font-bold
+text-white/80
+"
 
-          {!loading && error && (
+>
 
-            <div
+تعذر تحميل بيانات العملاء حاليًا.
 
-              className="
-                flex
-                min-h-[240px]
-                items-center
-                justify-center
-                text-center
-              "
+</p>
 
-            >
 
-              <p
 
-                className="
-                  text-sm
-                  text-muted
-                "
+<p
 
-              >
+className="
+mt-2
+text-xs
+text-white/50
+"
 
-                تعذر تحميل بيانات العملاء حاليًا.
+>
 
-              </p>
+حاول تحديث الصفحة مرة أخرى.
 
+</p>
 
-            </div>
 
-          )}
+</div>
 
 
+</div>
 
+)
+}
 
 
 
-          {/* Empty */}
 
 
-          {!loading &&
-          !error &&
-          clients.length === 0 && (
+{/* EMPTY */}
 
-            <div
+{
+!loading &&
+!error &&
+clients.length === 0 && (
 
-              className="
-                flex
-                min-h-[240px]
-                flex-col
-                items-center
-                justify-center
-                text-center
-              "
+<div
 
-            >
+className="
+flex
+min-h-[260px]
+items-center
+justify-center
+text-center
+text-white
+"
 
-              <Users
+>
 
-                className="
-                  h-10
-                  w-10
-                  text-muted
-                "
 
-              />
+<div>
 
 
-              <p
+<Users
 
-                className="
-                  mt-4
-                  text-sm
-                  text-muted
-                "
+className="
+mx-auto
+h-10
+w-10
+text-white/40
+"
 
-              >
+/>
 
-                لا يوجد عملاء حتى الآن.
 
-              </p>
 
+<p
 
-            </div>
+className="
+mt-4
+text-sm
+font-bold
+text-white/70
+"
 
-          )}
+>
 
+لا يوجد عملاء حتى الآن.
 
+</p>
 
 
+</div>
 
 
+</div>
 
-          {/* Clients Marquee */}
+)
+}
 
 
 
-          {!loading &&
-          !error &&
-          clients.length > 0 && (
 
 
-            <SwiperFadeEdges>
+{/* CLIENTS */}
 
 
-              <Marquee
+{
+!loading &&
+!error &&
+clients.length > 0 && (
 
-                slideClassName="
-                  h-full
-                  px-3
-                  py-8
-                "
+<SwiperFadeEdges>
 
-              >
 
+<Marquee
 
-                {
-                  clients.map(
-                    client => (
+slideClassName="
+h-full
+px-4
+py-8
+"
 
-                      <motion.div
+>
 
-                        key={client.id}
 
-                        variants={cardMotion}
+{
+clients.map(
 
-                        initial="hidden"
+(client)=>(
 
-                        whileInView="visible"
 
-                        viewport={{
-                          once:true,
-                          amount:.2,
-                        }}
+<motion.div
 
-                      >
+key={client.id}
 
-                        <ClientCard
 
-                          teacher={client}
+initial={{
 
-                        />
+opacity:0,
 
+y:20,
 
-                      </motion.div>
+}}
 
-                    )
-                  )
-                }
 
 
-              </Marquee>
+whileInView={{
 
+opacity:1,
 
-            </SwiperFadeEdges>
+y:0,
 
+}}
 
-          )}
 
 
+viewport={{
 
-        </motion.div>
+once:true,
 
+amount:.1,
 
+}}
 
 
 
+transition={{
 
+duration:.6,
 
-        {/* CTA */}
+ease:[
 
+.22,
 
+1,
 
-        <motion.div
+.36,
 
-          variants={reveal}
+1
 
-          initial="hidden"
+],
 
-          whileInView="visible"
+}}
 
-          viewport={{
-            once:true,
-          }}
 
-          className="
-            mt-12
-            flex
-            flex-col
-            items-center
-            justify-center
-            gap-4
-            sm:flex-row
-          "
 
-        >
+className="
+h-full
+"
 
+>
 
 
-          <Button
+<ClientCard
 
-            href={ctaPrimaryLink}
+teacher={client}
 
-            variant="outline"
+/>
 
-          >
 
-            <Users size={17}/>
+</motion.div>
 
-            {ctaPrimary}
 
+)
 
-          </Button>
+)
+}
 
 
 
+</Marquee>
 
 
-          <Button
+</SwiperFadeEdges>
 
-            href={ctaSecondaryLink}
 
-          >
+)
+}
 
-            {ctaSecondary}
 
 
-            <ArrowLeft
 
-              size={17}
+</motion.div>
 
-            />
 
+</div>
 
-          </Button>
 
+</div>
+{/* =====================================================
+    CTA
+===================================================== */}
 
 
+<Container>
 
-        </motion.div>
 
+<motion.div
 
+initial={{
 
+opacity:0,
 
-      </Container>
+y:25,
 
+}}
 
-    </section>
+
+
+whileInView={{
+
+opacity:1,
+
+y:0,
+
+}}
+
+
+
+viewport={{
+
+once:true,
+
+amount:.3,
+
+}}
+
+
+
+transition={{
+
+duration:.7,
+
+ease:[
+
+.22,
+
+1,
+
+.36,
+
+1
+
+],
+
+}}
+
+
+
+className="
+mt-10
+flex
+flex-col
+items-center
+justify-center
+gap-4
+sm:flex-row
+"
+
+>
+
+
+<motion.div
+
+whileHover={{
+
+y:-3,
+
+}}
+
+whileTap={{
+
+scale:.97,
+
+}}
+
+>
+
+
+<Button
+
+variant="outline"
+
+href={ctaPrimaryLink}
+
+>
+
+<Users size={18}/>
+
+{ctaPrimary}
+
+
+</Button>
+
+
+</motion.div>
+
+
+
+
+<motion.div
+
+whileHover={{
+
+y:-3,
+
+}}
+
+whileTap={{
+
+scale:.97,
+
+}}
+
+>
+
+
+<Button
+
+href={ctaSecondaryLink}
+
+>
+
+
+<Star size={18}/>
+
+
+{ctaSecondary}
+
+
+</Button>
+
+
+</motion.div>
+
+
+
+</motion.div>
+
+
+</Container>
+
+
+</section>
 
   );
 
