@@ -51,8 +51,326 @@
   }
 }
 
+/* ======================
+   Compositor-only decorative loops
+   (transform / opacity only → run off the main thread)
+====================== */
+
+@keyframes pf-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes pf-rocket {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0) rotate(4deg);
+  }
+}
+
+@keyframes pf-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.55;
+  }
+}
+
+@keyframes pf-scale {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pf-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pf-wobble {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-8deg);
+  }
+
+  75% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes pf-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@keyframes pf-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(40px, -20px, 0);
+  }
+}
+
+@keyframes pf-drift-rev {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-30px, 20px, 0);
+  }
+}
+
+@keyframes pf-rise {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translate3d(12px, -20px, 0);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pf-fade-soft {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes pf-particle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate3d(20px, -60px, 0);
+    opacity: 0.5;
+  }
+}
+
+@keyframes pf-glow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, -18px, 0) scale(1.08);
+  }
+}
+
+@keyframes pf-glow-rev {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, 16px, 0) scale(1.12);
+  }
+}
+
+@keyframes pf-line-sweep {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  33% {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+
+  66% {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes pf-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.1;
+  }
+}
+
+.anim-float {
+  animation: pf-float 6s ease-in-out infinite;
+}
+
+.anim-float-slow {
+  animation: pf-float 9s ease-in-out infinite;
+}
+
+.anim-float-slower {
+  animation: pf-float 12s ease-in-out infinite;
+}
+
+.anim-rocket {
+  animation: pf-rocket 6s ease-in-out infinite;
+}
+
+.anim-pulse {
+  animation: pf-pulse 8s ease-in-out infinite;
+}
+
+.anim-scale {
+  animation: pf-scale 9s ease-in-out infinite;
+}
+
+.anim-scale-soft {
+  animation: pf-scale 5s ease-in-out infinite;
+}
+
+.anim-spin {
+  animation: pf-spin 24s linear infinite;
+}
+
+.anim-spin-fast {
+  animation: pf-spin 8s linear infinite;
+}
+
+.anim-spin-slow {
+  animation: pf-spin 45s linear infinite;
+}
+
+.anim-spin-rev {
+  animation: pf-spin-rev 28s linear infinite;
+}
+
+.anim-wobble {
+  animation: pf-wobble 3s ease-in-out infinite;
+}
+
+.anim-shine {
+  animation: pf-shine 8s linear infinite;
+}
+
+.anim-shine-fast {
+  animation: pf-shine 7s linear infinite;
+}
+
+.anim-shine-slower {
+  animation: pf-shine 3.5s ease-in-out infinite;
+}
+
+.anim-drift {
+  animation: pf-drift 9s ease-in-out infinite;
+}
+
+.anim-drift-rev {
+  animation: pf-drift-rev 11s ease-in-out infinite;
+}
+
+.anim-drift-slow {
+  animation: pf-drift 13s ease-in-out infinite;
+}
+
+.anim-rise {
+  animation: pf-rise 4.5s ease-in-out infinite;
+}
+
+.anim-rise-slow {
+  animation: pf-rise 6s ease-in-out infinite;
+}
+
+.anim-fade-soft {
+  animation: pf-fade-soft 6s ease-in-out infinite;
+}
+
+.anim-particle {
+  animation: pf-particle 9s ease-in-out infinite;
+}
+
+.anim-glow {
+  animation: pf-glow 9s ease-in-out infinite;
+}
+
+.anim-glow-rev {
+  animation: pf-glow-rev 11s ease-in-out infinite;
+}
+
+/* ======================
+   Skip work for off-screen sections
+   (paint/layout skipped until near the viewport)
+====================== */
+
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+/* ======================
+   Reduced motion: kill every decorative loop
+====================== */
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
+  }
+
+  [class*="anim-"] {
+    animation: none !important;
   }
 }

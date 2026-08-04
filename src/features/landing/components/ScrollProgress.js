@@ -4,14 +4,27 @@ import { useEffect, useState } from "react";
 function ScrollProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const update = () => {
       const scrollTop = window.scrollY;
       const documentHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercentage = (scrollTop / documentHeight) * 100;
+      const scrollPercentage = documentHeight > 0
+        ? (scrollTop / documentHeight) * 100
+        : 0;
       setProgress(scrollPercentage);
+      ticking = false;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    update();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (

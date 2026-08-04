@@ -170,17 +170,8 @@ export default function ContactSection() {
 
       {/* Main Glow */}
 
-      <motion.div
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-pulse
           pointer-events-none
           absolute
           left-1/2
@@ -197,17 +188,8 @@ export default function ContactSection() {
 
       {/* Right Glow */}
 
-      <motion.div
-        animate={{
-          y: [0, 35, 0],
-          x: [0, -20, 0],
-        }}
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-drift-rev
           pointer-events-none
           absolute
           -right-40
@@ -222,17 +204,8 @@ export default function ContactSection() {
 
       {/* Left Glow */}
 
-      <motion.div
-        animate={{
-          y: [0, -30, 0],
-          x: [0, 20, 0],
-        }}
-        transition={{
-          duration: 13,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-drift-slow
           pointer-events-none
           absolute
           -left-40
@@ -280,17 +253,8 @@ export default function ContactSection() {
 
       {/* Floating particles */}
 
-      <motion.span
-        animate={{
-          y: [0, -20, 0],
-          opacity: [0.3, 0.8, 0.3],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <span
+        className="anim-rise
           pointer-events-none
           absolute
           right-[14%]
@@ -301,19 +265,11 @@ export default function ContactSection() {
           bg-primary-400
           shadow-[0_0_18px_5px_rgba(234,179,8,0.2)]
         "
+        style={{ animationDuration: "4s" }}
       />
 
-      <motion.span
-        animate={{
-          y: [0, 18, 0],
-          opacity: [0.2, 0.7, 0.2],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <span
+        className="anim-rise
           pointer-events-none
           absolute
           bottom-[20%]
@@ -324,6 +280,7 @@ export default function ContactSection() {
           bg-primary-300
           shadow-[0_0_16px_4px_rgba(234,179,8,0.2)]
         "
+        style={{ animationDuration: "5s" }}
       />
 
       {/* =====================================================
@@ -573,17 +530,8 @@ export default function ContactSection() {
 
               {/* Moving Shine */}
 
-              <motion.div
-                animate={{
-                  x: ["-120%", "350%"],
-                }}
-                transition={{
-                  duration: 7,
-                  repeat: Infinity,
-                  repeatDelay: 4,
-                  ease: "linear",
-                }}
-                className="
+              <div
+                className="anim-shine-slower
                   pointer-events-none
                   absolute
                   inset-y-0

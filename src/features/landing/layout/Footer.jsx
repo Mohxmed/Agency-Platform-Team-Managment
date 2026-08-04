@@ -168,18 +168,7 @@ export default function Footer() {
 
       {/* Right ambient */}
 
-      <motion.div
-        animate={{
-          x: [0, 35, 0],
-          y: [0, -25, 0],
-          scale: [1, 1.1, 1],
-          opacity: [0.35, 0.55, 0.35],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      <div
         className="
           pointer-events-none
           absolute
@@ -191,22 +180,15 @@ export default function Footer() {
           bg-primary-600/[0.055]
           blur-[150px]
         "
+        style={{
+          animation:
+            "pf-drift 9s ease-in-out infinite, pf-pulse 9s ease-in-out infinite",
+        }}
       />
 
       {/* Left ambient */}
 
-      <motion.div
-        animate={{
-          x: [0, -30, 0],
-          y: [0, 30, 0],
-          scale: [1, 1.08, 1],
-          opacity: [0.25, 0.5, 0.25],
-        }}
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      <div
         className="
           pointer-events-none
           absolute
@@ -218,21 +200,17 @@ export default function Footer() {
           bg-primary-500/[0.05]
           blur-[150px]
         "
+        style={{
+          animation:
+            "pf-drift-rev 11s ease-in-out infinite, pf-pulse 11s ease-in-out infinite",
+        }}
       />
 
       {/* =====================================================
           GRID
       ====================================================== */}
 
-      <motion.div
-        animate={{
-          backgroundPosition: ["0px 0px", "80px 80px"],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear",
-        }}
+      <div
         className="
           pointer-events-none
           absolute
@@ -264,16 +242,7 @@ export default function Footer() {
           to-transparent
         "
       >
-        <motion.div
-          animate={{
-            x: ["-120%", "120%"],
-          }}
-          transition={{
-            duration: 3.5,
-            repeat: Infinity,
-            repeatDelay: 2,
-            ease: "easeInOut",
-          }}
+        <div
           className="
             h-full
             w-1/3
@@ -283,6 +252,7 @@ export default function Footer() {
             to-transparent
             shadow-[0_0_20px_rgba(234,179,8,0.8)]
           "
+          style={{ animation: "pf-shine 3.5s ease-in-out infinite" }}
         />
       </div>
 
@@ -536,17 +506,7 @@ export default function Footer() {
         >
           {/* Moving line */}
 
-          <motion.div
-            animate={{
-              scaleX: [0, 1, 0],
-              opacity: [0, 0.5, 0],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              repeatDelay: 2,
-              ease: "easeInOut",
-            }}
+          <div
             className="
               absolute
               right-0
@@ -559,6 +519,7 @@ export default function Footer() {
               via-primary-400/20
               to-transparent
             "
+            style={{ animation: "pf-line-sweep 6s ease-in-out infinite" }}
           />
 
           <div
@@ -600,16 +561,9 @@ export default function Footer() {
           BOTTOM FADE
       ====================================================== */}
 
-      <motion.div
-        animate={{
-          opacity: [0.15, 0.3, 0.15],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      <div
         className="
+          anim-fade-soft
           pointer-events-none
           absolute
           bottom-0
@@ -650,15 +604,7 @@ function FooterTitle({ title }) {
       >
         {/* Core */}
 
-        <motion.span
-          animate={{
-            scale: [1, 1.35, 1],
-            opacity: [0.7, 1, 0.7],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-          }}
+        <span
           className="
             absolute
             h-2
@@ -667,19 +613,12 @@ function FooterTitle({ title }) {
             bg-primary-500
             shadow-[0_0_15px_rgba(234,179,8,0.30)]
           "
+          style={{ animation: "pf-scale 2s ease-in-out infinite" }}
         />
 
         {/* Ring */}
 
-        <motion.span
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.4, 0.1, 0.4],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-          }}
+        <span
           className="
             absolute
             h-5
@@ -688,6 +627,7 @@ function FooterTitle({ title }) {
             border
             border-primary-500/20
           "
+          style={{ animation: "pf-ring 2s ease-in-out infinite" }}
         />
       </span>
 
@@ -899,8 +839,9 @@ function ContactIcon({ children }) {
 
 function FloatingParticle({ className, delay = 0 }) {
   return (
-    <motion.span
+    <span
       className={`
+        anim-particle
         pointer-events-none
         absolute
         h-1
@@ -910,17 +851,9 @@ function FloatingParticle({ className, delay = 0 }) {
         shadow-[0_0_15px_rgba(234,179,8,0.25)]
         ${className}
       `}
-      animate={{
-        y: [0, -25, 0],
-        x: [0, 12, 0],
-        scale: [0.7, 1.4, 0.7],
-        opacity: [0.15, 0.8, 0.15],
-      }}
-      transition={{
-        duration: 4 + delay,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
+      style={{
+        animationDuration: `${4 + delay}s`,
+        animationDelay: `${delay}s`,
       }}
     />
   );

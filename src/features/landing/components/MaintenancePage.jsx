@@ -19,23 +19,19 @@ export default function MaintenancePage() {
 
       <div className="relative flex flex-col items-center px-6 text-center">
         <div className="relative flex h-40 w-40 items-center justify-center">
-          <motion.div
+          <div
             className="absolute inset-0 rounded-full border border-primary-500/[0.08]"
-            animate={{ scale: [1, 1.12, 1], opacity: [0.35, 0.8, 0.35] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            style={{ animation: "pf-pulse 2.2s ease-in-out infinite" }}
           />
-          <motion.div
+          <div
             className="absolute inset-6 rounded-full border border-dashed border-primary-500/[0.12]"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+            style={{ animation: "pf-spin 7s linear infinite" }}
           />
-          <motion.div
-            className="relative flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/[0.06] bg-white/[0.03] text-primary-400 backdrop-blur-md"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          <div
+            className="anim-float relative flex h-20 w-20 items-center justify-center rounded-[24px] border border-white/[0.06] bg-white/[0.03] text-primary-400 backdrop-blur-md"
           >
             <Wrench size={32} />
-          </motion.div>
+          </div>
         </div>
 
         <motion.h1
@@ -63,11 +59,13 @@ export default function MaintenancePage() {
           className="mt-8 flex items-center gap-2"
         >
           {[0, 1, 2].map((dot) => (
-            <motion.span
+            <span
               key={dot}
               className="h-1.5 w-1.5 rounded-full bg-primary-500"
-              animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.25, 0.8] }}
-              transition={{ duration: 1.2, repeat: Infinity, delay: dot * 0.18, ease: "easeInOut" }}
+              style={{
+                animation: "pf-pulse 1.2s ease-in-out infinite",
+                animationDelay: `${dot * 0.18}s`,
+              }}
             />
           ))}
         </motion.div>

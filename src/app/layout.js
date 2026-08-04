@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import SeoInjector from "@/features/seo/SeoInjector";
 import PwaRegister from "@/providers/PwaRegister";
+import { MotionConfig } from "framer-motion";
 import Script from "next/script";
 
 // Local Arabic Font
@@ -85,17 +86,19 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body className={`min-h-full flex flex-col`}>
-        <ThemeProvider>
-          <AuthProvider>
-            <SettingsProvider>
-              <AppInitializer />
-              <SeoInjector />
-              <PwaRegister />
-              <ScrollProgress />
-              {children}
-            </SettingsProvider>
-          </AuthProvider>
-        </ThemeProvider>
+        <MotionConfig reducedMotion="user">
+          <ThemeProvider>
+            <AuthProvider>
+              <SettingsProvider>
+                <AppInitializer />
+                <SeoInjector />
+                <PwaRegister />
+                <ScrollProgress />
+                {children}
+              </SettingsProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </MotionConfig>
       </body>
     </html>
   );

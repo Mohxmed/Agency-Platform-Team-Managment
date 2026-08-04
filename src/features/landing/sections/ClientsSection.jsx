@@ -151,18 +151,8 @@ export default function ClientsSection() {
 
       {/* Top Glow */}
 
-      <motion.div
-        animate={{
-          x: [0, 40, 0],
-          y: [0, -20, 0],
-          opacity: [0.25, 0.4, 0.25],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-drift
           pointer-events-none
           absolute
           -right-40
@@ -177,17 +167,8 @@ export default function ClientsSection() {
 
       {/* Bottom Glow */}
 
-      <motion.div
-        animate={{
-          x: [0, -30, 0],
-          y: [0, 20, 0],
-        }}
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-drift-rev
           pointer-events-none
           absolute
           -bottom-48
@@ -202,17 +183,8 @@ export default function ClientsSection() {
 
       {/* Decorative Star */}
 
-      <motion.div
-        animate={{
-          rotate: [0, 8, 0],
-          opacity: [0.15, 0.3, 0.15],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-wobble
           pointer-events-none
           absolute
           right-[8%]
@@ -224,33 +196,25 @@ export default function ClientsSection() {
           size={24}
           fill="currentColor"
         />
-      </motion.div>
+      </div>
 
       {/* Decorative Star */}
 
-      <motion.div
-        animate={{
-          rotate: [0, -10, 0],
-          opacity: [0.1, 0.25, 0.1],
-        }}
-        transition={{
-          duration: 7,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-wobble
           pointer-events-none
           absolute
           bottom-[18%]
           left-[8%]
           text-white/15
         "
+        style={{ animationDelay: "0.5s" }}
       >
         <Star
           size={18}
           fill="currentColor"
         />
-      </motion.div>
+      </div>
 
       <Container>
         {/* =====================================================
@@ -293,19 +257,9 @@ export default function ClientsSection() {
               }}
             >
               <OutlinedBadge variant="white">
-                <motion.span
-                  animate={{
-                    rotate: [0, -8, 8, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    ease: "easeInOut",
-                  }}
-                >
+                <span className="anim-wobble inline-flex">
                   <Users size={16} />
-                </motion.span>
+                </span>
 
                 {badge}
               </OutlinedBadge>
@@ -538,19 +492,9 @@ export default function ClientsSection() {
             }}
           >
             <Button href={ctaSecondaryLink}>
-              <motion.span
-                animate={{
-                  rotate: [0, -8, 8, 0],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                  ease: "easeInOut",
-                }}
-              >
+              <span className="anim-wobble inline-flex">
                 <Star />
-              </motion.span>
+              </span>
 
               {ctaSecondary}
             </Button>

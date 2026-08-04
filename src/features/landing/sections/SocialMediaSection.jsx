@@ -137,8 +137,9 @@ export default function SocialMediaSection() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Main ambient glow */}
 
-        <motion.div
+        <div
           className="
+            anim-pulse
             absolute
             left-1/2
             top-1/2
@@ -152,20 +153,11 @@ export default function SocialMediaSection() {
             sm:h-[450px]
             sm:w-[450px]
           "
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Large orbital glow */}
 
-        <motion.div
+        <div
           className="
             absolute
             left-1/2
@@ -178,28 +170,17 @@ export default function SocialMediaSection() {
             border
             border-primary-600/[0.025]
           "
-          animate={{
-            scale: [0.95, 1.08, 0.95],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            scale: {
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            },
-            rotate: {
-              duration: 45,
-              repeat: Infinity,
-              ease: "linear",
-            },
+          style={{
+            animation:
+              "pf-spin 45s linear infinite, pf-scale 8s ease-in-out infinite",
           }}
         />
 
         {/* Secondary glow */}
 
-        <motion.div
+        <div
           className="
+            anim-drift
             absolute
             left-[18%]
             top-[25%]
@@ -209,20 +190,11 @@ export default function SocialMediaSection() {
             bg-primary-400/10
             blur-[90px]
           "
-          animate={{
-            x: [0, 70, 0],
-            y: [0, -45, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
-        <motion.div
+        <div
           className="
+            anim-drift-rev
             absolute
             bottom-[20%]
             right-[18%]
@@ -232,16 +204,6 @@ export default function SocialMediaSection() {
             bg-primary-700/10
             blur-[100px]
           "
-          animate={{
-            x: [0, -60, 0],
-            y: [0, 35, 0],
-            scale: [1, 1.15, 1],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
         />
 
         {/* Floating particles */}
@@ -320,7 +282,7 @@ export default function SocialMediaSection() {
               OUTER ORBIT
           ================================================ */}
 
-          <motion.div
+          <div
             className="
               pointer-events-none
               absolute
@@ -329,18 +291,11 @@ export default function SocialMediaSection() {
               border
               border-primary-600/[0.08]
             "
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 22,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            style={{ animation: "pf-spin 22s linear infinite" }}
           >
             {/* Orbit dot */}
 
-            <motion.span
+            <span
               className="
                 absolute
                 left-1/2
@@ -353,21 +308,15 @@ export default function SocialMediaSection() {
                 bg-primary-500
                 shadow-[0_0_20px_rgba(0,0,0,0.15)]
               "
-              animate={{
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
+              style={{ animation: "pf-scale 2s ease-in-out infinite" }}
             />
-          </motion.div>
+          </div>
 
           {/* ===============================================
               SECOND ORBIT
           ================================================ */}
 
-          <motion.div
+          <div
             className="
               pointer-events-none
               absolute
@@ -377,14 +326,7 @@ export default function SocialMediaSection() {
               border-dashed
               border-primary-600/[0.10]
             "
-            animate={{
-              rotate: -360,
-            }}
-            transition={{
-              duration: 28,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            style={{ animation: "pf-spin-rev 28s linear infinite" }}
           >
             <span
               className="
@@ -398,13 +340,13 @@ export default function SocialMediaSection() {
                 shadow-[0_0_15px_rgba(0,0,0,0.1)]
               "
             />
-          </motion.div>
+          </div>
 
           {/* ===============================================
               THIRD ORBIT
           ================================================ */}
 
-          <motion.div
+          <div
             className="
               pointer-events-none
               absolute
@@ -413,14 +355,7 @@ export default function SocialMediaSection() {
               border
               border-primary-500/[0.05]
             "
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 34,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            style={{ animation: "pf-spin 34s linear infinite" }}
           >
             <span
               className="
@@ -433,14 +368,15 @@ export default function SocialMediaSection() {
                 bg-primary-600/50
               "
             />
-          </motion.div>
+          </div>
 
           {/* ===============================================
               ROTATING LIGHT ARC
           ================================================ */}
 
-          <motion.div
+          <div
             className="
+              anim-spin-fast
               pointer-events-none
               absolute
               -inset-1
@@ -448,21 +384,13 @@ export default function SocialMediaSection() {
               bg-[conic-gradient(from_0deg,transparent_0deg,rgba(0,0,0,0.08)_55deg,transparent_100deg,transparent_360deg)]
               dark:bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.08)_55deg,transparent_100deg,transparent_360deg)]
             "
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: "linear",
-            }}
           />
 
           {/* ===============================================
               INNER LIGHT
           ================================================ */}
 
-          <motion.div
+          <div
             className="
               pointer-events-none
               absolute
@@ -471,15 +399,7 @@ export default function SocialMediaSection() {
               bg-primary-600/10
               blur-[55px]
             "
-            animate={{
-              scale: [0.85, 1.2, 0.85],
-              opacity: [0.25, 0.6, 0.25],
-            }}
-            transition={{
-              duration: 4.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            style={{ animation: "pf-pulse 4.5s ease-in-out infinite" }}
           />
 
           {/* ===============================================
@@ -493,16 +413,6 @@ export default function SocialMediaSection() {
               x: logoX,
               y: logoY,
               transformPerspective: 900,
-            }}
-            animate={{
-              y: [0, -7, 0],
-            }}
-            transition={{
-              y: {
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              },
             }}
             whileHover={{
               scale: 1.08,
@@ -525,32 +435,21 @@ export default function SocialMediaSection() {
           >
             {/* Logo aura */}
 
-            <motion.div
+            <div
               className="
+                anim-pulse
                 absolute
                 inset-[-20px]
                 rounded-full
                 bg-primary-600/15
                 blur-2xl
               "
-              animate={{
-                scale: isHoveringLogo
-                  ? [1, 1.25, 1]
-                  : [0.9, 1.12, 0.9],
-                opacity: isHoveringLogo
-                  ? [0.45, 0.8, 0.45]
-                  : [0.25, 0.5, 0.25],
-              }}
-              transition={{
-                duration: isHoveringLogo ? 1.8 : 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              style={{ animationDuration: "4s" }}
             />
 
             {/* Logo shadow platform */}
 
-            <motion.div
+            <div
               className="
                 absolute
                 bottom-[-18px]
@@ -560,17 +459,9 @@ export default function SocialMediaSection() {
                 -translate-x-1/2
                 rounded-full
                 bg-black/10
+                opacity-25
                 blur-xl
               "
-              animate={{
-                scaleX: [1, 0.8, 1],
-                opacity: [0.25, 0.12, 0.25],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
             />
 
             {/* Logo */}
@@ -768,8 +659,9 @@ export default function SocialMediaSection() {
           >
             {/* Card shine */}
 
-            <motion.div
+            <div
               className="
+                anim-shine-slower
                 pointer-events-none
                 absolute
                 inset-0
@@ -778,15 +670,6 @@ export default function SocialMediaSection() {
                 via-white/40
                 to-transparent
               "
-              animate={{
-                x: ["-120%", "120%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                repeatDelay: 3,
-                ease: "easeInOut",
-              }}
             />
 
             <div className="relative z-10">
@@ -821,26 +704,14 @@ export default function SocialMediaSection() {
             dark:text-white/40
           "
         >
-          <motion.span
+          <span
             className="
               h-1.5
               w-1.5
               rounded-full
               bg-primary-600
             "
-            animate={{
-              scale: [1, 1.6, 1],
-              opacity: [0.4, 1, 0.4],
-              boxShadow: [
-                "0 0 0 rgba(0,0,0,0)",
-                "0 0 12px rgba(0,0,0,0.15)",
-                "0 0 0 rgba(0,0,0,0)",
-              ],
-            }}
-            transition={{
-              duration: 1.8,
-              repeat: Infinity,
-            }}
+            style={{ animation: "pf-pulse 1.8s ease-in-out infinite" }}
           />
 
           <span>{bottomText}</span>
@@ -865,8 +736,9 @@ function FloatingParticle({
       : "h-1.5 w-1.5";
 
   return (
-    <motion.span
+    <span
       className={`
+        anim-particle
         absolute
         ${sizeClass}
         rounded-full
@@ -874,17 +746,9 @@ function FloatingParticle({
         shadow-[0_0_18px_rgba(0,0,0,0.08)]
         ${className}
       `}
-      animate={{
-        y: [0, -28, 0],
-        x: [0, 12, 0],
-        opacity: [0.15, 0.8, 0.15],
-        scale: [0.7, 1.5, 0.7],
-      }}
-      transition={{
-        duration: 4.5 + delay,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
+      style={{
+        animationDuration: `${4.5 + delay}s`,
+        animationDelay: `${delay}s`,
       }}
     />
   );

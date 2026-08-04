@@ -45,17 +45,17 @@ export default function AnimatedCounter({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const startedRef = useRef(false);
   const [displayValue, setDisplayValue] = useState("0");
-  const [hasAnimated, setHasAnimated] = useState(false);
 
   const { num: targetNum, suffix: parsedSuffix, prefix: parsedPrefix } = parseNumericValue(value);
   const finalPrefix = prefix || parsedPrefix;
   const finalSuffix = suffix || parsedSuffix;
 
   useEffect(() => {
-    if (!isInView || hasAnimated) return;
+    if (!isInView || startedRef.current) return;
 
-    setHasAnimated(true);
+    startedRef.current = true;
     const startTime = Date.now() + delay;
 
     const animate = () => {
@@ -80,7 +80,7 @@ export default function AnimatedCounter({
 
     const frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [isInView, hasAnimated, targetNum, duration, delay, finalPrefix, finalSuffix]);
+  }, [isInView, targetNum, duration, delay, finalPrefix, finalSuffix]);
 
   return (
     <span ref={ref} className={className}>

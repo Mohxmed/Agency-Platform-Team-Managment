@@ -197,17 +197,8 @@ export default function ServicesSection() {
 
         {/* Aurora orbs */}
 
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="
+        <div
+          className="anim-glow
             hero-orb-red
             absolute
             -top-24
@@ -220,18 +211,8 @@ export default function ServicesSection() {
           "
         />
 
-        <motion.div
-          animate={{
-            scale: [1, 1.12, 1],
-            y: [0, 18, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1.2,
-          }}
-          className="
+        <div
+          className="anim-glow-rev
             hero-orb-violet
             absolute
             -bottom-32

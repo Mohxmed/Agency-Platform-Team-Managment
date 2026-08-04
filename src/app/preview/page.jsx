@@ -14,40 +14,37 @@ export default function LoadingPreview() {
       </div>
       <div className="relative flex flex-col items-center">
         <div className="relative flex h-44 w-44 items-center justify-center">
-          <motion.div
+          <div
             className="absolute inset-0 rounded-full border border-red-600/[0.08]"
-            animate={{ scale: [1, 1.12, 1], opacity: [0.35, 0.8, 0.35] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            style={{ animation: "pf-pulse 2.2s ease-in-out infinite" }}
           />
-          <motion.div
+          <div
             className="absolute inset-5 rounded-full border border-red-600/[0.12]"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            style={{ animation: "pf-spin 5s linear infinite" }}
           />
-          <motion.div
+          <div
             className="absolute inset-8 rounded-full border border-dashed border-red-600/[0.14]"
-            animate={{ rotate: -360 }}
-            transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+            style={{ animation: "pf-spin-rev 7s linear infinite" }}
           />
-          <motion.div
+          <div
             className="relative flex h-24 w-24 items-center justify-center rounded-[28px] border border-black/[0.06] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
             initial={{ scale: 0.75, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <motion.div
-              animate={{ scale: [1, 1.04, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            <div
               className="text-3xl font-black tracking-[0.22em] text-gray-900"
+              style={{ animation: "pf-scale 2s ease-in-out infinite" }}
             >
               N
-            </motion.div>
-          </motion.div>
-          <motion.span
+            </div>
+          </div>
+          <span
             className="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.45)]"
-            animate={{ rotate: 360 }}
-            style={{ transformOrigin: "50% 88px" }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
+            style={{
+              animation: "pf-spin 2.8s linear infinite",
+              transformOrigin: "50% 88px",
+            }}
           />
         </div>
         <motion.div
@@ -59,16 +56,18 @@ export default function LoadingPreview() {
           <h1 className="text-xl font-black tracking-[0.22em] text-gray-900">NO2TA</h1>
           <div className="mt-3 flex items-center justify-center gap-2">
             <span className="text-xs font-medium text-gray-400">جاري التحميل</span>
-            <motion.span className="flex gap-1">
+            <span className="flex gap-1">
               {[0, 1, 2].map((dot) => (
-                <motion.span
+                <span
                   key={dot}
                   className="h-1 w-1 rounded-full bg-red-600"
-                  animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.25, 0.8] }}
-                  transition={{ duration: 1, repeat: Infinity, delay: dot * 0.15, ease: "easeInOut" }}
+                  style={{
+                    animation: "pf-pulse 1s ease-in-out infinite",
+                    animationDelay: `${dot * 0.15}s`,
+                  }}
                 />
               ))}
-            </motion.span>
+            </span>
           </div>
         </motion.div>
         <motion.div
@@ -77,10 +76,9 @@ export default function LoadingPreview() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <motion.div
+          <div
             className="h-full w-1/2 rounded-full bg-red-600"
-            animate={{ x: ["-100%", "220%"] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ animation: "pf-shine 1.4s ease-in-out infinite" }}
           />
         </motion.div>
       </div>

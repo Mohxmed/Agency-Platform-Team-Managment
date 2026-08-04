@@ -131,21 +131,6 @@ const heroMotion = {
       },
     },
   },
-
-
-  floating: {
-    y: [
-      0,
-      -14,
-      0,
-    ],
-
-    transition: {
-      duration: 7,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  },
 };
 
 
@@ -193,8 +178,6 @@ const PARTICLES = [
 function HeroBackground() {
 
   const reduceMotion = useReducedMotion();
-
-  const rocket = HERO_CONFIG.rocket;
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -271,20 +254,6 @@ function HeroBackground() {
           y: reduceMotion ? 0 : orbRedY,
         }}
 
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                scale: [1, 1.08, 1],
-              }
-        }
-
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-
         className="
           hero-orb-red
           absolute
@@ -307,21 +276,6 @@ function HeroBackground() {
           y: reduceMotion ? 0 : orbVioletY,
         }}
 
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                scale: [1, 1.1, 1],
-              }
-        }
-
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.4,
-        }}
-
         className="
           hero-orb-violet
           absolute
@@ -342,21 +296,6 @@ function HeroBackground() {
         style={{
           x: reduceMotion ? 0 : orbAmberX,
           y: reduceMotion ? 0 : orbAmberY,
-        }}
-
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                scale: [1, 1.05, 1],
-              }
-        }
-
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.7,
         }}
 
         className="
@@ -480,25 +419,8 @@ function HeroBackground() {
       >
 
 
-        <motion.div
-
-          animate={
-            reduceMotion
-              ? {}
-              : {
-                  y: [0, -12, 0],
-                  rotate: [-4, 4, -4],
-                }
-          }
-
-          transition={{
-            duration: rocket.float,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-
-          className="relative w-full h-full"
-
+        <div
+          className={`relative w-full h-full ${reduceMotion ? "" : "anim-rocket"}`}
         >
 
           <Image
@@ -508,8 +430,7 @@ function HeroBackground() {
             className="object-contain"
           />
 
-
-        </motion.div>
+        </div>
 
 
       </motion.div>
@@ -518,24 +439,10 @@ function HeroBackground() {
       {/* Floating particles */}
 
       {!reduceMotion && PARTICLES.map((particle, index) => (
-        <motion.span
+        <span
           key={index}
-          initial={{
-            opacity: 0,
-            y: 0,
-          }}
-          animate={{
-            opacity: [0, 0.5, 0],
-            y: [0, -120],
-            x: [0, 20, 0],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            delay: particle.delay,
-            ease: "easeInOut",
-          }}
           className="
+            anim-particle
             absolute
             rounded-full
             bg-primary-500
@@ -545,6 +452,8 @@ function HeroBackground() {
             top: particle.top,
             width: particle.size,
             height: particle.size,
+            animationDuration: `${particle.duration}s`,
+            animationDelay: `${particle.delay}s`,
           }}
         />
       ))}
@@ -622,66 +531,18 @@ function GlassCard({
 ========================================================= */
 
 function ShowcaseGlow() {
-
-  const reduceMotion = useReducedMotion();
-
   return (
     <>
-      <motion.div
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                y: [0, -18, 0],
-                scale: [1, 1.08, 1],
-              }
-        }
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
-          absolute
-          -start-16
-          top-24
-          h-64
-          w-64
-          rounded-full
-          opacity-40
-          blur-3xl
-        "
+      <div
+        className="anim-glow absolute -start-16 top-24 h-64 w-64 rounded-full opacity-40 blur-3xl"
         style={{
           background:
             "radial-gradient(circle,rgba(232,33,37,.22),transparent 70%)",
         }}
       />
 
-      <motion.div
-        animate={
-          reduceMotion
-            ? {}
-            : {
-                y: [0, 16, 0],
-                scale: [1, 1.12, 1],
-              }
-        }
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.5,
-        }}
-        className="
-          absolute
-          -end-10
-          bottom-16
-          h-72
-          w-72
-          rounded-full
-          opacity-40
-          blur-3xl
-        "
+      <div
+        className="anim-glow-rev absolute -end-10 bottom-16 h-72 w-72 rounded-full opacity-40 blur-3xl"
         style={{
           background:
             "radial-gradient(circle,rgba(99,102,241,.18),transparent 70%)",
@@ -1191,8 +1052,6 @@ function TiltResultsPanel() {
 
 function GlassShowcase() {
 
-  const reduceMotion = useReducedMotion();
-
   const { settings } = useSettings();
   const heroContent = settings.content?.hero || {};
   const showcaseDefaults = HERO_CONFIG.showcase;
@@ -1206,23 +1065,6 @@ function GlassShowcase() {
     value: heroContent.growth?.value || showcaseDefaults.growth.value,
     label: heroContent.growth?.label || showcaseDefaults.growth.label,
     period: heroContent.growth?.period || showcaseDefaults.growth.period,
-  };
-
-  const floating = (delay = 0) => {
-
-    if (reduceMotion)
-      return {};
-
-    return {
-      y: [0, -12, 0],
-
-      transition: {
-        duration: 7,
-        repeat: Infinity,
-        delay,
-        ease: "easeInOut",
-      },
-    };
   };
 
   return (
@@ -1283,14 +1125,8 @@ function GlassShowcase() {
         "
       >
 
-        <motion.div
-
-          animate={floating(0)}
-
-          className="
-            w-[230px]
-            rotate-[-5deg]
-          "
+        <div
+          className="anim-float w-[230px] rotate-[-5deg]"
         >
 
         <div
@@ -1357,7 +1193,7 @@ function GlassShowcase() {
 
         </div>
 
-        </motion.div>
+        </div>
 
       </motion.div>
 
@@ -1391,13 +1227,9 @@ function GlassShowcase() {
         "
       >
 
-        <motion.div
-
-          animate={floating(1)}
-
-          className="
-            rotate-[3deg]
-          "
+        <div
+          className="anim-float-slow rotate-[3deg]"
+          style={{ animationDelay: "1s" }}
         >
 
         <div
@@ -1445,7 +1277,7 @@ function GlassShowcase() {
 
         </div>
 
-        </motion.div>
+        </div>
 
       </motion.div>
 

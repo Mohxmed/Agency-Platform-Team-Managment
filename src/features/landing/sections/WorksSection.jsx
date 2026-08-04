@@ -455,17 +455,8 @@ function CallToActionWorks() {
 
       {/* AMBIENT GLOW */}
 
-      <motion.div
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.35, 0.55, 0.35],
-        }}
-        transition={{
-          duration: 7,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
+      <div
+        className="anim-pulse
           pointer-events-none
           absolute
           left-1/2
@@ -511,17 +502,8 @@ function CallToActionWorks() {
 
       {/* MOVING SHINE */}
 
-      <motion.div
-        animate={{
-          x: ["-120%", "350%"],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          repeatDelay: 2,
-          ease: "linear",
-        }}
-        className="
+      <div
+        className="anim-shine
           pointer-events-none
           absolute
           inset-y-0
