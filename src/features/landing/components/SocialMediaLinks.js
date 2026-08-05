@@ -22,6 +22,10 @@ function SocialMediaLinks({
   className,
 }) {
   const toHref = (val) => (typeof val === "string" && val ? val : "#");
+  const whatsappHref =
+    typeof Whatsapp === "string" && Whatsapp
+      ? `https://wa.me/${Whatsapp.replace(/[^0-9]/g, "")}`
+      : "#";
   const style =
     size == "sm"
       ? "w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center transition cursor-pointer bg-white text-black dark:border-white/10 dark:bg-white/5 dark:text-white/80"
@@ -105,7 +109,7 @@ function SocialMediaLinks({
       )}
       {Whatsapp && (
         <a
-          href={toHref(Whatsapp)}
+          href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="واتساب"
