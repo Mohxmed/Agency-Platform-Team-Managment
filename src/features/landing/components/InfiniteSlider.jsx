@@ -14,9 +14,8 @@ import "swiper/css";
    INFINITE SLIDER
    Real Swiper loop (seamless, no visible card duplication),
    fully touch-driven for phones, RTL aware.
-   - Edge fades are transparent CSS masks → the section
-     background shows through ("same color as background").
-   - Soft baked cloud glows hug each edge.
+   - Edge fades are gradient-to-transparent overlays colored
+     like the section background → cards slide in/out seamlessly.
    - transform/opacity only → GPU clean, no glitches.
 ========================================================= */
 
@@ -42,17 +41,16 @@ export default function InfiniteSlider({
 
   return (
     <div className={`infinite-slider infinite-slider--${variant} ${className}`}>
-      {/* Cloud edge glows */}
+      {/* Gradient edge fades — cards blend in/out against the section */}
       <div
         aria-hidden
-        className="infinite-slider-cloud infinite-slider-cloud--start"
+        className="infinite-slider-edge infinite-slider-edge--start"
       />
       <div
         aria-hidden
-        className="infinite-slider-cloud infinite-slider-cloud--end"
+        className="infinite-slider-edge infinite-slider-edge--end"
       />
 
-      {/* Masked viewport — transparent edges blend into the background */}
       <div className="infinite-slider__viewport">
         <Swiper
           modules={[Autoplay]}

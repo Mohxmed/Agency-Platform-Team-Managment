@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Button from "@/shared/ui/buttons/Buttons";
 
 import { ArrowUpLeft, CalendarDays, Sparkles } from "lucide-react";
@@ -84,7 +85,14 @@ export default function ProjectCard({ project }) {
             relative
             h-[185px]
             overflow-hidden
+            bg-gradient-to-br
+            from-neutral-100
+            via-white
+            to-primary-50
             sm:h-[280px]
+            dark:from-neutral-800
+            dark:via-neutral-900
+            dark:to-neutral-900
           "
         >
           <Image
@@ -93,7 +101,8 @@ export default function ProjectCard({ project }) {
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="
-              object-cover
+              object-contain
+              object-center
               transition-transform
               duration-700
               ease-out
@@ -277,7 +286,7 @@ export default function ProjectCard({ project }) {
               CTA
           ================================================== */}
 
-          <div className="mt-auto pt-2">
+          <div className="relative z-30 mt-auto pt-2">
             {project?.link ? (
               <Button
                 href={`/portfolio/${project.link}`}
@@ -331,6 +340,15 @@ export default function ProjectCard({ project }) {
             )}
           </div>
         </div>
+
+        {/* Whole-card link — tap anywhere to open the project */}
+        {project?.link && (
+          <Link
+            href={`/portfolio/${project.link}`}
+            aria-label={`فتح ${project?.title || "المشروع"}`}
+            className="absolute inset-0 z-20 rounded-[2rem]"
+          />
+        )}
       </article>
     </div>
   );

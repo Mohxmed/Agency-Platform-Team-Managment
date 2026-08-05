@@ -163,7 +163,7 @@
 
 /* =========================================================
    INFINITE SLIDER (clients / works)
-   Real Swiper loop with transparent edge masks + cloud glows.
+   Real Swiper loop with gradient-to-transparent edge overlays.
 ========================================================= */
 
 .infinite-slider {
@@ -171,29 +171,8 @@
   isolation: isolate;
 }
 
-/* Masked viewport — transparent edges blend into the section
-   background ("same color as the background"), no hardcoded colors. */
 .infinite-slider__viewport {
   overflow: hidden;
-}
-
-@media (min-width: 640px) {
-  .infinite-slider__viewport {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 18%,
-      black 82%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 18%,
-      black 82%,
-      transparent 100%
-    );
-  }
 }
 
 .infinite-slider__viewport .swiper {
@@ -217,68 +196,57 @@
   width: 100%;
 }
 
-/* Cloud glows beside each edge */
-.infinite-slider-cloud {
+/* Gradient edge fades — cards slide in/out under a soft veil
+   colored like the section background, so nothing is hardcoded. */
+.infinite-slider-edge {
   position: absolute;
-  top: 50%;
-  width: clamp(180px, 22vw, 340px);
-  height: clamp(240px, 30vw, 420px);
-  transform: translateY(-50%);
-  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  width: clamp(80px, 16vw, 220px);
   z-index: 20;
+  pointer-events: none;
   display: none;
 }
 
 @media (min-width: 640px) {
-  .infinite-slider-cloud {
+  .infinite-slider-edge {
     display: block;
   }
 }
 
-.infinite-slider-cloud--start {
-  inset-inline-start: -clamp(2rem, 5vw, 5rem);
+.infinite-slider-edge--start {
+  inset-inline-start: 0;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-background) 97%, transparent) 0%,
+    transparent 100%
+  );
 }
 
-.infinite-slider-cloud--end {
-  inset-inline-end: -clamp(2rem, 5vw, 5rem);
+.infinite-slider-edge--end {
+  inset-inline-end: 0;
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--color-background) 97%, transparent) 0%,
+    transparent 100%
+  );
 }
 
-/* Light variant — theme-aware (works section) */
-.infinite-slider--light .infinite-slider-cloud {
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(255, 255, 255, 0.85),
-      rgba(255, 255, 255, 0.3) 45%,
-      transparent 72%
-    ),
-    radial-gradient(
-      ellipse at 40% 60%,
-      color-mix(in srgb, var(--color-primary) 9%, transparent),
-      transparent 70%
-    );
-  opacity: 0.9;
+/* Red variant — veil matches the clients band red */
+.infinite-slider--red .infinite-slider-edge--start {
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-primary-600) 88%, transparent) 0%,
+    transparent 100%
+  );
 }
 
-.dark .infinite-slider--light .infinite-slider-cloud {
-  opacity: 0.5;
-}
-
-/* Red variant — clients band */
-.infinite-slider--red .infinite-slider-cloud {
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.16) 45%,
-      transparent 72%
-    ),
-    radial-gradient(
-      ellipse at 40% 60%,
-      color-mix(in srgb, var(--color-primary) 26%, transparent),
-      transparent 70%
-    );
-  opacity: 0.8;
+.infinite-slider--red .infinite-slider-edge--end {
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--color-primary-600) 88%, transparent) 0%,
+    transparent 100%
+  );
 }
 
 /* Arrows */

@@ -109,7 +109,7 @@ export default function ClientCard({ teacher }) {
           COVER
       ====================================================== */}
 
-      <div className="relative h-40 overflow-hidden">
+      <div className="relative h-40 overflow-hidden bg-gradient-to-br from-neutral-100 via-neutral-50 to-primary-50 dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-900">
         {coverImage ? (
           <Image
             src={coverImage}
@@ -117,28 +117,15 @@ export default function ClientCard({ teacher }) {
             fill
             sizes="(max-width: 768px) 100vw, 400px"
             className="
-              object-cover
+              object-contain
+              object-center
               transition-transform
               duration-700
               ease-out
               group-hover:scale-105
             "
           />
-        ) : (
-          <div
-            className="
-              absolute
-              inset-0
-              bg-gradient-to-br
-              from-neutral-100
-              via-neutral-50
-              to-primary-50
-              dark:from-neutral-800
-              dark:via-neutral-900
-              dark:to-neutral-900
-            "
-          />
-        )}
+        ) : null}
 
         {/* Cover Overlay */}
 
@@ -289,7 +276,7 @@ export default function ClientCard({ teacher }) {
       ====================================================== */}
 
       {hasSocialMedia && (
-        <div className="mt-4">
+        <div className="relative z-30 mt-4">
           <SocialMediaLinks
             Facebook={teacher?.facebook || false}
             Instagram={teacher?.instagram || false}
@@ -340,7 +327,7 @@ export default function ClientCard({ teacher }) {
           CTA
       ====================================================== */}
 
-      <div className="mt-auto p-5">
+      <div className="relative z-30 mt-auto p-5">
         <Link
           href={`/clients/${teacher?.link}`}
           className="
@@ -379,6 +366,15 @@ export default function ClientCard({ teacher }) {
           />
         </Link>
       </div>
+
+      {/* Whole-card link — tap anywhere to open the client file */}
+      {teacher?.link && (
+        <Link
+          href={`/clients/${teacher.link}`}
+          aria-label={`فتح ملف ${teacher?.name || "العميل"}`}
+          className="absolute inset-0 z-20 rounded-[2rem]"
+        />
+      )}
     </article>
   );
 }
