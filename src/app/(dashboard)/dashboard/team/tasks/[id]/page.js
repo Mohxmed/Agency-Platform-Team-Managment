@@ -327,9 +327,9 @@ export default function TaskDetailPage() {
     return (
       <ProtectedRoute permission="tasks">
         <div dir="rtl" className="space-y-6">
-          <div className="h-10 w-64 animate-pulse rounded-xl bg-gray-100" />
-          <div className="h-40 animate-pulse rounded-[28px] border border-gray-100 bg-gray-50" />
-          <div className="h-72 animate-pulse rounded-3xl border border-gray-100 bg-gray-50" />
+          <div className="h-10 w-64 animate-pulse rounded-xl bg-gray-100 dark:bg-white/[0.06]" />
+          <div className="h-40 animate-pulse rounded-[28px] border border-gray-100 bg-gray-50 dark:border-white/[0.06] dark:bg-white/[0.03]" />
+          <div className="h-72 animate-pulse rounded-3xl border border-gray-100 bg-gray-50 dark:border-white/[0.06] dark:bg-white/[0.03]" />
         </div>
       </ProtectedRoute>
     );
@@ -411,7 +411,7 @@ export default function TaskDetailPage() {
         ) : (
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
             <div className="space-y-6 xl:col-span-2">
-              <section className="rounded-[28px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)] sm:p-8">
+              <section className="rounded-[28px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)] sm:p-8">
                 <div className="flex flex-wrap items-center gap-2">
                   <WorkflowBadge status={task.status} />
                   <PriorityBadge priority={task.priority} />
@@ -476,7 +476,7 @@ export default function TaskDetailPage() {
               </section>
 
               {task.checklist?.length > 0 && (
-                <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+                <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                   <div className="mb-4 flex items-center justify-between">
                     <h3 className="flex items-center gap-2 text-sm font-black text-ink">
                       <ListChecks className="h-4 w-4 text-ink/60" />
@@ -520,7 +520,7 @@ export default function TaskDetailPage() {
                 </section>
               )}
 
-              <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+              <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                 <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
                   <MessageSquare className="h-4 w-4 text-ink/60" />
                   التعليقات ({task.comments?.length || 0})
@@ -585,7 +585,7 @@ export default function TaskDetailPage() {
             </div>
 
             <div className="space-y-6">
-              <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+              <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                 <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
                   <Users className="h-4 w-4 text-ink/60" />
                   الأفراد
@@ -625,7 +625,7 @@ export default function TaskDetailPage() {
               </section>
 
               {task.labels?.length > 0 && (
-                <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+                <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                   <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
                     <Tag className="h-4 w-4 text-ink/60" />
                     التصنيفات
@@ -645,7 +645,7 @@ export default function TaskDetailPage() {
               )}
 
               {task.attachments?.length > 0 && (
-                <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+                <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                   <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
                     <ExternalLink className="h-4 w-4 text-ink/60" />
                     المرفقات
@@ -669,7 +669,7 @@ export default function TaskDetailPage() {
                 </section>
               )}
 
-              <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+              <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                 <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
                   <ClipboardList className="h-4 w-4 text-ink/60" />
                   مراحل العمل

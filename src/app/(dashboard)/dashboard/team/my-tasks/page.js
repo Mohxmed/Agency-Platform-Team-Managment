@@ -494,6 +494,7 @@ export default function MyTasksPage() {
                 hover:bg-white
                 dark:border-white/[0.08]
                 dark:bg-white/[0.05]
+                dark:hover:bg-white/[0.1]
               "
             >
               {viewMode === "kanban"
@@ -624,6 +625,8 @@ export default function MyTasksPage() {
                   text-ink
                   outline-none
                   transition
+                  dark:border-white/[0.1]
+                  dark:bg-white/[0.05]
                   ${theme.focus}
                 `}
               />
@@ -648,6 +651,10 @@ export default function MyTasksPage() {
                 font-bold
                 text-ink
                 outline-none
+                transition
+                dark:border-white/[0.1]
+                dark:bg-white/[0.05]
+                dark:text-white
               "
             >
               <option value="all">
@@ -659,6 +666,12 @@ export default function MyTasksPage() {
                   <option
                     key={project.id}
                     value={project.id}
+                    className="
+                      bg-white
+                      text-ink
+                      dark:bg-[#15151c]
+                      dark:text-white
+                    "
                   >
                     {project.title}
                   </option>
@@ -685,6 +698,10 @@ export default function MyTasksPage() {
                 font-bold
                 text-ink
                 outline-none
+                transition
+                dark:border-white/[0.1]
+                dark:bg-white/[0.05]
+                dark:text-white
               "
             >
               <option value="all">
@@ -696,6 +713,12 @@ export default function MyTasksPage() {
                   <option
                     key={status.value}
                     value={status.value}
+                    className="
+                      bg-white
+                      text-ink
+                      dark:bg-[#15151c]
+                      dark:text-white
+                    "
                   >
                     {status.labelAr}
                   </option>
@@ -722,25 +745,61 @@ export default function MyTasksPage() {
                 font-bold
                 text-ink
                 outline-none
+                transition
+                dark:border-white/[0.1]
+                dark:bg-white/[0.05]
+                dark:text-white
               "
             >
               <option value="all">
                 كل الأولويات
               </option>
 
-              <option value="low">
+              <option
+                value="low"
+                className="
+                  bg-white
+                  text-ink
+                  dark:bg-[#15151c]
+                  dark:text-white
+                "
+              >
                 منخفضة
               </option>
 
-              <option value="medium">
+              <option
+                value="medium"
+                className="
+                  bg-white
+                  text-ink
+                  dark:bg-[#15151c]
+                  dark:text-white
+                "
+              >
                 متوسطة
               </option>
 
-              <option value="high">
+              <option
+                value="high"
+                className="
+                  bg-white
+                  text-ink
+                  dark:bg-[#15151c]
+                  dark:text-white
+                "
+              >
                 عالية
               </option>
 
-              <option value="urgent">
+              <option
+                value="urgent"
+                className="
+                  bg-white
+                  text-ink
+                  dark:bg-[#15151c]
+                  dark:text-white
+                "
+              >
                 عاجلة
               </option>
             </select>
@@ -1007,6 +1066,8 @@ function MyTaskCard({
         transition
         hover:border-primary/30
         hover:shadow-xl
+        dark:border-white/[0.08]
+        dark:hover:border-primary/40
       "
     >
 
@@ -1123,8 +1184,8 @@ function MyTaskCard({
               font-black
               ${
                 overdue
-                  ? "bg-red-50 text-red-600"
-                  : "bg-black/[0.04] text-ink/60"
+                  ? "bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400"
+                  : "bg-black/[0.04] text-ink/60 dark:bg-white/[0.06] dark:text-ink/70"
               }
             `}
           >
@@ -1160,6 +1221,7 @@ function MyTaskCard({
               text-[10px]
               font-black
               text-ink/60
+              dark:bg-white/[0.06]
             "
           >
 
@@ -1219,6 +1281,8 @@ function MyTaskCard({
             transition
             hover:bg-black/[0.1]
             disabled:opacity-30
+            dark:bg-white/[0.06]
+            dark:hover:bg-white/[0.12]
           "
         >
 
@@ -1331,6 +1395,7 @@ function TaskListView({
         border
         border-black/[0.06]
         bg-card
+        dark:border-white/[0.08]
       "
     >
 
@@ -1354,6 +1419,8 @@ function TaskListView({
                 border-b
                 border-black/[0.06]
                 bg-black/[0.02]
+                dark:border-white/[0.08]
+                dark:bg-white/[0.03]
               "
             >
 
@@ -1418,6 +1485,8 @@ function TaskListView({
                       border-black/[0.04]
                       transition
                       hover:bg-black/[0.02]
+                      dark:border-white/[0.06]
+                      dark:hover:bg-white/[0.03]
                     "
                   >
 
@@ -1477,6 +1546,8 @@ function TaskListView({
                           text-xs
                           font-bold
                           text-ink/60
+                          dark:bg-white/[0.06]
+                          dark:text-ink/70
                         "
                       >
                         {project?.title ||

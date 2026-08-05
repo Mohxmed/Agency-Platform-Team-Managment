@@ -926,6 +926,7 @@ function ProjectsSection({
                           text-[10px]
                           font-bold
                           text-ink/60
+                          dark:bg-white/[0.06]
                         "
                       >
                         +

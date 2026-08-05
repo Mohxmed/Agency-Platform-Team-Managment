@@ -144,11 +144,11 @@ export default function TeamMembersPage() {
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
           <div className="animate-pulse space-y-6">
-            <div className="h-8 w-64 bg-gray-200 rounded-xl" />
+            <div className="h-8 w-64 bg-gray-200 rounded-xl dark:bg-white/[0.08]" />
             <div className="grid gap-4 md:grid-cols-4">
-              {[1, 2, 3, 4].map((i) => <div key={i} className="h-28 bg-gray-100 rounded-2xl" />)}
+              {[1, 2, 3, 4].map((i) => <div key={i} className="h-28 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />)}
             </div>
-            <div className="h-96 bg-gray-100 rounded-2xl" />
+            <div className="h-96 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
           </div>
         </div>
       </ProtectedRoute>
@@ -214,7 +214,7 @@ export default function TeamMembersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="ابحث بالاسم، الإيميل، التخصص..."
-              className="w-full h-11 pr-10 pl-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full h-11 pr-10 pl-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
             />
           </div>
 
@@ -222,7 +222,7 @@ export default function TeamMembersPage() {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20"
+              className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
             >
               <option value="all">جميع الأدوار</option>
               <option value="admin">مسؤول</option>
@@ -234,7 +234,7 @@ export default function TeamMembersPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20"
+              className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
             >
               <option value="name">الاسم</option>
               <option value="role">الدور</option>
@@ -316,7 +316,7 @@ export default function TeamMembersPage() {
                       </td>
                       <td className="py-4 px-4 text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <div className="flex-1 max-w-[80px] h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="flex-1 max-w-[80px] h-2 bg-gray-100 rounded-full overflow-hidden dark:bg-white/10">
                             <div
                               className={`h-full transition-all duration-500 ${
                                 user._completionRate >= 80 ? "bg-emerald-500" :

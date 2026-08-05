@@ -170,8 +170,8 @@ export default function EditMemberPage() {
     return (
       <div className="space-y-6" dir="rtl">
         <div className="animate-pulse space-y-6">
-          <div className="h-8 w-64 bg-gray-200 rounded-xl" />
-          <div className="h-96 bg-gray-100 rounded-2xl" />
+          <div className="h-8 w-64 bg-gray-200 rounded-xl dark:bg-white/[0.08]" />
+          <div className="h-96 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
         </div>
       </div>
     );
@@ -181,9 +181,9 @@ export default function EditMemberPage() {
     return (
       <div className="space-y-6" dir="rtl">
         <Card className="text-center py-12">
-          <UserCog className="h-16 w-16 mx-auto text-gray-500" />
+          <UserCog className="h-16 w-16 mx-auto text-gray-500 dark:text-ink/40" />
           <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
-          <p className="mt-2 text-gray-500">لم يتم العثور على بيانات هذا العضو.</p>
+          <p className="mt-2 text-gray-500 dark:text-ink/60">لم يتم العثور على بيانات هذا العضو.</p>
           <Button variant="outline" className="mt-6" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 ml-2" />
             رجوع

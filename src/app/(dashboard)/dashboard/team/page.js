@@ -258,7 +258,7 @@ export default function TeamPage() {
             <Link
               key={href}
               href={href}
-              className={`group flex items-center justify-between rounded-2xl border border-gray-200/80 bg-card p-4 shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,0.07)] ${theme.hoverBorder}`}
+              className={`group flex items-center justify-between rounded-2xl border border-gray-200/80 bg-card p-4 shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,0.07)] dark:border-white/[0.08] ${theme.hoverBorder}`}
             >
               <span className="flex items-center gap-3">
                 <span className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${theme.chip}`}>
@@ -280,7 +280,7 @@ export default function TeamPage() {
             {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
-                className="h-32 animate-pulse rounded-2xl border border-gray-100 bg-gray-50"
+                className="h-32 animate-pulse rounded-2xl border border-gray-100 bg-gray-50 dark:border-white/[0.06] dark:bg-white/[0.03]"
               />
             ))}
           </div>
@@ -347,7 +347,7 @@ export default function TeamPage() {
 return (
                     <div
                       key={project.id}
-                      className={`group relative overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] ${theme.hoverBorder} cursor-pointer`}
+                      className={`group relative overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] dark:border-white/[0.08] ${theme.hoverBorder} cursor-pointer`}
                       onClick={() => window.location.href = `/dashboard/team/projects/${project.id}`}
                     >
                       {(() => {
@@ -477,10 +477,10 @@ return (
           </div>
 
           <div className="min-w-0 space-y-6">
-            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] sm:p-6">
+            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
                     <ClipboardList className="h-5 w-5" />
                   </div>
 
@@ -497,8 +497,8 @@ return (
               </div>
 
               {recentTasks.length === 0 ? (
-                <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center">
-                  <ClipboardList className="h-6 w-6 text-gray-500" />
+                <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center dark:border-white/10 dark:bg-white/[0.03]">
+                  <ClipboardList className="h-6 w-6 text-gray-500 dark:text-ink/40" />
                   <p className="mt-2 text-sm font-bold text-ink/60">
                     لا توجد مهام بعد
                   </p>
@@ -517,7 +517,7 @@ return (
                       <Link
                         key={task.id}
                         href={`/dashboard/team/tasks/${task.id}`}
-                        className="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/50 p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50/40"
+                        className="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/50 p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50/40 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-amber-400/40 dark:hover:bg-amber-500/10"
                       >
                         <div className="min-w-0 flex-1">
                           <h3 className="truncate text-sm font-bold text-ink transition-colors group-hover:text-amber-700">
@@ -530,7 +530,7 @@ return (
                           </p>
                         </div>
 
-                        <ChevronLeft className="h-4 w-4 shrink-0 text-gray-500 transition-all group-hover:-translate-x-0.5 group-hover:text-amber-600" />
+                        <ChevronLeft className="h-4 w-4 shrink-0 text-gray-500 transition-all group-hover:-translate-x-0.5 group-hover:text-amber-600 dark:text-ink/40 dark:group-hover:text-amber-400" />
                       </Link>
                     );
                   })}
@@ -538,10 +538,10 @@ return (
               )}
             </section>
 
-            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] sm:p-6">
+            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
                     <Users className="h-5 w-5" />
                   </div>
 
@@ -558,7 +558,7 @@ return (
               </div>
 
               {activeUsers.length === 0 ? (
-                <div className="flex min-h-[120px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center">
+                <div className="flex min-h-[120px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center dark:border-white/10 dark:bg-white/[0.03]">
                   <p className="text-sm font-bold text-ink/60">
                     لا يوجد أعضاء بعد
                   </p>
@@ -571,7 +571,7 @@ return (
                   {activeUsers.slice(0, 6).map((user) => (
                     <li
                       key={user.id}
-                      className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/50 p-2.5"
+                      className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/50 p-2.5 dark:border-white/[0.06] dark:bg-white/[0.03]"
                     >
                       <Avatar user={user} size={36} />
 
@@ -587,7 +587,7 @@ return (
 
                       <span
                         className={`h-2 w-2 shrink-0 rounded-full ${
-                          user.status === "active" ? "bg-green-500" : "bg-gray-300"
+                          user.status === "active" ? "bg-green-500" : "bg-gray-300 dark:bg-white/20"
                         }`}
                         title={user.status === "active" ? "نشط" : "غير نشط"}
                       />

@@ -34,11 +34,11 @@ import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 import { getWorkflowMeta } from "@/features/team/lib/teamUtils";
 
 const STATUS_COLORS = {
-  backlog: "bg-gray-100 text-gray-700",
-  "in-progress": "bg-yellow-100 text-yellow-700",
-  review: "bg-violet-100 text-violet-700",
-  revision: "bg-red-100 text-red-700",
-  done: "bg-green-100 text-green-700",
+  backlog: "bg-gray-100 text-gray-700 dark:bg-white/[0.06] dark:text-ink/70",
+  "in-progress": "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400",
+  review: "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400",
+  revision: "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-400",
+  done: "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400",
 };
 
 const STATUS_LABELS = {
@@ -142,11 +142,11 @@ export default function MemberReportPage() {
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
           <div className="animate-pulse space-y-6">
-            <div className="h-8 w-64 bg-gray-200 rounded-xl" />
+            <div className="h-8 w-64 bg-gray-200 rounded-xl dark:bg-white/[0.08]" />
             <div className="grid gap-4 md:grid-cols-4">
-              {[1, 2, 3, 4].map((i) => <div key={i} className="h-28 bg-gray-100 rounded-2xl" />)}
+              {[1, 2, 3, 4].map((i) => <div key={i} className="h-28 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />)}
             </div>
-            <div className="h-96 bg-gray-100 rounded-2xl" />
+            <div className="h-96 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
           </div>
         </div>
       </ProtectedRoute>
@@ -158,9 +158,9 @@ export default function MemberReportPage() {
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
           <Card className="text-center py-12">
-            <UserCog className="h-16 w-16 mx-auto text-gray-500" />
+            <UserCog className="h-16 w-16 mx-auto text-gray-500 dark:text-ink/40" />
             <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
-            <p className="mt-2 text-gray-500">لم يتم العثور على بيانات هذا العضو.</p>
+            <p className="mt-2 text-gray-500 dark:text-ink/60">لم يتم العثور على بيانات هذا العضو.</p>
             <Button variant="outline" className="mt-6" onClick={() => window.history.back()}>
               <ArrowLeft className="h-4 w-4 ml-2" />
               رجوع
@@ -289,7 +289,7 @@ export default function MemberReportPage() {
                     <span className="font-medium text-ink">{s.label}</span>
                     <span className="font-bold text-ink">{s.count}</span>
                   </div>
-                  <div className="mt-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="mt-1 h-2 bg-gray-100 rounded-full overflow-hidden dark:bg-white/10">
                     <div
                       className={`h-full ${s.color} transition-all duration-500`}
                       style={{ width: `${stats.total > 0 ? (s.count / stats.total) * 100 : 0}%` }}
@@ -417,7 +417,7 @@ export default function MemberReportPage() {
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-ink group-hover:text-primary transition-colors truncate">{project.title}</h4>
                       <p className="mt-1 text-sm text-ink/60">{projectDone} / {projectTotal} مهام منجزة</p>
-                      <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden dark:bg-white/10">
                         <div className={`h-full ${theme.solidBg} transition-all duration-300`} style={{ width: `${progress}%` }} />
                       </div>
                       <p className="mt-1 text-xs text-ink/60">{progress}% مكتمل</p>
