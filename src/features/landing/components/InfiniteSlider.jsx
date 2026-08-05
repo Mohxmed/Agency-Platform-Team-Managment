@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
@@ -24,12 +24,23 @@ export default function InfiniteSlider({
   variant = "light",
   autoplay = true,
   autoplayDelay = 4500,
+  reverse = false,
   visible = { mobile: 1, md: 2, lg: 3 },
   className = "",
 }) {
   const items = Array.isArray(children) ? children : [children];
   const reduceMotion = useReducedMotion();
   const swiperRef = useRef(null);
+  const autoplayEnabled = autoplay && !reduceMotion;
+
+  // Reverse direction manually — Swiper 9+ removed autoplay.reverseDirection.
+  useEffect(() => {
+    if (!autoplayEnabled || !reverse) return;
+    const id = setInterval(() => {
+      swiperRef.current?.slidePrev();
+    }, autoplayDelay);
+    return () => clearInterval(id);
+  }, [autoplayEnabled, reverse, autoplayDelay]);
 
   if (items.length === 0) return null;
 
@@ -65,13 +76,13 @@ export default function InfiniteSlider({
             1024: { slidesPerView: visible.lg },
           }}
           autoplay={
-            reduceMotion || !autoplay
-              ? false
-              : {
+            autoplayEnabled && !reverse
+              ? {
                   delay: autoplayDelay,
                   disableOnInteraction: true,
                   pauseOnMouseEnter: true,
                 }
+              : false
           }
           onSwiper={(swiper) => {
             swiperRef.current = swiper;

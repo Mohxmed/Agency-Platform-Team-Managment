@@ -105,7 +105,7 @@ export default function ClientsSection() {
             )}
 
             {!loading && !error && clients.length > 0 && (
-              <InfiniteSlider variant="red" autoplay autoplayDelay={2500}>
+              <InfiniteSlider variant="red" autoplay autoplayDelay={1500} reverse>
                 {clients.map((client) => (
                   <ClientCard key={client.id} teacher={client} />
                 ))}
@@ -127,8 +127,8 @@ export default function ClientsSection() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>
-            <Button variant="outline" href={ctaPrimaryLink}>
+          <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+            <Button variant="outline" href={ctaPrimaryLink} className="w-full sm:w-auto">
               <Users size={18} />
               {ctaPrimary}
             </Button>
