@@ -3,6 +3,25 @@ import { useState, useEffect } from "react";
 import { collection, getDocs, query, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
+const CACHE_KEY = "landing_services_cache";
+
+function getCached() {
+  try {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    return cached ? JSON.parse(cached) : null;
+  } catch {
+    return null;
+  }
+}
+
+function setCached(data) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch {
+    /* noop */
+  }
+}
+
 export function useServices() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,6 +30,15 @@ export function useServices() {
     let cancelled = false;
 
     async function fetchServices() {
+      const cached = getCached();
+      if (cached) {
+        if (!cancelled) {
+          setServices(cached);
+          setLoading(false);
+        }
+        return;
+      }
+
       try {
         const q = query(collection(db, "services"), limit(100));
         const snapshot = await getDocs(q);
@@ -25,6 +53,7 @@ export function useServices() {
               service.active !== false && service.active !== "false",
           )
           .sort((a, b) => (a.order || 0) - (b.order || 0));
+        setCached(activeServices);
         if (!cancelled) {
           setServices(activeServices);
         }

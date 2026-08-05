@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ROUTES } from "@/constants/routes";
 
@@ -13,8 +12,7 @@ import ServiceCard from "@/shared/ui/cards/ServiceCard";
 import SectionHeading from "@/features/landing/components/SectionHeading";
 import { ServicesSkeleton } from "@/shared/ui/skeletons/Skeletons";
 import { resolveIcon } from "@/shared/ui/icons/resolveIcon";
-import { collection, query, limit, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { useServices } from "@/features/landing/hooks/useServices";
 import { useSettings } from "@/contexts/SettingsContext";
 
 const moreCardDefaults = {
@@ -65,8 +63,7 @@ const cardAnimation = {
 ========================================================= */
 
 export default function ServicesSection() {
-  const [featured, setFeatured] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { services, loading } = useServices();
   const { settings } = useSettings();
   const content = settings.content?.services || {};
 
@@ -84,44 +81,18 @@ export default function ServicesSection() {
     moreLink: content.moreLink || ROUTES.SERVICES,
   };
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function fetchFeatured() {
-      try {
-        const q = query(collection(db, "services"), limit(50));
-        const snapshot = await getDocs(q);
-        const allServices = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const featuredServices = allServices
-          .filter(
-            (svc) =>
-              (svc.active === true || svc.active === "true") &&
-              (svc.featured === true || svc.featured === "true"),
-          )
-          .sort((a, b) => (a.order || 0) - (b.order || 0))
-          .slice(0, 2)
-          .map((svc) => ({
-            ...svc,
-            icon: resolveIcon(svc.icon),
-          }));
-        if (!cancelled) {
-          setFeatured(featuredServices);
-        }
-      } catch (err) {
-        console.error("Failed to load featured services:", err);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    fetchFeatured();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const featured = services
+    .filter(
+      (svc) =>
+        (svc.active === true || svc.active === "true") &&
+        (svc.featured === true || svc.featured === "true"),
+    )
+    .sort((a, b) => (a.order || 0) - (b.order || 0))
+    .slice(0, 2)
+    .map((svc) => ({
+      ...svc,
+      icon: resolveIcon(svc.icon),
+    }));
 
   const displayServices = loading ? [] : [...featured, moreCard];
 
