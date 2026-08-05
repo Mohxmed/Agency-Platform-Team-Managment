@@ -253,7 +253,7 @@ export default function ImageUploadField({
         maxImageFileSize: 8 * 1024 * 1024,
         cropping: !multiple,
         croppingAspectRatio: 16 / 9,
-        showSkipCropButton: false,
+        showSkipCropButton: true,
         folder: `portfolio/${storagePath}`,
         resourceType: "image",
         theme: "minimal",
