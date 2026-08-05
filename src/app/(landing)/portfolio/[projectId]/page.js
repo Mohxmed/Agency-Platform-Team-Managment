@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { use, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { ArrowLeft, ArrowRight, Sparkles, MoveUpLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight, Maximize2, MoveUpLeft, Sparkles } from "lucide-react";
 
 import { Container } from "@/features/landing";
 import ProjectGallery from "@/features/landing/components/ProjectGallery";
@@ -13,25 +13,12 @@ import { useWorks } from "@/features/landing/hooks/useWorks";
 import { ProjectDetailSkeleton } from "@/shared/ui/skeletons/Skeletons";
 
 export default function ProjectPage({ params }) {
-  const [projectId, setProjectId] = useState(null);
+  const resolvedParams = use(params);
+  const projectId = resolvedParams?.projectId || null;
+
+  const galleryRef = useRef(null);
 
   const { works, categories, loading } = useWorks();
-
-  /*
-   * =========================================================
-   * GET PARAM
-   * =========================================================
-   */
-
-  useEffect(() => {
-    async function getParams() {
-      const resolvedParams = await params;
-
-      setProjectId(resolvedParams?.projectId || null);
-    }
-
-    getParams();
-  }, [params]);
 
   /*
    * =========================================================
@@ -175,15 +162,19 @@ export default function ProjectPage({ params }) {
       return [];
     }
 
+    let source = [];
+
     if (Array.isArray(project.gallery) && project.gallery.length > 0) {
-      return project.gallery.filter(Boolean);
+      source = project.gallery.filter(Boolean);
+    } else if (project.image) {
+      source = [project.image];
     }
 
-    if (project.image) {
-      return [project.image];
+    if (project.image && source[0] !== project.image) {
+      return [project.image, ...source];
     }
 
-    return [];
+    return source;
   }, [project]);
 
   /*
@@ -192,7 +183,7 @@ export default function ProjectPage({ params }) {
    * =========================================================
    */
 
-  if (loading) {
+  if (loading || projectId === null) {
     return (
       <main dir="rtl" className="min-h-screen bg-white dark:bg-background">
         <Container>
@@ -537,15 +528,26 @@ export default function ProjectPage({ params }) {
       {project.image && (
         <section className="mt-12 sm:mt-16 lg:mt-20">
           <Container>
-            <div
+            <button
+              type="button"
+              onClick={() => galleryRef.current?.open(0)}
+              disabled={!gallery.length}
+              aria-label={`فتح معرض صور ${project.title}`}
               className="
                 group
                 relative
+                block
+                w-full
                 overflow-hidden
                 rounded-[1.75rem]
                 bg-neutral-100
+                text-right
+                outline-none
                 sm:rounded-[2.5rem]
                 dark:bg-card
+                disabled:cursor-default
+                focus-visible:ring-4
+                focus-visible:ring-primary-600/20
               "
             >
               <div
@@ -577,35 +579,61 @@ export default function ProjectPage({ params }) {
                     absolute
                     inset-0
                     bg-gradient-to-t
-                    from-black/30
+                    from-black/45
                     via-transparent
                     to-transparent
                   "
                 />
               </div>
 
-              <div className="absolute bottom-5 right-5 sm:bottom-7 sm:right-7">
-                <div
-                  className="
-                    flex
-                    items-center
-                    gap-2
-                    rounded-full
-                    border
-                    border-white/15
-                    bg-black/55
-                    px-4
-                    py-2.5
-                    text-xs
-                    font-medium
-                    text-white
-                  "
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary-400" />
-                  عرض المشروع
+              {gallery.length > 0 && (
+                <div className="absolute bottom-5 right-5 flex items-center gap-3 sm:bottom-7 sm:right-7">
+                  <span
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                      rounded-full
+                      border
+                      border-white/15
+                      bg-black/55
+                      px-4
+                      py-2.5
+                      text-xs
+                      font-medium
+                      text-white
+                    "
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary-400" />
+                    معرض الصور ({gallery.length})
+                  </span>
+
+                  <span
+                    className="
+                      flex
+                      h-10
+                      w-10
+                      translate-y-0.5
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-white/95
+                      text-black
+                      opacity-90
+                      shadow-lg
+                      transition-all
+                      duration-300
+                      group-hover:translate-y-0
+                      group-hover:opacity-100
+                      dark:bg-white/10
+                      dark:text-white
+                    "
+                  >
+                    <Maximize2 size={16} />
+                  </span>
                 </div>
-              </div>
-            </div>
+              )}
+            </button>
           </Container>
         </section>
       )}
@@ -637,7 +665,11 @@ export default function ProjectPage({ params }) {
               </div>
             </div>
 
-            <ProjectGallery images={gallery} title={project.title} />
+            <ProjectGallery
+              ref={galleryRef}
+              images={gallery}
+              title={project.title}
+            />
 
             <div
               className="

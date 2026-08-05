@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 
@@ -11,41 +11,53 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-export default function ProjectGallery({ images = [], title = "Project" }) {
+export default function ProjectGallery({ images = [], title = "Project", ref }) {
   const [activeIndex, setActiveIndex] = useState(null);
+  const touchStartX = useRef(null);
+
+  const move = useCallback(
+    (direction) => {
+      setActiveIndex((current) => {
+        if (current === null || images.length === 0) return current;
+        return (current + direction + images.length) % images.length;
+      });
+    },
+    [images.length],
+  );
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      open: (index) => setActiveIndex(index),
+    }),
+    [],
+  );
+
+  /*
+   * Keyboard (Escape / arrows) + body scroll lock while the
+   * lightbox is open. ArrowLeft = next, ArrowRight = previous (RTL).
+   */
 
   useEffect(() => {
-    if (activeIndex !== null) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    if (activeIndex === null) return undefined;
+
+    document.body.style.overflow = "hidden";
+
+    function onKeyDown(event) {
+      if (event.key === "Escape") setActiveIndex(null);
+      else if (event.key === "ArrowLeft") move(1);
+      else if (event.key === "ArrowRight") move(-1);
     }
+
+    window.addEventListener("keydown", onKeyDown);
+
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, [activeIndex]);
+  }, [activeIndex, move]);
 
   if (!images?.length) return null;
-
-  function openGallery(index) {
-    setActiveIndex(index);
-  }
-
-  function closeGallery() {
-    setActiveIndex(null);
-  }
-
-  function nextImage() {
-    setActiveIndex((current) =>
-      current === images.length - 1 ? 0 : current + 1,
-    );
-  }
-
-  function previousImage() {
-    setActiveIndex((current) =>
-      current === 0 ? images.length - 1 : current - 1,
-    );
-  }
 
   return (
     <>
@@ -94,7 +106,7 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
             <SwiperSlide key={`${image}-${index}`}>
               <button
                 type="button"
-                onClick={() => openGallery(index)}
+                onClick={() => setActiveIndex(index)}
                 className="
                   group
                   relative
@@ -313,7 +325,16 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
             p-4
             sm:p-8
           "
-          onClick={closeGallery}
+          onClick={() => setActiveIndex(null)}
+          onTouchStart={(event) => {
+            touchStartX.current = event.touches[0].clientX;
+          }}
+          onTouchEnd={(event) => {
+            if (touchStartX.current === null) return;
+            const deltaX = event.changedTouches[0].clientX - touchStartX.current;
+            touchStartX.current = null;
+            if (Math.abs(deltaX) > 48) move(deltaX < 0 ? 1 : -1);
+          }}
           role="dialog"
           aria-modal="true"
           aria-label="معرض صور المشروع"
@@ -322,7 +343,7 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
 
           <button
             type="button"
-            onClick={closeGallery}
+            onClick={() => setActiveIndex(null)}
             className="
               absolute
               right-4
@@ -379,7 +400,7 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
-                previousImage();
+                move(-1);
               }}
               className="
                 absolute
@@ -442,7 +463,7 @@ export default function ProjectGallery({ images = [], title = "Project" }) {
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
-                nextImage();
+                move(1);
               }}
               className="
                 absolute
