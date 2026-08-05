@@ -76,11 +76,14 @@ export default function ContactSection() {
   const contactEmail = settings.contactSectionEmail || "hello@nokta.com";
   const contactPhone = settings.contactSectionPhone || "+20 100 000 0000";
   const contactAddress = settings.contactSectionAddress || "طلخا، الدقهلية - مصر";
-  const whatsappNumber = (
-    settings.contactSectionWhatsapp ||
-    settings.whatsapp ||
-    "201000000000"
-  ).replace(/[^0-9]/g, "");
+  const whatsappNumber = (() => {
+    const digits = (
+      settings.contactSectionWhatsapp ||
+      settings.whatsapp ||
+      "201000000000"
+    ).replace(/[^0-9]/g, "");
+    return digits.startsWith("0") ? `20${digits.slice(1)}` : digits;
+  })();
 
   const [form, setForm] = useState({
     name: "",

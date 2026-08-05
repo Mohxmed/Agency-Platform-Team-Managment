@@ -448,7 +448,16 @@ export default function ContactSection() {
                 className="w-full"
                 href={
                   settings.contactSectionWhatsapp
-                    ? `https://wa.me/${settings.contactSectionWhatsapp.replace(/[^0-9]/g, "")}`
+                    ? (() => {
+                        const digits = settings.contactSectionWhatsapp.replace(
+                          /[^0-9]/g,
+                          "",
+                        );
+                        const number = digits.startsWith("0")
+                          ? `20${digits.slice(1)}`
+                          : digits;
+                        return `https://wa.me/${number}`;
+                      })()
                     : ROUTES.WHATSAPP
                 }
                 blank
