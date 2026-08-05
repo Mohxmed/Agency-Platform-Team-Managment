@@ -2,13 +2,12 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { fetchSettings, clearSettingsCache } from "@/lib/settingsCache";
-import { Sparkles, TrendingUp } from "lucide-react";
 
 const EMPTY = {
-  siteName: "نقطة",
+  siteName: "نقطة | وكالة إبداع رقمي",
   tagline: "نقطة ومن أول السطر، شغلك محتاج إبداع.",
   description:
-    "نقطة هي مكانك الأول والأخير اللي هتخليك تظهر بشكل احترافي على السوشيال ميديا ونريحك من الإدارة والمتابعة ونسلمك نتائج.",
+    "في نقطة، نحول الأفكار إلى نتائج. نقدم حلولًا متكاملة في التسويق الرقمي، تصميم الهوية البصرية، إنتاج المحتوى، تطوير المواقع، وإدارة وسائل التواصل الاجتماعي، لنساعد عملاءنا على الوصول إلى جمهورهم وبناء علامة تجارية مؤثرة تحقق النمو والاستمرارية.",
   whatsapp: "",
   copyright: "",
   contactSectionEmail: "",
