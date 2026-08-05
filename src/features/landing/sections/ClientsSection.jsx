@@ -134,8 +134,8 @@ export default function ClientsSection() {
             </Button>
           </motion.div>
 
-          <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>
-            <Button href={ctaSecondaryLink}>
+          <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
+            <Button href={ctaSecondaryLink} className="w-full sm:w-auto">
               <Star size={18} />
               {ctaSecondary}
             </Button>
