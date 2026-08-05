@@ -83,13 +83,12 @@ export default function ProjectCard({ project }) {
         <div
           className="
             relative
-            h-[185px]
+            aspect-square
             overflow-hidden
             bg-gradient-to-br
             from-neutral-100
             via-white
             to-primary-50
-            sm:h-[280px]
             dark:from-neutral-800
             dark:via-neutral-900
             dark:to-neutral-900
@@ -101,7 +100,7 @@ export default function ProjectCard({ project }) {
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="
-              object-contain
+              object-cover
               object-center
               transition-transform
               duration-700

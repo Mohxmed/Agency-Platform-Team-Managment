@@ -24,7 +24,7 @@ export default function InfiniteSlider({
   variant = "light",
   autoplay = true,
   autoplayDelay = 4500,
-  visible = { mobile: 1, md: 2, lg: 2 },
+  visible = { mobile: 1, md: 2, lg: 3 },
   className = "",
 }) {
   const items = Array.isArray(children) ? children : [children];

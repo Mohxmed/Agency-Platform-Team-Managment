@@ -197,7 +197,9 @@
 }
 
 /* Gradient edge fades — cards slide in/out under a soft veil
-   colored like the section background, so nothing is hardcoded. */
+   colored like the section background, so nothing is hardcoded.
+   RTL: --start hugs the right edge, --end hugs the left edge;
+   the opaque side always sits at the outer viewport edge. */
 .infinite-slider-edge {
   position: absolute;
   top: 0;
@@ -217,7 +219,7 @@
 .infinite-slider-edge--start {
   inset-inline-start: 0;
   background: linear-gradient(
-    to right,
+    to left,
     color-mix(in srgb, var(--color-background) 97%, transparent) 0%,
     transparent 100%
   );
@@ -226,7 +228,7 @@
 .infinite-slider-edge--end {
   inset-inline-end: 0;
   background: linear-gradient(
-    to left,
+    to right,
     color-mix(in srgb, var(--color-background) 97%, transparent) 0%,
     transparent 100%
   );
@@ -235,7 +237,7 @@
 /* Red variant — veil matches the clients band red */
 .infinite-slider--red .infinite-slider-edge--start {
   background: linear-gradient(
-    to right,
+    to left,
     color-mix(in srgb, var(--color-primary-600) 88%, transparent) 0%,
     transparent 100%
   );
@@ -243,7 +245,7 @@
 
 .infinite-slider--red .infinite-slider-edge--end {
   background: linear-gradient(
-    to left,
+    to right,
     color-mix(in srgb, var(--color-primary-600) 88%, transparent) 0%,
     transparent 100%
   );
