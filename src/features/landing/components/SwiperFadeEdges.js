@@ -40,7 +40,7 @@ export default function SwiperFadeEdges({
           w-24
           sm:w-40
           lg:w-60
-          ${colors.left}
+          ${colors.right}
           blur-xl
         `}
       />
@@ -55,7 +55,7 @@ export default function SwiperFadeEdges({
           w-24
           sm:w-40
           lg:w-60
-          ${colors.right}
+          ${colors.left}
           blur-xl
         `}
       />
