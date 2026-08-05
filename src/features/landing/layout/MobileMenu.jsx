@@ -40,6 +40,17 @@ export default function MobileMenu({ open, onClose }) {
     };
   }, [onClose]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
   const isActive = (href) => {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
@@ -54,7 +65,8 @@ export default function MobileMenu({ open, onClose }) {
               fixed
               inset-0
               z-[9998]
-              bg-black/40
+              bg-black/30
+              backdrop-blur-sm
               lg:hidden
             "
             initial={{ opacity: 0 }}
@@ -77,10 +89,15 @@ export default function MobileMenu({ open, onClose }) {
               max-w-[88vw]
               flex-col
               overflow-hidden
-              bg-white
+              border-s
+              border-black/10
+              bg-white/70
               shadow-2xl
+              backdrop-blur-2xl
+              backdrop-saturate-150
               lg:hidden
-              dark:bg-[#111111]
+              dark:border-white/10
+              dark:bg-[#111111]/70
             "
             initial={{
               x: "100%",

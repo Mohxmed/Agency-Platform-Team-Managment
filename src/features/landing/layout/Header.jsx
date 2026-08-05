@@ -49,6 +49,7 @@ export default function Header() {
       <Modal isOpen={isTranslated} setIsOpen={setIsTranslated}>
         <UnderDevelopment />
       </Modal>
+      <MobileMenu open={isOpen} onClose={() => setIsOpen(false)} />
       <header
         className={`
           sticky
@@ -68,7 +69,6 @@ export default function Header() {
         <Container className={"flex h-16 items-center justify-between"}>
           <Logo />
           <Navbar />
-          <MobileMenu open={isOpen} onClose={() => setIsOpen(false)} />
           <div className="flex items-center gap-1">
             {mounted && (
               <IconButtons
