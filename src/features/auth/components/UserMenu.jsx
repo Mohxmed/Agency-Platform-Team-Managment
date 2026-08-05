@@ -65,12 +65,12 @@ export default function UserMenu() {
     );
   }
 
-  const avatar = user.photoURL || profile?.photoURL || profile?.logo || "";
+  const avatar = profile?.photoURL || profile?.logo || user.photoURL || "";
 
   const displayName =
-    user.displayName || profile?.name || "مستخدم";
+    profile?.name || user.displayName || "مستخدم";
 
-  const email = user.email || profile?.email || "";
+  const email = profile?.email || user.email || "";
 
   const roleKey = profile?.role || "member";
   const role = roleConfig[roleKey] || roleConfig.default;
