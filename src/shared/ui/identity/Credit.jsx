@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function DeveloperCredit() {
   return (
     <motion.a
-      href="https://your-link.com"
+      href="https://www.facebook.com/Mohxmeduni"
       target="_blank"
       rel="noopener noreferrer"
       whileHover={{

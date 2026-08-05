@@ -18,6 +18,7 @@ import {
 
 import { Container } from "@/features/landing";
 import SocialMediaLinks from "@/features/landing/components/SocialMediaLinks";
+import { useSettings } from "@/contexts/SettingsContext";
 
 /* =========================================================
    ANIMATION
@@ -70,6 +71,17 @@ const cardAnimation = {
 ========================================================= */
 
 export default function ContactSection() {
+  const { settings } = useSettings();
+
+  const contactEmail = settings.contactSectionEmail || "hello@nokta.com";
+  const contactPhone = settings.contactSectionPhone || "+20 100 000 0000";
+  const contactAddress = settings.contactSectionAddress || "طلخا، الدقهلية - مصر";
+  const whatsappNumber = (
+    settings.contactSectionWhatsapp ||
+    settings.whatsapp ||
+    "201000000000"
+  ).replace(/[^0-9]/g, "");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -427,21 +439,21 @@ export default function ContactSection() {
                 <ContactInfo
                   icon={<Mail size={18} />}
                   title="البريد الإلكتروني"
-                  value="hello@nokta.com"
-                  href="mailto:hello@nokta.com"
+                  value={contactEmail}
+                  href={`mailto:${contactEmail}`}
                 />
 
                 <ContactInfo
                   icon={<Phone size={18} />}
                   title="رقم الهاتف"
-                  value="+20 100 000 0000"
-                  href="tel:+201000000000"
+                  value={contactPhone}
+                  href={`tel:${contactPhone.replace(/[^0-9]/g, "")}`}
                 />
 
                 <ContactInfo
                   icon={<MapPin size={18} />}
                   title="موقعنا"
-                  value="طلخا، الدقهلية - مصر"
+                  value={contactAddress}
                 />
               </div>
 
@@ -456,12 +468,13 @@ export default function ContactSection() {
 
                 <div className="flex justify-center text-black">
                   <SocialMediaLinks
-                    Facebook
-                    Whatsapp
-                    Instagram
-                    LinkedIn
-                    Youtube
-                    Twitter
+                    Facebook={settings.social?.facebook || ""}
+                    Instagram={settings.social?.instagram || ""}
+                    Twitter={settings.social?.twitter || ""}
+                    LinkedIn={settings.social?.linkedin || ""}
+                    Youtube={settings.social?.youtube || ""}
+                    TikTok={settings.social?.tiktok || ""}
+                    Whatsapp={settings.contactSectionWhatsapp || settings.whatsapp || ""}
                     size="lg"
                     className="justify-center border-none!"
                   />
@@ -831,7 +844,7 @@ export default function ContactSection() {
           </div>
 
           <motion.a
-            href="https://wa.me/201000000000"
+            href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{

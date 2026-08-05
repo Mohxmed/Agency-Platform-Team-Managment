@@ -129,12 +129,13 @@ function HeroActions() {
   const secondaryLink = hero.ctaSecondaryLink || "/works";
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row">
+    <div className="flex w-full flex-col items-stretch gap-4 sm:w-auto sm:flex-row">
       <Link
         href={primaryLink}
         className="
           group
           flex
+          w-full
           items-center
           justify-center
           gap-3
@@ -148,6 +149,7 @@ function HeroActions() {
           transition-all
           duration-300
           hover:-translate-y-1
+          sm:w-auto
         "
       >
         {primary}
@@ -161,6 +163,7 @@ function HeroActions() {
         href={secondaryLink}
         className="
           flex
+          w-full
           items-center
           justify-center
           gap-3
@@ -178,6 +181,7 @@ function HeroActions() {
           transition
           hover:bg-black/5
           dark:hover:bg-white/10
+          sm:w-auto
         "
       >
         <Play size={16} fill="currentColor" />
