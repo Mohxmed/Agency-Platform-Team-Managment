@@ -17,7 +17,7 @@ function resolveSiteUrl() {
   if (vercelUrl) {
     return `https://${vercelUrl}`;
   }
-  return "http://localhost:3000";
+  return "https://no2ta.com";
 }
 
 export const siteConfig = {
@@ -38,7 +38,7 @@ export const siteConfig = {
   author: "نقطة",
   url: resolveSiteUrl(),
   locale: "ar_EG",
-  ogImage: "/icons/icon-512.png",
+  ogImage: "/opengraph.webp",
   twitterHandle: "@no2ta",
   links: {
     website: "",
