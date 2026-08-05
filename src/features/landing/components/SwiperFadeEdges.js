@@ -35,7 +35,7 @@ export default function SwiperFadeEdges({
           pointer-events-none
           absolute
           inset-y-0
-          left-0
+          right-0
           z-20
           w-24
           sm:w-40
@@ -50,7 +50,7 @@ export default function SwiperFadeEdges({
           pointer-events-none
           absolute
           inset-y-0
-          right-0
+          left-0
           z-20
           w-24
           sm:w-40
