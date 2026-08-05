@@ -13,7 +13,7 @@ export default function ProgressBar({ value = 0, className = "", showLabel = tru
   return (
     <div className={className}>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-[11px] font-bold text-ink/45">التقدم</span>
+        <span className="text-[11px] font-bold text-ink/60">التقدم</span>
 
         {showLabel && (
           <span className="text-[11px] font-black text-ink/60">

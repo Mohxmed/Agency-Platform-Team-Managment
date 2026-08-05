@@ -126,7 +126,7 @@ export default function QuickActions() {
               تنفيذ سريع
             </h2>
 
-            <p className="mt-0.5 text-xs font-medium text-gray-400">
+            <p className="mt-0.5 text-xs font-medium text-gray-500">
               اختصارات لأهم العمليات في لوحة التحكم
             </p>
           </div>
@@ -237,7 +237,7 @@ export default function QuickActions() {
                     text-[11px]
                     font-medium
                     leading-5
-                    text-gray-400
+                    text-gray-500
                     transition-colors
                     group-hover:text-gray-500
                   "
@@ -257,7 +257,7 @@ export default function QuickActions() {
                   items-center
                   justify-center
                   rounded-lg
-                  text-gray-300
+                  text-gray-500
                   transition-all
                   duration-300
                   group-hover:translate-x-[-2px]

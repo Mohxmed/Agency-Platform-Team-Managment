@@ -12,7 +12,7 @@ export default function ForbiddenPage() {
         </div>
         <h1 className="text-4xl font-black text-gray-900">403</h1>
         <p className="mt-2 text-lg font-bold text-gray-600">ليس لديك صلاحية</p>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-gray-500">
           لا تملك الصلاحية المطلوبة للوصول إلى هذه الصفحة.
         </p>
         <Link

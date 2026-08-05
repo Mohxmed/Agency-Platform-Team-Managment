@@ -349,7 +349,7 @@ function IconPicker({ label, value, onChange }) {
               className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-all duration-200 ${
                 active
                   ? "border-primary bg-primary/10 text-primary"
-                  : "border-ink/[0.07] bg-card text-ink/40 hover:border-ink/20 hover:text-ink"
+                  : "border-ink/[0.07] bg-card text-ink/60 hover:border-ink/20 hover:text-ink"
               }`}
             >
               <Icon className="h-4 w-4" />
@@ -453,15 +453,15 @@ function FieldGroup({ group, settings, updatePath }) {
         onClick={() => setOpen((prev) => !prev)}
         className="flex w-full items-center gap-3 p-4 text-right"
       >
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-ink/[0.045] text-ink/50">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-ink/[0.045] text-ink/60">
           <Icon className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-black text-ink">{group.title}</h3>
-          <p className="mt-0.5 text-[11px] leading-5 text-ink/40">{group.description}</p>
+          <p className="mt-0.5 text-[11px] leading-5 text-ink/60">{group.description}</p>
         </div>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-ink/35 transition-transform duration-200 ${
+          className={`h-4 w-4 shrink-0 text-ink/60 transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -472,7 +472,7 @@ function FieldGroup({ group, settings, updatePath }) {
           {group.sections.map((section, sectionIndex) => (
             <div key={sectionIndex}>
               {section.title && (
-                <p className="mb-3 text-[11px] font-black uppercase tracking-wide text-ink/35">
+                <p className="mb-3 text-[11px] font-black uppercase tracking-wide text-ink/60">
                   {section.title}
                 </p>
               )}

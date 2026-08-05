@@ -416,7 +416,7 @@ export default function DashboardPage() {
                 className="
                   mt-2
                   text-sm
-                  text-ink/40
+                  text-ink/60
                 "
               >
                 سجل الدخول للوصول إلى لوحة التحكم الخاصة بك.
@@ -494,7 +494,7 @@ export default function DashboardPage() {
                   max-w-xl
                   text-sm
                   leading-6
-                  text-ink/40
+                  text-ink/60
                 "
               >
                 إدارة بيانات ملفك الشخصي وروابط التواصل والصور والإحصائيات.
@@ -757,7 +757,7 @@ export default function DashboardPage() {
                       className="
                         mt-0.5
                         text-xs
-                        text-ink/35
+                        text-ink/60
                       "
                     >
                       صورة الحساب الشخصية
@@ -812,7 +812,7 @@ export default function DashboardPage() {
                       <div className="text-center">
                         <ImageIcon className="mx-auto h-7 w-7 text-ink/15" />
 
-                        <p className="mt-2 text-[11px] font-bold text-ink/25">
+                        <p className="mt-2 text-[11px] font-bold text-ink/60">
                           معاينة اللوجو
                         </p>
                       </div>
@@ -873,7 +873,7 @@ export default function DashboardPage() {
                       className="
                         mt-0.5
                         text-xs
-                        text-ink/35
+                        text-ink/60
                       "
                     >
                       صورة الغلاف الرئيسية للبروفايل
@@ -933,7 +933,7 @@ export default function DashboardPage() {
                         <div className="text-center">
                           <ImageIcon className="mx-auto h-8 w-8 text-ink/15" />
 
-                          <p className="mt-2 text-xs font-bold text-ink/25">
+                          <p className="mt-2 text-xs font-bold text-ink/60">
                             معاينة صورة الغلاف
                           </p>
                         </div>
@@ -983,7 +983,7 @@ export default function DashboardPage() {
                       mt-3
                       text-sm
                       font-bold
-                      text-ink/40
+                      text-ink/60
                     "
                   >
                     لا توجد إحصائيات حتى الآن
@@ -993,7 +993,7 @@ export default function DashboardPage() {
                     className="
                       mt-1
                       text-xs
-                      text-ink/25
+                      text-ink/60
                     "
                   >
                     أضف أول إحصائية من الزر بالأسفل.
@@ -1172,7 +1172,7 @@ export default function DashboardPage() {
                   <p
                     className="
                       text-[10px]
-                      text-ink/35
+                      text-ink/60
                     "
                   >
                     احفظ التغييرات بعد التعديل
@@ -1303,7 +1303,7 @@ function DashboardCard({ eyebrow, title, description, icon: Icon, children }) {
                 mt-1
                 text-xs
                 leading-5
-                text-ink/35
+                text-ink/60
               "
             >
               {description}
@@ -1355,7 +1355,7 @@ function Field({
             h-4
             w-4
             -translate-y-1/2
-            text-ink/25
+            text-ink/60
           "
         />
 
@@ -1379,7 +1379,7 @@ function Field({
             text-ink
             outline-none
             transition
-            placeholder:text-ink/25
+            placeholder:text-ink/60
             focus:border-primary-500/40
             focus:bg-card
             focus:ring-4
@@ -1401,7 +1401,7 @@ function Field({
               -translate-y-1/2
               text-xs
               font-bold
-              text-ink/25
+              text-ink/60
             "
           >
             {suffix}
@@ -1451,7 +1451,7 @@ function TextAreaField({ label, value, onChange, placeholder }) {
           text-ink
           outline-none
           transition
-          placeholder:text-ink/25
+          placeholder:text-ink/60
           focus:border-primary-500/40
           focus:bg-card
           focus:ring-4

@@ -36,7 +36,7 @@ export default function SocialSettingsPage() {
           return (
             <div key={field.key} className="rounded-2xl border border-ink/[0.07] bg-surface p-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-ink/45 shadow-sm">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-ink/60 shadow-sm">
                   <Icon className="h-4 w-4" />
                 </div>
                 <div className="min-w-0 flex-1">

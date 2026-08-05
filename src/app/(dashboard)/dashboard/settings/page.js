@@ -116,7 +116,7 @@ export default function SettingsOverviewPage() {
             <LayoutDashboard className="h-5 w-5" />
           </div>
           <h1 className="mt-4 text-2xl font-black tracking-tight text-ink">نظرة عامة</h1>
-          <p className="mt-1 max-w-2xl text-sm leading-7 text-ink/45">
+          <p className="mt-1 max-w-2xl text-sm leading-7 text-ink/60">
             من هنا تتحكم في كل إعدادات الموقع من مكان واحد: الهوية، المحتوى، التواصل، SEO، الحسابات والنظام.
           </p>
         </div>
@@ -136,7 +136,7 @@ export default function SettingsOverviewPage() {
                 <div className="flex items-start justify-between">
                   <div
                     className={`flex h-11 w-11 items-center justify-center rounded-xl ${
-                      card.on ? "bg-emerald-500/10 text-emerald-600" : "bg-ink/[0.045] text-ink/50"
+                      card.on ? "bg-emerald-500/10 text-emerald-600" : "bg-ink/[0.045] text-ink/60"
                     }`}
                   >
                     <Icon className="h-5 w-5" />
@@ -151,7 +151,7 @@ export default function SettingsOverviewPage() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-sm font-black text-ink">{card.label}</h3>
-                <p className="mt-1 text-[11px] leading-5 text-ink/40">{card.on ? card.onText : card.offText}</p>
+                <p className="mt-1 text-[11px] leading-5 text-ink/60">{card.on ? card.onText : card.offText}</p>
               </Link>
             );
           })}
@@ -175,12 +175,12 @@ export default function SettingsOverviewPage() {
                   className="group relative overflow-hidden rounded-[24px] border border-ink/[0.07] bg-card p-5 shadow-none transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/15 hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)]"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-ink/[0.045] text-ink/50 transition-colors group-hover:bg-primary/10 group-hover:text-primary">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-ink/[0.045] text-ink/60 transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                       <Icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <h3 className="text-sm font-black text-ink">{item.label}</h3>
-                      <p className="mt-1 text-[11px] leading-5 text-ink/40">{item.desc}</p>
+                      <p className="mt-1 text-[11px] leading-5 text-ink/60">{item.desc}</p>
                     </div>
                     <ArrowUpLeft className="h-4 w-4 shrink-0 text-ink/20 transition-all duration-300 group-hover:-translate-x-1 group-hover:text-primary" />
                   </div>
@@ -192,8 +192,8 @@ export default function SettingsOverviewPage() {
       ))}
 
       <div className="flex items-start gap-3 rounded-2xl border border-ink/[0.06] bg-ink/[0.02] p-4">
-        <Settings2 className="mt-0.5 h-4 w-4 shrink-0 text-ink/30" />
-        <p className="text-xs leading-6 text-ink/35">
+        <Settings2 className="mt-0.5 h-4 w-4 shrink-0 text-ink/60" />
+        <p className="text-xs leading-6 text-ink/60">
           التغييرات تُحفظ مباشرة في قاعدة البيانات وتُطبَّق فورًا على الموقع. استخدم قسم النظام لإيقاف الموقع مؤقتًا أو
           إعادة تفعيل التسجيل.
         </p>

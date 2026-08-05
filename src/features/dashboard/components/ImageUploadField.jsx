@@ -24,7 +24,7 @@ function ModeToggle({ mode, onSwitch }) {
           flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all
           ${mode === "upload"
             ? "bg-card text-ink shadow-sm"
-            : "text-ink/40 hover:text-ink/60"
+            : "text-ink/60 hover:text-ink/60"
           }
         `}
       >
@@ -38,7 +38,7 @@ function ModeToggle({ mode, onSwitch }) {
           flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-bold transition-all
           ${mode === "url"
             ? "bg-card text-ink shadow-sm"
-            : "text-ink/40 hover:text-ink/60"
+            : "text-ink/60 hover:text-ink/60"
           }
         `}
       >
@@ -63,7 +63,7 @@ function UrlInput({ value, onChange, onKeyDown, onSubmit, buttonLabel }) {
           flex-1 h-11 rounded-xl border border-ink/[0.1]
           bg-card px-4 text-sm text-ink
           outline-none transition-all duration-200
-          placeholder:text-ink/25
+          placeholder:text-ink/60
           focus:border-primary-500 focus:ring-4 focus:ring-primary-500/[0.08]
         "
       />
@@ -438,6 +438,7 @@ export default function ImageUploadField({
                     href={value}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label="فتح الصورة في تبويب جديد"
                     className="
                       flex h-10 w-10 items-center justify-center rounded-xl
                       bg-card text-ink shadow-xl transition hover:scale-105
@@ -449,6 +450,7 @@ export default function ImageUploadField({
 
                 <button
                   type="button"
+                  aria-label="حذف الصورة"
                   onClick={handleRemoveSingle}
                   className="
                     absolute left-3 top-3 flex h-8 w-8 items-center justify-center
@@ -498,6 +500,7 @@ export default function ImageUploadField({
                 href={value}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="فتح الصورة في تبويب جديد"
                 className="
                   flex h-10 w-10 items-center justify-center rounded-xl
                   bg-card text-ink shadow-xl transition hover:scale-105
@@ -509,6 +512,7 @@ export default function ImageUploadField({
 
             <button
               type="button"
+              aria-label="حذف الصورة"
               onClick={handleRemoveSingle}
               disabled={uploading}
               className="
@@ -538,7 +542,7 @@ export default function ImageUploadField({
             <div
               className="
                 relative flex h-14 w-14 items-center justify-center rounded-2xl
-                bg-card text-ink/40 shadow-sm ring-1 ring-ink/[0.06]
+                bg-card text-ink/60 shadow-sm ring-1 ring-ink/[0.06]
               "
             >
               {uploading ? (
@@ -556,7 +560,7 @@ export default function ImageUploadField({
                   : "جاري تجهيز Cloudinary..."}
             </p>
 
-            <p className="relative mt-1 max-w-xs text-xs leading-5 text-ink/35">
+            <p className="relative mt-1 max-w-xs text-xs leading-5 text-ink/60">
               JPG, PNG أو WebP
               <br />
               حتى 8MB • يمكنك القص قبل الرفع
@@ -577,7 +581,7 @@ export default function ImageUploadField({
         )}
 
         {!error && mode === "upload" && (
-          <div className="flex items-center gap-1.5 text-[11px] text-ink/30">
+          <div className="flex items-center gap-1.5 text-[11px] text-ink/60">
             <ImageIcon className="h-3.5 w-3.5" />
             الصورة سيتم تخزينها على Cloudinary
           </div>
@@ -662,6 +666,7 @@ export default function ImageUploadField({
                   href={image}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label="فتح الصورة في تبويب جديد"
                   className="
                     flex h-8 w-8 items-center justify-center rounded-lg
                     bg-card text-ink shadow-lg
@@ -672,6 +677,7 @@ export default function ImageUploadField({
 
                 <button
                   type="button"
+                  aria-label="حذف الصورة"
                   onClick={() => handleRemoveGalleryImage(index)}
                   disabled={uploading}
                   className="
@@ -705,7 +711,7 @@ export default function ImageUploadField({
           <div
             className="
               flex h-12 w-12 items-center justify-center rounded-xl
-              bg-card text-ink/40 shadow-sm ring-1 ring-ink/[0.06]
+              bg-card text-ink/60 shadow-sm ring-1 ring-ink/[0.06]
               transition group-hover:-translate-y-1 group-hover:text-ink
             "
           >
@@ -724,7 +730,7 @@ export default function ImageUploadField({
                 : "إضافة صور الـ Gallery"}
           </p>
 
-          <p className="mt-1 text-xs text-ink/30">
+          <p className="mt-1 text-xs text-ink/60">
             يمكنك اختيار أكثر من صورة مرة واحدة
           </p>
         </button>
@@ -743,7 +749,7 @@ export default function ImageUploadField({
       )}
 
       {!error && mode === "upload" && (
-        <div className="flex items-center gap-1.5 text-[11px] text-ink/30">
+        <div className="flex items-center gap-1.5 text-[11px] text-ink/60">
           <ImageIcon className="h-3.5 w-3.5" />
           يمكنك إضافة حتى 20 صورة
         </div>

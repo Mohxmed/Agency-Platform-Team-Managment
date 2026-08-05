@@ -97,7 +97,7 @@ export default function PendingTasks() {
             <h2 className="text-lg font-black tracking-tight text-gray-900">
               المهام المعلقة
             </h2>
-            <p className="mt-0.5 text-xs font-medium text-gray-400">
+            <p className="mt-0.5 text-xs font-medium text-gray-500">
               مهام فريق العمل التي تحتاج متابعة
             </p>
           </div>
@@ -114,9 +114,9 @@ export default function PendingTasks() {
 
       {tasks.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 py-10 text-center">
-          <ClipboardList className="h-6 w-6 text-gray-300" />
+          <ClipboardList className="h-6 w-6 text-gray-500" />
           <p className="text-sm font-bold text-gray-500">لا توجد مهام معلقة</p>
-          <p className="text-[11px] text-gray-400">كل المهام مكتملة. شغل رائع!</p>
+          <p className="text-[11px] text-gray-500">كل المهام مكتملة. شغل رائع!</p>
         </div>
       ) : (
         <ul className="space-y-2">
@@ -130,7 +130,7 @@ export default function PendingTasks() {
                   <h3 className="truncate text-sm font-bold text-gray-900 transition-colors group-hover:text-amber-700">
                     {task.title || "بدون عنوان"}
                   </h3>
-                  <p className="mt-0.5 truncate text-[11px] text-gray-400">
+                  <p className="mt-0.5 truncate text-[11px] text-gray-500">
                     {getUserName(task)}
                     {task.deadline ? ` • ${task.deadline}` : ""}
                   </p>

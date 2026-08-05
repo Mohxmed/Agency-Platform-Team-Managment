@@ -67,7 +67,7 @@ export default function RecentWorks() {
             <h2 className="text-lg font-black tracking-tight text-gray-900">
               أحدث الأعمال
             </h2>
-            <p className="mt-0.5 text-xs font-medium text-gray-400">
+            <p className="mt-0.5 text-xs font-medium text-gray-500">
               آخر ما تم إضافته لمعرض الأعمال
             </p>
           </div>
@@ -84,9 +84,9 @@ export default function RecentWorks() {
 
       {works.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 py-10 text-center">
-          <Briefcase className="h-6 w-6 text-gray-300" />
+          <Briefcase className="h-6 w-6 text-gray-500" />
           <p className="text-sm font-bold text-gray-500">لا توجد أعمال بعد</p>
-          <p className="text-[11px] text-gray-400">
+          <p className="text-[11px] text-gray-500">
             أضف أول عمل ليظهر هنا.
           </p>
         </div>
@@ -105,7 +105,7 @@ export default function RecentWorks() {
                     className="h-12 w-16 shrink-0 rounded-lg border border-gray-200 object-cover"
                   />
                 ) : (
-                  <div className="flex h-12 w-16 shrink-0 items-center justify-center rounded-lg bg-card text-gray-300 ring-1 ring-gray-100">
+                  <div className="flex h-12 w-16 shrink-0 items-center justify-center rounded-lg bg-card text-gray-500 ring-1 ring-gray-100">
                     <Briefcase className="h-4 w-4" />
                   </div>
                 )}
@@ -114,7 +114,7 @@ export default function RecentWorks() {
                   <h3 className="truncate text-sm font-bold text-gray-900 transition-colors group-hover:text-red-600">
                     {work.title || "بدون عنوان"}
                   </h3>
-                  <p className="mt-0.5 truncate text-[11px] text-gray-400">
+                  <p className="mt-0.5 truncate text-[11px] text-gray-500">
                     {categories[work.categoryId] || "غير مصنف"}
                     {work.year ? ` • ${work.year}` : ""}
                   </p>

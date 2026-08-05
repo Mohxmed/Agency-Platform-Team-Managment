@@ -53,7 +53,7 @@ export default function SystemStatus() {
           <h2 className="text-lg font-black tracking-tight text-gray-900">
             حالة الموقع
           </h2>
-          <p className="mt-0.5 text-xs font-medium text-gray-400">
+          <p className="mt-0.5 text-xs font-medium text-gray-500">
             ملخص سريع لوضع الموقع الحالي
           </p>
         </div>

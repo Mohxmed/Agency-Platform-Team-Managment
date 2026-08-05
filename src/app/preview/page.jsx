@@ -55,7 +55,7 @@ export default function LoadingPreview() {
         >
           <h1 className="text-xl font-black tracking-[0.22em] text-gray-900">NO2TA</h1>
           <div className="mt-3 flex items-center justify-center gap-2">
-            <span className="text-xs font-medium text-gray-400">جاري التحميل</span>
+            <span className="text-xs font-medium text-gray-500">جاري التحميل</span>
             <span className="flex gap-1">
               {[0, 1, 2].map((dot) => (
                 <span

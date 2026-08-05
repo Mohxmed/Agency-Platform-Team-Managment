@@ -16,24 +16,24 @@ const firebaseConfig = {
 
 if (typeof window !== "undefined") {
   const missing = [
-    "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-    "NEXT_PUBLIC_FIREBASE_API_KEY",
-    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-    "NEXT_PUBLIC_FIREBASE_APP_ID",
-  ].filter((key) => !process.env[key]);
+    ["NEXT_PUBLIC_FIREBASE_PROJECT_ID", firebaseConfig.projectId],
+    ["NEXT_PUBLIC_FIREBASE_API_KEY", firebaseConfig.apiKey],
+    ["NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN", firebaseConfig.authDomain],
+    ["NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET", firebaseConfig.storageBucket],
+    ["NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID", firebaseConfig.messagingSenderId],
+    ["NEXT_PUBLIC_FIREBASE_APP_ID", firebaseConfig.appId],
+  ].filter(([, value]) => !value);
 
   if (missing.length > 0) {
     console.error(
       "Firebase is not configured. Missing env variables:",
-      missing.join(", "),
+      missing.map(([key]) => key).join(", "),
     );
   }
 }
 
 function createApp() {
-  if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+  if (!firebaseConfig.projectId) {
     if (typeof window !== "undefined") {
       console.error(
         "Firebase is not configured. Set the NEXT_PUBLIC_FIREBASE_* environment variables.",

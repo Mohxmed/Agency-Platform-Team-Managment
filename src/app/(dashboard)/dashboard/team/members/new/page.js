@@ -149,12 +149,12 @@ export default function NewMemberPage() {
     <ProtectedRoute permission="team">
       <div dir="rtl" className="space-y-6">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" onClick={() => router.back()}>
+          <Button variant="outline" size="icon" aria-label="رجوع" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
             <h1 className="text-2xl font-black text-ink">إضافة عضو جديد</h1>
-            <p className="text-sm text-ink/50">إنشاء حساب جديد وإضافة العضو للفريق</p>
+            <p className="text-sm text-ink/60">إنشاء حساب جديد وإضافة العضو للفريق</p>
           </div>
         </div>
 
@@ -217,8 +217,8 @@ export default function NewMemberPage() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-ink/[0.07] pt-6">
-              <p className="text-sm text-ink/50 flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4 text-ink/30" />
+              <p className="text-sm text-ink/60 flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-ink/60" />
                 سيتم إنشاء حساب تسجيل دخول وملف شخصي للعضو.
               </p>
               <div className="flex items-center gap-3">

@@ -424,13 +424,13 @@ export default function TaskModal({
 
         <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-4 dark:bg-ink/[0.03]">
           <div className="mb-3 flex items-center gap-2">
-            <Tag className="h-4 w-4 text-ink/40" />
+            <Tag className="h-4 w-4 text-ink/60" />
             <p className="text-sm font-bold text-ink">التصنيفات (Labels)</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             {form.labels.length === 0 && (
-              <span className="text-xs text-ink/35">لا توجد تصنيفات</span>
+              <span className="text-xs text-ink/60">لا توجد تصنيفات</span>
             )}
 
             {form.labels.map((label) => (
@@ -441,6 +441,7 @@ export default function TaskModal({
                 {label}
                 <button
                   type="button"
+                  aria-label={`إزالة التصنيف ${label}`}
                   onClick={() => removeLabel(label)}
                   className="text-primary/50 transition hover:text-primary"
                 >
@@ -471,12 +472,12 @@ export default function TaskModal({
 
         <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-4 dark:bg-ink/[0.03]">
           <div className="mb-3 flex items-center gap-2">
-            <Link2 className="h-4 w-4 text-ink/40" />
+            <Link2 className="h-4 w-4 text-ink/60" />
             <p className="text-sm font-bold text-ink">المرفقات (Attachments)</p>
           </div>
 
           {form.attachments.length === 0 && (
-            <p className="mb-3 text-xs text-ink/35">لا توجد مرفقات</p>
+            <p className="mb-3 text-xs text-ink/60">لا توجد مرفقات</p>
           )}
 
           <ul className="mb-3 space-y-2">
@@ -485,7 +486,7 @@ export default function TaskModal({
                 key={url}
                 className="flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-card px-3 py-2"
               >
-                <ExternalLink className="h-3.5 w-3.5 shrink-0 text-ink/30" />
+                <ExternalLink className="h-3.5 w-3.5 shrink-0 text-ink/60" />
 
                 <span className="min-w-0 flex-1 truncate text-xs text-ink/70">
                   {url}
@@ -493,6 +494,7 @@ export default function TaskModal({
 
                 <button
                   type="button"
+                  aria-label="حذف المرفق"
                   onClick={() => removeAttachment(url)}
                   className="shrink-0 text-red-400 transition hover:text-red-600"
                 >
@@ -523,7 +525,7 @@ export default function TaskModal({
 
         <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-4 dark:bg-ink/[0.03]">
           <div className="mb-3 flex items-center gap-2">
-            <ListChecks className="h-4 w-4 text-ink/40" />
+            <ListChecks className="h-4 w-4 text-ink/60" />
             <p className="text-sm font-bold text-ink">
               قائمة التحقق ({form.checklist.filter((item) => item.done).length}/
               {form.checklist.length})
@@ -531,7 +533,7 @@ export default function TaskModal({
           </div>
 
           {form.checklist.length === 0 && (
-            <p className="mb-3 text-xs text-ink/35">لا توجد عناصر</p>
+            <p className="mb-3 text-xs text-ink/60">لا توجد عناصر</p>
           )}
 
           <ul className="mb-3 space-y-2">
@@ -549,7 +551,7 @@ export default function TaskModal({
 
                 <span
                   className={`min-w-0 flex-1 truncate text-xs font-medium ${
-                    item.done ? "text-ink/30 line-through" : "text-ink/75"
+                    item.done ? "text-ink/60 line-through" : "text-ink/75"
                   }`}
                 >
                   {item.label}
@@ -557,6 +559,7 @@ export default function TaskModal({
 
                 <button
                   type="button"
+                  aria-label="حذف البند"
                   onClick={() => removeChecklistItem(item.id)}
                   className="shrink-0 text-red-400 transition hover:text-red-600"
                 >

@@ -181,7 +181,7 @@ export default function EditMemberPage() {
     return (
       <div className="space-y-6" dir="rtl">
         <Card className="text-center py-12">
-          <UserCog className="h-16 w-16 mx-auto text-gray-400" />
+          <UserCog className="h-16 w-16 mx-auto text-gray-500" />
           <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
           <p className="mt-2 text-gray-500">لم يتم العثور على بيانات هذا العضو.</p>
           <Button variant="outline" className="mt-6" onClick={() => router.back()}>
@@ -201,12 +201,12 @@ export default function EditMemberPage() {
       <div dir="rtl" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" onClick={() => router.back()}>
+            <Button variant="outline" size="icon" aria-label="رجوع" onClick={() => router.back()}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
               <h1 className="text-2xl font-black text-ink">تعديل العضو</h1>
-              <p className="text-sm text-ink/50">تحديث بيانات وحساب {form.name || "العضو"}</p>
+              <p className="text-sm text-ink/60">تحديث بيانات وحساب {form.name || "العضو"}</p>
             </div>
           </div>
           <Link
@@ -222,7 +222,7 @@ export default function EditMemberPage() {
             <Avatar src={avatar} alt={form.name || "عضو"} size={48} />
             <div className="min-w-0">
               <p className="font-bold text-ink truncate">{form.name || "عضو الفريق"}</p>
-              <p className="text-sm text-ink/50 truncate">{form.email || "—"}</p>
+              <p className="text-sm text-ink/60 truncate">{form.email || "—"}</p>
             </div>
           </div>
 
@@ -287,8 +287,8 @@ export default function EditMemberPage() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-ink/[0.07] pt-6">
-              <p className="text-sm text-ink/50 flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4 text-ink/30" />
+              <p className="text-sm text-ink/60 flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-ink/60" />
                 التغييرات تنعكس على حساب العضو وملفه الشخصي فوراً.
               </p>
               <div className="flex items-center gap-3">

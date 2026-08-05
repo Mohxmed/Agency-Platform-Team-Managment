@@ -125,7 +125,7 @@ export default function TeamOverview() {
                 <h2 className="text-lg font-black tracking-tight text-gray-900">
                   بانتظار المراجعة
                 </h2>
-                <p className="mt-0.5 text-xs font-medium text-gray-400">
+                <p className="mt-0.5 text-xs font-medium text-gray-500">
                   مهام فريق العمل تحتاج قرارك
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function TeamOverview() {
                     <h3 className="truncate text-sm font-bold text-gray-900 transition-colors group-hover:text-violet-700">
                       {task.title || "بدون عنوان"}
                     </h3>
-                    <p className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-gray-400">
+                    <p className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-gray-500">
                       <CalendarDays className="h-3 w-3" />
                       {getUserName(userMap, getAssigneeId(task))}
                       {task.deadline ? ` • ${task.deadline}` : ""}

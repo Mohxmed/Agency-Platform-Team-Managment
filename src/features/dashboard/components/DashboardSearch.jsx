@@ -204,7 +204,7 @@ export default function DashboardSearch() {
             top-1/2
             z-10
             -translate-y-1/2
-            text-gray-400
+            text-gray-500
             transition-all
             duration-200
             group-focus-within:text-primary
@@ -258,7 +258,7 @@ export default function DashboardSearch() {
             transition-all
             duration-200
 
-            placeholder:text-gray-400
+            placeholder:text-gray-500
 
             hover:bg-gray-100/80
 
@@ -300,7 +300,7 @@ export default function DashboardSearch() {
                 items-center
                 justify-center
                 rounded-lg
-                text-gray-400
+                text-gray-500
                 transition-all
                 hover:bg-gray-100
                 hover:text-ink
@@ -326,7 +326,7 @@ export default function DashboardSearch() {
                 py-1
                 text-[10px]
                 font-bold
-                text-gray-400
+                text-gray-500
                 shadow-sm
                 sm:flex
               "
@@ -335,7 +335,7 @@ export default function DashboardSearch() {
 
               <span className="text-[9px]">Ctrl</span>
 
-              <span className="text-gray-300">+</span>
+              <span className="text-gray-500">+</span>
 
               <span>K</span>
             </kbd>
@@ -423,13 +423,13 @@ export default function DashboardSearch() {
                   <Search size={14} />
                 </div>
 
-                <p className="text-[11px] font-bold text-gray-400">
+                <p className="text-[11px] font-bold text-gray-500">
                   {query ? "نتائج البحث" : "الوصول السريع"}
                 </p>
               </div>
 
               {query && (
-                <span className="text-[10px] font-medium text-gray-400">
+                <span className="text-[10px] font-medium text-gray-500">
                   {results.length} نتيجة
                 </span>
               )}
@@ -511,7 +511,7 @@ export default function DashboardSearch() {
                             mt-0.5
                             truncate
                             text-[11px]
-                            text-gray-400
+                            text-gray-500
                           "
                         >
                           {item.description}
@@ -529,7 +529,7 @@ export default function DashboardSearch() {
                           items-center
                           justify-center
                           rounded-lg
-                          text-gray-300
+                          text-gray-500
 
                           transition-all
                           duration-200
@@ -575,7 +575,7 @@ export default function DashboardSearch() {
                     justify-center
                     rounded-2xl
                     bg-gray-100
-                    text-gray-400
+                    text-gray-500
                   "
                 >
                   <Search size={19} />
@@ -596,7 +596,7 @@ export default function DashboardSearch() {
                   className="
                     mt-1
                     text-xs
-                    text-gray-400
+                    text-gray-500
                   "
                 >
                   جرّب البحث باستخدام كلمة مختلفة
@@ -635,7 +635,7 @@ export default function DashboardSearch() {
                   Enter
                 </kbd>
 
-                <span className="text-[10px] text-gray-400">فتح النتيجة</span>
+                <span className="text-[10px] text-gray-500">فتح النتيجة</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -653,7 +653,7 @@ export default function DashboardSearch() {
                   Esc
                 </kbd>
 
-                <span className="text-[10px] text-gray-400">إغلاق</span>
+                <span className="text-[10px] text-gray-500">إغلاق</span>
               </div>
             </div>
           </div>

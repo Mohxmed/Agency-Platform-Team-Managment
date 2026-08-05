@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 
 export function AuthLayout({ eyebrow, title, subtitle, children }) {
   return (
-    <div
+    <main
+      id="main-content"
       className="
         relative
         flex
@@ -527,6 +528,6 @@ export function AuthLayout({ eyebrow, title, subtitle, children }) {
           </motion.div>
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }

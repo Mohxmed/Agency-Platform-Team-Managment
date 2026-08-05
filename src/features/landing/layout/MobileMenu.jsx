@@ -138,6 +138,8 @@ export default function MobileMenu({ open, onClose }) {
               </h2>
 
               <button
+                type="button"
+                aria-label="إغلاق القائمة"
                 onClick={onClose}
                 className="
                   flex
@@ -229,7 +231,7 @@ export default function MobileMenu({ open, onClose }) {
                                 `
                                 : `
                                   bg-black/5
-                                  text-ink/50
+                                  text-ink/60
                                   dark:bg-white/10
                                   dark:text-white/50
                                 `

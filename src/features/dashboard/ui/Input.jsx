@@ -19,7 +19,7 @@ const baseInputClass = `
   outline-none
   transition-all
   duration-200
-  placeholder:text-ink/30
+  placeholder:text-ink/60
   hover:border-ink/20
   focus:border-primary
   focus:ring-4
@@ -227,7 +227,7 @@ export function Select({
             end-3.5
             top-1/2
             -translate-y-1/2
-            text-ink/35
+            text-ink/60
           "
         >
           <svg

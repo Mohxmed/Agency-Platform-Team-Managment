@@ -597,7 +597,7 @@ export default function UsersPage() {
                   المستخدمون والأعضاء
                 </h1>
 
-                <p className="mt-1 text-sm text-ink/40">
+                <p className="mt-1 text-sm text-ink/60">
                   إدارة أعضاء النظام والأدوار والصلاحيات والحسابات.
                 </p>
               </div>
@@ -674,7 +674,7 @@ export default function UsersPage() {
                 h-4
                 w-4
                 -translate-y-1/2
-                text-ink/30
+                text-ink/60
               "
             />
 
@@ -748,7 +748,7 @@ export default function UsersPage() {
               px-4
               text-sm
               font-semibold
-              text-ink/50
+              text-ink/60
               transition
               hover:bg-ink/[0.025]
               hover:text-ink
@@ -790,27 +790,27 @@ export default function UsersPage() {
                   bg-surface
                 "
               >
-                <th className="px-6 py-4 text-right text-xs font-bold text-ink/35">
+                <th className="px-6 py-4 text-right text-xs font-bold text-ink/60">
                   المستخدم
                 </th>
 
-                <th className="px-6 py-4 text-right text-xs font-bold text-ink/35">
+                <th className="px-6 py-4 text-right text-xs font-bold text-ink/60">
                   الدور
                 </th>
 
-                <th className="px-6 py-4 text-right text-xs font-bold text-ink/35">
+                <th className="px-6 py-4 text-right text-xs font-bold text-ink/60">
                   الصلاحيات
                 </th>
 
-                <th className="px-6 py-4 text-right text-xs font-bold text-ink/35">
+                <th className="px-6 py-4 text-right text-xs font-bold text-ink/60">
                   الحالة
                 </th>
 
-                <th className="px-6 py-4 text-right text-xs font-bold text-ink/35">
+                <th className="px-6 py-4 text-right text-xs font-bold text-ink/60">
                   تاريخ الإضافة
                 </th>
 
-                <th className="px-6 py-4 text-left text-xs font-bold text-ink/35">
+                <th className="px-6 py-4 text-left text-xs font-bold text-ink/60">
                   الإجراءات
                 </th>
               </tr>
@@ -908,7 +908,7 @@ function StatCard({ icon: Icon, label, value }) {
         </div>
 
         <div className="min-w-0">
-          <p className="text-xs font-semibold text-ink/35">{label}</p>
+          <p className="text-xs font-semibold text-ink/60">{label}</p>
 
           <p className="mt-1 text-2xl font-black text-ink">{value}</p>
         </div>
@@ -962,7 +962,7 @@ function UserRow({ user, currentUser, onEdit, onDelete, onToggle }) {
               )}
             </div>
 
-            <div className="mt-1 flex items-center gap-1.5 text-xs text-ink/35">
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-ink/60">
               <Mail className="h-3 w-3" />
               <span className="max-w-[220px] truncate">{user.email}</span>
             </div>
@@ -998,7 +998,7 @@ function UserRow({ user, currentUser, onEdit, onDelete, onToggle }) {
       {/* DATE */}
 
       <td className="px-6 py-5">
-        <div className="flex items-center gap-2 text-xs text-ink/40">
+        <div className="flex items-center gap-2 text-xs text-ink/60">
           <CalendarDays className="h-3.5 w-3.5" />
 
           {formatDate(user.createdAt)}
@@ -1046,7 +1046,7 @@ function UserMobileCard({ user, currentUser, onEdit, onDelete, onToggle }) {
               )}
             </div>
 
-            <p className="mt-1 truncate text-xs text-ink/35">{user.email}</p>
+            <p className="mt-1 truncate text-xs text-ink/60">{user.email}</p>
           </div>
         </div>
 
@@ -1239,7 +1239,7 @@ function PermissionSummary({ permissions = {} }) {
     .filter(Boolean);
 
   if (!active.length) {
-    return <span className="text-xs text-ink/25">لا توجد صلاحيات</span>;
+    return <span className="text-xs text-ink/60">لا توجد صلاحيات</span>;
   }
 
   return (
@@ -1254,7 +1254,7 @@ function PermissionSummary({ permissions = {} }) {
             py-1
             text-[9px]
             font-semibold
-            text-ink/45
+            text-ink/60
           "
         >
           {item}
@@ -1291,6 +1291,7 @@ function Actions({ user, isMe, onEdit, onDelete }) {
     <div className="relative">
       <button
         type="button"
+        aria-label={`إجراءات المستخدم ${user?.name || ""}`.trim()}
         onClick={() => setOpen((value) => !value)}
         className="
           flex
@@ -1299,7 +1300,7 @@ function Actions({ user, isMe, onEdit, onDelete }) {
           items-center
           justify-center
           rounded-xl
-          text-ink/35
+          text-ink/60
           transition
           hover:bg-ink/[0.04]
           hover:text-ink
@@ -1555,7 +1556,7 @@ function UserModal({ user, saving, onClose, onSave }) {
               {user ? "تعديل المستخدم" : "إضافة مستخدم جديد"}
             </h2>
 
-            <p className="mt-1 text-xs text-ink/35">
+            <p className="mt-1 text-xs text-ink/60">
               {user
                 ? "تعديل بيانات المستخدم والدور والصلاحيات."
                 : "سيتم إنشاء حساب تسجيل دخول فعلي للمستخدم."}
@@ -1573,7 +1574,7 @@ function UserModal({ user, saving, onClose, onSave }) {
               items-center
               justify-center
               rounded-xl
-              text-ink/35
+              text-ink/60
               transition
               hover:bg-ink/[0.04]
               hover:text-ink
@@ -1641,7 +1642,7 @@ function UserModal({ user, saving, onClose, onSave }) {
             <div className="mb-4">
               <p className="text-sm font-bold text-ink">الدور الوظيفي</p>
 
-              <p className="mt-1 text-[11px] text-ink/35">
+              <p className="mt-1 text-[11px] text-ink/60">
                 الدور يحدد الصلاحيات الافتراضية للمستخدم.
               </p>
             </div>
@@ -1679,7 +1680,7 @@ function UserModal({ user, saving, onClose, onSave }) {
                         ${
                           form.role === role.value
                             ? "bg-primary/10 text-primary"
-                            : "bg-ink/[0.04] text-ink/40"
+                            : "bg-ink/[0.04] text-ink/60"
                         }
                       `}
                   >
@@ -1697,7 +1698,7 @@ function UserModal({ user, saving, onClose, onSave }) {
                   <div>
                     <p className="text-xs font-bold text-ink">{role.label}</p>
 
-                    <p className="mt-0.5 text-[10px] text-ink/30">
+                    <p className="mt-0.5 text-[10px] text-ink/60">
                       {role.value === "admin"
                         ? "صلاحيات كاملة"
                         : role.value === "manager"
@@ -1753,7 +1754,7 @@ function UserModal({ user, saving, onClose, onSave }) {
               <div>
                 <p className="text-sm font-bold text-ink">الصلاحيات</p>
 
-                <p className="mt-1 text-[10px] text-ink/35">
+                <p className="mt-1 text-[10px] text-ink/60">
                   يمكنك تعديل الصلاحيات يدويًا.
                 </p>
               </div>
@@ -1790,17 +1791,18 @@ function UserModal({ user, saving, onClose, onSave }) {
               sm:justify-end
             "
           >
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={saving}
+          <button
+            type="button"
+            aria-label="إغلاق"
+            onClick={onClose}
+            disabled={saving}
               className="
                 rounded-xl
                 px-5
                 py-3
                 text-sm
                 font-bold
-                text-ink/50
+                text-ink/60
                 transition
                 hover:bg-ink/[0.035]
                 hover:text-ink
@@ -1851,7 +1853,7 @@ function PermissionToggle({ title, description, checked, onChange }) {
       <div className="min-w-0">
         <p className="text-xs font-bold text-ink">{title}</p>
 
-        <p className="mt-1 text-[10px] text-ink/30">{description}</p>
+        <p className="mt-1 text-[10px] text-ink/60">{description}</p>
       </div>
 
       <span
@@ -1929,7 +1931,7 @@ function DeleteModal({ user, saving, onClose, onConfirm }) {
 
         <h2 className="mt-5 text-lg font-black text-ink">حذف المستخدم؟</h2>
 
-        <p className="mt-2 text-sm leading-6 text-ink/45">
+        <p className="mt-2 text-sm leading-6 text-ink/60">
           هل أنت متأكد من حذف المستخدم{" "}
           <strong className="text-ink">{user.name || user.email}</strong>
           ؟
@@ -1957,7 +1959,7 @@ function DeleteModal({ user, saving, onClose, onConfirm }) {
               py-3
               text-sm
               font-bold
-              text-ink/50
+              text-ink/60
               hover:bg-ink/[0.035]
             "
           >
@@ -2023,7 +2025,7 @@ function EmptyUsers() {
           justify-center
           rounded-2xl
           bg-ink/[0.035]
-          text-ink/25
+          text-ink/60
         "
       >
         <Users className="h-7 w-7" />
@@ -2031,7 +2033,7 @@ function EmptyUsers() {
 
       <h3 className="mt-5 text-sm font-black text-ink">لا يوجد مستخدمون</h3>
 
-      <p className="mt-1 max-w-sm text-xs leading-5 text-ink/35">
+      <p className="mt-1 max-w-sm text-xs leading-5 text-ink/60">
         لم نجد أي مستخدم مطابق للبحث أو الفلاتر الحالية.
       </p>
     </div>

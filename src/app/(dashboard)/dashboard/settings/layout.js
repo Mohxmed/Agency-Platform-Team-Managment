@@ -80,7 +80,7 @@ export default function SettingsLayout({ children }) {
               </div>
               <div>
                 <h1 className="text-2xl font-black tracking-tight text-ink">إعدادات الموقع</h1>
-                <p className="mt-1 text-sm text-ink/40">تحكم كامل في هوية ومحتوى وإعدادات الموقع.</p>
+                <p className="mt-1 text-sm text-ink/60">تحكم كامل في هوية ومحتوى وإعدادات الموقع.</p>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function SettingsLayout({ children }) {
             {navGroups.map((group, groupIndex) => (
               <div key={groupIndex} className="space-y-1">
                 {group.title && (
-                  <p className="px-3 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.14em] text-ink/25">
+                  <p className="px-3 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.14em] text-ink/60">
                     {group.title}
                   </p>
                 )}
@@ -103,14 +103,14 @@ export default function SettingsLayout({ children }) {
                       key={item.href}
                       href={item.href}
                       className={`group flex w-full items-center gap-3 rounded-2xl p-3 text-right transition-all duration-200 ${
-                        active ? "bg-primary/[0.07] text-primary" : "text-ink/50 hover:bg-ink/[0.035] hover:text-ink"
+                        active ? "bg-primary/[0.07] text-primary" : "text-ink/60 hover:bg-ink/[0.035] hover:text-ink"
                       }`}
                     >
                       <span
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition ${
                           active
                             ? "bg-primary/10 text-primary"
-                            : "bg-ink/[0.035] text-ink/40 group-hover:bg-ink/[0.06]"
+                            : "bg-ink/[0.035] text-ink/60 group-hover:bg-ink/[0.06]"
                         }`}
                       >
                         <Icon className="h-4 w-4" />
@@ -119,7 +119,7 @@ export default function SettingsLayout({ children }) {
                         <span className={`block text-sm font-bold ${active ? "text-primary" : "text-ink/70"}`}>
                           {item.label}
                         </span>
-                        <span className="mt-0.5 block truncate text-[10px] text-ink/30">{item.desc}</span>
+                        <span className="mt-0.5 block truncate text-[10px] text-ink/60">{item.desc}</span>
                       </span>
                     </Link>
                   );

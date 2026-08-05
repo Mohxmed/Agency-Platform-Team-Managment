@@ -146,7 +146,7 @@ export default function SectionsNavigator() {
                       "relative z-10 transition-colors duration-200",
                       isActive
                         ? "text-primary-600 dark:text-primary-400"
-                        : "text-ink/40 group-hover:text-ink/70 dark:text-white/30"
+                        : "text-ink/60 group-hover:text-ink/70 dark:text-white/30"
                     )}
                   />
 
@@ -155,7 +155,7 @@ export default function SectionsNavigator() {
                       "relative z-10 text-[10px] font-medium transition-colors duration-200",
                       isActive
                         ? "text-primary-600 dark:text-primary-400"
-                        : "text-ink/40 group-hover:text-ink/70 dark:text-white/30"
+                        : "text-ink/60 group-hover:text-ink/70 dark:text-white/30"
                     )}
                   >
                     {label}

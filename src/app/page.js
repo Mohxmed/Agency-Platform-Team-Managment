@@ -21,8 +21,10 @@ export default function HomePage() {
       <PageLoader />
       <MaintenanceGate>
         <Header />
-        <SectionsNavigator />
-        <HomeSections />
+        <main id="main-content" className="flex-1">
+          <SectionsNavigator />
+          <HomeSections />
+        </main>
         <Footer />
       </MaintenanceGate>
     </div>

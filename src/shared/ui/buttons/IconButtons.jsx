@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function IconButton({
   children,
-  href = "#",
+  href,
   size = "md",
   variant = "primary",
   className = "",
@@ -52,31 +52,13 @@ export default function IconButton({
       hover:text-primary-600
     `,
   };
-  return (
-    <Link href={href}>
-      <button
-        className={`
-        group
-        relative
-        inline-flex
-        items-center
-        justify-center
-        overflow-hidden
-        rounded-full
-        cursor-pointer
-        transition-all
-        duration-300
-        ease-out
-        active:scale-95
-        ${sizes[size]}
-        ${variants[variant]}
-        ${className}
-      `}
-        {...props}
-      >
-        {/* Shine */}
-        <span
-          className="
+
+  const content = (
+    <>
+      {/* Shine */}
+      <span
+        aria-hidden="true"
+        className="
         pointer-events-none
         absolute
         inset-0
@@ -89,21 +71,53 @@ export default function IconButton({
         duration-700
         group-hover:translate-x-[120%]
         "
-        />
+      />
 
-        {/* Icon */}
-        <span
-          className="
+      {/* Icon */}
+      <span
+        aria-hidden="true"
+        className="
         relative
         z-10
         flex
         items-center
         justify-center
         "
-        >
-          {children}
-        </span>
-      </button>
-    </Link>
+      >
+        {children}
+      </span>
+    </>
+  );
+
+  const classes = `
+    group
+    relative
+    inline-flex
+    items-center
+    justify-center
+    overflow-hidden
+    rounded-full
+    cursor-pointer
+    transition-all
+    duration-300
+    ease-out
+    active:scale-95
+    ${sizes[size]}
+    ${variants[variant]}
+    ${className}
+  `;
+
+  if (href) {
+    return (
+      <Link href={href} className={classes} {...props}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" className={classes} {...props}>
+      {content}
+    </button>
   );
 }

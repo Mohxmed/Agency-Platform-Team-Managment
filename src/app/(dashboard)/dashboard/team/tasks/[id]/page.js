@@ -341,7 +341,7 @@ export default function TaskDetailPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href={project ? `/dashboard/team/projects/${project.id}` : "/dashboard/team"}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-ink/45 transition hover:text-red-600"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-ink/60 transition hover:text-red-600"
           >
             <ArrowRight className="h-3.5 w-3.5" />
             {project ? `العودة إلى ${project.title}` : "العودة إلى المشاريع"}
@@ -353,7 +353,7 @@ export default function TaskDetailPage() {
               onClick={() => handleMove("backward")}
               disabled={busy || !canManage || !task || task.status === "backlog"}
               title="التراجع في مراحل العمل"
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/[0.08] bg-card text-ink/50 transition hover:border-ink/[0.16] hover:text-ink disabled:pointer-events-none disabled:opacity-30"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/[0.08] bg-card text-ink/60 transition hover:border-ink/[0.16] hover:text-ink disabled:pointer-events-none disabled:opacity-30"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -444,7 +444,7 @@ export default function TaskDetailPage() {
 
                 <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/60">
                       <CalendarDays className="h-3.5 w-3.5" />
                       الاستحقاق
                     </div>
@@ -454,7 +454,7 @@ export default function TaskDetailPage() {
                   </div>
 
                   <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/60">
                       <ListChecks className="h-3.5 w-3.5" />
                       قائمة التحقق
                     </div>
@@ -464,7 +464,7 @@ export default function TaskDetailPage() {
                   </div>
 
                   <div className="rounded-2xl border border-ink/[0.06] bg-surface/60 p-3.5">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/35">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black text-ink/60">
                       <MessageSquare className="h-3.5 w-3.5" />
                       التعليقات
                     </div>
@@ -479,7 +479,7 @@ export default function TaskDetailPage() {
                 <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                   <div className="mb-4 flex items-center justify-between">
                     <h3 className="flex items-center gap-2 text-sm font-black text-ink">
-                      <ListChecks className="h-4 w-4 text-ink/35" />
+                      <ListChecks className="h-4 w-4 text-ink/60" />
                       قائمة التحقق
                     </h3>
 
@@ -508,7 +508,7 @@ export default function TaskDetailPage() {
                           />
                           <span
                             className={`text-sm font-bold ${
-                              item.done ? "text-ink/40 line-through" : "text-ink"
+                              item.done ? "text-ink/60 line-through" : "text-ink"
                             }`}
                           >
                             {item.label}
@@ -522,7 +522,7 @@ export default function TaskDetailPage() {
 
               <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                 <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
-                  <MessageSquare className="h-4 w-4 text-ink/35" />
+                  <MessageSquare className="h-4 w-4 text-ink/60" />
                   التعليقات ({task.comments?.length || 0})
                 </h3>
 
@@ -535,7 +535,7 @@ export default function TaskDetailPage() {
                       onChange={(event) => setComment(event.target.value)}
                       rows={2}
                       placeholder="أضف تعليقًا..."
-                      className="w-full resize-none rounded-xl border border-ink/[0.08] bg-surface/60 p-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-red-300 focus:ring-4 focus:ring-red-500/10"
+                      className="w-full resize-none rounded-xl border border-ink/[0.08] bg-surface/60 p-3 text-sm text-ink outline-none transition placeholder:text-ink/60 focus:border-red-300 focus:ring-4 focus:ring-red-500/10"
                     />
 
                     <div className="mt-2 flex justify-end">
@@ -548,7 +548,7 @@ export default function TaskDetailPage() {
 
                 <div className="mt-5 space-y-3">
                   {(task.comments || []).length === 0 && (
-                    <p className="py-3 text-center text-xs text-ink/35">
+                    <p className="py-3 text-center text-xs text-ink/60">
                       لا توجد تعليقات بعد.
                     </p>
                   )}
@@ -569,7 +569,7 @@ export default function TaskDetailPage() {
                           <span className="text-xs font-black text-ink">
                             {item.authorName || "مستخدم"}
                           </span>
-                          <span className="text-[10px] font-medium text-ink/35">
+                          <span className="text-[10px] font-medium text-ink/60">
                             {formatDateTime(item.createdAt)}
                           </span>
                         </div>
@@ -587,7 +587,7 @@ export default function TaskDetailPage() {
             <div className="space-y-6">
               <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                 <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
-                  <Users className="h-4 w-4 text-ink/35" />
+                  <Users className="h-4 w-4 text-ink/60" />
                   الأفراد
                 </h3>
 
@@ -595,7 +595,7 @@ export default function TaskDetailPage() {
                   <div className="flex items-center gap-3">
                     <Avatar user={userMap.get(assigneeId)} size={40} />
                     <div className="min-w-0">
-                      <p className="text-[10px] font-black text-ink/35">المسؤول (Assignee)</p>
+                      <p className="text-[10px] font-black text-ink/60">المسؤول (Assignee)</p>
                       <p className="mt-0.5 truncate text-sm font-bold text-ink">
                         {getUserName(userMap, assigneeId)}
                       </p>
@@ -605,7 +605,7 @@ export default function TaskDetailPage() {
                   <div className="flex items-center gap-3">
                     <Avatar user={userMap.get(reviewerId)} size={40} />
                     <div className="min-w-0">
-                      <p className="text-[10px] font-black text-ink/35">المراجع (Reviewer)</p>
+                      <p className="text-[10px] font-black text-ink/60">المراجع (Reviewer)</p>
                       <p className="mt-0.5 truncate text-sm font-bold text-ink">
                         {getUserName(userMap, reviewerId)}
                       </p>
@@ -615,7 +615,7 @@ export default function TaskDetailPage() {
                   <div className="flex items-center gap-3">
                     <Avatar user={userMap.get(reporterId)} size={40} />
                     <div className="min-w-0">
-                      <p className="text-[10px] font-black text-ink/35">المنشئ (Reporter)</p>
+                      <p className="text-[10px] font-black text-ink/60">المنشئ (Reporter)</p>
                       <p className="mt-0.5 truncate text-sm font-bold text-ink">
                         {getUserName(userMap, reporterId)}
                       </p>
@@ -627,7 +627,7 @@ export default function TaskDetailPage() {
               {task.labels?.length > 0 && (
                 <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                   <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
-                    <Tag className="h-4 w-4 text-ink/35" />
+                    <Tag className="h-4 w-4 text-ink/60" />
                     التصنيفات
                   </h3>
 
@@ -647,7 +647,7 @@ export default function TaskDetailPage() {
               {task.attachments?.length > 0 && (
                 <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                   <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
-                    <ExternalLink className="h-4 w-4 text-ink/35" />
+                    <ExternalLink className="h-4 w-4 text-ink/60" />
                     المرفقات
                   </h3>
 
@@ -671,7 +671,7 @@ export default function TaskDetailPage() {
 
               <section className="rounded-[24px] border border-gray-200/80 bg-card p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
                 <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
-                  <ClipboardList className="h-4 w-4 text-ink/35" />
+                  <ClipboardList className="h-4 w-4 text-ink/60" />
                   مراحل العمل
                 </h3>
 
@@ -702,7 +702,7 @@ export default function TaskDetailPage() {
                               ? "text-ink"
                               : reached
                                 ? "text-ink/60"
-                                : "text-ink/30"
+                                : "text-ink/60"
                           }`}
                         >
                           {status.labelAr}

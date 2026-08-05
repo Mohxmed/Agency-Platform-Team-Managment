@@ -731,7 +731,7 @@ export default function ProjectDetailPage() {
             gap-2
             text-xs
             font-bold
-            text-ink/40
+            text-ink/60
             transition
             hover:text-primary
           "
@@ -790,7 +790,7 @@ export default function ProjectDetailPage() {
                 mt-2
                 max-w-md
                 text-sm
-                text-ink/40
+                text-ink/60
               "
             >
               هذا المشروع غير متاح ضمن صلاحيات حسابك.
@@ -1004,7 +1004,7 @@ export default function ProjectDetailPage() {
                             max-w-2xl
                             text-sm
                             leading-7
-                            text-ink/45
+                            text-ink/60
                           "
                         >
                           {project.description}
@@ -1023,7 +1023,7 @@ export default function ProjectDetailPage() {
                           gap-y-3
                           text-xs
                           font-bold
-                          text-ink/45
+                          text-ink/60
                         "
                       >
 
@@ -1040,7 +1040,7 @@ export default function ProjectDetailPage() {
                             className="
                               h-4
                               w-4
-                              text-ink/30
+                              text-ink/60
                             "
                           />
 
@@ -1066,7 +1066,7 @@ export default function ProjectDetailPage() {
                             className="
                               h-4
                               w-4
-                              text-ink/30
+                              text-ink/60
                             "
                           />
 
@@ -1091,7 +1091,7 @@ export default function ProjectDetailPage() {
                             className="
                               h-4
                               w-4
-                              text-ink/30
+                              text-ink/60
                             "
                           />
 
@@ -1277,7 +1277,7 @@ export default function ProjectDetailPage() {
                             mt-1
                             text-xs
                             font-semibold
-                            text-ink/40
+                            text-ink/60
                           "
                         >
                           نسبة الإنجاز الحالية
@@ -1455,7 +1455,7 @@ export default function ProjectDetailPage() {
                       className="
                         h-4
                         w-4
-                        text-ink/40
+                        text-ink/60
                       "
                     />
 
@@ -1479,7 +1479,7 @@ export default function ProjectDetailPage() {
                         py-1
                         text-[10px]
                         font-black
-                        text-ink/40
+                        text-ink/60
                       "
                     >
                       {projectMembers.length}
@@ -1506,7 +1506,7 @@ export default function ProjectDetailPage() {
                         className="
                           text-xs
                           font-bold
-                          text-ink/35
+                          text-ink/60
                         "
                       >
                         لم يتم إضافة أعضاء بعد

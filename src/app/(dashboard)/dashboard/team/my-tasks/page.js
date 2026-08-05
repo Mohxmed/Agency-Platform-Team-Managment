@@ -597,7 +597,7 @@ export default function MyTasksPage() {
                   h-4
                   w-4
                   -translate-y-1/2
-                  text-ink/30
+                  text-ink/60
                 "
               />
 
@@ -844,7 +844,7 @@ export default function MyTasksPage() {
                           py-1
                           text-[11px]
                           font-black
-                          text-ink/40
+                          text-ink/60
                           shadow-sm
                           dark:bg-white/10
                         "
@@ -880,7 +880,7 @@ export default function MyTasksPage() {
                             border-black/[0.08]
                             text-xs
                             font-bold
-                            text-ink/30
+                            text-ink/60
                             dark:border-white/[0.1]
                           "
                         >
@@ -1046,7 +1046,7 @@ function MyTaskCard({
               truncate
               text-[11px]
               font-bold
-              text-ink/35
+              text-ink/60
             "
           >
             {project?.title ||
@@ -1124,7 +1124,7 @@ function MyTaskCard({
               ${
                 overdue
                   ? "bg-red-50 text-red-600"
-                  : "bg-black/[0.04] text-ink/50"
+                  : "bg-black/[0.04] text-ink/60"
               }
             `}
           >
@@ -1159,7 +1159,7 @@ function MyTaskCard({
               py-1
               text-[10px]
               font-black
-              text-ink/50
+              text-ink/60
             "
           >
 
@@ -1196,7 +1196,8 @@ function MyTaskCard({
       >
 
         <button
-
+          type="button"
+          aria-label={`نقل المهمة "${task.title}" إلى الخلف`}
           onClick={() =>
             onMoveBackward(task)
           }
@@ -1214,7 +1215,7 @@ function MyTaskCard({
             justify-center
             rounded-xl
             bg-black/[0.05]
-            text-ink/40
+            text-ink/60
             transition
             hover:bg-black/[0.1]
             disabled:opacity-30
@@ -1233,7 +1234,8 @@ function MyTaskCard({
 
 
         <button
-
+          type="button"
+          aria-label={`نقل المهمة "${task.title}" إلى الأمام`}
           onClick={() =>
             onMoveForward(task)
           }
@@ -1310,7 +1312,7 @@ function TaskListView({
           className="
             text-sm
             font-black
-            text-ink/40
+            text-ink/60
           "
         >
           لا توجد مهام مطابقة
@@ -1373,7 +1375,7 @@ function TaskListView({
                       font-black
                       uppercase
                       tracking-wider
-                      text-ink/40
+                      text-ink/60
                     "
                   >
                     {item}
@@ -1446,7 +1448,7 @@ function TaskListView({
                           mt-1
                           text-[11px]
                           font-bold
-                          text-ink/35
+                          text-ink/60
                         "
                       >
                         {task.description?.slice(
@@ -1577,7 +1579,7 @@ function TaskListView({
                           ${
                             overdue
                               ? "text-red-600"
-                              : "text-ink/50"
+                              : "text-ink/60"
                           }
                         `}
                       >

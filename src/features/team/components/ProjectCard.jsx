@@ -93,7 +93,7 @@ export default function ProjectCard({
               type="button"
               onClick={() => onEdit?.(project)}
               title="تعديل المشروع"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/50 transition hover:bg-ink/[0.08] hover:text-ink"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
             >
               <Pencil className="h-3.5 w-3.5" />
             </button>
@@ -112,14 +112,14 @@ export default function ProjectCard({
         </div>
 
         {project.description && (
-          <p className="mt-3 line-clamp-2 text-xs leading-5 text-ink/40">
+          <p className="mt-3 line-clamp-2 text-xs leading-5 text-ink/60">
             {project.description}
           </p>
         )}
 
         <div className="mt-4 grid grid-cols-2 gap-2.5">
           <div className="flex items-center gap-2 rounded-xl bg-neutral-50/80 px-3 py-2 dark:bg-ink/[0.05]">
-            <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/30" />
+            <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/60" />
 
             <span className="truncate text-[11px] font-bold text-ink/60">
               {getClientName(clientMap, project.clientId)}
@@ -131,7 +131,7 @@ export default function ProjectCard({
               overdue ? "bg-red-50" : "bg-neutral-50/80 dark:bg-ink/[0.05]"
             }`}
           >
-            <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/30" />
+            <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/60" />
 
             <span
               className={`truncate text-[11px] font-bold ${
@@ -149,13 +149,13 @@ export default function ProjectCard({
 
         <div className="mt-4 flex items-center justify-between border-t border-dashed border-ink/[0.07] pt-3.5">
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/45">
-              <ClipboardList className="h-3.5 w-3.5 text-ink/30" />
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
+              <ClipboardList className="h-3.5 w-3.5 text-ink/60" />
               {doneCount}/{projectTasks.length}
             </span>
 
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/45">
-              <Users className="h-3.5 w-3.5 text-ink/30" />
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
+              <Users className="h-3.5 w-3.5 text-ink/60" />
               {memberIds.length}
             </span>
           </div>

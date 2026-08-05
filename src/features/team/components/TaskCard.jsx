@@ -42,7 +42,7 @@ export default function TaskCard({
             type="button"
             onClick={() => onEdit?.(task)}
             title="تعديل المهمة"
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/50 transition hover:bg-ink/[0.08] hover:text-ink"
+            className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
           >
             <Pencil className="h-3.5 w-3.5" />
           </button>
@@ -72,7 +72,7 @@ export default function TaskCard({
             size={24}
           />
 
-          <span className="max-w-[90px] truncate text-[10px] font-bold text-ink/45">
+          <span className="max-w-[90px] truncate text-[10px] font-bold text-ink/60">
             {getUserName(userMap, assigneeId)}
           </span>
         </div>
@@ -80,21 +80,21 @@ export default function TaskCard({
 
       <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-dashed border-ink/[0.06] pt-2.5">
         {task.deadline && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/60">
             <CalendarDays className="h-3 w-3" />
             {formatDeadline(task.deadline)}
           </span>
         )}
 
         {task.checklist?.length > 0 && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/60">
             <ListChecks className="h-3 w-3" />
             {doneChecklist}/{task.checklist.length}
           </span>
         )}
 
         {task.comments?.length > 0 && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/40">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-ink/60">
             <MessageSquare className="h-3 w-3" />
             {task.comments.length}
           </span>
@@ -107,7 +107,7 @@ export default function TaskCard({
           onClick={() => onMoveBackward?.(task)}
           disabled={!onMoveBackward || task.status === "backlog"}
           title="التراجع في مراحل العمل"
-          className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/40 transition hover:bg-ink/[0.08] hover:text-ink disabled:pointer-events-none disabled:opacity-25"
+          className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/[0.04] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink disabled:pointer-events-none disabled:opacity-25"
         >
           <ChevronRight className="h-3.5 w-3.5" />
         </button>

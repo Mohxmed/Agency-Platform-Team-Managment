@@ -323,7 +323,7 @@ export default function TeamPage() {
                   لا توجد مشاريع بعد
                 </h3>
 
-                <p className="mt-1.5 max-w-sm text-sm leading-6 text-ink/40">
+                <p className="mt-1.5 max-w-sm text-sm leading-6 text-ink/60">
                   أنشئ أول مشروع ووزّع مهامه على أعضاء فريقك.
                 </p>
 
@@ -391,7 +391,7 @@ return (
                                     type="button"
                                     onClick={(e) => { e.stopPropagation(); openEdit(project); }}
                                     title="تعديل المشروع"
-                                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/50 transition hover:bg-ink/[0.08] hover:text-ink"
+                                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
                                   >
                                     <Pencil className="h-3.5 w-3.5" />
                                   </button>
@@ -410,14 +410,14 @@ return (
                               </div>
 
                               {project.description && (
-                                <p className="mt-3 line-clamp-2 text-xs leading-5 text-ink/40">
+                                <p className="mt-3 line-clamp-2 text-xs leading-5 text-ink/60">
                                   {project.description}
                                 </p>
                               )}
 
                               <div className="mt-4 grid grid-cols-2 gap-2.5">
                                 <div className="flex items-center gap-2 rounded-xl bg-surface/80 px-3 py-2">
-                                  <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/30" />
+                                  <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/60" />
 
                                   <span className="truncate text-[11px] font-bold text-ink/60">
                                     {getClientName(clientMap, project.clientId)}
@@ -431,7 +431,7 @@ return (
                                       : "bg-surface/80"
                                   }`}
                                 >
-                                  <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/30" />
+                                  <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/60" />
 
                                   <span
                                     className={`truncate text-[11px] font-bold ${
@@ -449,13 +449,13 @@ return (
 
                               <div className="mt-4 flex items-center justify-between border-t border-dashed border-ink/[0.07] pt-3.5">
                                 <div className="flex items-center gap-2">
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/45">
-                                    <ClipboardList className="h-3.5 w-3.5 text-ink/30" />
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
+                                    <ClipboardList className="h-3.5 w-3.5 text-ink/60" />
                                     {getDoneCount(project.id)}/{projectTasks.length}
                                   </span>
 
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/45">
-                                    <Users className="h-3.5 w-3.5 text-ink/30" />
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
+                                    <Users className="h-3.5 w-3.5 text-ink/60" />
                                     {memberIds.length}
                                   </span>
                                 </div>
@@ -489,7 +489,7 @@ return (
                       أحدث المهام
                     </h2>
 
-                    <p className="mt-0.5 text-xs font-medium text-ink/40">
+                    <p className="mt-0.5 text-xs font-medium text-ink/60">
                       آخر المهام المضافة للفريق
                     </p>
                   </div>
@@ -498,11 +498,11 @@ return (
 
               {recentTasks.length === 0 ? (
                 <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center">
-                  <ClipboardList className="h-6 w-6 text-gray-300" />
-                  <p className="mt-2 text-sm font-bold text-ink/50">
+                  <ClipboardList className="h-6 w-6 text-gray-500" />
+                  <p className="mt-2 text-sm font-bold text-ink/60">
                     لا توجد مهام بعد
                   </p>
-                  <p className="mt-1 text-[11px] text-ink/35">
+                  <p className="mt-1 text-[11px] text-ink/60">
                     أضف مهامًا داخل المشاريع لتبدأ العمل.
                   </p>
                 </div>
@@ -524,13 +524,13 @@ return (
                             {task.title || "بدون عنوان"}
                           </h3>
 
-                          <p className="mt-0.5 truncate text-[11px] font-medium text-ink/40">
+                          <p className="mt-0.5 truncate text-[11px] font-medium text-ink/60">
                             {project?.title || "مشروع محذوف"} •{" "}
                             {getUserName(userMap, getAssigneeId(task))}
                           </p>
                         </div>
 
-                        <ChevronLeft className="h-4 w-4 shrink-0 text-gray-300 transition-all group-hover:-translate-x-0.5 group-hover:text-amber-600" />
+                        <ChevronLeft className="h-4 w-4 shrink-0 text-gray-500 transition-all group-hover:-translate-x-0.5 group-hover:text-amber-600" />
                       </Link>
                     );
                   })}
@@ -550,7 +550,7 @@ return (
                       أعضاء الفريق
                     </h2>
 
-                    <p className="mt-0.5 text-xs font-medium text-ink/40">
+                    <p className="mt-0.5 text-xs font-medium text-ink/60">
                       {activeUsers.length} عضو مسجل
                     </p>
                   </div>
@@ -559,10 +559,10 @@ return (
 
               {activeUsers.length === 0 ? (
                 <div className="flex min-h-[120px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center">
-                  <p className="text-sm font-bold text-ink/50">
+                  <p className="text-sm font-bold text-ink/60">
                     لا يوجد أعضاء بعد
                   </p>
-                  <p className="mt-1 text-[11px] text-ink/35">
+                  <p className="mt-1 text-[11px] text-ink/60">
                     سجّل الأعضاء ليتمكنوا من استلام المهام.
                   </p>
                 </div>
@@ -580,7 +580,7 @@ return (
                           {user.name || "بدون اسم"}
                         </p>
 
-                        <p className="truncate text-[11px] text-ink/40">
+                        <p className="truncate text-[11px] text-ink/60">
                           {getRoleLabel(user.role)}
                         </p>
                       </div>
@@ -597,7 +597,7 @@ return (
               )}
 
               {activeUsers.length > 6 && (
-                <p className="mt-3 text-center text-[11px] font-bold text-ink/35">
+                <p className="mt-3 text-center text-[11px] font-bold text-ink/60">
                   + {activeUsers.length - 6} عضو آخر
                 </p>
               )}

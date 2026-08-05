@@ -158,7 +158,7 @@ export default function MemberReportPage() {
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
           <Card className="text-center py-12">
-            <UserCog className="h-16 w-16 mx-auto text-gray-400" />
+            <UserCog className="h-16 w-16 mx-auto text-gray-500" />
             <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
             <p className="mt-2 text-gray-500">لم يتم العثور على بيانات هذا العضو.</p>
             <Button variant="outline" className="mt-6" onClick={() => window.history.back()}>
@@ -179,12 +179,12 @@ export default function MemberReportPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" onClick={() => window.history.back()}>
+          <Button variant="outline" size="icon" aria-label="رجوع" onClick={() => window.history.back()}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
             <h1 className="text-2xl font-black text-ink">تقرير العضو</h1>
-            <p className="text-sm text-ink/50">لوحة أداء شاملة لـ {memberName}</p>
+            <p className="text-sm text-ink/60">لوحة أداء شاملة لـ {memberName}</p>
           </div>
         </div>
 
@@ -214,15 +214,15 @@ export default function MemberReportPage() {
               <p className="mt-1 text-ink/60">{memberEmail}</p>
               <div className="mt-4 flex flex-wrap gap-6 text-sm">
                 <span className="flex items-center gap-1.5 text-ink/60">
-                  <Briefcase className="h-4 w-4 text-ink/40" />
+                  <Briefcase className="h-4 w-4 text-ink/60" />
                   التخصص: <span className="font-medium text-ink">{memberSpecialization}</span>
                 </span>
                 <span className="flex items-center gap-1.5 text-ink/60">
-                  <Phone className="h-4 w-4 text-ink/40" />
+                  <Phone className="h-4 w-4 text-ink/60" />
                   {memberPhone}
                 </span>
                 <span className="flex items-center gap-1.5 text-ink/60">
-                  <Target className="h-4 w-4 text-ink/40" />
+                  <Target className="h-4 w-4 text-ink/60" />
                   معدل الإنجاز: <span className="font-bold text-primary">{stats.completionRate}%</span>
                 </span>
               </div>
@@ -279,7 +279,7 @@ export default function MemberReportPage() {
         <Card className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-bold text-ink">توزيع الحالات</h3>
-            <PieChart className="h-5 w-5 text-ink/40" />
+            <PieChart className="h-5 w-5 text-ink/60" />
           </div>
           <div className="space-y-3">
             {statusBreakdown.map((s) => (
@@ -343,7 +343,7 @@ export default function MemberReportPage() {
         {memberTasks.length === 0 ? (
           <div className="text-center py-12">
             <Briefcase className="h-12 w-12 mx-auto text-ink/20" />
-            <p className="mt-3 text-ink/50">لا توجد مهام مسندة لهذا العضو بعد.</p>
+            <p className="mt-3 text-ink/60">لا توجد مهام مسندة لهذا العضو بعد.</p>
             <Button className="mt-4" onClick={() => window.location.href = `/dashboard/team`}>
               إنشاء مهمة جديدة
             </Button>
@@ -352,7 +352,7 @@ export default function MemberReportPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-right">
               <thead>
-                <tr className="border-b border-ink/10 text-[11px] font-bold uppercase tracking-wider text-ink/40">
+                <tr className="border-b border-ink/10 text-[11px] font-bold uppercase tracking-wider text-ink/60">
                   <th className="pb-3 pr-4">المهمة</th>
                   <th className="pb-3 pr-4 hidden md:table-cell">المشروع</th>
                   <th className="pb-3 pr-4 hidden lg:table-cell">الحالة</th>
@@ -416,11 +416,11 @@ export default function MemberReportPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-ink group-hover:text-primary transition-colors truncate">{project.title}</h4>
-                      <p className="mt-1 text-sm text-ink/50">{projectDone} / {projectTotal} مهام منجزة</p>
+                      <p className="mt-1 text-sm text-ink/60">{projectDone} / {projectTotal} مهام منجزة</p>
                       <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                         <div className={`h-full ${theme.solidBg} transition-all duration-300`} style={{ width: `${progress}%` }} />
                       </div>
-                      <p className="mt-1 text-xs text-ink/40">{progress}% مكتمل</p>
+                      <p className="mt-1 text-xs text-ink/60">{progress}% مكتمل</p>
                     </div>
                   </div>
                 </Link>

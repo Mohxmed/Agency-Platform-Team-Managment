@@ -111,9 +111,9 @@ export default function DashboardHeader() {
         </span>
 
         <div className="min-w-0">
-          <p className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400">
+          <p className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500">
             <span>لوحة التحكم</span>
-            <span className="text-gray-300">/</span>
+            <span className="text-gray-500">/</span>
             <span className="truncate">{section}</span>
           </p>
 
@@ -214,7 +214,7 @@ export default function DashboardHeader() {
               size={14}
               className={`
                 hidden
-                text-ink/40
+                text-ink/60
                 transition-transform
                 sm:block
                 ${profileOpen ? "rotate-180" : ""}
@@ -366,7 +366,7 @@ function DashboardMenuItem({
       <div className="min-w-0">
         <p className="text-sm font-semibold text-ink">{title}</p>
 
-        <p className="mt-0.5 truncate text-[11px] text-ink/40">
+        <p className="mt-0.5 truncate text-[11px] text-ink/60">
           {description}
         </p>
       </div>

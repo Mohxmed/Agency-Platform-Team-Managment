@@ -190,7 +190,7 @@ export default function IconPicker({
                 h-4
                 w-4
                 -translate-y-1/2
-                text-gray-400
+                text-gray-500
               "
             />
 
@@ -302,7 +302,7 @@ export default function IconPicker({
           ================================================== */}
 
           {iconNames.length === 0 && (
-            <div className="py-8 text-center text-sm text-gray-400">
+            <div className="py-8 text-center text-sm text-gray-500">
               مفيش أيقونة بالاسم ده
             </div>
           )}

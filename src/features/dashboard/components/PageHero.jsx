@@ -79,7 +79,7 @@ export default function PageHero({
             </div>
 
             {subtitle && (
-              <p className="mt-1.5 text-sm text-ink/40">{subtitle}</p>
+              <p className="mt-1.5 text-sm text-ink/60">{subtitle}</p>
             )}
           </div>
         </div>

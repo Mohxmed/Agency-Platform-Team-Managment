@@ -74,6 +74,9 @@ export default function Header() {
               <IconButtons
                 variant="glass"
                 onClick={toggleTheme}
+                aria-label={
+                  theme === "dark" ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"
+                }
                 className="dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10 dark:hover:text-primary-400"
               >
                 {theme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
@@ -82,6 +85,7 @@ export default function Header() {
             <IconButtons
               variant="glass"
               onClick={() => setIsTranslated(!isTranslated)}
+              aria-label="تبديل اللغة"
               className="dark:border-white/15 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10 dark:hover:text-primary-400"
             >
               <LanguagesIcon size={22} />

@@ -140,6 +140,6 @@ export const roleConfig = {
 
   default: {
     label: "غير محدد",
-    className: "text-gray-400",
+    className: "text-gray-500",
   },
 };

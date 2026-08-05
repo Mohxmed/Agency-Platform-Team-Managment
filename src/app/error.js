@@ -9,7 +9,7 @@ export default function Error({ error, reset }) {
       <p className="mt-4 text-base font-bold text-ink/70 dark:text-white/70">
         حدث خطأ غير متوقع أثناء تحميل هذه الصفحة.
       </p>
-      <p className="mt-1 max-w-md text-sm text-ink/40 dark:text-white/40">
+      <p className="mt-1 max-w-md text-sm text-ink/60 dark:text-white/40">
         {error?.message || "يرجى المحاولة مرة أخرى."}
       </p>
       <button

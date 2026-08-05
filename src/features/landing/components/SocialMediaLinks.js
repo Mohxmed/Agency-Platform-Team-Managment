@@ -39,6 +39,7 @@ function SocialMediaLinks({
           href={toHref(Facebook)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="فيسبوك"
           className={clsx("hover:bg-blue-600 hover:text-white", style)}
         >
           {<FaFacebookF size={iconSize} />}
@@ -49,6 +50,7 @@ function SocialMediaLinks({
           href={toHref(Instagram)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="إنستغرام"
           className={clsx(
             "hover:bg-linear-to-br hover:from-violet-500 hover:via-pink-500 hover:to-orange-500 hover:text-white",
             style,
@@ -62,6 +64,7 @@ function SocialMediaLinks({
           href={toHref(LinkedIn)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="لينكد إن"
           className={clsx("hover:bg-blue-800 hover:text-white", style)}
         >
           {<FaLinkedinIn size={iconSize} />}
@@ -72,6 +75,7 @@ function SocialMediaLinks({
           href={toHref(Twitter)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="إكس (تويتر)"
           className={clsx("hover:bg-black hover:text-white", style)}
         >
           {<FaXTwitter size={iconSize} />}
@@ -82,6 +86,7 @@ function SocialMediaLinks({
           href={toHref(Youtube)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="يوتيوب"
           className={clsx("hover:bg-red-600 hover:text-white", style)}
         >
           {<FaYoutube size={iconSize} />}
@@ -92,6 +97,7 @@ function SocialMediaLinks({
           href={toHref(TikTok)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="تيك توك"
           className={clsx("hover:bg-black hover:text-white", style)}
         >
           {<FaTiktok size={iconSize} />}
@@ -102,6 +108,7 @@ function SocialMediaLinks({
           href={toHref(Whatsapp)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="واتساب"
           className={clsx("hover:bg-green-600 hover:text-white", style)}
         >
           {<FaWhatsapp size={iconSize} />}

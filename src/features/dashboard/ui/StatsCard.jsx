@@ -66,7 +66,7 @@ export default function StatsCard({
                     font-semibold
                     uppercase
                     tracking-[0.18em]
-                    text-ink/40
+                    text-ink/60
                   "
                 >
                   {label}
@@ -93,7 +93,7 @@ export default function StatsCard({
                     max-w-[240px]
                     text-sm
                     leading-6
-                    text-ink/45
+                    text-ink/60
                   "
                 >
                   {description}
@@ -151,7 +151,7 @@ export default function StatsCard({
                   className="
                     text-xs
                     font-medium
-                    text-ink/35
+                    text-ink/60
                   "
                 >
                   {footer}

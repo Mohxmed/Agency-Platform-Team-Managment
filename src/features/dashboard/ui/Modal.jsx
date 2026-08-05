@@ -174,7 +174,7 @@ export default function Modal({ open, onClose, title, children, footer }) {
                         mt-0.5
                         text-xs
                         leading-5
-                        text-ink/40
+                        text-ink/60
                       "
                     >
                       {title?.includes("تعديل")
@@ -201,7 +201,7 @@ export default function Modal({ open, onClose, title, children, footer }) {
                     border
                     border-ink/[0.06]
                     bg-ink/[0.02]
-                    text-ink/40
+                    text-ink/60
                     transition-all
                     duration-200
                     hover:border-danger/20

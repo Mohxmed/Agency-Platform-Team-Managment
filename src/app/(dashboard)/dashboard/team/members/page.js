@@ -162,7 +162,7 @@ export default function TeamMembersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-ink">أعضاء الفريق</h1>
-          <p className="text-sm text-ink/50">إدارة الأعضاء، تتبع الأداء، وتقارير الإنجاز</p>
+          <p className="text-sm text-ink/60">إدارة الأعضاء، تتبع الأداء، وتقارير الإنجاز</p>
         </div>
         {canManage && (
           <Button onClick={() => window.location.href = "/dashboard/team/members/new"}>
@@ -208,7 +208,7 @@ export default function TeamMembersPage() {
       <Card className="p-4">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink/30" />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink/60" />
             <input
               type="text"
               value={search}
@@ -255,7 +255,7 @@ export default function TeamMembersPage() {
           <div className="text-center py-16">
             <Users className="h-16 w-16 mx-auto text-ink/20" />
             <h3 className="mt-4 text-lg font-bold text-ink">لا يوجد أعضاء</h3>
-            <p className="mt-1 text-ink/50">{search ? "جرب تغيير البحث أو الفلاتر" : "ابدأ بإضافة أول عضو للفريق"}</p>
+            <p className="mt-1 text-ink/60">{search ? "جرب تغيير البحث أو الفلاتر" : "ابدأ بإضافة أول عضو للفريق"}</p>
             {canManage && (
               <Button className="mt-4" onClick={() => window.location.href = "/dashboard/team/members/new"}>
                 <Plus className="h-4 w-4 ml-2" />
@@ -267,7 +267,7 @@ export default function TeamMembersPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-ink/10 text-[11px] font-bold uppercase tracking-wider text-ink/40 bg-ink/[0.02]">
+                <tr className="border-b border-ink/10 text-[11px] font-bold uppercase tracking-wider text-ink/60 bg-ink/[0.02]">
                   <th className="py-4 pr-6 text-right">العضو</th>
                   <th className="py-4 px-4 hidden md:table-cell">الدور</th>
                   <th className="py-4 px-4 hidden lg:table-cell text-center">التخصص</th>
@@ -295,7 +295,7 @@ export default function TeamMembersPage() {
                           <Avatar src={avatar} alt={name} size={36} />
                           <div className="min-w-0">
                             <p className="font-medium text-ink group-hover:text-primary transition-colors truncate max-w-xs">{name}</p>
-                            <p className="text-xs text-ink/50 truncate max-w-xs">{email}</p>
+                            <p className="text-xs text-ink/60 truncate max-w-xs">{email}</p>
                           </div>
                         </Link>
                       </td>
@@ -337,7 +337,7 @@ export default function TeamMembersPage() {
                             {user._overdueCount}
                           </span>
                         ) : (
-                          <span className="text-ink/30">—</span>
+                          <span className="text-ink/60">—</span>
                         )}
                       </td>
                       <td className="py-4 pl-6">

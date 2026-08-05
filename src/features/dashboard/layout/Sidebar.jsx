@@ -270,7 +270,7 @@ export default function Sidebar({ open, onClose }) {
             rounded-xl
             px-4
             py-3
-            text-gray-300
+            text-gray-500
             opacity-60
             select-none
             ${mobile ? "" : ""}
@@ -305,7 +305,7 @@ export default function Sidebar({ open, onClose }) {
                 justify-center
                 rounded-full
                 bg-gray-100
-                text-gray-400
+                text-gray-500
               "
             >
               <Lock size={8} />
@@ -321,7 +321,7 @@ export default function Sidebar({ open, onClose }) {
               <Lock
                 size={14}
                 className="
-                  text-gray-300
+                  text-gray-500
                   transition-colors
                 "
               />
@@ -340,6 +340,7 @@ export default function Sidebar({ open, onClose }) {
         key={item.href}
         href={item.href}
         onClick={mobile ? onClose : undefined}
+        aria-label={item.title}
         className={`
           group
           flex
@@ -419,6 +420,7 @@ export default function Sidebar({ open, onClose }) {
         {/* SECTION HEADER */}
         <button
           type="button"
+          aria-label={section.title}
           onClick={() => handleSectionClick(section.title)}
           className={`
             group/section
@@ -462,7 +464,7 @@ export default function Sidebar({ open, onClose }) {
                   font-black
                   uppercase
                   tracking-[0.12em]
-                  text-gray-400
+                  text-gray-500
                   transition-colors
                   group-hover/section:text-gray-600
                 "
@@ -482,7 +484,7 @@ export default function Sidebar({ open, onClose }) {
                         ? theme.chip
                         : `
                           bg-gray-100
-                          text-gray-400
+                          text-gray-500
                           group-hover/section:bg-gray-200
                           group-hover/section:text-gray-600
                         `
@@ -496,7 +498,7 @@ export default function Sidebar({ open, onClose }) {
               <ChevronDown
                 size={14}
                 className={`
-                  text-gray-300
+                  text-gray-500
                   transition-transform
                   duration-200
                   group-hover/section:text-gray-500
@@ -635,6 +637,7 @@ export default function Sidebar({ open, onClose }) {
 
           <button
             type="button"
+            aria-label="تسجيل خروج"
             onClick={handleLogout}
             className="
               flex
@@ -716,6 +719,7 @@ export default function Sidebar({ open, onClose }) {
 
             <button
               type="button"
+              aria-label="إغلاق القائمة"
               onClick={onClose}
               className="
                 rounded-xl

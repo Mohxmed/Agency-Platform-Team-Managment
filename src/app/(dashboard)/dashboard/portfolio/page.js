@@ -67,7 +67,7 @@ export default function PortfolioPage() {
       label: "الصورة",
       render: (value) => {
         if (!value) {
-          return <span className="text-ink/30">لا توجد صورة</span>;
+          return <span className="text-ink/60">لا توجد صورة</span>;
         }
 
         return (
@@ -111,7 +111,7 @@ export default function PortfolioPage() {
       label: "الرابط",
       render: (value) => {
         if (!value) {
-          return <span className="text-ink/30">—</span>;
+          return <span className="text-ink/60">—</span>;
         }
 
         return (

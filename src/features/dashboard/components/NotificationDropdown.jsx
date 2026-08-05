@@ -302,7 +302,7 @@ export default function NotificationDropdown() {
               <div>
                 <h3 className="text-sm font-black text-ink">الإشعارات</h3>
 
-                <p className="mt-1 text-[11px] text-gray-400">
+                <p className="mt-1 text-[11px] text-gray-500">
                   {unreadCount > 0
                     ? `لديك ${unreadCount} إشعار غير مقروء`
                     : "لا توجد إشعارات جديدة"}
@@ -391,7 +391,7 @@ export default function NotificationDropdown() {
                         justify-center
                         rounded-2xl
                         bg-ink/[0.04]
-                        text-gray-300
+                        text-gray-500
                       "
                   >
                     <Bell size={24} />
@@ -401,7 +401,7 @@ export default function NotificationDropdown() {
                     لا توجد إشعارات
                   </p>
 
-                  <p className="mt-1 max-w-[230px] text-xs leading-5 text-gray-400">
+                  <p className="mt-1 max-w-[230px] text-xs leading-5 text-gray-500">
                     أي تحديث في الشغل أو الفريق أو التسليم هيظهر هنا.
                   </p>
                 </div>
@@ -481,7 +481,7 @@ export default function NotificationDropdown() {
                             )}
                           </div>
 
-                          <p className="mt-1 text-xs leading-5 text-gray-400">
+                          <p className="mt-1 text-xs leading-5 text-gray-500">
                             {notification.message}
                           </p>
 
@@ -491,7 +491,7 @@ export default function NotificationDropdown() {
                             </p>
                           )}
 
-                          <p className="mt-2 text-[10px] text-gray-300">
+                          <p className="mt-2 text-[10px] text-gray-500">
                             {formatDate(notification.createdAt)}
                           </p>
                         </div>
@@ -510,11 +510,12 @@ export default function NotificationDropdown() {
                               "
                         >
                           {notification.link && (
-                            <ExternalLink size={13} className="text-gray-300" />
+                            <ExternalLink size={13} className="text-gray-500" />
                           )}
 
                           <button
                             type="button"
+                            aria-label="حذف الإشعار"
                             onClick={(event) =>
                               handleDelete(event, notification.id)
                             }
@@ -525,7 +526,7 @@ export default function NotificationDropdown() {
                                   items-center
                                   justify-center
                                   rounded-lg
-                                  text-gray-300
+                                  text-gray-500
                                   transition
                                   hover:bg-red-50
                                   hover:text-red-500

@@ -168,7 +168,7 @@ export default function ServicesPage() {
               ${
                 isFeatured
                   ? "bg-amber-50 text-amber-600"
-                  : "bg-gray-100 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
               }
             `}
           >

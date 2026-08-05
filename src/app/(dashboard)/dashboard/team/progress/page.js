@@ -269,7 +269,7 @@ export default function TeamProgressPage() {
                     توزيع مراحل العمل
                   </h3>
 
-                  <p className="mt-1 text-xs font-medium text-ink/35">
+                  <p className="mt-1 text-xs font-medium text-ink/60">
                     حالة المهام الحالية
                   </p>
                 </div>
@@ -283,7 +283,7 @@ export default function TeamProgressPage() {
                   py-1
                   text-[11px]
                   font-bold
-                  text-ink/40
+                  text-ink/60
                   dark:bg-white/[0.06]
                 "
               >
@@ -382,7 +382,7 @@ export default function TeamProgressPage() {
                           className="
                             text-[10px]
                             font-bold
-                            text-ink/30
+                            text-ink/60
                           "
                         >
                           {percentage}%
@@ -441,7 +441,7 @@ export default function TeamProgressPage() {
                     أداء الفريق
                   </h3>
 
-                  <p className="mt-1 text-xs font-medium text-ink/35">
+                  <p className="mt-1 text-xs font-medium text-ink/60">
                     توزيع المهام حسب الأعضاء
                   </p>
                 </div>
@@ -455,7 +455,7 @@ export default function TeamProgressPage() {
                   py-1
                   text-[11px]
                   font-bold
-                  text-ink/40
+                  text-ink/60
                   dark:bg-white/[0.06]
                 "
               >
@@ -530,7 +530,7 @@ export default function TeamProgressPage() {
                             className="
                               text-[11px]
                               font-bold
-                              text-ink/40
+                              text-ink/60
                             "
                           >
                             {done}/{userTasks.length}
@@ -689,7 +689,7 @@ function ProjectsSection({
               تقدم المشاريع
             </h3>
 
-            <p className="mt-1 text-xs font-medium text-ink/35">
+            <p className="mt-1 text-xs font-medium text-ink/60">
               متابعة حالة المشاريع الحالية
             </p>
           </div>
@@ -747,7 +747,7 @@ function ProjectsSection({
             "
           />
 
-          <p className="mt-4 text-sm font-bold text-ink/40">
+          <p className="mt-4 text-sm font-bold text-ink/60">
             لا توجد مشاريع حاليا
           </p>
         </div>
@@ -822,7 +822,7 @@ function ProjectsSection({
                             mt-1
                             text-xs
                             font-medium
-                            text-ink/40
+                            text-ink/60
                           "
                         >
                           {project.tasks.length}
@@ -907,7 +907,7 @@ function ProjectsSection({
                             py-1
                             text-[10px]
                             font-bold
-                            text-ink/50
+                            text-ink/60
                             dark:bg-white/[0.06]
                           "
                         >
@@ -925,7 +925,7 @@ function ProjectsSection({
                           py-1
                           text-[10px]
                           font-bold
-                          text-ink/40
+                          text-ink/60
                         "
                       >
                         +

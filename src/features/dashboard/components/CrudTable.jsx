@@ -747,7 +747,7 @@ export default function CrudTable({
                 <p className="text-sm font-black text-ink">{field.label}</p>
               </div>
 
-              <p className="mt-2 text-[11px] leading-5 text-ink/40">
+              <p className="mt-2 text-[11px] leading-5 text-ink/60">
                 أضف أي عدد من الإحصائيات بالاسم والقيمة.
               </p>
             </div>
@@ -786,7 +786,7 @@ export default function CrudTable({
             >
               <Activity className={`h-5 w-5 ${theme.textSoft}`} />
 
-              <p className="mt-2 text-xs font-semibold text-ink/35">
+              <p className="mt-2 text-xs font-semibold text-ink/60">
                 لا توجد إحصائيات
               </p>
 
@@ -1253,7 +1253,7 @@ export default function CrudTable({
                 shadow-none
                 transition-all
                 duration-200
-                placeholder:text-ink/25
+                placeholder:text-ink/60
                 ${theme.searchHover}
                 focus:bg-card
                 focus:ring-4
@@ -1264,6 +1264,7 @@ export default function CrudTable({
             {search && (
               <button
                 type="button"
+                aria-label="مسح البحث"
                 onClick={handleSearchClear}
                 className={`
                   absolute
@@ -1294,7 +1295,7 @@ export default function CrudTable({
               justify-between
               gap-3
               text-xs
-              text-ink/35
+              text-ink/60
               sm:justify-end
             "
           >
@@ -1377,7 +1378,7 @@ export default function CrudTable({
                 لا توجد نتائج
               </h3>
 
-              <p className="mt-1.5 max-w-sm text-sm leading-6 text-ink/35">
+              <p className="mt-1.5 max-w-sm text-sm leading-6 text-ink/60">
                 لم نجد {entityNamePlural} تطابق البحث الحالي.
               </p>
 
@@ -1533,7 +1534,7 @@ export default function CrudTable({
                               justify-center
                               rounded-xl
                               bg-ink/[0.045]
-                              text-ink/50
+                              text-ink/60
                               transition-all
                               hover:bg-ink/[0.08]
                               hover:text-ink
@@ -1613,7 +1614,7 @@ export default function CrudTable({
                   justify-center
                   gap-2
                   text-xs
-                  text-ink/40
+                  text-ink/60
                   sm:justify-start
                 "
             >
@@ -1915,7 +1916,7 @@ export default function CrudTable({
                   </span>
                 </div>
 
-                <p className="mt-2 text-[11px] leading-5 text-ink/35">
+                <p className="mt-2 text-[11px] leading-5 text-ink/60">
                   سيتم حفظ البيانات مباشرة في قاعدة البيانات ومزامنتها لحظيًا مع
                   لوحة التحكم.
                 </p>

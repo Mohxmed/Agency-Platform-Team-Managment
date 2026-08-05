@@ -243,7 +243,7 @@ export default function ProjectModal({
 
         <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-4 dark:bg-ink/[0.03]">
           <div className="mb-3 flex items-center gap-2">
-            <FolderKanban className="h-4 w-4 text-ink/40" />
+            <FolderKanban className="h-4 w-4 text-ink/60" />
             <p className="text-sm font-bold text-ink">أيقونة المشروع</p>
           </div>
 
@@ -260,7 +260,7 @@ export default function ProjectModal({
                   className={`flex aspect-square items-center justify-center rounded-xl border transition-all ${
                     selected
                       ? "border-primary bg-primary/[0.06] text-primary shadow-sm"
-                      : "border-ink/[0.06] bg-card text-ink/40 hover:border-ink/[0.15] hover:text-ink"
+                      : "border-ink/[0.06] bg-card text-ink/60 hover:border-ink/[0.15] hover:text-ink"
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -273,7 +273,7 @@ export default function ProjectModal({
         <div className="rounded-2xl border border-ink/[0.06] bg-neutral-50/60 p-4 dark:bg-ink/[0.03]">
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <FolderKanban className="h-4 w-4 text-ink/40" />
+              <FolderKanban className="h-4 w-4 text-ink/60" />
               <p className="text-sm font-bold text-ink">
                 أعضاء الفريق ({form.memberProfileIds.length})
               </p>
@@ -281,7 +281,7 @@ export default function ProjectModal({
           </div>
 
           {users.length === 0 ? (
-            <p className="py-4 text-center text-xs text-ink/35">
+            <p className="py-4 text-center text-xs text-ink/60">
               لا يوجد أعضاء مسجلون حاليًا.
             </p>
           ) : (
@@ -312,7 +312,7 @@ export default function ProjectModal({
                         <p className="truncate text-xs font-bold text-ink">
                           {user.name || "بدون اسم"}
                         </p>
-                        <p className="truncate text-[10px] text-ink/40">
+                        <p className="truncate text-[10px] text-ink/60">
                           {user.role}
                         </p>
                       </div>
