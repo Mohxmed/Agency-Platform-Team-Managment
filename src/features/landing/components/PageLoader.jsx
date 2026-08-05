@@ -48,16 +48,24 @@ export default function PageLoader() {
       setVisible(false);
     }, MAX_DISPLAY);
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
     return () => {
       clearTimeout(minTimer);
       clearTimeout(maxTimer);
       window.removeEventListener("load", onLoad);
-      document.body.style.overflow = prevOverflow;
     };
   }, []);
+
+  // Lock scroll only while the loader is on screen. Keyed on `visible`
+  // so the lock is always released as soon as the loader fades out —
+  // PageLoader itself stays mounted, so an unmount cleanup would leak.
+  useEffect(() => {
+    if (!visible) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [visible]);
 
   return (
     <AnimatePresence>
