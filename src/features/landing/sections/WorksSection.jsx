@@ -94,7 +94,7 @@ export default function WorksSection() {
         {loading ? (
           <HomeWorksSkeleton />
         ) : projects.length > 0 ? (
-          <InfiniteSlider variant="light" autoplay autoplayDelay={5000}>
+          <InfiniteSlider variant="light" autoplay autoplayDelay={2500}>
             {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}

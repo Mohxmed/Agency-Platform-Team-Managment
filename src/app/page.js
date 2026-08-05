@@ -5,6 +5,7 @@ import {
 } from "@/features/landing";
 import MaintenanceGate from "@/features/landing/components/MaintenanceGate";
 import HomeSections from "@/features/landing/components/HomeSections";
+import PageLoader from "@/features/landing/components/PageLoader";
 import { siteConfig, buildMetadata } from "@/config/site";
 
 export const metadata = buildMetadata({
@@ -17,6 +18,7 @@ export const metadata = buildMetadata({
 export default function HomePage() {
   return (
     <div className="landing-shell min-h-full bg-background text-ink">
+      <PageLoader />
       <MaintenanceGate>
         <Header />
         <SectionsNavigator />

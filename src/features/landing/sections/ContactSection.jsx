@@ -27,12 +27,12 @@ import { ROUTES } from "@/constants/routes";
 const leftContent = {
   hidden: {
     opacity: 0,
-    x: 60,
+    y: 24,
   },
 
   visible: {
     opacity: 1,
-    x: 0,
+    y: 0,
     transition: {
       duration: 0.9,
       ease: [0.22, 1, 0.36, 1],
@@ -43,13 +43,13 @@ const leftContent = {
 const rightContent = {
   hidden: {
     opacity: 0,
-    x: -60,
-    scale: 0.96,
+    y: 24,
+    scale: 0.98,
   },
 
   visible: {
     opacity: 1,
-    x: 0,
+    y: 0,
     scale: 1,
     transition: {
       duration: 1,

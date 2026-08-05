@@ -105,7 +105,7 @@ export default function ClientsSection() {
             )}
 
             {!loading && !error && clients.length > 0 && (
-              <InfiniteSlider variant="red" autoplay autoplayDelay={4500}>
+              <InfiniteSlider variant="red" autoplay autoplayDelay={2500}>
                 {clients.map((client) => (
                   <ClientCard key={client.id} teacher={client} />
                 ))}

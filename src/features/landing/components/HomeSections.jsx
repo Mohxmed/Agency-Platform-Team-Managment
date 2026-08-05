@@ -44,34 +44,40 @@ export default function HomeSections() {
       {sections.hero !== false && <HeroSection />}
 
       {sections.clients !== false && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<SectionFallback className="min-h-[600px]" />}>
           <ClientsSection />
         </Suspense>
       )}
 
       {sections.works !== false && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<SectionFallback className="min-h-[1300px]" />}>
           <WorksSection />
         </Suspense>
       )}
 
       {sections.services !== false && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<SectionFallback className="min-h-[1000px]" />}>
           <ServicesSection />
         </Suspense>
       )}
 
       {sections.contact !== false && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<SectionFallback className="min-h-[calc(100vh-64px)]" />}>
           <ContactSection />
         </Suspense>
       )}
 
       {sections.social !== false && (
-        <Suspense fallback={null}>
+        <Suspense fallback={<SectionFallback className="min-h-[700px] sm:min-h-[800px]" />}>
           <SocialMediaSection />
         </Suspense>
       )}
     </>
   );
+}
+
+/* Invisible placeholder that reserves the section's height while its
+   lazy chunk loads — prevents the layout jump / pop-in glitch. */
+function SectionFallback({ className = "" }) {
+  return <div aria-hidden className={className} />;
 }
