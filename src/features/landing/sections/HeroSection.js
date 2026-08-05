@@ -234,13 +234,13 @@ function HeroContent() {
     : { container, item: reveal };
 
   const { settings } = useSettings();
-  const siteName = settings.siteName || SITE.name;
-  const description =
-    settings.description ||
-    "نصنع محتوى، نبني هوية، ونقود علامتك نحو نمو حقيقي من خلال حلول إعلامية وتسويقية مبتكرة.";
 
   const hero = settings.content?.hero || {};
-  const badge = hero.badge || "Media & Creative Agency Studio";
+  const badge = hero.badge || HERO.badge || "Media & Creative Agency Studio";
+  const titlePrefix = hero.titlePrefix || SITE.name;
+  const titleSuffix = hero.titleSuffix || HERO.titleSuffix;
+  const titleHighlight = hero.titleHighlight || HERO.titleHighlight;
+  const description = HERO.description;
   const stats = settings.stats?.length ? settings.stats : HERO_CONFIG.stats;
 
   return (
@@ -271,9 +271,9 @@ function HeroContent() {
           sm:text-6xl
         "
       >
-        <span className="text-primary-600">{siteName}</span> تصنع
+        <span className="text-primary-600">{titlePrefix}</span> {titleSuffix}
         <br />
-        علامات <HighlightText>مؤثرة</HighlightText>
+        علامات <HighlightText>{titleHighlight}</HighlightText>
       </motion.h1>
 
       <motion.p

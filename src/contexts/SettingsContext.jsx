@@ -21,9 +21,9 @@ const EMPTY = {
   content: {
     hero: {
       badge: "سمعنا انك بتدور علينا؟",
-      titlePrefix: "ومن",
-      titleHighlight: "أول السطر،",
-      titleSuffix: "هنبدأ حكايات جديدة..",
+      titlePrefix: "نقطة",
+      titleHighlight: "مؤثرة",
+      titleSuffix: "تصنع",
       ctaPrimary: "اتواصل معانا",
       ctaPrimaryLink: "/contact",
       ctaPrimaryIcon: "ArrowLeft",

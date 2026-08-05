@@ -8,6 +8,11 @@ export const HERO = {
   badge: "سمعنا انك بتدور علينا؟",
   ctaPrimary: "اتواصل معانا",
   ctaSecondary: "اتفرج على أخر اعمالنا",
+  titlePrefix: "نقطة",
+  titleSuffix: "تصنع",
+  titleHighlight: "مؤثرة",
+  description:
+    "نصنع محتوى، نبني هوية، ونقود علامتك نحو نمو حقيقي من خلال حلول إعلامية وتسويقية مبتكرة.",
 };
 
 export const SOCIAL_SECTION = {
