@@ -15,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect } from "react";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const iconMap = {
   "/": Home,
@@ -27,6 +28,18 @@ const iconMap = {
 
 export default function MobileMenu({ open, onClose }) {
   const pathname = usePathname();
+  const { settings } = useSettings();
+
+  const whatsappRaw =
+    settings.contactSectionWhatsapp || settings.whatsapp || "";
+  const whatsappDigits = whatsappRaw.replace(/[^0-9]/g, "");
+  const whatsappHref = whatsappDigits
+    ? `https://wa.me/${
+        whatsappDigits.startsWith("0")
+          ? `20${whatsappDigits.slice(1)}`
+          : whatsappDigits
+      }`
+    : null;
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -291,8 +304,37 @@ export default function MobileMenu({ open, onClose }) {
                   "calc(env(safe-area-inset-bottom) + 20px)",
               }}
             >
-
-
+              {whatsappHref && (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onClose}
+                  className="
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-3
+                    rounded-2xl
+                    bg-[#25D366]
+                    px-4
+                    py-4
+                    text-[15px]
+                    font-semibold
+                    text-white
+                    shadow-lg
+                    shadow-[#25D366]/30
+                    transition-all
+                    duration-200
+                    hover:bg-[#1ebe5b]
+                    active:scale-[0.98]
+                  "
+                >
+                  <FaWhatsapp size={22} />
+                  كلمنا على واتساب
+                </a>
+              )}
             </div>
 
           </motion.aside>
