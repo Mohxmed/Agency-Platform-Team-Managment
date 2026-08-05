@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { fetchSettings, clearSettingsCache } from "@/lib/settingsCache";
+import { getOptimizedUrl } from "@/lib/cloudinaryService";
 
 const EMPTY = {
   siteName: "نقطة | وكالة إبداع رقمي",
@@ -179,7 +180,7 @@ export function SettingsProvider({ children }) {
     try {
       const data = migrateSettings(await fetchSettings(false));
       if (data) {
-        setSettings(deepMerge(EMPTY, data));
+        setSettings(optimizeSettingsImages(deepMerge(EMPTY, data)));
       } else {
         setSettings(EMPTY);
       }
@@ -234,6 +235,17 @@ function migrateSettings(data) {
     contact.mapButton = "موقعنا على الخريطة";
   }
   return data;
+}
+
+function optimizeSettingsImages(settings) {
+  const hero = settings.content?.hero;
+  if (hero?.campaign?.logo) {
+    hero.campaign.logo = getOptimizedUrl(hero.campaign.logo);
+  }
+  if (hero?.rocket?.image) {
+    hero.rocket.image = getOptimizedUrl(hero.rocket.image);
+  }
+  return settings;
 }
 
 function deepMerge(defaults, overrides) {

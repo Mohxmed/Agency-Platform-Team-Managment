@@ -1,3 +1,38 @@
+/* =========================================================
+   OPTIMIZED DELIVERY
+   Rewrites a Cloudinary secure_url to serve it with a
+   transformation (default: w_1200,q_auto,f_auto). Non
+   Cloudinary URLs are returned unchanged.
+========================================================= */
+
+const DEFAULT_TRANSFORMATION = "w_1200,q_auto,f_auto";
+
+export function getOptimizedUrl(url, transformation = DEFAULT_TRANSFORMATION) {
+  if (typeof url !== "string" || !url) return url;
+
+  const match = url.match(
+    /^(https?:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)(.+)$/i,
+  );
+  if (!match) return url;
+
+  const prefix = match[1];
+  const rest = match[2];
+
+  const firstSegment = rest.split("/")[0];
+
+  const isVersion = /^v\d+/.test(firstSegment);
+  const hasExistingTransformation =
+    !isVersion &&
+    firstSegment.includes("_") &&
+    !firstSegment.includes(".");
+
+  const cleanRest = hasExistingTransformation
+    ? rest.split("/").slice(1).join("/")
+    : rest;
+
+  return `${prefix}${transformation}/${cleanRest}`;
+}
+
 export function uploadImageToCloudinary(file, onProgress) {
   return new Promise((resolve, reject) => {
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;

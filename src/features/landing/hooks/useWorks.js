@@ -2,6 +2,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getOptimizedUrl } from "@/lib/cloudinaryService";
 
 const CACHE_KEY = "landing_works_cache";
 const CACHE_KEY_CATEGORIES = "landing_categories_cache";
@@ -87,8 +88,10 @@ export function useWorks() {
       ...work,
       categoryName: categoryMap[work.categoryId]?.name || "",
       category: categoryMap[work.categoryId]?.name || "",
-      image: work.image || work.coverImage || work.gallery?.[0] || "",
-      gallery: Array.isArray(work.gallery) ? work.gallery : [],
+      image: getOptimizedUrl(work.image || work.coverImage || work.gallery?.[0] || ""),
+      gallery: Array.isArray(work.gallery)
+        ? work.gallery.map((image) => getOptimizedUrl(image)).filter(Boolean)
+        : [],
       stats: Array.isArray(work.stats) ? work.stats : [],
       year: work.year || "",
       link: work.link || work.id,

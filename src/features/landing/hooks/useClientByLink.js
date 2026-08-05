@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getDocumentByField } from "@/lib/firestoreService";
+import { getOptimizedUrl } from "@/lib/cloudinaryService";
 
 export function useClientByLink(link) {
   const [client, setClient] = useState(null);
@@ -19,7 +20,16 @@ export function useClientByLink(link) {
 
         if (!mounted) return;
 
-        setClient(data || null);
+        if (data) {
+          setClient({
+            ...data,
+            image: getOptimizedUrl(data.image || data.coverImage || ""),
+            coverImage: getOptimizedUrl(data.coverImage || data.image || ""),
+            logo: getOptimizedUrl(data.logo || ""),
+          });
+        } else {
+          setClient(null);
+        }
       } catch (error) {
         console.error("Failed to load client:", error);
         if (mounted) setClient(null);

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getOptimizedUrl } from "@/lib/cloudinaryService";
 
 const CACHE_KEY = "landing_clients_cache";
 
@@ -68,10 +69,17 @@ export function useClients() {
           return dateB - dateA;
         });
 
-        setCached(sorted);
+        const optimized = sorted.map((client) => ({
+          ...client,
+          image: getOptimizedUrl(client.image || client.coverImage || ""),
+          coverImage: getOptimizedUrl(client.coverImage || client.image || ""),
+          logo: getOptimizedUrl(client.logo || ""),
+        }));
+
+        setCached(optimized);
 
         if (!cancelled) {
-          setClients(sorted);
+          setClients(optimized);
         }
       } catch (err) {
         console.error("Failed loading clients:", err);
