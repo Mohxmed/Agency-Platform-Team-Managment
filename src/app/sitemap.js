@@ -1,6 +1,7 @@
 // Dynamic sitemap: static routes + /portfolio/[link] + /clients/[link] from Firestore.
-// Rendered per-request so new works/clients show up immediately.
+// Firestore reads are cached (revalidated hourly) so crawlers don't hammer the DB.
 
+import { unstable_cache } from "next/cache";
 import { siteConfig } from "@/config/site";
 import { getWorks, getClients } from "@/lib/serverContent";
 
@@ -19,6 +20,15 @@ const STATIC_PAGES = [
   "/copyrights",
 ];
 
+const getDynamicRoutes = unstable_cache(
+  async () => {
+    const [works, clients] = await Promise.all([getWorks(), getClients()]);
+    return { works, clients };
+  },
+  ["sitemap-works-clients"],
+  { revalidate: 3600 },
+);
+
 export default async function sitemap() {
   const baseUrl = siteConfig.url.replace(/\/+$/, "");
   const now = new Date();
@@ -33,7 +43,7 @@ export default async function sitemap() {
   let dynamicRoutes = [];
 
   try {
-    const [works, clients] = await Promise.all([getWorks(), getClients()]);
+    const { works, clients } = await getDynamicRoutes();
 
     dynamicRoutes = [
       ...works.map((work) => ({

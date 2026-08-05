@@ -1,4 +1,4 @@
-import { buildMetadata } from "@/config/site";
+import { buildMetadata, siteConfig } from "@/config/site";
 import { getWorkByLink } from "@/lib/serverContent";
 
 export async function generateMetadata({ params }) {
@@ -29,6 +29,57 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function ProjectDetailLayout({ children }) {
-  return children;
+export default async function ProjectDetailLayout({ children, params }) {
+  const { projectId } = await params;
+  const work = await getWorkByLink(projectId).catch(() => null);
+
+  const baseUrl = siteConfig.url.replace(/\/+$/, "");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "الرئيسية", item: `${baseUrl}/` },
+          { "@type": "ListItem", position: 2, name: "معرض الأعمال", item: `${baseUrl}/portfolio` },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: work?.title || work?.name || "تفاصيل المشروع",
+            item: `${baseUrl}/portfolio/${projectId}`,
+          },
+        ],
+      },
+      ...(work
+        ? [
+            {
+              "@type": "Article",
+              headline: work.title || work.name || "تفاصيل المشروع",
+              description:
+                work.description ||
+                work.shortDescription ||
+                work.summary ||
+                "مشروع من أعمال نقطة الإبداعية.",
+              image: work.image || work.coverImage || work.gallery?.[0] || undefined,
+              author: { "@type": "Organization", name: siteConfig.siteName, url: baseUrl },
+              publisher: { "@type": "Organization", name: siteConfig.siteName, url: baseUrl },
+              url: `${baseUrl}/portfolio/${projectId}`,
+              inLanguage: "ar-EG",
+              mainEntityOfPage: `${baseUrl}/portfolio/${projectId}`,
+            },
+          ]
+        : []),
+    ],
+  };
+
+  return (
+    <>
+      <script
+        id="jsonld-project"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

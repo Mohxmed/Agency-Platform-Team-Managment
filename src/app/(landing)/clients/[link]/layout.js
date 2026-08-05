@@ -1,4 +1,4 @@
-import { buildMetadata } from "@/config/site";
+import { buildMetadata, siteConfig } from "@/config/site";
 import { getClientByLink } from "@/lib/serverContent";
 
 export async function generateMetadata({ params }) {
@@ -28,6 +28,59 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function ClientProfileLayout({ children }) {
-  return children;
+export default async function ClientProfileLayout({ children, params }) {
+  const { link } = await params;
+  const client = await getClientByLink(link).catch(() => null);
+
+  const baseUrl = siteConfig.url.replace(/\/+$/, "");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "الرئيسية", item: `${baseUrl}/` },
+          { "@type": "ListItem", position: 2, name: "عملاؤنا", item: `${baseUrl}/clients` },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: client?.name || client?.title || "ملف العميل",
+            item: `${baseUrl}/clients/${link}`,
+          },
+        ],
+      },
+      ...(client
+        ? [
+            {
+              "@type": "ProfilePage",
+              name: client.name || client.title || "ملف العميل",
+              description:
+                client.description ||
+                client.bio ||
+                "عميل من عملاء نقطة المميزين.",
+              image: client.image || client.logo || client.avatar || undefined,
+              url: `${baseUrl}/clients/${link}`,
+              inLanguage: "ar-EG",
+              mainEntity: {
+                "@type": "Person",
+                name: client.name || client.title || "عميل نقطة",
+                image: client.image || client.logo || client.avatar || undefined,
+              },
+              mainEntityOfPage: `${baseUrl}/clients/${link}`,
+            },
+          ]
+        : []),
+    ],
+  };
+
+  return (
+    <>
+      <script
+        id="jsonld-client"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

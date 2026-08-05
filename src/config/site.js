@@ -41,11 +41,18 @@ export const siteConfig = {
   ogImage: "/opengraph.webp",
   twitterHandle: "@no2ta",
   links: {
-    website: "",
-    twitter: "",
+    website: "https://no2ta.com",
+    twitter: "https://x.com/no2ta",
     github: "",
   },
 };
+
+// Resolve a (possibly relative) image/url to an absolute URL.
+export function toAbsoluteUrl(value) {
+  if (!value || typeof value !== "string") return value;
+  if (/^(https?:)?\/\//i.test(value) || value.startsWith("data:")) return value;
+  return `${siteConfig.url.replace(/\/+$/, "")}${value.startsWith("/") ? "" : "/"}${value}`;
+}
 
 export function buildMetadata({
   title,
@@ -57,7 +64,7 @@ export function buildMetadata({
   type = "website",
 }) {
   const url = siteConfig.url ? `${siteConfig.url}${path}` : undefined;
-  const ogImage = image || siteConfig.ogImage;
+  const ogImage = toAbsoluteUrl(image || siteConfig.ogImage);
   const ogTitle = typeof title === "string" ? title : title?.default || siteConfig.title;
 
   return {

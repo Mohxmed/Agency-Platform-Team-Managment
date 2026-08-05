@@ -497,9 +497,6 @@ export default function ServicesPage() {
                       >
                         <ServiceCard
                           service={serviceWithIcon}
-                          requestHref={`/request-service?service=${encodeURIComponent(
-                            service.id,
-                          )}`}
                         />
                       </motion.div>
                     </motion.div>
