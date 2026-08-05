@@ -71,7 +71,7 @@ export default function ClientsSection() {
       ====================================================== */}
 
       <div className="relative mt-12 w-full">
-        <div className="mx-auto w-full max-w-[1500px]">
+        <div className="w-full">
           <motion.div
             variants={fadeUp}
             initial="hidden"

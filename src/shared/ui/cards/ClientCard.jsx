@@ -109,7 +109,7 @@ export default function ClientCard({ teacher }) {
           COVER
       ====================================================== */}
 
-      <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-neutral-100 via-neutral-50 to-primary-50 dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-900">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-neutral-100 via-neutral-50 to-primary-50 dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-900">
         {coverImage ? (
           <Image
             src={coverImage}

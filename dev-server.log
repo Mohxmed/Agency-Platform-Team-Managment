@@ -194,3 +194,35 @@ See more: https://nextjs.org/docs/app/guides/local-development
   30 |       missing.join(", "),
   31 |     ); (src/lib/firebase.js:28:13)
 [browser] Image with src "/_next/static/media/no2ta-logo.1yf9d1cwz4fl-.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET / 200 in 16.1s (next.js: 5.7s, application-code: 10.4s)
+ GET /manifest.webmanifest 200 in 2.4s (next.js: 2.4s, application-code: 44ms)
+[browser] Firebase is not configured. Missing env variables: NEXT_PUBLIC_FIREBASE_PROJECT_ID, NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET, NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID, NEXT_PUBLIC_FIREBASE_APP_ID 
+    at module evaluation (src/lib/firebase.js:28:13)
+    at module evaluation (src/features/auth/repos/profile.repo.js:3:1)
+    at module evaluation (src/features/auth/services/profile.service.js:1:1)
+    at module evaluation (src/features/auth/providers/AuthProvider.js:9:1)
+  26 |
+  27 |   if (missing.length > 0) {
+> 28 |     console.error(
+     |             ^
+  29 |       "Firebase is not configured. Missing env variables:",
+  30 |       missing.join(", "),
+  31 |     ); (src/lib/firebase.js:28:13)
+[browser] Image with src "/_next/static/media/no2ta-logo.1yf9d1cwz4fl-.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+ GET /manifest.webmanifest 200 in 73ms (next.js: 69ms, application-code: 4ms)
+ GET / 200 in 903ms (next.js: 470ms, application-code: 433ms)
+[browser] Firebase is not configured. Missing env variables: NEXT_PUBLIC_FIREBASE_PROJECT_ID, NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET, NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID, NEXT_PUBLIC_FIREBASE_APP_ID 
+    at module evaluation (src/lib/firebase.js:28:13)
+    at module evaluation (src/features/auth/repos/profile.repo.js:3:1)
+    at module evaluation (src/features/auth/services/profile.service.js:1:1)
+    at module evaluation (src/features/auth/providers/AuthProvider.js:9:1)
+  26 |
+  27 |   if (missing.length > 0) {
+> 28 |     console.error(
+     |             ^
+  29 |       "Firebase is not configured. Missing env variables:",
+  30 |       missing.join(", "),
+  31 |     ); (src/lib/firebase.js:28:13)
+[browser] Image with src "/_next/static/media/no2ta-logo.1yf9d1cwz4fl-.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+⨯ upstream image response timed out for https://scontent.fcai19-12.fna.fbcdn.net/v/t39.30808-6/746878130_122178073664935435_790656455271419503_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1357&ctp=s1080x1357&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=3ryYjWw5WjYQ7kNvwEo4LJM&_nc_oc=AdqcErEIb4yvIIHit_F2ZXW4f6Ocf2naVAJx68Dujvo4qTMRrO9d80hBPq-bdwHGp7A&_nc_zt=23&_nc_ht=scontent.fcai19-12.fna&_nc_gid=-DFZzNzhaVKFozvvFKIRAw&_nc_ss=7b2a8&oh=00_AQHP43Q_voMqkxk9xaKpTpNUzd9yrUh7KiJ6VWSkZyBpFQ&oe=6A75BD6F
+⨯ upstream image response timed out for https://scontent.fcai19-12.fna.fbcdn.net/v/t39.30808-6/718952539_122173709126935435_3741324534416458772_n.jpg?stp=dst-jpg_tt6&cstp=mx1152x1440&ctp=s1152x1440&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=t-HCqWEra1YQ7kNvwGdb8K3&_nc_oc=AdonQO_tc1WrM13fY4DocC1pmuVLWZ-hXERtwPCtWbyhH111WRBAqjJNGC1heLcd2F0&_nc_zt=23&_nc_ht=scontent.fcai19-12.fna&_nc_gid=VKguQcKLSYlsTJG44W9Dxw&_nc_ss=7b2a8&oh=00_AQEot_G6LYl0zBOtbOnEl0l3xLs03YGJVBVr76h78qC6Bg&oe=6A75D240

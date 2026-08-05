@@ -83,7 +83,7 @@ export default function ProjectCard({ project }) {
         <div
           className="
             relative
-            aspect-square
+            aspect-[4/3]
             overflow-hidden
             bg-gradient-to-br
             from-neutral-100
