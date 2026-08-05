@@ -598,7 +598,7 @@ export default function SocialMediaSection() {
                 LinkedIn={settings.social?.linkedin || ""}
                 Youtube={settings.social?.youtube || ""}
                 TikTok={settings.social?.tiktok || ""}
-                Whatsapp={settings.whatsapp || ""}
+                Whatsapp={settings.contactSectionWhatsapp || settings.whatsapp || ""}
                 size="lg"
               />
             </div>

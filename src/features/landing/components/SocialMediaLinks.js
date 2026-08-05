@@ -22,10 +22,17 @@ function SocialMediaLinks({
   className,
 }) {
   const toHref = (val) => (typeof val === "string" && val ? val : "#");
-  const whatsappHref =
-    typeof Whatsapp === "string" && Whatsapp
-      ? `https://wa.me/${Whatsapp.replace(/[^0-9]/g, "")}`
-      : "#";
+  const whatsappRaw = typeof Whatsapp === "string" ? Whatsapp : "";
+  const whatsappHref = whatsappRaw.startsWith("http")
+    ? whatsappRaw
+    : (() => {
+        const digits = whatsappRaw.replace(/[^0-9]/g, "");
+        if (!digits) return "#";
+        const number = digits.startsWith("0")
+          ? `20${digits.slice(1)}`
+          : digits;
+        return `https://wa.me/${number}`;
+      })();
   const style =
     size == "sm"
       ? "w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center transition cursor-pointer bg-white text-black dark:border-white/10 dark:bg-white/5 dark:text-white/80"
