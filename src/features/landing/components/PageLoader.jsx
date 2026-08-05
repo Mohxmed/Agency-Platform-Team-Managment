@@ -10,32 +10,33 @@ const MAX_DISPLAY = 2600;
 
 /* Lightweight branded boot loader for the landing page.
    Shows the logo icon with a soft ring animation, then fades out
-   once the window has loaded and the minimum display time has passed. */
+   once the DOM is parsed and the minimum display time has passed —
+   without waiting for the full window load (heavy JS/images). */
 export default function PageLoader() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    let loaded = false;
+    let ready = false;
     let minPassed = false;
     let done = false;
 
     const tryHide = () => {
       if (done) return;
-      if (loaded && minPassed) {
+      if (ready && minPassed) {
         done = true;
         setVisible(false);
       }
     };
 
-    const onLoad = () => {
-      loaded = true;
+    const onReady = () => {
+      ready = true;
       tryHide();
     };
 
-    if (document.readyState === "complete") {
-      loaded = true;
+    if (document.readyState !== "loading") {
+      ready = true;
     } else {
-      window.addEventListener("load", onLoad);
+      document.addEventListener("DOMContentLoaded", onReady);
     }
 
     const minTimer = setTimeout(() => {
@@ -51,7 +52,7 @@ export default function PageLoader() {
     return () => {
       clearTimeout(minTimer);
       clearTimeout(maxTimer);
-      window.removeEventListener("load", onLoad);
+      document.removeEventListener("DOMContentLoaded", onReady);
     };
   }, []);
 
