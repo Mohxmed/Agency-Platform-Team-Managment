@@ -24,6 +24,7 @@ import {
   ListTodo,
   ExternalLink,
   Pencil,
+  FolderKanban,
 } from "lucide-react";
 
 import Image from "next/image";
@@ -100,6 +101,12 @@ const menuSections = [
       title: "الفريق",
       items: [
         { title: "الفريق", href: "/dashboard/team", icon: Users, permission: "team" },
+        {
+          title: "المشاريع",
+          href: "/dashboard/team/projects",
+          icon: FolderKanban,
+          permission: "team",
+        },
         {
           title: "مهماتي",
           href: "/dashboard/team/my-tasks",

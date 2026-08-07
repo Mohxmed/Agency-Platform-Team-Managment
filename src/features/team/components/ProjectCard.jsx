@@ -3,12 +3,12 @@
 import Link from "next/link";
 
 import {
+  Building2,
+  CalendarDays,
+  ClipboardList,
+  ArrowLeft,
   Pencil,
   Trash2,
-  CalendarDays,
-  Building2,
-  ArrowLeft,
-  ClipboardList,
   Users,
 } from "lucide-react";
 
@@ -16,43 +16,51 @@ import WorkflowBadge from "./WorkflowBadge";
 import PriorityBadge from "./PriorityBadge";
 import ProgressBar from "./ProgressBar";
 
-import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
+import Avatar from "@/features/dashboard/ui/Avatar";
 
 import { ProjectIcon } from "@/constants/projectIcons";
 
 import {
+  calcProjectProgress,
   formatDeadline,
   getClientName,
-  calcProjectProgress,
-  isDeadlineOverdue,
   getProjectMemberIds,
-} from "../lib/teamUtils";
+  isDeadlineOverdue,
+} from "@/features/team/lib/teamUtils";
+
+const MAX_VISIBLE_MEMBERS = 4;
 
 export default function ProjectCard({
   project,
-  projectTasks = [],
+  tasks = [],
   userMap,
   clientMap,
+  theme,
+  canManage = false,
   onEdit,
   onDelete,
-  canManage = true,
+  showActions = true,
 }) {
-  const theme = usePageTheme();
-
-  const progress = calcProjectProgress(projectTasks);
+  const progress = calcProjectProgress(tasks);
 
   const overdue = isDeadlineOverdue(project.deadline);
 
   const memberIds = getProjectMemberIds(project);
 
-  const doneCount = projectTasks.filter(
-    (task) => task.status === "done",
-  ).length;
+  const members = memberIds.map((id) => userMap?.get(id)).filter(Boolean);
+
+  const hiddenCount = Math.max(0, members.length - MAX_VISIBLE_MEMBERS);
+
+  const doneCount = tasks.filter((task) => task.status === "done").length;
 
   return (
-    <div className={`group relative overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] ${theme.hoverBorder}`}>
+    <Link
+      href={`/dashboard/team/projects/${project.id}`}
+      className={`group relative flex flex-col overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] dark:border-white/[0.08] ${theme.hoverBorder}`}
+    >
+      {/* Progress accent bar */}
       <div
-        className={`absolute inset-x-0 top-0 h-1 origin-right transition-transform duration-500 ${
+        className={`absolute inset-x-0 top-0 z-10 h-1 origin-right transition-transform duration-500 ${
           progress >= 100
             ? "bg-green-500"
             : progress >= 60
@@ -63,13 +71,8 @@ export default function ProjectCard({
         }`}
       />
 
-      <Link
-        href={`/dashboard/team/projects/${project.id}`}
-        className="absolute inset-0 z-0"
-        aria-label={project.title}
-      />
-
-      <div className="relative z-10 p-5">
+      <div className="relative flex flex-1 flex-col p-5">
+        {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-600 text-white shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105">
@@ -82,33 +85,45 @@ export default function ProjectCard({
                 <PriorityBadge priority={project.priority} />
               </div>
 
-              <h3 className={`mt-1.5 truncate text-sm font-black tracking-tight text-ink transition-colors ${theme.groupHoverText}`}>
+              <h3
+                className={`mt-1.5 truncate text-sm font-black tracking-tight text-ink transition-colors ${theme.groupHoverText}`}
+              >
                 {project.title || "بدون عنوان"}
               </h3>
             </div>
           </div>
 
-          <div className="flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <button
-              type="button"
-              onClick={() => onEdit?.(project)}
-              title="تعديل المشروع"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-            </button>
-
-            {canManage && (
+          {showActions && (
+            <div className="flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
               <button
                 type="button"
-                onClick={() => onDelete?.(project)}
-                title="حذف المشروع"
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  onEdit?.(project);
+                }}
+                title="تعديل المشروع"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Pencil className="h-3.5 w-3.5" />
               </button>
-            )}
-          </div>
+
+              {canManage && (
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    onDelete?.(project);
+                  }}
+                  title="حذف المشروع"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white dark:hover:bg-red-400"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         {project.description && (
@@ -117,8 +132,9 @@ export default function ProjectCard({
           </p>
         )}
 
+        {/* Client + Deadline */}
         <div className="mt-4 grid grid-cols-2 gap-2.5">
-          <div className="flex items-center gap-2 rounded-xl bg-neutral-50/80 px-3 py-2 dark:bg-ink/[0.05]">
+          <div className="flex items-center gap-2 rounded-xl bg-surface/80 px-3 py-2">
             <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/60" />
 
             <span className="truncate text-[11px] font-bold text-ink/60">
@@ -128,7 +144,7 @@ export default function ProjectCard({
 
           <div
             className={`flex items-center gap-2 rounded-xl px-3 py-2 ${
-              overdue ? "bg-red-50" : "bg-neutral-50/80 dark:bg-ink/[0.05]"
+              overdue ? "bg-red-50 text-red-600" : "bg-surface/80"
             }`}
           >
             <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/60" />
@@ -147,25 +163,47 @@ export default function ProjectCard({
           <ProgressBar value={progress} />
         </div>
 
+        {/* Footer */}
         <div className="mt-4 flex items-center justify-between border-t border-dashed border-ink/[0.07] pt-3.5">
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
               <ClipboardList className="h-3.5 w-3.5 text-ink/60" />
-              {doneCount}/{projectTasks.length}
+              {doneCount}/{tasks.length}
             </span>
 
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
-              <Users className="h-3.5 w-3.5 text-ink/60" />
-              {memberIds.length}
-            </span>
+            {members.length > 0 ? (
+              <div className="flex items-center -space-x-2 rtl:space-x-reverse">
+                {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
+                  <Avatar
+                    key={member.id}
+                    user={member}
+                    size={26}
+                    className="ring-2 ring-card"
+                  />
+                ))}
+
+                {hiddenCount > 0 && (
+                  <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-ink/[0.06] text-[10px] font-black text-ink/60 ring-2 ring-card dark:bg-white/[0.08]">
+                    +{hiddenCount}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/40">
+                <Users className="h-3.5 w-3.5" />
+                بدون أعضاء
+              </span>
+            )}
           </div>
 
-          <span className={`inline-flex items-center gap-1 text-[11px] font-bold transition-all duration-200 group-hover:gap-2 ${theme.text}`}>
-            عرض المهام
+          <span
+            className={`inline-flex items-center gap-1 text-[11px] font-bold transition-all duration-200 group-hover:gap-2 ${theme.text}`}
+          >
+            عرض المشروع
             <ArrowLeft className="h-3.5 w-3.5" />
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -152,6 +152,91 @@ export function isDeadlineOverdue(value) {
   return date.getTime() < Date.now();
 }
 
+function toTimestampMs(value) {
+  if (!value) return 0;
+
+  try {
+    if (typeof value.toMillis === "function") return value.toMillis();
+    if (typeof value.toDate === "function") return value.toDate().getTime();
+    if (value instanceof Date) return value.getTime();
+    if (typeof value.seconds === "number") return value.seconds * 1000;
+    if (typeof value === "number") return value;
+    if (typeof value === "string") {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+    }
+  } catch {
+    return 0;
+  }
+
+  return 0;
+}
+
+function toDeadlineMs(value) {
+  if (!value) return Number.POSITIVE_INFINITY;
+
+  try {
+    if (typeof value.toDate === "function") return value.toDate().getTime();
+    if (value instanceof Date) return value.getTime();
+    if (typeof value.seconds === "number") return value.seconds * 1000;
+
+    if (typeof value === "string") {
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+      if (match) {
+        return new Date(
+          Number(match[1]),
+          Number(match[2]) - 1,
+          Number(match[3]),
+          23,
+          59,
+          59,
+          999,
+        ).getTime();
+      }
+
+      const date = new Date(value);
+      return Number.isNaN(date.getTime())
+        ? Number.POSITIVE_INFINITY
+        : date.getTime();
+    }
+
+    if (typeof value === "number") return value;
+  } catch {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  return Number.POSITIVE_INFINITY;
+}
+
+// Sort projects by creation time or delivery deadline.
+// "newest" | "oldest" | "deadline-nearest" | "deadline-furthest"
+export function sortProjects(projects = [], sortBy = "newest") {
+  const list = [...projects];
+
+  switch (sortBy) {
+    case "oldest":
+      return list.sort(
+        (a, b) => toTimestampMs(a.createdAt) - toTimestampMs(b.createdAt),
+      );
+
+    case "deadline-nearest":
+      return list.sort(
+        (a, b) => toDeadlineMs(a.deadline) - toDeadlineMs(b.deadline),
+      );
+
+    case "deadline-furthest":
+      return list.sort(
+        (a, b) => toDeadlineMs(b.deadline) - toDeadlineMs(a.deadline),
+      );
+
+    case "newest":
+    default:
+      return list.sort(
+        (a, b) => toTimestampMs(b.createdAt) - toTimestampMs(a.createdAt),
+      );
+  }
+}
+
 export function calcProjectProgress(tasks) {
   if (!Array.isArray(tasks) || tasks.length === 0) return 0;
   const done = tasks.filter(
