@@ -15,6 +15,7 @@ import {
 import { ProtectedRoute, useAuth } from "@/features/auth";
 
 import { useTeamData } from "@/features/team/hooks/useTeamData";
+import { usePaginatedFirestore } from "@/features/team/hooks/usePaginatedFirestore";
 
 import ProjectModal from "@/features/team/components/ProjectModal";
 import ProjectCard from "@/features/team/components/ProjectCard";
@@ -24,7 +25,6 @@ import {
   canManageTeam,
   deriveProjectStatus,
   isDeadlineOverdue,
-  sortProjects,
 } from "@/features/team/lib/teamUtils";
 
 import { removeDocument } from "@/lib/firestoreService";
@@ -33,6 +33,7 @@ import { WORKFLOW_STATUSES } from "@/constants/workflow";
 
 import StatsCard from "@/features/dashboard/ui/StatsCard";
 import Card from "@/features/dashboard/ui/Card";
+import Pagination from "@/features/dashboard/ui/Pagination";
 import { Select } from "@/features/dashboard/ui/Input";
 
 import PageHero from "@/features/dashboard/components/PageHero";
@@ -65,6 +66,34 @@ export default function ProjectsPage() {
 
   const [deleting, setDeleting] = useState(false);
 
+  const sortConfig = {
+    newest: { orderField: "createdAt", orderDirection: "desc" },
+    oldest: { orderField: "createdAt", orderDirection: "asc" },
+    "deadline-nearest": { orderField: "deadline", orderDirection: "asc" },
+    "deadline-furthest": { orderField: "deadline", orderDirection: "desc" },
+  }[sortBy] || { orderField: "createdAt", orderDirection: "desc" };
+
+  const {
+    docs: paginatedProjects,
+    loading: projectsLoading,
+    totalCount,
+    totalPages,
+    currentPage,
+    goToPage,
+    refresh,
+  } = usePaginatedFirestore({
+    collectionName: "teamProjects",
+    orderField: sortConfig.orderField,
+    orderDirection: sortConfig.orderDirection,
+    pageSize: 8,
+    filters:
+      statusFilter === "all"
+        ? []
+        : [{ field: "status", value: statusFilter }],
+    searchField: "title",
+    searchValue: search,
+  });
+
   const tasksByProject = useMemo(() => {
     const map = {};
     tasks.forEach((task) => {
@@ -85,23 +114,6 @@ export default function ProjectsPage() {
     });
     return map;
   }, [projects, tasksByProject]);
-
-  const filteredProjects = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    return sortProjects(projects, sortBy).filter((project) => {
-      const matchesSearch =
-        !query ||
-        project.title?.toLowerCase().includes(query) ||
-        project.description?.toLowerCase().includes(query);
-
-      const matchesStatus =
-        statusFilter === "all" ||
-        derivedStatusByProject[project.id] === statusFilter;
-
-      return matchesSearch && matchesStatus;
-    });
-  }, [projects, sortBy, search, statusFilter, derivedStatusByProject]);
 
   const activeCount = projects.filter(
     (project) =>
@@ -188,6 +200,8 @@ export default function ProjectsPage() {
         removeDocument("teamProjects", project.id),
         ...projectTasks.map((task) => removeDocument("tasks", task.id)),
       ]);
+
+      refresh();
     } catch (error) {
       console.error("Failed to delete project:", error);
       showToast({
@@ -200,7 +214,7 @@ export default function ProjectsPage() {
     }
   }
 
-  if (loading) {
+  if (loading || projectsLoading) {
     return (
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
@@ -309,7 +323,7 @@ export default function ProjectsPage() {
         </Card>
 
         {/* Projects Grid */}
-        {filteredProjects.length === 0 ? (
+        {paginatedProjects.length === 0 ? (
           <div className="flex min-h-[320px] flex-col items-center justify-center rounded-[28px] border border-dashed border-ink/10 bg-card px-6 text-center dark:border-white/10">
             <div
               className={`flex h-14 w-14 items-center justify-center rounded-2xl ${theme.bgSoftStrong} ${theme.textSoft}`}
@@ -318,16 +332,18 @@ export default function ProjectsPage() {
             </div>
 
             <h3 className="mt-4 text-base font-black text-ink">
-              {projects.length === 0 ? "لا توجد مشاريع بعد" : "لا توجد نتائج مطابقة"}
+              {totalCount === 0
+                ? "لا توجد مشاريع بعد"
+                : "لا توجد نتائج مطابقة"}
             </h3>
 
             <p className="mt-1.5 max-w-sm text-sm leading-6 text-ink/60">
-              {projects.length === 0
+              {totalCount === 0
                 ? "أنشئ أول مشروع ووزّع مهامه على أعضاء فريقك."
                 : "جرب تغيير البحث أو فلتر الحالة."}
             </p>
 
-            {projects.length === 0 && (
+            {totalCount === 0 && (
               <button
                 type="button"
                 onClick={openCreate}
@@ -339,21 +355,32 @@ export default function ProjectsPage() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {filteredProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                tasks={tasksByProject[project.id] || []}
-                userMap={userMap}
-                clientMap={clientMap}
-                theme={theme}
-                canManage={canManage}
-                onEdit={openEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {paginatedProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  tasks={tasksByProject[project.id] || []}
+                  userMap={userMap}
+                  clientMap={clientMap}
+                  theme={theme}
+                  canManage={canManage}
+                  onEdit={openEdit}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </div>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              currentCount={paginatedProjects.length}
+              totalCount={totalCount}
+              itemLabel="مشروع"
+              onPageChange={goToPage}
+            />
+          </>
         )}
       </div>
 

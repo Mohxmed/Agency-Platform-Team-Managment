@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 import {
@@ -9,8 +9,6 @@ import {
   Loader2,
   CheckCircle2,
   Timer,
-  ChevronLeft,
-  ChevronRight,
   AlertCircle,
   Plus,
 } from "lucide-react";
@@ -18,6 +16,7 @@ import {
 import { ProtectedRoute, useAuth } from "@/features/auth";
 
 import { useTeamData } from "@/features/team/hooks/useTeamData";
+import { usePaginatedFirestore } from "@/features/team/hooks/usePaginatedFirestore";
 
 import TaskModal from "@/features/team/components/TaskModal";
 import WorkflowBadge from "@/features/team/components/WorkflowBadge";
@@ -34,11 +33,10 @@ import {
 import Avatar from "@/features/dashboard/ui/Avatar";
 import Card from "@/features/dashboard/ui/Card";
 import StatsCard from "@/features/dashboard/ui/StatsCard";
+import Pagination from "@/features/dashboard/ui/Pagination";
 import { Select } from "@/features/dashboard/ui/Input";
 
 import PageHero from "@/features/dashboard/components/PageHero";
-
-const PAGE_SIZE = 20;
 
 export default function AllTasksPage() {
   const { user: currentUser } = useAuth();
@@ -49,44 +47,28 @@ export default function AllTasksPage() {
 
   const [memberFilter, setMemberFilter] = useState("all");
 
-  const [page, setPage] = useState(1);
-
   const [taskModalOpen, setTaskModalOpen] = useState(false);
 
-  const sortedTasks = useMemo(
-    () =>
-      [...tasks].sort((a, b) => {
-        const aTime = a.createdAt?.toMillis?.() || 0;
-        const bTime = b.createdAt?.toMillis?.() || 0;
-        return bTime - aTime;
-      }),
-    [tasks],
-  );
-
-  const filteredTasks = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    return sortedTasks.filter((task) => {
-      const matchesSearch =
-        !query ||
-        task.title?.toLowerCase().includes(query) ||
-        task.description?.toLowerCase().includes(query);
-
-      const matchesMember =
-        memberFilter === "all" || getAssigneeId(task) === memberFilter;
-
-      return matchesSearch && matchesMember;
-    });
-  }, [sortedTasks, search, memberFilter]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredTasks.length / PAGE_SIZE));
-
-  const safePage = Math.min(page, totalPages);
-
-  const pageTasks = filteredTasks.slice(
-    (safePage - 1) * PAGE_SIZE,
-    safePage * PAGE_SIZE,
-  );
+  const {
+    docs: paginatedTasks,
+    loading: tasksLoading,
+    totalCount,
+    totalPages,
+    currentPage,
+    goToPage,
+    refresh,
+  } = usePaginatedFirestore({
+    collectionName: "tasks",
+    orderField: "createdAt",
+    orderDirection: "desc",
+    pageSize: 20,
+    filters:
+      memberFilter === "all"
+        ? []
+        : [{ field: "assigneeProfileId", value: memberFilter }],
+    searchField: "title",
+    searchValue: search,
+  });
 
   const doneCount = tasks.filter((task) => task.status === "done").length;
 
@@ -132,19 +114,7 @@ export default function AllTasksPage() {
     },
   ];
 
-  function pageNumbers() {
-    const start = Math.max(1, safePage - 2);
-    const end = Math.min(totalPages, safePage + 2);
-    const numbers = [];
-
-    for (let i = start; i <= end; i += 1) {
-      numbers.push(i);
-    }
-
-    return numbers;
-  }
-
-  if (loading) {
+  if (loading || tasksLoading) {
     return (
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
@@ -206,10 +176,7 @@ export default function AllTasksPage() {
               <input
                 type="text"
                 value={search}
-                onChange={(event) => {
-                  setSearch(event.target.value);
-                  setPage(1);
-                }}
+                onChange={(event) => setSearch(event.target.value)}
                 placeholder="ابحث بعنوان المهمة أو وصفها..."
                 className="w-full h-11 pr-10 pl-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
               />
@@ -218,10 +185,7 @@ export default function AllTasksPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <Select
                 value={memberFilter}
-                onChange={(event) => {
-                  setMemberFilter(event.target.value);
-                  setPage(1);
-                }}
+                onChange={(event) => setMemberFilter(event.target.value)}
                 placeholder="جميع الأعضاء"
                 options={[
                   { value: "all", label: "جميع الأعضاء" },
@@ -238,14 +202,14 @@ export default function AllTasksPage() {
 
         {/* Tasks Table */}
         <Card hover={false} className="p-0">
-          {filteredTasks.length === 0 ? (
+          {paginatedTasks.length === 0 ? (
             <div className="text-center py-16">
               <ClipboardList className="h-16 w-16 mx-auto text-ink/20" />
               <h3 className="mt-4 text-lg font-bold text-ink">
-                {tasks.length === 0 ? "لا توجد مهام" : "لا توجد نتائج مطابقة"}
+                {totalCount === 0 ? "لا توجد مهام" : "لا توجد نتائج مطابقة"}
               </h3>
               <p className="mt-1 text-ink/60">
-                {tasks.length === 0
+                {totalCount === 0
                   ? "ابدأ بإنشاء أول مهمة للفريق"
                   : "جرب تغيير البحث أو فلتر العضو"}
               </p>
@@ -264,7 +228,7 @@ export default function AllTasksPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-ink/5">
-                    {pageTasks.map((task) => {
+                    {paginatedTasks.map((task) => {
                       const project = projects.find(
                         (item) => item.id === task.projectId,
                       );
@@ -358,78 +322,14 @@ export default function AllTasksPage() {
               </div>
 
               {/* Pagination */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-ink/10 px-6 py-4">
-                <p className="text-xs font-medium text-ink/60">
-                  عرض {pageTasks.length} من {filteredTasks.length} مهمة
-                </p>
-
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setPage((previous) => Math.max(1, previous - 1))}
-                    disabled={safePage === 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/10 bg-white text-ink/60 transition hover:border-primary/30 hover:text-primary disabled:pointer-events-none disabled:opacity-30 dark:border-white/10 dark:bg-white/[0.05]"
-                    title="الصفحة السابقة"
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-
-                  {safePage > 3 && (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => setPage(1)}
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/10 bg-white text-xs font-bold text-ink/60 transition hover:border-primary/30 hover:text-primary dark:border-white/10 dark:bg-white/[0.05]"
-                      >
-                        1
-                      </button>
-
-                      <span className="px-1 text-xs text-ink/40">...</span>
-                    </>
-                  )}
-
-                  {pageNumbers().map((number) => (
-                    <button
-                      key={number}
-                      type="button"
-                      onClick={() => setPage(number)}
-                      className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-black transition ${
-                        number === safePage
-                          ? "bg-primary text-white shadow-sm"
-                          : "border border-ink/10 bg-white text-ink/60 hover:border-primary/30 hover:text-primary dark:border-white/10 dark:bg-white/[0.05]"
-                      }`}
-                    >
-                      {number}
-                    </button>
-                  ))}
-
-                  {safePage < totalPages - 2 && (
-                    <>
-                      <span className="px-1 text-xs text-ink/40">...</span>
-
-                      <button
-                        type="button"
-                        onClick={() => setPage(totalPages)}
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/10 bg-white text-xs font-bold text-ink/60 transition hover:border-primary/30 hover:text-primary dark:border-white/10 dark:bg-white/[0.05]"
-                      >
-                        {totalPages}
-                      </button>
-                    </>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setPage((previous) => Math.min(totalPages, previous + 1))
-                    }
-                    disabled={safePage === totalPages}
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/10 bg-white text-ink/60 transition hover:border-primary/30 hover:text-primary disabled:pointer-events-none disabled:opacity-30 dark:border-white/10 dark:bg-white/[0.05]"
-                    title="الصفحة التالية"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                currentCount={paginatedTasks.length}
+                totalCount={totalCount}
+                itemLabel="مهمة"
+                onPageChange={goToPage}
+              />
             </>
           )}
         </Card>
@@ -443,7 +343,7 @@ export default function AllTasksPage() {
         defaultProjectId=""
         defaultStatus="backlog"
         currentUser={currentUser}
-        onSaved={() => {}}
+        onSaved={() => refresh()}
       />
     </ProtectedRoute>
   );
