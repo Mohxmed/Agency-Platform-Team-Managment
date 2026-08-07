@@ -12,12 +12,14 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertCircle,
+  Plus,
 } from "lucide-react";
 
-import { ProtectedRoute } from "@/features/auth";
+import { ProtectedRoute, useAuth } from "@/features/auth";
 
 import { useTeamData } from "@/features/team/hooks/useTeamData";
 
+import TaskModal from "@/features/team/components/TaskModal";
 import WorkflowBadge from "@/features/team/components/WorkflowBadge";
 import PriorityBadge from "@/features/team/components/PriorityBadge";
 
@@ -33,9 +35,13 @@ import Card from "@/features/dashboard/ui/Card";
 import StatsCard from "@/features/dashboard/ui/StatsCard";
 import { Select } from "@/features/dashboard/ui/Input";
 
+import PageHero from "@/features/dashboard/components/PageHero";
+
 const PAGE_SIZE = 20;
 
 export default function AllTasksPage() {
+  const { user: currentUser } = useAuth();
+
   const { tasks, projects, activeUsers, userMap, loading } = useTeamData();
 
   const [search, setSearch] = useState("");
@@ -43,6 +49,8 @@ export default function AllTasksPage() {
   const [memberFilter, setMemberFilter] = useState("all");
 
   const [page, setPage] = useState(1);
+
+  const [taskModalOpen, setTaskModalOpen] = useState(false);
 
   const sortedTasks = useMemo(
     () =>
@@ -157,12 +165,22 @@ export default function AllTasksPage() {
     <ProtectedRoute permission="team">
       <div dir="rtl" className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-black text-ink">كل المهام</h1>
-            <p className="text-sm text-ink/60">عرض وتتبع جميع مهام الفريق، الأحدث أولًا</p>
-          </div>
-        </div>
+        <PageHero
+          icon={ClipboardList}
+          eyebrow="الفريق"
+          title="كل المهام"
+          subtitle="عرض وتتبع جميع مهام الفريق، الأحدث أولًا."
+          badge="TASKS"
+        >
+          <button
+            type="button"
+            onClick={() => setTaskModalOpen(true)}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-red-700 shadow-md transition-all hover:-translate-y-0.5 hover:bg-red-50 dark:bg-black dark:text-white dark:hover:bg-black/80 sm:w-auto"
+          >
+            <Plus className="h-4 w-4" />
+            إضافة مهمة
+          </button>
+        </PageHero>
 
         {/* Stats Overview */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -415,6 +433,17 @@ export default function AllTasksPage() {
           )}
         </Card>
       </div>
+
+      <TaskModal
+        open={taskModalOpen}
+        onClose={() => setTaskModalOpen(false)}
+        projects={projects}
+        users={activeUsers}
+        defaultProjectId=""
+        defaultStatus="backlog"
+        currentUser={currentUser}
+        onSaved={() => {}}
+      />
     </ProtectedRoute>
   );
 }

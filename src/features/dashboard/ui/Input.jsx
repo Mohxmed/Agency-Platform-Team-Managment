@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { Check, ChevronDown } from "lucide-react";
 
@@ -184,7 +185,11 @@ export function Select({
 }) {
   const [open, setOpen] = useState(false);
 
+  const [menuPos, setMenuPos] = useState(null);
+
   const rootRef = useRef(null);
+
+  const menuRef = useRef(null);
 
   const inputId = getInputId(id, label);
 
@@ -192,7 +197,12 @@ export function Select({
     if (!open) return;
 
     function handleClickOutside(event) {
-      if (rootRef.current && !rootRef.current.contains(event.target)) {
+      if (
+        rootRef.current &&
+        !rootRef.current.contains(event.target) &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
+      ) {
         setOpen(false);
       }
     }
@@ -203,16 +213,46 @@ export function Select({
       }
     }
 
+    function handleClose() {
+      setOpen(false);
+    }
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("scroll", handleClose, true);
+    window.addEventListener("resize", handleClose);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("scroll", handleClose, true);
+      window.removeEventListener("resize", handleClose);
     };
   }, [open]);
 
   const selected = options.find((option) => option.value === value);
+
+  function toggleOpen() {
+    if (disabled) return;
+
+    const next = !open;
+    setOpen(next);
+
+    if (next && rootRef.current) {
+      const rect = rootRef.current.getBoundingClientRect();
+      const estimatedHeight = Math.min(240, options.length * 40 + 12);
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const openUpward = spaceBelow < estimatedHeight + 8;
+
+      setMenuPos({
+        top: openUpward
+          ? Math.max(8, rect.top - estimatedHeight - 8)
+          : rect.bottom + 6,
+        left: rect.left,
+        width: rect.width,
+      });
+    }
+  }
 
   function selectOption(option) {
     setOpen(false);
@@ -233,7 +273,7 @@ export function Select({
         type="button"
         id={inputId}
         disabled={disabled}
-        onClick={() => setOpen((previous) => !previous)}
+        onClick={toggleOpen}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-describedby={error ? `${inputId}-error` : undefined}
@@ -283,70 +323,70 @@ export function Select({
         />
       </button>
 
-      {open && !disabled && (
-        <div
-          className="
-            absolute
-            z-40
-            mt-2
-            max-h-60
-            w-full
-            overflow-y-auto
-            rounded-xl
-            border
-            border-ink/10
-            bg-card
-            p-1.5
-            shadow-2xl
-            shadow-black/10
-            dark:border-white/10
-          "
-        >
-          {options.length === 0 ? (
-            <p className="px-3 py-2 text-xs text-ink/60">لا توجد خيارات</p>
-          ) : (
-            options.map((option) => {
-              const active = option.value === value;
-
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => selectOption(option)}
-                  className={`
-                    flex
-                    w-full
-                    items-center
-                    justify-between
-                    gap-2
-                    rounded-lg
-                    px-3
-                    py-2.5
-                    text-start
-                    text-sm
-                    transition
-                    ${
-                      active
-                        ? "bg-primary/10 font-bold text-primary"
-                        : "text-ink hover:bg-ink/[0.04]"
-                    }
-                  `}
-                >
-                  <span className="min-w-0 truncate">{option.label}</span>
-
-                  {active && <Check className="h-4 w-4 shrink-0" />}
-                </button>
-              );
-            })
-          )}
-        </div>
-      )}
-
       {error && (
         <div id={`${inputId}-error`}>
           <FieldMessage error={error} />
         </div>
       )}
+
+      {typeof document !== "undefined" &&
+        open &&
+        !disabled &&
+        menuPos &&
+        createPortal(
+          <div
+            ref={menuRef}
+            role="listbox"
+            style={{
+              position: "fixed",
+              top: menuPos.top,
+              left: menuPos.left,
+              width: menuPos.width,
+            }}
+            className="z-[9999] max-h-60 overflow-y-auto rounded-xl border border-gray-200 bg-white p-1.5 shadow-2xl shadow-black/10 dark:border-gray-700 dark:bg-gray-800"
+          >
+            {options.length === 0 ? (
+              <p className="px-3 py-2 text-xs text-gray-500 dark:text-gray-400">
+                لا توجد خيارات
+              </p>
+            ) : (
+              options.map((option) => {
+                const active = option.value === value;
+
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => selectOption(option)}
+                    className={`
+                      flex
+                      w-full
+                      items-center
+                      justify-between
+                      gap-2
+                      rounded-lg
+                      px-3
+                      py-2.5
+                      text-start
+                      text-sm
+                      transition
+                      ${
+                        active
+                          ? "bg-red-50 font-bold text-red-600 dark:bg-red-500/15 dark:text-red-300"
+                          : "text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                      }
+                    `}
+                  >
+                    <span className="min-w-0 truncate">{option.label}</span>
+
+                    {active && <Check className="h-4 w-4 shrink-0" />}
+                  </button>
+                );
+              })
+            )}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

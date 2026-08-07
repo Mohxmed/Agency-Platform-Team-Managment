@@ -252,8 +252,8 @@ export default function TeamPage() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-            <div className="grid gap-4 sm:grid-cols-2 xl:col-span-2">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 xl:col-span-3">
               {[1, 2, 3, 4].map((item) => (
                 <div
                   key={item}
@@ -272,7 +272,7 @@ export default function TeamPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-4">
             {/* =====================================================
                 أحدث المشاريع
             ====================================================== */}
@@ -344,7 +344,7 @@ export default function TeamPage() {
                 المهام الفردية
             ====================================================== */}
 
-            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6">
+            <section className="min-w-0 overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6 xl:col-span-1">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
@@ -496,7 +496,7 @@ export default function TeamPage() {
                 أعضاء الفريق
             ====================================================== */}
 
-            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6">
+            <section className="min-w-0 overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6 xl:col-span-2">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
