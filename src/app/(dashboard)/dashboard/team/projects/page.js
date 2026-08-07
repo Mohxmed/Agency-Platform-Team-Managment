@@ -214,7 +214,7 @@ export default function ProjectsPage() {
                 />
               ))}
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                 <div
                   key={i}
@@ -339,7 +339,7 @@ export default function ProjectsPage() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2">
             {filteredProjects.map((project) => (
               <ProjectCard
                 key={project.id}

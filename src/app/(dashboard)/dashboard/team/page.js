@@ -277,7 +277,7 @@ export default function TeamPage() {
                 أحدث المشاريع
             ====================================================== */}
 
-            <section className="min-w-0 xl:col-span-2">
+            <section className="min-w-0 xl:col-span-3">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <h2 className="text-base font-black tracking-tight text-ink">
@@ -322,7 +322,7 @@ export default function TeamPage() {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                   {latestProjects.map((project) => (
                     <ProjectCard
                       key={project.id}
