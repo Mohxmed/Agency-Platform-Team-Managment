@@ -3,8 +3,6 @@
 import { getThemeByName } from "@/constants/pageThemes";
 import { usePageTheme } from "../hooks/usePageTheme";
 
-import Card from "./Card";
-
 export default function StatsCard({
   label,
   value,
@@ -24,160 +22,96 @@ export default function StatsCard({
     : pageTheme;
 
   return (
-    <Card className={className}>
-      <div className="relative p-6 sm:p-7">
-        {/* Ambient color */}
+    <div
+      className={`
+        rounded-[20px]
+        border
+        border-black/[0.06]
+        bg-card
+        p-5
+        shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+        transition-shadow
+        duration-300
+        hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)]
+        dark:border-white/[0.08]
+        dark:shadow-[0_1px_2px_rgba(0,0,0,0.4)]
+        dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.5)]
+        ${className}
+      `}
+    >
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold text-ink/60">{label}</p>
+
+          <h3 className="mt-2 text-3xl font-bold leading-none tracking-tight text-ink">
+            {value}
+          </h3>
+        </div>
+
+        {Icon && (
+          <div
+            className="
+              flex
+              h-12
+              w-12
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              transition-transform
+              duration-300
+              hover:scale-105
+            "
+            style={{ backgroundColor: `${theme.hex}14` }}
+          >
+            <Icon
+              className={`
+                h-5
+                w-5
+                ${theme.text}
+              `}
+            />
+          </div>
+        )}
+      </div>
+
+      {description && (
+        <p className="mt-3 text-sm leading-5 text-ink/60">{description}</p>
+      )}
+
+      {(footer || trend) && (
         <div
           className="
-            pointer-events-none
-            absolute
-            -right-20
-            -top-20
-            h-52
-            w-52
-            rounded-full
-            blur-3xl
-            opacity-20
-            transition-opacity
-            duration-500
-            group-hover:opacity-40
+            mt-4
+            flex
+            items-center
+            justify-between
+            border-t
+            border-black/[0.06]
+            pt-3
+            dark:border-white/[0.08]
           "
-          style={{
-            backgroundColor: theme.softHex,
-          }}
-        />
+        >
+          {footer && (
+            <span className="text-xs font-medium text-ink/60">{footer}</span>
+          )}
 
-        <div className="relative">
-          <div className="flex items-start justify-between gap-5">
-            <div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`
-                    h-1.5
-                    w-1.5
-                    rounded-full
-                    ${theme.solid}
-                  `}
-                />
-
-                <p
-                  className="
-                    text-[11px]
-                    font-semibold
-                    uppercase
-                    tracking-[0.18em]
-                    text-ink/60
-                  "
-                >
-                  {label}
-                </p>
-              </div>
-
-              <h3
-                className={`
-                  mt-5
-                  text-4xl
-                  font-semibold
-                  tracking-[-0.05em]
-                  leading-none
-                  ${theme.text}
-                `}
-              >
-                {value}
-              </h3>
-
-              {description && (
-                <p
-                  className="
-                    mt-4
-                    max-w-[240px]
-                    text-sm
-                    leading-6
-                    text-ink/60
-                  "
-                >
-                  {description}
-                </p>
-              )}
-            </div>
-
-            {Icon && (
-              <div
-                className={`
-                  flex
-                  h-12
-                  w-12
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  border
-                  ${theme.borderSoft}
-                  bg-white/60
-                  dark:bg-white/[0.05]
-                  backdrop-blur-xl
-                  transition-transform
-                  duration-500
-                  group-hover:scale-105
-                `}
-              >
-                <Icon
-                  className={`
-                    h-5
-                    w-5
-                    ${theme.text}
-                  `}
-                />
-              </div>
-            )}
-          </div>
-
-
-          {(footer || trend) && (
-            <div
-              className="
-                mt-8
-                flex
-                items-center
-                justify-between
-                border-t
-                border-black/[0.06]
-                pt-5
-                dark:border-white/[0.08]
-              "
+          {trend && (
+            <span
+              className={`
+                rounded-full
+                ${theme.chip}
+                px-2.5
+                py-0.5
+                text-[11px]
+                font-semibold
+              `}
             >
-              {footer && (
-                <span
-                  className="
-                    text-xs
-                    font-medium
-                    text-ink/60
-                  "
-                >
-                  {footer}
-                </span>
-              )}
-
-              {trend && (
-                <span
-                  className={`
-                    rounded-full
-                    border
-                    ${theme.borderSoft}
-                    ${theme.chip}
-                    px-3
-                    py-1
-                    text-[11px]
-                    font-semibold
-                  `}
-                >
-                  {trend}
-                </span>
-              )}
-            </div>
+              {trend}
+            </span>
           )}
         </div>
-      </div>
-    </Card>
+      )}
+    </div>
   );
 }
