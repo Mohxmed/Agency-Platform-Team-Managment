@@ -21,6 +21,7 @@ import {
   Wallet,
   ClipboardList,
   BarChart3,
+  ListTodo,
   ExternalLink,
   Pencil,
 } from "lucide-react";
@@ -104,6 +105,12 @@ const menuSections = [
           href: "/dashboard/team/my-tasks",
           icon: ClipboardList,
           permission: "my-tasks",
+        },
+        {
+          title: "كل المهام",
+          href: "/dashboard/team/all-tasks",
+          icon: ListTodo,
+          permission: "team",
         },
         {
           title: "لوحة التقدم",

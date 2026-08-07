@@ -19,6 +19,7 @@ import {
   ChevronLeft,
   BarChart3,
   UserCog,
+  Layers,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -29,6 +30,7 @@ import WorkflowBadge from "@/features/team/components/WorkflowBadge";
 import PriorityBadge from "@/features/team/components/PriorityBadge";
 import ProgressBar from "@/features/team/components/ProgressBar";
 import ProjectModal from "@/features/team/components/ProjectModal";
+import TaskModal from "@/features/team/components/TaskModal";
 
 import {
   formatDeadline,
@@ -74,6 +76,8 @@ export default function TeamPage() {
 
   const [deleting, setDeleting] = useState(false);
 
+  const [taskModalOpen, setTaskModalOpen] = useState(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -98,13 +102,24 @@ export default function TeamPage() {
   const recentTasks = useMemo(
     () =>
       [...tasks]
-        .filter((task) => task.projectId)
         .sort((a, b) => {
           const aTime = a.createdAt?.toMillis?.() || 0;
           const bTime = b.createdAt?.toMillis?.() || 0;
           return bTime - aTime;
         })
-        .slice(0, 5),
+        .slice(0, 10),
+    [tasks],
+  );
+
+  const standaloneTasks = useMemo(
+    () =>
+      [...tasks]
+        .filter((task) => !task.projectId)
+        .sort((a, b) => {
+          const aTime = a.createdAt?.toMillis?.() || 0;
+          const bTime = b.createdAt?.toMillis?.() || 0;
+          return bTime - aTime;
+        }),
     [tasks],
   );
 
@@ -231,6 +246,12 @@ export default function TeamPage() {
               icon: Users,
               label: "الأعضاء",
               count: activeUsers.length,
+            },
+            {
+              href: "/dashboard/team/all-tasks",
+              icon: ClipboardList,
+              label: "كل المهام",
+              count: tasks.length,
             },
             {
               href: "/dashboard/team/my-tasks",
@@ -492,6 +513,14 @@ return (
                     </p>
                   </div>
                 </div>
+
+                <Link
+                  href="/dashboard/team/all-tasks"
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-ink/[0.08] bg-card px-3 py-2 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600 dark:hover:border-red-400/40 dark:hover:text-red-400"
+                >
+                  عرض كل المهام
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                </Link>
               </div>
 
               {recentTasks.length === 0 ? (
@@ -501,7 +530,7 @@ return (
                     لا توجد مهام بعد
                   </p>
                   <p className="mt-1 text-[11px] text-ink/60">
-                    أضف مهامًا داخل المشاريع لتبدأ العمل.
+                    أضف مهامًا داخل المشاريع أو أنشئ مهمة واحدة للفريق.
                   </p>
                 </div>
               ) : (
@@ -511,19 +540,23 @@ return (
                       (item) => item.id === task.projectId,
                     );
 
+                    const assignee = userMap.get(getAssigneeId(task));
+
                     return (
                       <Link
                         key={task.id}
                         href={`/dashboard/team/tasks/${task.id}`}
                         className="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/50 p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50/40 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-amber-400/40 dark:hover:bg-amber-500/10"
                       >
+                        <Avatar user={assignee} size={36} />
+
                         <div className="min-w-0 flex-1">
                           <h3 className="truncate text-sm font-bold text-ink transition-colors group-hover:text-amber-700">
                             {task.title || "بدون عنوان"}
                           </h3>
 
                           <p className="mt-0.5 truncate text-[11px] font-medium text-ink/60">
-                            {project?.title || "مشروع محذوف"} •{" "}
+                            {project?.title || (task.projectId ? "مشروع محذوف" : "مهمة واحدة")} •{" "}
                             {getUserName(userMap, getAssigneeId(task))}
                           </p>
                         </div>
@@ -532,6 +565,86 @@ return (
                       </Link>
                     );
                   })}
+                </div>
+              )}
+            </section>
+
+            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
+                    <Layers className="h-5 w-5" />
+                  </div>
+
+                  <div>
+                    <h2 className="text-base font-black tracking-tight text-ink">
+                      مهمات واحدة
+                    </h2>
+
+                    <p className="mt-0.5 text-xs font-medium text-ink/60">
+                      مهام مستقلة لا تتبع مشروعًا
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setTaskModalOpen(true)}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-violet-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-violet-700 dark:bg-violet-400 dark:hover:bg-violet-300"
+                  title="مهمة واحدة جديدة"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  جديدة
+                </button>
+              </div>
+
+              {standaloneTasks.length === 0 ? (
+                <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center dark:border-white/10 dark:bg-white/[0.03]">
+                  <Layers className="h-6 w-6 text-gray-500 dark:text-ink/40" />
+                  <p className="mt-2 text-sm font-bold text-ink/60">
+                    لا توجد مهمات واحدة
+                  </p>
+                  <p className="mt-1 text-[11px] text-ink/60">
+                    أنشئ مهمة مستقلة وأسندها لعضو الفريق مباشرة.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2.5">
+                  {standaloneTasks.slice(0, 5).map((task) => {
+                    const assignee = userMap.get(getAssigneeId(task));
+
+                    return (
+                      <Link
+                        key={task.id}
+                        href={`/dashboard/team/tasks/${task.id}`}
+                        className="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/50 p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-violet-200 hover:bg-violet-50/40 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-violet-400/40 dark:hover:bg-violet-500/10"
+                      >
+                        <Avatar user={assignee} size={36} />
+
+                        <div className="min-w-0 flex-1">
+                          <h3 className="truncate text-sm font-bold text-ink transition-colors group-hover:text-violet-700">
+                            {task.title || "بدون عنوان"}
+                          </h3>
+
+                          <p className="mt-0.5 truncate text-[11px] font-medium text-ink/60">
+                            {task.status === "done" ? "مكتملة" : "مهمة واحدة"} •{" "}
+                            {getUserName(userMap, getAssigneeId(task))}
+                          </p>
+                        </div>
+
+                        <ChevronLeft className="h-4 w-4 shrink-0 text-gray-500 transition-all group-hover:-translate-x-0.5 group-hover:text-violet-600 dark:text-ink/40 dark:group-hover:text-violet-400" />
+                      </Link>
+                    );
+                  })}
+
+                  {standaloneTasks.length > 5 && (
+                    <Link
+                      href="/dashboard/team/all-tasks"
+                      className="block pt-1 text-center text-[11px] font-bold text-violet-600 transition hover:text-violet-700 dark:text-violet-400"
+                    >
+                      + {standaloneTasks.length - 5} مهمة أخرى
+                    </Link>
+                  )}
                 </div>
               )}
             </section>
@@ -610,6 +723,17 @@ return (
         editing={editingProject}
         users={activeUsers}
         clients={clients}
+      />
+
+      <TaskModal
+        open={taskModalOpen}
+        onClose={() => setTaskModalOpen(false)}
+        projects={projects}
+        users={activeUsers}
+        defaultProjectId=""
+        defaultStatus="backlog"
+        currentUser={currentUser}
+        onSaved={() => {}}
       />
     </ProtectedRoute>
   );

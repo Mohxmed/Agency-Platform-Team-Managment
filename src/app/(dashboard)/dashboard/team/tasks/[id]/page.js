@@ -344,7 +344,7 @@ export default function TaskDetailPage() {
             className="inline-flex items-center gap-1.5 text-xs font-bold text-ink/60 transition hover:text-red-600"
           >
             <ArrowRight className="h-3.5 w-3.5" />
-            {project ? `العودة إلى ${project.title}` : "العودة إلى المشاريع"}
+            {project ? `العودة إلى ${project.title}` : "العودة إلى الفريق"}
           </Link>
 
           <div className="flex items-center gap-2">

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   CheckSquare,
+  ChevronDown,
   Plus,
   Trash2,
   Link2,
@@ -16,6 +17,9 @@ import {
 import Modal from "@/features/dashboard/ui/Modal";
 import Button from "@/features/dashboard/ui/Button";
 import Input, { Textarea, Select } from "@/features/dashboard/ui/Input";
+import Avatar from "@/features/dashboard/ui/Avatar";
+
+import { roleConfig } from "@/constants/permissions";
 
 import { createDocument, updateDocument } from "@/lib/firestoreService";
 
@@ -42,6 +46,178 @@ const EMPTY_FORM = {
   attachments: [],
   checklist: [],
 };
+
+function MemberSelect({ label, value = "", users = [], onChange }) {
+  const [open, setOpen] = useState(false);
+
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    function handleClickOutside(event) {
+      if (rootRef.current && !rootRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [open]);
+
+  const selected = users.find((user) => user.id === value);
+
+  function selectUser(userId) {
+    onChange(userId);
+    setOpen(false);
+  }
+
+  return (
+    <div className="relative w-full" ref={rootRef}>
+      {label && (
+        <span className="mb-2 block text-sm font-semibold text-ink">{label}</span>
+      )}
+
+      <button
+        type="button"
+        onClick={() => setOpen((previous) => !previous)}
+        className={`
+          flex
+          h-11
+          w-full
+          items-center
+          justify-between
+          gap-2
+          rounded-xl
+          border
+          border-line
+          bg-card
+          px-3.5
+          text-sm
+          text-ink
+          outline-none
+          transition-all
+          duration-200
+          hover:border-ink/20
+          focus:border-primary
+          focus:ring-4
+          focus:ring-primary/10
+        `}
+      >
+        {selected ? (
+          <span className="flex min-w-0 items-center gap-2.5">
+            <Avatar user={selected} size={26} />
+
+            <span className="min-w-0 text-start">
+              <span className="block truncate text-sm font-bold text-ink">
+                {selected.name || selected.email || "بدون اسم"}
+              </span>
+
+              {selected.role && (
+                <span className="block truncate text-[10px] font-medium text-ink/60">
+                  {roleConfig[selected.role]?.label || ""}
+                </span>
+              )}
+            </span>
+          </span>
+        ) : (
+          <span className="text-sm text-ink/60">غير معين</span>
+        )}
+
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 text-ink/60 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {open && (
+        <div
+          className="
+            absolute
+            z-30
+            mt-2
+            max-h-64
+            w-full
+            overflow-y-auto
+            rounded-xl
+            border
+            border-ink/[0.08]
+            bg-card
+            p-1.5
+            shadow-2xl
+            shadow-black/10
+            dark:border-white/[0.1]
+          "
+        >
+          <button
+            type="button"
+            onClick={() => selectUser("")}
+            className="
+              flex
+              w-full
+              items-center
+              gap-2.5
+              rounded-lg
+              px-2.5
+              py-2
+              text-sm
+              font-medium
+              text-ink/60
+              transition
+              hover:bg-ink/[0.04]
+              hover:text-ink
+              dark:hover:bg-white/[0.06]
+            "
+          >
+            غير معين
+          </button>
+
+          {users.map((user) => (
+            <button
+              key={user.id}
+              type="button"
+              onClick={() => selectUser(user.id)}
+              className={`
+                flex
+                w-full
+                items-center
+                gap-2.5
+                rounded-lg
+                px-2.5
+                py-2
+                text-start
+                transition
+                hover:bg-ink/[0.04]
+                dark:hover:bg-white/[0.06]
+                ${
+                  user.id === value
+                    ? "bg-primary/5 ring-1 ring-primary/20"
+                    : ""
+                }
+              `}
+            >
+              <Avatar user={user} size={28} />
+
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-bold text-ink">
+                  {user.name || user.email || "بدون اسم"}
+                </span>
+
+                {user.role && (
+                  <span className="block truncate text-[10px] font-medium text-ink/60">
+                    {roleConfig[user.role]?.label || ""}
+                  </span>
+                )}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function TaskModal({
   open,
@@ -285,15 +461,19 @@ export default function TaskModal({
           ]),
         ].filter((id) => id !== form.assigneeProfileId);
 
-        notifyMany(crew, {
-          title: "مهمة جديدة في مشروع",
-          message: `تمت إضافة مهمة "${payload.title}" إلى مشروع "${projectTitle}".`,
-          type: "task",
-          link: `/dashboard/team/tasks/${taskRef.id}`,
-          projectId: form.projectId,
-          projectTitle,
-          eventKey: "tasks",
-        });
+        if (crew.length > 0) {
+          notifyMany(crew, {
+            title: form.projectId ? "مهمة جديدة في مشروع" : "مهمة جديدة بدون مشروع",
+            message: form.projectId
+              ? `تمت إضافة مهمة "${payload.title}" إلى مشروع "${projectTitle}".`
+              : `تمت إضافة مهمة واحدة "${payload.title}" بدون مشروع.`,
+            type: "task",
+            link: `/dashboard/team/tasks/${taskRef.id}`,
+            projectId: form.projectId,
+            projectTitle,
+            eventKey: "tasks",
+          });
+        }
       }
 
       onSaved?.();
@@ -333,9 +513,8 @@ export default function TaskModal({
           <Select
             label="المشروع"
             value={form.projectId}
-            required
             options={[
-              { value: "", label: "اختر المشروع" },
+              { value: "", label: "بدون مشروع (مهمة واحدة)" },
               ...projects.map((project) => ({
                 value: project.id,
                 label: project.title,
@@ -391,33 +570,21 @@ export default function TaskModal({
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Select
+          <MemberSelect
             label="المسؤول (Assignee)"
             value={form.assigneeProfileId}
-            options={[
-              { value: "", label: "غير معين" },
-              ...users.map((user) => ({
-                value: user.id,
-                label: user.name || user.email || "بدون اسم",
-              })),
-            ]}
-            onChange={(event) =>
-              updateField("assigneeProfileId", event.target.value)
+            users={users}
+            onChange={(userId) =>
+              updateField("assigneeProfileId", userId)
             }
           />
 
-          <Select
+          <MemberSelect
             label="المراجع (Reviewer)"
             value={form.reviewerProfileId}
-            options={[
-              { value: "", label: "غير معين" },
-              ...users.map((user) => ({
-                value: user.id,
-                label: user.name || user.email || "بدون اسم",
-              })),
-            ]}
-            onChange={(event) =>
-              updateField("reviewerProfileId", event.target.value)
+            users={users}
+            onChange={(userId) =>
+              updateField("reviewerProfileId", userId)
             }
           />
         </div>
