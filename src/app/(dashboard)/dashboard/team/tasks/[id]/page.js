@@ -8,11 +8,13 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
+  Check,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   ClipboardList,
   ExternalLink,
+  Eye,
   ListChecks,
   MessageSquare,
   Pencil,
@@ -290,6 +292,42 @@ export default function TaskDetailPage() {
     }
   }
 
+  async function handleAcknowledgeComment(commentId) {
+    if (!task || busy) return;
+
+    const me = currentUser?.uid || "";
+
+    const comments = (task.comments || []).map((item) => {
+      if (item.id !== commentId) return item;
+
+      const acknowledgedBy = Array.isArray(item.acknowledgedBy)
+        ? item.acknowledgedBy
+        : [];
+
+      return {
+        ...item,
+        acknowledgedBy: acknowledgedBy.includes(me)
+          ? acknowledgedBy.filter((id) => id !== me)
+          : [...acknowledgedBy, me],
+      };
+    });
+
+    setBusy(true);
+
+    try {
+      await updateDocument("tasks", task.id, { comments });
+    } catch (error) {
+      console.error("Failed to acknowledge comment:", error);
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء تحديث الملاحظة.",
+      });
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function handleDelete() {
     if (!task) return;
 
@@ -526,7 +564,10 @@ export default function TaskDetailPage() {
                   التعليقات ({task.comments?.length || 0})
                 </h3>
 
-                <form onSubmit={handleAddComment} className="flex flex-col items-start gap-3">
+                <form
+                  onSubmit={handleAddComment}
+                  className="flex items-start gap-3 rounded-2xl border border-ink/[0.06] bg-surface/40 p-3.5"
+                >
                   <Avatar user={userMap.get(currentUser?.uid)} size={36} />
 
                   <div className="min-w-0 flex-1">
@@ -538,8 +579,17 @@ export default function TaskDetailPage() {
                       className="w-full resize-none rounded-xl border border-ink/[0.08] bg-surface/60 p-3 text-sm text-ink outline-none transition placeholder:text-ink/60 focus:border-red-300 focus:ring-4 focus:ring-red-500/10"
                     />
 
-                    <div className="mt-2 flex justify-end">
-                      <Button type="submit" loading={busy} icon={Plus} disabled={!comment.trim()}>
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-medium text-ink/60">
+                        شارك رأيك بوضوح ليستفيد الجميع
+                      </span>
+
+                      <Button
+                        type="submit"
+                        loading={busy}
+                        icon={Plus}
+                        disabled={!comment.trim()}
+                      >
                         إضافة تعليق
                       </Button>
                     </div>
@@ -553,33 +603,73 @@ export default function TaskDetailPage() {
                     </p>
                   )}
 
-                  {(task.comments || []).map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-start gap-3 rounded-xl border border-ink/[0.05] bg-surface/50 p-3.5"
-                    >
-                      <Avatar
-                        user={userMap.get(item.authorId)}
-                        size={32}
-                        name={item.authorName}
-                      />
+                  {(task.comments || []).map((item) => {
+                    const acknowledgedBy = Array.isArray(item.acknowledgedBy)
+                      ? item.acknowledgedBy
+                      : [];
 
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-xs font-black text-ink">
-                            {item.authorName || "مستخدم"}
-                          </span>
-                          <span className="text-[10px] font-medium text-ink/60">
-                            {formatDateTime(item.createdAt)}
-                          </span>
+                    const noted = acknowledgedBy.includes(currentUser?.uid || "");
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="rounded-2xl border border-ink/[0.05] bg-surface/50 p-4"
+                      >
+                        <div className="flex items-start gap-3">
+                          <Avatar
+                            user={userMap.get(item.authorId)}
+                            size={32}
+                            name={item.authorName}
+                          />
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-xs font-black text-ink">
+                                {item.authorName || "مستخدم"}
+                              </span>
+
+                              <span className="text-[10px] font-medium text-ink/60">
+                                {formatDateTime(item.createdAt)}
+                              </span>
+                            </div>
+
+                            <p className="mt-1 text-sm leading-6 text-ink/60">
+                              {item.text}
+                            </p>
+                          </div>
                         </div>
 
-                        <p className="mt-1 text-sm leading-6 text-ink/60">
-                          {item.text}
-                        </p>
+                        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-ink/[0.05] pt-2.5">
+                          <button
+                            type="button"
+                            onClick={() => handleAcknowledgeComment(item.id)}
+                            disabled={busy}
+                            className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition disabled:opacity-50 ${
+                              noted
+                                ? "bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-400"
+                                : "text-ink/60 hover:bg-ink/[0.04] hover:text-ink"
+                            }`}
+                          >
+                            {noted ? (
+                              <Check className="h-3.5 w-3.5" />
+                            ) : (
+                              <Eye className="h-3.5 w-3.5" />
+                            )}
+                            تمت الملاحظة
+                          </button>
+
+                          {acknowledgedBy.length > 0 && (
+                            <span className="text-[10px] font-medium text-ink/60">
+                              تمت الملاحظة بواسطة:{" "}
+                              {acknowledgedBy
+                                .map((id) => getUserName(userMap, id))
+                                .join("، ")}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
             </div>

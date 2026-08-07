@@ -28,6 +28,7 @@ import ProjectCard from "@/features/team/components/ProjectCard";
 import {
   getUserName,
   getAssigneeId,
+  getWorkflowMeta,
   canManageTeam,
   sortProjects,
   deriveProjectStatus,
@@ -417,7 +418,9 @@ export default function TeamPage() {
 
                               <p className="mt-0.5 truncate text-[11px] font-medium text-ink/60">
                                 {project?.title ||
-                                  (task.projectId ? "مشروع محذوف" : "مهمة واحدة")}{" "}
+                                  (task.projectId
+                                    ? "مشروع محذوف"
+                                    : getWorkflowMeta(task.status).labelAr)}{" "}
                                 • {getUserName(userMap, getAssigneeId(task))}
                               </p>
                             </div>
@@ -494,7 +497,7 @@ export default function TeamPage() {
                               </h3>
 
                               <p className="mt-0.5 truncate text-[11px] font-medium text-ink/60">
-                                {task.status === "done" ? "مكتملة" : "مهمة واحدة"}{" "}
+                                {getWorkflowMeta(task.status).labelAr}{" "}
                                 • {getUserName(userMap, getAssigneeId(task))}
                               </p>
                             </div>

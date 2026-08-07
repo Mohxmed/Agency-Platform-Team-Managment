@@ -27,6 +27,7 @@ import {
   formatDeadline,
   getUserName,
   getAssigneeId,
+  getWorkflowMeta,
   isDeadlineOverdue,
 } from "@/features/team/lib/teamUtils";
 
@@ -293,7 +294,7 @@ export default function AllTasksPage() {
                                   </>
                                 ) : (
                                   <span className="inline-flex items-center gap-1 rounded-lg bg-violet-50 px-2 py-0.5 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
-                                    مهمة واحدة
+                                    {getWorkflowMeta(task.status).labelAr}
                                   </span>
                                 )}
                               </p>
