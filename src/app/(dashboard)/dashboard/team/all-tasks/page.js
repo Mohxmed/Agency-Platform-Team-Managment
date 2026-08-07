@@ -31,6 +31,7 @@ import {
 import Avatar from "@/features/dashboard/ui/Avatar";
 import Card from "@/features/dashboard/ui/Card";
 import StatsCard from "@/features/dashboard/ui/StatsCard";
+import { Select } from "@/features/dashboard/ui/Input";
 
 const PAGE_SIZE = 20;
 
@@ -196,21 +197,22 @@ export default function AllTasksPage() {
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <select
+              <Select
                 value={memberFilter}
                 onChange={(event) => {
                   setMemberFilter(event.target.value);
                   setPage(1);
                 }}
-                className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
-              >
-                <option value="all">جميع الأعضاء</option>
-                {activeUsers.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name || user.email || "بدون اسم"}
-                  </option>
-                ))}
-              </select>
+                placeholder="جميع الأعضاء"
+                options={[
+                  { value: "all", label: "جميع الأعضاء" },
+                  ...activeUsers.map((user) => ({
+                    value: user.id,
+                    label: user.name || user.email || "بدون اسم",
+                  })),
+                ]}
+                className="w-full sm:w-56"
+              />
             </div>
           </div>
         </Card>

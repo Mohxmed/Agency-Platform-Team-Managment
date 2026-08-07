@@ -1,5 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
+import { Check, ChevronDown } from "lucide-react";
+
 const baseLabelClass = `
   mb-2
   block
@@ -172,12 +176,51 @@ export function Select({
   className = "",
   id,
   required = false,
-  ...props
+  placeholder = "اختر...",
+  disabled = false,
+  value,
+  name,
+  onChange,
 }) {
+  const [open, setOpen] = useState(false);
+
+  const rootRef = useRef(null);
+
   const inputId = getInputId(id, label);
 
+  useEffect(() => {
+    if (!open) return;
+
+    function handleClickOutside(event) {
+      if (rootRef.current && !rootRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
+  const selected = options.find((option) => option.value === value);
+
+  function selectOption(option) {
+    setOpen(false);
+    onChange?.({ target: { value: option.value, name } });
+  }
+
   return (
-    <div className="w-full">
+    <div className={`relative w-full ${className}`} ref={rootRef}>
       {label && (
         <label htmlFor={inputId} className={baseLabelClass}>
           {label}
@@ -186,64 +229,118 @@ export function Select({
         </label>
       )}
 
-      <div className="relative">
-        <select
-          id={inputId}
-          required={required}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${inputId}-error` : undefined}
+      <button
+        type="button"
+        id={inputId}
+        disabled={disabled}
+        onClick={() => setOpen((previous) => !previous)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-describedby={error ? `${inputId}-error` : undefined}
+        className={`
+          ${baseInputClass}
+          flex
+          h-11
+          w-full
+          cursor-pointer
+          items-center
+          justify-between
+          gap-2
+          px-3.5
+          ${
+            error
+              ? `
+                border-danger/60
+                focus:border-danger
+                focus:ring-danger/10
+              `
+              : "border-line"
+          }
+          ${disabled ? "cursor-not-allowed opacity-60" : ""}
+        `}
+      >
+        <span
           className={`
-            ${baseInputClass}
-            h-11
-            cursor-pointer
-            appearance-none
-            px-3.5
-            pe-10
-            ${
-              error
-                ? `
-                  border-danger/60
-                  focus:border-danger
-                  focus:ring-danger/10
-                `
-                : "border-line"
-            }
-            ${className}
+            min-w-0
+            truncate
+            text-start
+            ${selected ? "text-ink" : "text-ink/60"}
           `}
-          {...props}
         >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          {selected?.label || placeholder}
+        </span>
 
-        {/* Custom Arrow */}
+        <ChevronDown
+          className={`
+            h-4
+            w-4
+            shrink-0
+            text-ink/60
+            transition-transform
+            duration-200
+            ${open ? "rotate-180" : ""}
+          `}
+        />
+      </button>
+
+      {open && !disabled && (
         <div
           className="
-            pointer-events-none
             absolute
-            end-3.5
-            top-1/2
-            -translate-y-1/2
-            text-ink/60
+            z-40
+            mt-2
+            max-h-60
+            w-full
+            overflow-y-auto
+            rounded-xl
+            border
+            border-ink/10
+            bg-card
+            p-1.5
+            shadow-2xl
+            shadow-black/10
+            dark:border-white/10
           "
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
+          {options.length === 0 ? (
+            <p className="px-3 py-2 text-xs text-ink/60">لا توجد خيارات</p>
+          ) : (
+            options.map((option) => {
+              const active = option.value === value;
+
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => selectOption(option)}
+                  className={`
+                    flex
+                    w-full
+                    items-center
+                    justify-between
+                    gap-2
+                    rounded-lg
+                    px-3
+                    py-2.5
+                    text-start
+                    text-sm
+                    transition
+                    ${
+                      active
+                        ? "bg-primary/10 font-bold text-primary"
+                        : "text-ink hover:bg-ink/[0.04]"
+                    }
+                  `}
+                >
+                  <span className="min-w-0 truncate">{option.label}</span>
+
+                  {active && <Check className="h-4 w-4 shrink-0" />}
+                </button>
+              );
+            })
+          )}
         </div>
-      </div>
+      )}
 
       {error && (
         <div id={`${inputId}-error`}>

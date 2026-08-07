@@ -428,13 +428,11 @@ export default function Sidebar({ open, onClose }) {
             w-full
             cursor-not-allowed
             items-center
-            gap-6
             rounded-xl
-            px-4
-            py-3
             text-gray-500
             opacity-60
             select-none
+            ${collapsed ? "justify-center px-0 py-3" : "gap-6 px-4 py-3"}
             ${mobile ? "" : ""}
           `}
         >
@@ -507,12 +505,11 @@ export default function Sidebar({ open, onClose }) {
           group
           flex
           items-center
-          gap-6
           rounded-xl
-          px-4
-          py-3
           transition-all
           duration-200
+
+          ${collapsed ? "justify-center px-0 py-3" : "gap-6 px-4 py-3"}
 
           ${
             active
@@ -576,6 +573,27 @@ export default function Sidebar({ open, onClose }) {
     const isOpen = !collapsed && !!openSections[section.title];
 
     const hasActiveItem = section.items.some((item) => isActive(item.href));
+
+    if (!mobile && collapsed) {
+      return (
+        <div
+          key={section.title}
+          className="
+            flex
+            flex-col
+            items-center
+            gap-1
+            border-t
+            border-gray-200
+            py-2
+            first:border-0
+            first:pt-0
+          "
+        >
+          {section.items.map((item) => renderMenuItem(item, mobile))}
+        </div>
+      );
+    }
 
     return (
       <div key={section.title} className="flex flex-col">

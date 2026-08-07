@@ -48,6 +48,8 @@ import Avatar from "@/features/dashboard/ui/Avatar";
 
 import StatsCard from "@/features/dashboard/ui/StatsCard";
 
+import { Select } from "@/features/dashboard/ui/Input";
+
 
 export default function MyTasksPage() {
   const theme = usePageTheme();
@@ -634,176 +636,53 @@ export default function MyTasksPage() {
             </div>
 
 
-            <select
+            <Select
               value={projectFilter}
-              onChange={(event)=>
-                setProjectFilter(
-                  event.target.value,
-                )
+              onChange={(event) =>
+                setProjectFilter(event.target.value)
               }
-              className="
-                h-12
-                rounded-2xl
-                border
-                border-black/[0.08]
-                bg-white/70
-                px-4
-                text-sm
-                font-bold
-                text-ink
-                outline-none
-                transition
-                dark:border-white/[0.1]
-                dark:bg-white/[0.05]
-                dark:text-white
-              "
-            >
-              <option value="all">
-                كل المشاريع
-              </option>
+              placeholder="كل المشاريع"
+              options={[
+                { value: "all", label: "كل المشاريع" },
+                ...projects.map((project) => ({
+                  value: project.id,
+                  label: project.title,
+                })),
+              ]}
+              className="lg:w-48"
+            />
 
-              {projects.map(
-                (project)=>(
-                  <option
-                    key={project.id}
-                    value={project.id}
-                    className="
-                      bg-white
-                      text-ink
-                      dark:bg-[#15151c]
-                      dark:text-white
-                    "
-                  >
-                    {project.title}
-                  </option>
-                ),
-              )}
-            </select>
-
-
-            <select
+            <Select
               value={statusFilter}
-              onChange={(event)=>
-                setStatusFilter(
-                  event.target.value,
-                )
+              onChange={(event) =>
+                setStatusFilter(event.target.value)
               }
-              className="
-                h-12
-                rounded-2xl
-                border
-                border-black/[0.08]
-                bg-white/70
-                px-4
-                text-sm
-                font-bold
-                text-ink
-                outline-none
-                transition
-                dark:border-white/[0.1]
-                dark:bg-white/[0.05]
-                dark:text-white
-              "
-            >
-              <option value="all">
-                كل الحالات
-              </option>
+              placeholder="كل الحالات"
+              options={[
+                { value: "all", label: "كل الحالات" },
+                ...WORKFLOW_STATUSES.map((status) => ({
+                  value: status.value,
+                  label: status.labelAr,
+                })),
+              ]}
+              className="lg:w-44"
+            />
 
-              {WORKFLOW_STATUSES.map(
-                (status)=>(
-                  <option
-                    key={status.value}
-                    value={status.value}
-                    className="
-                      bg-white
-                      text-ink
-                      dark:bg-[#15151c]
-                      dark:text-white
-                    "
-                  >
-                    {status.labelAr}
-                  </option>
-                ),
-              )}
-            </select>
-
-
-            <select
+            <Select
               value={priorityFilter}
-              onChange={(event)=>
-                setPriorityFilter(
-                  event.target.value,
-                )
+              onChange={(event) =>
+                setPriorityFilter(event.target.value)
               }
-              className="
-                h-12
-                rounded-2xl
-                border
-                border-black/[0.08]
-                bg-white/70
-                px-4
-                text-sm
-                font-bold
-                text-ink
-                outline-none
-                transition
-                dark:border-white/[0.1]
-                dark:bg-white/[0.05]
-                dark:text-white
-              "
-            >
-              <option value="all">
-                كل الأولويات
-              </option>
-
-              <option
-                value="low"
-                className="
-                  bg-white
-                  text-ink
-                  dark:bg-[#15151c]
-                  dark:text-white
-                "
-              >
-                منخفضة
-              </option>
-
-              <option
-                value="medium"
-                className="
-                  bg-white
-                  text-ink
-                  dark:bg-[#15151c]
-                  dark:text-white
-                "
-              >
-                متوسطة
-              </option>
-
-              <option
-                value="high"
-                className="
-                  bg-white
-                  text-ink
-                  dark:bg-[#15151c]
-                  dark:text-white
-                "
-              >
-                عالية
-              </option>
-
-              <option
-                value="urgent"
-                className="
-                  bg-white
-                  text-ink
-                  dark:bg-[#15151c]
-                  dark:text-white
-                "
-              >
-                عاجلة
-              </option>
-            </select>
+              placeholder="كل الأولويات"
+              options={[
+                { value: "all", label: "كل الأولويات" },
+                { value: "low", label: "منخفضة" },
+                { value: "medium", label: "متوسطة" },
+                { value: "high", label: "عالية" },
+                { value: "urgent", label: "عاجلة" },
+              ]}
+              className="lg:w-44"
+            />
 
           </div>
 
@@ -1255,6 +1134,7 @@ function MyTaskCard({
           border-dashed
           border-black/[0.08]
           pt-3
+          dark:border-white/[0.1]
         "
       >
 
@@ -1363,6 +1243,7 @@ function TaskListView({
           border-black/[0.08]
           bg-card
           text-center
+          dark:border-white/[0.1]
         "
       >
         <ClipboardList

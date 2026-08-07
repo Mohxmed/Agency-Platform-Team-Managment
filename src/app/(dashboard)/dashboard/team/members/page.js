@@ -26,6 +26,7 @@ import Button from "@/features/dashboard/ui/Button";
 import Card from "@/features/dashboard/ui/Card";
 import Badge from "@/features/dashboard/ui/Badge";
 import StatsCard from "@/features/dashboard/ui/StatsCard";
+import { Select } from "@/features/dashboard/ui/Input";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 import { getAssigneeId } from "@/features/team/lib/teamUtils";
@@ -219,28 +220,30 @@ export default function TeamMembersPage() {
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <select
+            <Select
               value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
-            >
-              <option value="all">جميع الأدوار</option>
-              <option value="admin">مسؤول</option>
-              <option value="manager">مدير</option>
-              <option value="member">عضو فريق</option>
-              <option value="viewer">زائر</option>
-            </select>
+              onChange={(event) => setRoleFilter(event.target.value)}
+              options={[
+                { value: "all", label: "جميع الأدوار" },
+                { value: "admin", label: "مسؤول" },
+                { value: "manager", label: "مدير" },
+                { value: "member", label: "عضو فريق" },
+                { value: "viewer", label: "زائر" },
+              ]}
+              className="w-full sm:w-44"
+            />
 
-            <select
+            <Select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="h-11 px-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
-            >
-              <option value="name">الاسم</option>
-              <option value="role">الدور</option>
-              <option value="tasks">عدد المهام</option>
-              <option value="completion">معدل الإنجاز</option>
-            </select>
+              onChange={(event) => setSortBy(event.target.value)}
+              options={[
+                { value: "name", label: "الاسم" },
+                { value: "role", label: "الدور" },
+                { value: "tasks", label: "عدد المهام" },
+                { value: "completion", label: "معدل الإنجاز" },
+              ]}
+              className="w-full sm:w-44"
+            />
 
             <Button variant="outline" size="icon" onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")} title="عكس الترتيب">
               <ArrowUpDown className="h-4 w-4" />
