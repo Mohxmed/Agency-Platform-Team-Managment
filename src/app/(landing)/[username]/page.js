@@ -164,10 +164,11 @@ export default function UserProfilePage({ params }) {
           <div
             className="
               absolute
-              bottom-4
+              bottom-20
               right-1/2
-              z-10
+              z-20
               translate-x-1/2
+              sm:bottom-24
               sm:right-8
               sm:translate-x-0
             "
