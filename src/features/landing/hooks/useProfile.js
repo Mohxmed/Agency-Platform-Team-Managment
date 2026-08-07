@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getDocumentByField } from "@/lib/firestoreService";
+import {
+  getDocumentByField,
+  getDocumentById,
+} from "@/lib/firestoreService";
 
 export function useProfile(username) {
   const [profile, setProfile] = useState(null);
@@ -17,7 +20,11 @@ export function useProfile(username) {
         setLoading(true);
         setError("");
 
-        const data = await getDocumentByField("profiles", "link", username);
+        let data = await getDocumentByField("profiles", "link", username);
+
+        if (!data) {
+          data = await getDocumentById("profiles", username);
+        }
 
         if (!mounted) return;
 

@@ -72,7 +72,7 @@ export default function ProjectCard({
       <div className="relative z-10 p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient} ${theme.gradientText} shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105`}>
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-600 text-white shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105">
               <ProjectIcon name={project.icon} className="h-5 w-5" />
             </div>
 

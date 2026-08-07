@@ -797,8 +797,7 @@ function ProjectsSection({
                           items-center
                           justify-center
                           rounded-2xl
-                          bg-gradient-to-br
-                          ${theme.heroGradient}
+                          bg-red-600
                           text-white
                         `}
                       >

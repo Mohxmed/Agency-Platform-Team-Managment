@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,6 +21,8 @@ import {
   Wallet,
   ClipboardList,
   BarChart3,
+  ExternalLink,
+  Pencil,
 } from "lucide-react";
 
 import Image from "next/image";
@@ -32,6 +34,7 @@ import { useAuth } from "@/features/auth";
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 import { useTeamData } from "@/features/team/hooks/useTeamData";
 import { getAssigneeId } from "@/features/team/lib/teamUtils";
+import Avatar from "@/features/dashboard/ui/Avatar";
 
 import { getPermissionsForProfile, roleConfig } from "@/constants/permissions";
 
@@ -191,6 +194,40 @@ export default function Sidebar({ open, onClose }) {
   const permissions = getPermissionsForProfile(profile);
 
   const currentRole = roleConfig[role] || roleConfig.default;
+
+  /* =======================================================
+     PROFILE MENU
+  ======================================================= */
+
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  const profileMenuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setProfileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const profileAvatarSrc = profile?.logo || profile?.photoURL || "";
+
+  const profileName =
+    profile?.name || user?.displayName || user?.email?.split("@")[0] || "المستخدم";
+
+  const profileUsername =
+    profile?.link ||
+    profile?.uid ||
+    profile?.id ||
+    user?.uid ||
+    (profileName ? profileName.toLowerCase().replace(/\s+/g, "-") : "user");
 
   /* =======================================================
      PERMISSION CHECK
@@ -520,6 +557,121 @@ export default function Sidebar({ open, onClose }) {
     );
   };
 
+  /* =======================================================
+     PROFILE BLOCK
+  ======================================================= */
+
+  const renderProfileBlock = (collapsed) => {
+    return (
+      <div ref={profileMenuRef} className="relative">
+        {/* PROFILE TRIGGER */}
+
+        <button
+          type="button"
+          onClick={() => setProfileMenuOpen((prev) => !prev)}
+          className={`
+            flex
+            w-full
+            items-center
+            gap-4
+            rounded-xl
+            px-3
+            py-2.5
+            transition
+            hover:bg-ink/[0.04]
+            cursor-pointer
+            ${collapsed ? "justify-center" : ""}
+          `}
+        >
+          <Avatar
+            src={profileAvatarSrc}
+            user={profile}
+            name={profileName}
+            size={36}
+            ring
+          />
+
+          {!collapsed && (
+            <span className="flex min-w-0 flex-1 items-center gap-2">
+              <span className="flex min-w-0 flex-col items-start text-start">
+                <span className="max-w-full truncate text-sm font-bold text-ink">
+                  {profileName}
+                </span>
+
+                <span className={`text-xs font-medium ${currentRole.className}`}>
+                  {currentRole.label}
+                </span>
+              </span>
+
+              <ChevronDown
+                size={14}
+                className={`shrink-0 text-ink/50 transition-transform duration-200 ${
+                  profileMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </span>
+          )}
+        </button>
+
+        {/* PROFILE DROPDOWN */}
+
+        {profileMenuOpen && !collapsed && (
+          <div className="absolute bottom-full left-0 z-50 mb-2 w-52 overflow-hidden rounded-2xl border border-ink/10 bg-white p-2 shadow-xl dark:border-white/10 dark:bg-[#12121a]">
+            <Link
+              href="/dashboard/user"
+              onClick={() => setProfileMenuOpen(false)}
+              className="
+                flex
+                items-center
+                gap-3
+                rounded-xl
+                px-3
+                py-2.5
+                text-sm
+                font-semibold
+                text-ink/75
+                transition
+                hover:bg-ink/[0.04]
+                hover:text-ink
+              "
+            >
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
+                <Pencil size={15} />
+              </span>
+
+              <span>تعديل الملف</span>
+            </Link>
+
+            <Link
+              href={`/${profileUsername}`}
+              onClick={() => setProfileMenuOpen(false)}
+              className="
+                flex
+                items-center
+                gap-3
+                rounded-xl
+                px-3
+                py-2.5
+                text-sm
+                font-semibold
+                text-ink/75
+                transition
+                hover:bg-ink/[0.04]
+                hover:text-ink
+              "
+            >
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
+                <ExternalLink size={15} />
+              </span>
+
+              <span>عرض الملف</span>
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <>
       {/* =====================================================
@@ -616,22 +768,12 @@ export default function Sidebar({ open, onClose }) {
           "
         >
           {!collapsed && (
-            <div className="mb-4">
-              <p className="truncate font-semibold">
-                {profile?.name ||
-                  user?.displayName ||
-                  user?.email?.split("@")[0] ||
-                  "المستخدم"}
-              </p>
+            <div className="mb-2">{renderProfileBlock(collapsed)}</div>
+          )}
 
-              <p
-                className={`
-                  text-sm
-                  ${currentRole.className}
-                `}
-              >
-                {currentRole.label}
-              </p>
+          {collapsed && (
+            <div className="mb-2 flex justify-center">
+              {renderProfileBlock(collapsed)}
             </div>
           )}
 
@@ -764,23 +906,7 @@ export default function Sidebar({ open, onClose }) {
               p-4
             "
           >
-            <div className="mb-4">
-              <p className="truncate font-semibold">
-                {profile?.name ||
-                  user?.displayName ||
-                  user?.email?.split("@")[0] ||
-                  "المستخدم"}
-              </p>
-
-              <p
-                className={`
-                  text-sm
-                  ${currentRole.className}
-                `}
-              >
-                {currentRole.label}
-              </p>
-            </div>
+            <div className="mb-2">{renderProfileBlock(false)}</div>
 
             <button
               type="button"

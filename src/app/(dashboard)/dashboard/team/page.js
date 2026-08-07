@@ -217,12 +217,10 @@ export default function TeamPage() {
           <button
             type="button"
             onClick={openCreate}
-            className={`group/btn relative w-full overflow-hidden rounded-xl bg-gradient-to-r ${theme.gradient} px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 ${theme.gradientHover} sm:w-auto`}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-red-700 shadow-md transition-all hover:-translate-y-0.5 hover:bg-red-50 sm:w-auto"
           >
-            <span className="relative z-10 inline-flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              مشروع جديد
-            </span>
+            <Plus className="h-4 w-4" />
+            مشروع جديد
           </button>
         </PageHero>
 
@@ -370,7 +368,7 @@ return (
                             <div className="relative p-5">
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex min-w-0 items-center gap-3">
-                                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient} text-white shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105`}>
+                                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-600 text-white shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105">
                                     <ProjectIcon className="h-5 w-5" />
                                   </div>
 

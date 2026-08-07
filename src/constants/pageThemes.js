@@ -482,16 +482,14 @@ export const PAGE_THEMES = THEMES;
 ========================================================= */
 
 const ROUTE_THEMES = [
-  { match: "/dashboard/team/my-tasks", theme: "sky" },
-  { match: "/dashboard/team/progress", theme: "emerald" },
-  { match: "/dashboard/team", theme: "rose" },
-  { match: "/dashboard/portfolio", theme: "violet" },
-  { match: "/dashboard/categories", theme: "indigo" },
-  { match: "/dashboard/teachers", theme: "teal" },
-  { match: "/dashboard/services", theme: "amber" },
-  { match: "/dashboard/pricing", theme: "blue" },
-  { match: "/dashboard/settings", theme: "slate" },
-  { match: "/dashboard/user", theme: "fuchsia" },
+  { match: "/dashboard/team", theme: "red" },
+  { match: "/dashboard/portfolio", theme: "emerald" },
+  { match: "/dashboard/categories", theme: "emerald" },
+  { match: "/dashboard/teachers", theme: "emerald" },
+  { match: "/dashboard/services", theme: "emerald" },
+  { match: "/dashboard/pricing", theme: "emerald" },
+  { match: "/dashboard/settings", theme: "emerald" },
+  { match: "/dashboard/user", theme: "emerald" },
   { match: "/dashboard", theme: "red" },
 ];
 

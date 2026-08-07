@@ -1140,7 +1140,7 @@ export default function CrudTable({
         eyebrow={entityNamePlural}
         badge="CMS"
         subtitle={`إدارة وتنظيم ${entityNamePlural} من لوحة التحكم.`}
-        accent={theme}
+        color={theme.name}
       >
         <Button
           icon={Plus}
@@ -1151,14 +1151,13 @@ export default function CrudTable({
             w-full
             overflow-hidden
             rounded-xl
-            bg-gradient-to-r
-            ${theme.gradient}
-            ${theme.gradientText}
+            ${theme.solid}
+            ${theme.solidText}
             shadow-md
             transition-all
             hover:-translate-y-0.5
             hover:shadow-lg
-            ${theme.gradientHover}
+            ${theme.solidHover}
             sm:w-auto
           `}
         >
@@ -1742,7 +1741,7 @@ export default function CrudTable({
                             cursor-pointer
                             ${
                               active
-                                ? `bg-gradient-to-r ${theme.gradient} ${theme.gradientText} shadow-md`
+                                ? `${theme.solid} ${theme.solidText} shadow-md`
                                 : `border ${theme.borderSoft} bg-card ${theme.text} ${theme.searchHover}`
                             }
                           `}
@@ -1824,10 +1823,10 @@ export default function CrudTable({
               loading={saving}
               className={`
                 rounded-xl
-                bg-gradient-to-r
-                ${theme.gradient}
+                ${theme.solid}
+                ${theme.solidText}
                 shadow-md
-                ${theme.gradientHover}
+                ${theme.solidHover}
               `}
             >
               {editing ? "حفظ التعديلات" : `إضافة ${entityName}`}
@@ -1845,17 +1844,14 @@ export default function CrudTable({
               relative
               overflow-hidden
               rounded-2xl
-              border
-              ${theme.heroBg}
-              ${theme.heroBgDark}
+              ${theme.solid}
               p-4
               shadow-none
             `}
           >
-            <div
-              className="pointer-events-none absolute -left-10 -top-10 h-24 w-24 rounded-full blur-2xl"
-              style={{ backgroundColor: `${theme.softHex}55` }}
-            />
+            <div className="pointer-events-none absolute -left-10 -top-10 h-24 w-24 rounded-full bg-white/[0.06]" />
+
+            <div className="pointer-events-none absolute -bottom-12 -right-8 h-24 w-24 rounded-full bg-black/[0.06]" />
 
             <div className="relative flex items-center gap-3">
               <div
@@ -1867,9 +1863,8 @@ export default function CrudTable({
                   items-center
                   justify-center
                   rounded-xl
-                  bg-gradient-to-br
-                  ${theme.heroGradient}
-                  ${theme.gradientText}
+                  bg-white
+                  ${theme.textStrong}
                   shadow-sm
                 `}
               >
@@ -1877,7 +1872,7 @@ export default function CrudTable({
               </div>
 
               <div>
-                <p className="text-sm font-bold text-ink">
+                <p className="text-sm font-bold text-white">
                   {editing
                     ? `تعديل بيانات ${entityName}`
                     : `بيانات ${entityName}`}
@@ -1891,32 +1886,33 @@ export default function CrudTable({
                       gap-1.5
                       rounded-lg
                       border
-                      ${theme.border}
+                      border-white/25
+                      bg-white/15
                       px-2.5
                       py-1
                       text-[10px]
                       font-bold
-                      ${theme.chip}
+                      text-white
                     `}
                   >
                     <span className="relative flex h-2 w-2">
                       <span
-                        className={`absolute inline-flex h-full w-full animate-ping rounded-full ${theme.solid} opacity-50`}
+                        className={`absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-50`}
                       />
 
                       <span
-                        className={`relative inline-flex h-2 w-2 rounded-full ${theme.solid}`}
+                        className={`relative inline-flex h-2 w-2 rounded-full bg-white`}
                       />
                     </span>
                     اتصال مباشر
                   </span>
 
-                  <span className={`text-[11px] font-medium ${theme.textSoft}`}>
+                  <span className="text-[11px] font-medium text-white/70">
                     Firestore • Real-time
                   </span>
                 </div>
 
-                <p className="mt-2 text-[11px] leading-5 text-ink/60">
+                <p className="mt-2 text-[11px] leading-5 text-white/70">
                   سيتم حفظ البيانات مباشرة في قاعدة البيانات ومزامنتها لحظيًا مع
                   لوحة التحكم.
                 </p>
