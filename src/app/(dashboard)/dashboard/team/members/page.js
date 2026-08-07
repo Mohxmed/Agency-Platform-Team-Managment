@@ -253,7 +253,7 @@ export default function TeamMembersPage() {
       </Card>
 
       {/* Members Grid */}
-      <Card className="p-0 overflow-hidden">
+      <Card hover={false} className="p-0">
         {enrichedUsers.length === 0 ? (
           <div className="text-center py-16">
             <Users className="h-16 w-16 mx-auto text-ink/20" />

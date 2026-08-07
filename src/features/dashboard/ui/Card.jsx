@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function Card({ children, className, ...props }) {
+export default function Card({ children, className, hover = true, ...props }) {
   return (
     <div
       className={clsx(
@@ -19,10 +19,14 @@ export default function Card({ children, className, ...props }) {
         dark:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)]
         transition-all
         duration-500
-        hover:-translate-y-1
-        hover:shadow-[0_30px_70px_-25px_rgba(0,0,0,0.18)]
-        dark:hover:shadow-[0_30px_70px_-25px_rgba(0,0,0,0.55)]
         `,
+        hover
+          ? `
+            hover:-translate-y-1
+            hover:shadow-[0_30px_70px_-25px_rgba(0,0,0,0.18)]
+            dark:hover:shadow-[0_30px_70px_-25px_rgba(0,0,0,0.55)]
+          `
+          : "",
         className
       )}
       {...props}

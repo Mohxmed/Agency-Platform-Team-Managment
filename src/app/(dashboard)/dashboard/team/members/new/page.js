@@ -200,20 +200,21 @@ export default function NewMemberPage() {
                 value={form.specialty}
                 onChange={(e) => update("specialty", e.target.value)}
               />
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  label="الدور"
-                  value={form.role}
-                  onChange={(e) => update("role", e.target.value)}
-                  options={roleOptions}
-                />
-                <Select
-                  label="الحالة"
-                  value={form.status}
-                  onChange={(e) => update("status", e.target.value)}
-                  options={STATUS_OPTIONS}
-                />
-              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 sm:max-w-md">
+              <Select
+                label="الدور"
+                value={form.role}
+                onChange={(e) => update("role", e.target.value)}
+                options={roleOptions}
+              />
+              <Select
+                label="الحالة"
+                value={form.status}
+                onChange={(e) => update("status", e.target.value)}
+                options={STATUS_OPTIONS}
+              />
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-ink/[0.07] pt-6">

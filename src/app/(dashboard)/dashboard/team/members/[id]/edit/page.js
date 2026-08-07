@@ -168,28 +168,32 @@ export default function EditMemberPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6" dir="rtl">
-        <div className="animate-pulse space-y-6">
-          <div className="h-8 w-64 bg-gray-200 rounded-xl dark:bg-white/[0.08]" />
-          <div className="h-96 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
+      <ProtectedRoute permission="team">
+        <div className="space-y-6" dir="rtl">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 w-64 bg-gray-200 rounded-xl dark:bg-white/[0.08]" />
+            <div className="h-96 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
+          </div>
         </div>
-      </div>
+      </ProtectedRoute>
     );
   }
 
   if (!member) {
     return (
-      <div className="space-y-6" dir="rtl">
-        <Card className="text-center py-12">
-          <UserCog className="h-16 w-16 mx-auto text-gray-500 dark:text-ink/40" />
-          <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
-          <p className="mt-2 text-gray-500 dark:text-ink/60">لم يتم العثور على بيانات هذا العضو.</p>
-          <Button variant="outline" className="mt-6" onClick={() => router.back()}>
-            <ArrowLeft className="h-4 w-4 ml-2" />
-            رجوع
-          </Button>
-        </Card>
-      </div>
+      <ProtectedRoute permission="team">
+        <div className="space-y-6" dir="rtl">
+          <Card className="text-center py-12">
+            <UserCog className="h-16 w-16 mx-auto text-gray-500 dark:text-ink/40" />
+            <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
+            <p className="mt-2 text-gray-500 dark:text-ink/60">لم يتم العثور على بيانات هذا العضو.</p>
+            <Button variant="outline" className="mt-6" onClick={() => router.back()}>
+              <ArrowLeft className="h-4 w-4 ml-2" />
+              رجوع
+            </Button>
+          </Card>
+        </div>
+      </ProtectedRoute>
     );
   }
 
@@ -262,29 +266,30 @@ export default function EditMemberPage() {
                 value={form.specialty}
                 onChange={(e) => update("specialty", e.target.value)}
               />
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  label="الدور"
-                  value={form.role}
-                  onChange={(e) => update("role", e.target.value)}
-                  options={roleOptions}
-                  disabled={editingAdmin}
-                />
-                <Select
-                  label="الحالة"
-                  value={form.status}
-                  onChange={(e) => update("status", e.target.value)}
-                  options={STATUS_OPTIONS}
-                  disabled={editingAdmin}
-                />
-              </div>
-
-              {editingAdmin && (
-                <p className="text-xs font-semibold text-amber-600 sm:col-span-2">
-                  لا يمكنك تعديل دور أو حالة مسؤول النظام من حساب مدير.
-                </p>
-              )}
             </div>
+
+            <div className="grid grid-cols-2 gap-4 sm:max-w-md">
+              <Select
+                label="الدور"
+                value={form.role}
+                onChange={(e) => update("role", e.target.value)}
+                options={roleOptions}
+                disabled={editingAdmin}
+              />
+              <Select
+                label="الحالة"
+                value={form.status}
+                onChange={(e) => update("status", e.target.value)}
+                options={STATUS_OPTIONS}
+                disabled={editingAdmin}
+              />
+            </div>
+
+            {editingAdmin && (
+              <p className="text-xs font-semibold text-amber-600">
+                لا يمكنك تعديل دور أو حالة مسؤول النظام من حساب مدير.
+              </p>
+            )}
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-ink/[0.07] pt-6">
               <p className="text-sm text-ink/60 flex items-center gap-1.5">

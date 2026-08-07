@@ -247,7 +247,7 @@ export default function SingleTasksPage() {
         </Card>
 
         {/* Tasks Table */}
-        <Card className="p-0 overflow-hidden">
+        <Card hover={false} className="p-0">
           {filteredTasks.length === 0 ? (
             <div className="text-center py-16">
               <Layers className="h-16 w-16 mx-auto text-ink/20" />
