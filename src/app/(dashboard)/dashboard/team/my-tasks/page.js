@@ -482,15 +482,20 @@ export default function MyTasksPage() {
                 gap-2
                 rounded-xl
                 border
-                border-white/25
-                bg-white/15
+                border-red-100
+                bg-white
                 px-4
                 py-2.5
                 text-xs
                 font-black
-                text-white
+                text-red-700
+                shadow-md
                 transition
-                hover:bg-white/25
+                hover:bg-red-50
+                dark:border-white/25
+                dark:bg-black
+                dark:text-white
+                dark:hover:bg-white/10
               "
             >
               {viewMode === "kanban"

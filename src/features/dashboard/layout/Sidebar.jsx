@@ -116,6 +116,146 @@ const menuSections = [
 ];
 
 /* =========================================================
+   PROFILE MENU
+========================================================= */
+
+function ProfileMenu({
+  collapsed,
+  avatarSrc,
+  user,
+  name,
+  roleLabel,
+  roleClassName,
+  username,
+}) {
+  const [open, setOpen] = useState(false);
+
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div ref={menuRef} className="relative">
+      {/* PROFILE TRIGGER */}
+
+      <button
+        type="button"
+        aria-label={name}
+        onClick={() => setOpen((prev) => !prev)}
+        className={`
+          flex
+          w-full
+          items-center
+          gap-4
+          rounded-xl
+          transition
+          hover:bg-ink/[0.04]
+          cursor-pointer
+          ${collapsed ? "w-auto px-1 py-1" : "px-3 py-2.5"}
+        `}
+      >
+        <Avatar
+          src={avatarSrc}
+          user={user}
+          name={name}
+          size={36}
+          ring
+        />
+
+        {!collapsed && (
+          <span className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="flex min-w-0 flex-col items-start text-start">
+              <span className="max-w-full truncate text-sm font-bold text-ink">
+                {name}
+              </span>
+
+              <span className={`text-xs font-medium ${roleClassName}`}>
+                {roleLabel}
+              </span>
+            </span>
+
+            <ChevronDown
+              size={14}
+              className={`shrink-0 text-ink/50 transition-transform duration-200 ${
+                open ? "rotate-180" : ""
+              }`}
+            />
+          </span>
+        )}
+      </button>
+
+      {/* PROFILE DROPDOWN */}
+
+      {open && !collapsed && (
+        <div className="absolute bottom-full left-0 z-50 mb-2 w-52 overflow-hidden rounded-2xl border border-ink/10 bg-white p-2 shadow-xl dark:border-white/10 dark:bg-[#12121a]">
+          <Link
+            href="/dashboard/user"
+            onClick={() => setOpen(false)}
+            className="
+              flex
+              items-center
+              gap-3
+              rounded-xl
+              px-3
+              py-2.5
+              text-sm
+              font-semibold
+              text-ink/75
+              transition
+              hover:bg-ink/[0.04]
+              hover:text-ink
+            "
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
+              <Pencil size={15} />
+            </span>
+
+            <span>تعديل الملف</span>
+          </Link>
+
+          <Link
+            href={`/${username}`}
+            onClick={() => setOpen(false)}
+            className="
+              flex
+              items-center
+              gap-3
+              rounded-xl
+              px-3
+              py-2.5
+              text-sm
+              font-semibold
+              text-ink/75
+              transition
+              hover:bg-ink/[0.04]
+              hover:text-ink
+            "
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
+              <ExternalLink size={15} />
+            </span>
+
+            <span>عرض الملف</span>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* =========================================================
    SIDEBAR
 ========================================================= */
 
@@ -194,28 +334,6 @@ export default function Sidebar({ open, onClose }) {
   const permissions = getPermissionsForProfile(profile);
 
   const currentRole = roleConfig[role] || roleConfig.default;
-
-  /* =======================================================
-     PROFILE MENU
-  ======================================================= */
-
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-
-  const profileMenuRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
-        setProfileMenuOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const profileAvatarSrc = profile?.logo || profile?.photoURL || "";
 
@@ -563,112 +681,15 @@ export default function Sidebar({ open, onClose }) {
 
   const renderProfileBlock = (collapsed) => {
     return (
-      <div ref={profileMenuRef} className="relative">
-        {/* PROFILE TRIGGER */}
-
-        <button
-          type="button"
-          onClick={() => setProfileMenuOpen((prev) => !prev)}
-          className={`
-            flex
-            w-full
-            items-center
-            gap-4
-            rounded-xl
-            px-3
-            py-2.5
-            transition
-            hover:bg-ink/[0.04]
-            cursor-pointer
-            ${collapsed ? "justify-center" : ""}
-          `}
-        >
-          <Avatar
-            src={profileAvatarSrc}
-            user={profile}
-            name={profileName}
-            size={36}
-            ring
-          />
-
-          {!collapsed && (
-            <span className="flex min-w-0 flex-1 items-center gap-2">
-              <span className="flex min-w-0 flex-col items-start text-start">
-                <span className="max-w-full truncate text-sm font-bold text-ink">
-                  {profileName}
-                </span>
-
-                <span className={`text-xs font-medium ${currentRole.className}`}>
-                  {currentRole.label}
-                </span>
-              </span>
-
-              <ChevronDown
-                size={14}
-                className={`shrink-0 text-ink/50 transition-transform duration-200 ${
-                  profileMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-            </span>
-          )}
-        </button>
-
-        {/* PROFILE DROPDOWN */}
-
-        {profileMenuOpen && !collapsed && (
-          <div className="absolute bottom-full left-0 z-50 mb-2 w-52 overflow-hidden rounded-2xl border border-ink/10 bg-white p-2 shadow-xl dark:border-white/10 dark:bg-[#12121a]">
-            <Link
-              href="/dashboard/user"
-              onClick={() => setProfileMenuOpen(false)}
-              className="
-                flex
-                items-center
-                gap-3
-                rounded-xl
-                px-3
-                py-2.5
-                text-sm
-                font-semibold
-                text-ink/75
-                transition
-                hover:bg-ink/[0.04]
-                hover:text-ink
-              "
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
-                <Pencil size={15} />
-              </span>
-
-              <span>تعديل الملف</span>
-            </Link>
-
-            <Link
-              href={`/${profileUsername}`}
-              onClick={() => setProfileMenuOpen(false)}
-              className="
-                flex
-                items-center
-                gap-3
-                rounded-xl
-                px-3
-                py-2.5
-                text-sm
-                font-semibold
-                text-ink/75
-                transition
-                hover:bg-ink/[0.04]
-                hover:text-ink
-              "
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600/10 text-primary-600">
-                <ExternalLink size={15} />
-              </span>
-
-              <span>عرض الملف</span>
-            </Link>
-          </div>
-        )}
-      </div>
+      <ProfileMenu
+        collapsed={collapsed}
+        avatarSrc={profileAvatarSrc}
+        user={profile}
+        name={profileName}
+        roleLabel={currentRole.label}
+        roleClassName={currentRole.className}
+        username={profileUsername}
+      />
     );
   };
 

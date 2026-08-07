@@ -1142,27 +1142,35 @@ export default function CrudTable({
         subtitle={`إدارة وتنظيم ${entityNamePlural} من لوحة التحكم.`}
         color={theme.name}
       >
-        <Button
-          icon={Plus}
+        <button
+          type="button"
           onClick={openCreate}
           className={`
-            group/btn
-            relative
+            inline-flex
             w-full
-            overflow-hidden
+            items-center
+            justify-center
+            gap-2
             rounded-xl
-            ${theme.solid}
-            ${theme.solidText}
+            bg-white
+            px-6
+            py-3.5
+            text-sm
+            font-bold
+            ${theme.textStrong}
             shadow-md
             transition-all
             hover:-translate-y-0.5
-            hover:shadow-lg
-            ${theme.solidHover}
+            hover:bg-white/90
+            dark:bg-black
+            dark:text-white
+            dark:hover:bg-black/80
             sm:w-auto
           `}
         >
-          <span className="relative z-10">إضافة {entityName}</span>
-        </Button>
+          <Plus className="h-4 w-4" />
+          إضافة {entityName}
+        </button>
       </PageHero>
 
       {/* =====================================================
