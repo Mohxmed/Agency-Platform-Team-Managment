@@ -252,17 +252,17 @@ export default function TeamPage() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-4">
-            <div className="grid gap-4 sm:grid-cols-2 xl:col-span-3">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-7">
+            <div className="grid gap-4 xl:col-span-5">
               {[1, 2, 3, 4].map((item) => (
                 <div
                   key={item}
-                  className="h-64 animate-pulse rounded-2xl border border-gray-100 bg-gray-50 dark:border-white/[0.06] dark:bg-white/[0.03]"
+                  className="h-40 animate-pulse rounded-2xl border border-gray-100 bg-gray-50 dark:border-white/[0.06] dark:bg-white/[0.03]"
                 />
               ))}
             </div>
 
-            <div className="space-y-4 xl:col-span-1">
+            <div className="space-y-4 xl:col-span-2">
               {[1, 2, 3].map((item) => (
                 <div
                   key={item}
@@ -272,12 +272,12 @@ export default function TeamPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-7">
             {/* =====================================================
                 أحدث المشاريع
             ====================================================== */}
 
-            <section className="min-w-0 xl:col-span-3">
+            <section className="min-w-0 xl:col-span-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <h2 className="text-base font-black tracking-tight text-ink">
@@ -322,7 +322,7 @@ export default function TeamPage() {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4">
                   {latestProjects.map((project) => (
                     <ProjectCard
                       key={project.id}
@@ -334,6 +334,7 @@ export default function TeamPage() {
                       canManage={canManage}
                       onEdit={openEdit}
                       onDelete={handleDelete}
+                      variant="row"
                     />
                   ))}
                 </div>
@@ -344,7 +345,7 @@ export default function TeamPage() {
                 المهام الفردية
             ====================================================== */}
 
-            <section className="min-w-0 overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6 xl:col-span-1">
+            <section className="min-w-0 overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6 xl:col-span-2">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
@@ -419,7 +420,7 @@ export default function TeamPage() {
                 أحدث المهام
             ====================================================== */}
 
-            <section className="overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6 xl:col-span-2">
+            <section className="min-w-0 overflow-hidden rounded-[24px] border border-gray-200/80 bg-card p-5 shadow-[0_8px_30px_rgba(0,0,0,0.035)] dark:border-white/[0.08] sm:p-6 xl:col-span-5">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
