@@ -6,9 +6,7 @@ import { usePageTheme } from "../hooks/usePageTheme";
 export default function StatsCard({
   label,
   value,
-  description,
   icon: Icon,
-  footer,
   trend,
   accent,
   className = "",
@@ -75,42 +73,21 @@ export default function StatsCard({
         )}
       </div>
 
-      {description && (
-        <p className="mt-3 text-sm leading-5 text-ink/60">{description}</p>
-      )}
-
-      {(footer || trend) && (
-        <div
-          className="
+      {trend && (
+        <span
+          className={`
             mt-4
-            flex
-            items-center
-            justify-between
-            border-t
-            border-black/[0.06]
-            pt-3
-            dark:border-white/[0.08]
-          "
+            inline-flex
+            rounded-full
+            ${theme.chip}
+            px-2.5
+            py-0.5
+            text-[11px]
+            font-semibold
+          `}
         >
-          {footer && (
-            <span className="text-xs font-medium text-ink/60">{footer}</span>
-          )}
-
-          {trend && (
-            <span
-              className={`
-                rounded-full
-                ${theme.chip}
-                px-2.5
-                py-0.5
-                text-[11px]
-                font-semibold
-              `}
-            >
-              {trend}
-            </span>
-          )}
-        </div>
+          {trend}
+        </span>
       )}
     </div>
   );
