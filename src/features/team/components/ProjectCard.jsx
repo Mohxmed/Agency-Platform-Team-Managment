@@ -10,6 +10,7 @@ import {
   Pencil,
   Trash2,
   Users,
+  Timer,
 } from "lucide-react";
 
 import WorkflowBadge from "./WorkflowBadge";
@@ -22,6 +23,7 @@ import { ProjectIcon } from "@/constants/projectIcons";
 
 import {
   calcProjectProgress,
+  deriveProjectStatus,
   formatDeadline,
   getClientName,
   getProjectMemberIds,
@@ -29,6 +31,29 @@ import {
 } from "@/features/team/lib/teamUtils";
 
 const MAX_VISIBLE_MEMBERS = 4;
+
+const STATUS_ACCENTS = {
+  done: {
+    icon: "bg-emerald-50 text-emerald-600 ring-emerald-500/10 dark:bg-emerald-500/15 dark:text-emerald-400",
+    bar: "bg-emerald-500",
+  },
+  revision: {
+    icon: "bg-red-50 text-red-600 ring-red-500/10 dark:bg-red-500/15 dark:text-red-400",
+    bar: "bg-red-500",
+  },
+  review: {
+    icon: "bg-violet-50 text-violet-600 ring-violet-500/10 dark:bg-violet-500/15 dark:text-violet-400",
+    bar: "bg-violet-500",
+  },
+  "in-progress": {
+    icon: "bg-amber-50 text-amber-600 ring-amber-500/10 dark:bg-amber-500/15 dark:text-amber-400",
+    bar: "bg-amber-500",
+  },
+  backlog: {
+    icon: "bg-gray-100 text-gray-500 ring-gray-500/10 dark:bg-white/[0.08] dark:text-ink/50",
+    bar: "bg-gray-400",
+  },
+};
 
 export default function ProjectCard({
   project,
@@ -43,7 +68,11 @@ export default function ProjectCard({
 }) {
   const progress = calcProjectProgress(tasks);
 
-  const overdue = isDeadlineOverdue(project.deadline);
+  const status = deriveProjectStatus(tasks, project.status);
+
+  const statusAccent = STATUS_ACCENTS[status] || STATUS_ACCENTS.backlog;
+
+  const overdue = isDeadlineOverdue(project.deadline) && status !== "done";
 
   const memberIds = getProjectMemberIds(project);
 
@@ -56,32 +85,24 @@ export default function ProjectCard({
   return (
     <Link
       href={`/dashboard/team/projects/${project.id}`}
-      className={`group relative flex flex-col overflow-hidden rounded-[24px] border border-gray-200/80 bg-card shadow-[0_8px_30px_rgba(0,0,0,0.035)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] dark:border-white/[0.08] ${theme.hoverBorder}`}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-gray-200/80 bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.18)] dark:border-white/[0.08] dark:hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.6)] ${theme.hoverBorder}`}
     >
-      {/* Progress accent bar */}
-      <div
-        className={`absolute inset-x-0 top-0 z-10 h-1 origin-right transition-transform duration-500 ${
-          progress >= 100
-            ? "bg-green-500"
-            : progress >= 60
-              ? "bg-emerald-500"
-              : progress >= 30
-                ? "bg-amber-500"
-                : "bg-red-500"
-        }`}
-      />
+      {/* Status accent strip */}
+      <div className={`h-1.5 w-full shrink-0 ${statusAccent.bar}`} />
 
       <div className="relative flex flex-1 flex-col p-5">
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-600 text-white shadow-md ring-4 ring-ink/[0.03] transition-transform duration-300 group-hover:scale-105">
+          <div className="flex min-w-0 items-center gap-3.5">
+            <div
+              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm ring-4 transition-transform duration-300 group-hover:scale-105 ${statusAccent.icon}`}
+            >
               <ProjectIcon name={project.icon} className="h-5 w-5" />
             </div>
 
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-1.5">
-                <WorkflowBadge status={project.status} />
+                <WorkflowBadge status={status} />
                 <PriorityBadge priority={project.priority} />
               </div>
 
@@ -132,35 +153,39 @@ export default function ProjectCard({
           </p>
         )}
 
-        {/* Client + Deadline */}
-        <div className="mt-4 grid grid-cols-2 gap-2.5">
-          <div className="flex items-center gap-2 rounded-xl bg-surface/80 px-3 py-2">
-            <Building2 className="h-3.5 w-3.5 shrink-0 text-ink/60" />
+        {/* Meta */}
+        <div className="mt-4 flex flex-wrap items-center gap-1.5">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-ink/[0.05] px-2.5 py-1 text-[11px] font-bold text-ink/60 dark:bg-white/[0.06]">
+            <Building2 className="h-3 w-3" />
+            {getClientName(clientMap, project.clientId)}
+          </span>
 
-            <span className="truncate text-[11px] font-bold text-ink/60">
-              {getClientName(clientMap, project.clientId)}
-            </span>
-          </div>
-
-          <div
-            className={`flex items-center gap-2 rounded-xl px-3 py-2 ${
-              overdue ? "bg-red-50 text-red-600" : "bg-surface/80"
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold ${
+              overdue
+                ? "bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400"
+                : "bg-ink/[0.05] text-ink/60 dark:bg-white/[0.06]"
             }`}
           >
-            <CalendarDays className="h-3.5 w-3.5 shrink-0 text-ink/60" />
-
-            <span
-              className={`truncate text-[11px] font-bold ${
-                overdue ? "text-red-600" : "text-ink/60"
-              }`}
-            >
-              {formatDeadline(project.deadline)}
-            </span>
-          </div>
+            {overdue ? (
+              <Timer className="h-3 w-3" />
+            ) : (
+              <CalendarDays className="h-3 w-3" />
+            )}
+            {formatDeadline(project.deadline)}
+          </span>
         </div>
 
+        {/* Progress */}
         <div className="mt-4">
-          <ProgressBar value={progress} />
+          <div className="mb-1.5 flex items-center justify-between text-[11px] font-bold">
+            <span className="text-ink/60">التقدم</span>
+            <span className={progress >= 100 ? "text-emerald-600 dark:text-emerald-400" : "text-ink"}>
+              {progress}%
+            </span>
+          </div>
+
+          <ProgressBar value={progress} showLabel={false} />
         </div>
 
         {/* Footer */}

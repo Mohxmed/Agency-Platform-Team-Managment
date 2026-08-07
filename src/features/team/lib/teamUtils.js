@@ -245,6 +245,24 @@ export function calcProjectProgress(tasks) {
   return Math.round((done / tasks.length) * 100);
 }
 
+// Derive a project's status from its tasks: the status of the task furthest
+// along the workflow, or "done" when every task is done. Falls back to the
+// stored project status when there are no tasks to measure.
+export function deriveProjectStatus(tasks = [], fallback = "backlog") {
+  if (!Array.isArray(tasks) || tasks.length === 0) return fallback;
+
+  if (tasks.every((task) => task.status === "done")) return "done";
+
+  const furthest = tasks.reduce((best, task) => {
+    if (task.status === "done") return best;
+    return getWorkflowIndex(task.status) > getWorkflowIndex(best)
+      ? task.status
+      : best;
+  }, "backlog");
+
+  return furthest || fallback;
+}
+
 export function uid() {
   return (
     Date.now().toString(36) + Math.random().toString(36).slice(2, 9)

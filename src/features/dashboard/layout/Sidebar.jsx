@@ -22,6 +22,7 @@ import {
   ClipboardList,
   BarChart3,
   ListTodo,
+  Layers,
   ExternalLink,
   Pencil,
   FolderKanban,
@@ -112,6 +113,12 @@ const menuSections = [
           href: "/dashboard/team/my-tasks",
           icon: ClipboardList,
           permission: "my-tasks",
+        },
+        {
+          title: "المهمات الفردية",
+          href: "/dashboard/team/single-tasks",
+          icon: Layers,
+          permission: "team",
         },
         {
           title: "كل المهام",
@@ -748,12 +755,46 @@ export default function Sidebar({ open, onClose }) {
         `}
       >
         {/* =================================================
+            COLLAPSE TOGGLE (floating, absolute)
+        ================================================== */}
+
+        <button
+          type="button"
+          onClick={toggleSidebar}
+          aria-label={collapsed ? "فتح القائمة" : "تصغير القائمة"}
+          title={collapsed ? "فتح القائمة" : "تصغير القائمة"}
+          className="
+            absolute
+            left-1
+            top-1/2
+            z-20
+            flex
+            h-8
+            w-8
+            -translate-y-1/2
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-ink/15
+            bg-card
+            text-ink/60
+            shadow-sm
+            transition
+            hover:bg-ink/[0.06]
+            hover:text-ink
+          "
+        >
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+        </button>
+
+        {/* =================================================
             HEADER
         ================================================== */}
 
         <div
-          className={`flex h-20 shrink-0 items-center justify-between border-b border-ink/20 ${
-            collapsed ? "px-2" : "px-5"
+          className={`flex h-20 shrink-0 items-center border-b border-ink/20 ${
+            collapsed ? "justify-center px-2" : "justify-between px-5"
           }`}
         >
           {!collapsed ? (
@@ -761,30 +802,14 @@ export default function Sidebar({ open, onClose }) {
               <Logo className="w-32" />
             </div>
           ) : (
-            <Image
-              src={logoIcon}
-              alt="No2ta"
-              className="h-9 w-9 shrink-0 rounded-lg object-contain"
-            />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 ring-4 ring-primary/[0.05]">
+              <Image
+                src={logoIcon}
+                alt="No2ta"
+                className="h-5 w-5 shrink-0 object-contain"
+              />
+            </div>
           )}
-
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            aria-label={collapsed ? "فتح القائمة" : "تصغير القائمة"}
-            className={`
-              rounded-xl
-              border
-              border-ink/20
-              text-ink/60
-              transition
-              hover:bg-ink/[0.06]
-              hover:text-ink
-              ${collapsed ? "p-1" : "p-2"}
-            `}
-          >
-            {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-          </button>
         </div>
 
         {/* =================================================

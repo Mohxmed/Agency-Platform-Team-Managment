@@ -22,6 +22,7 @@ import ProjectCard from "@/features/team/components/ProjectCard";
 import {
   calcProjectProgress,
   canManageTeam,
+  deriveProjectStatus,
   isDeadlineOverdue,
   sortProjects,
 } from "@/features/team/lib/teamUtils";
@@ -74,6 +75,17 @@ export default function ProjectsPage() {
     return map;
   }, [tasks]);
 
+  const derivedStatusByProject = useMemo(() => {
+    const map = {};
+    projects.forEach((project) => {
+      map[project.id] = deriveProjectStatus(
+        tasksByProject[project.id] || [],
+        project.status,
+      );
+    });
+    return map;
+  }, [projects, tasksByProject]);
+
   const filteredProjects = useMemo(() => {
     const query = search.trim().toLowerCase();
 
@@ -84,21 +96,28 @@ export default function ProjectsPage() {
         project.description?.toLowerCase().includes(query);
 
       const matchesStatus =
-        statusFilter === "all" || project.status === statusFilter;
+        statusFilter === "all" ||
+        derivedStatusByProject[project.id] === statusFilter;
 
       return matchesSearch && matchesStatus;
     });
-  }, [projects, sortBy, search, statusFilter]);
+  }, [projects, sortBy, search, statusFilter, derivedStatusByProject]);
 
-  const activeCount = projects.filter((project) =>
-    ["in-progress", "review", "revision"].includes(project.status),
+  const activeCount = projects.filter(
+    (project) =>
+      ["in-progress", "review", "revision"].includes(
+        derivedStatusByProject[project.id],
+      ),
   ).length;
 
-  const doneCount = projects.filter((project) => project.status === "done").length;
+  const doneCount = projects.filter(
+    (project) => derivedStatusByProject[project.id] === "done",
+  ).length;
 
   const overdueCount = projects.filter(
     (project) =>
-      project.status !== "done" && isDeadlineOverdue(project.deadline),
+      derivedStatusByProject[project.id] !== "done" &&
+      isDeadlineOverdue(project.deadline),
   ).length;
 
   const stats = [

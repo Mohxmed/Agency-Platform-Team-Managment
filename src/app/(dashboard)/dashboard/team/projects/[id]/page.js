@@ -40,6 +40,7 @@ import {
   getClientName,
   getAssigneeId,
   calcProjectProgress,
+  deriveProjectStatus,
   nextWorkflowStatus,
   prevWorkflowStatus,
   getWorkflowMeta,
@@ -152,6 +153,23 @@ export default function ProjectDetailPage() {
 
     [
       projectTasks,
+    ],
+  );
+
+
+
+  const projectStatus = useMemo(
+    () =>
+      deriveProjectStatus(
+        projectTasks,
+
+        project?.status,
+      ),
+
+    [
+      projectTasks,
+
+      project?.status,
     ],
   );
 
@@ -966,7 +984,7 @@ export default function ProjectDetailPage() {
                       >
 
                         <WorkflowBadge
-                          status={project.status}
+                          status={projectStatus}
                         />
 
 

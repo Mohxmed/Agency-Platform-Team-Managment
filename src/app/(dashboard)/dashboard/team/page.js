@@ -12,7 +12,6 @@ import {
   ChevronLeft,
   Layers,
   ArrowLeft,
-  CheckSquare,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -73,8 +72,6 @@ export default function TeamPage() {
     }
   }, []);
 
-  const profileId = profile?.uid || profile?.id || currentUser?.uid || "";
-
   const tasksByProject = useMemo(() => {
     const map = {};
     tasks.forEach((task) => {
@@ -112,11 +109,6 @@ export default function TeamPage() {
   const latestProjects = useMemo(
     () => sortProjects(projects, "newest").slice(0, 4),
     [projects],
-  );
-
-  const myTasksCount = useMemo(
-    () => tasks.filter((task) => getAssigneeId(task) === profileId).length,
-    [tasks, profileId],
   );
 
   function openCreate() {
@@ -188,10 +180,10 @@ export default function TeamPage() {
       chipClass: "bg-amber-50 text-amber-600",
     },
     {
-      href: "/dashboard/team/my-tasks",
-      icon: CheckSquare,
-      label: "مهماتي",
-      count: myTasksCount,
+      href: "/dashboard/team/single-tasks",
+      icon: Layers,
+      label: "المهمات الفردية",
+      count: standaloneTasks.length,
       chipClass: "bg-violet-50 text-violet-600",
     },
     {
@@ -361,7 +353,7 @@ export default function TeamPage() {
 
                   <div>
                     <h2 className="text-base font-black tracking-tight text-ink">
-                      مهمات واحدة
+                      المهمات الفردية
                     </h2>
 
                     <p className="mt-0.5 text-xs font-medium text-ink/60">
@@ -370,22 +362,22 @@ export default function TeamPage() {
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setTaskModalOpen(true)}
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-violet-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-violet-700 dark:bg-violet-400 dark:text-violet-950 dark:hover:bg-violet-300"
-                  title="مهمة واحدة جديدة"
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                  جديدة
-                </button>
+                {standaloneTasks.length > 0 && (
+                  <Link
+                    href="/dashboard/team/single-tasks"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-ink/[0.08] bg-card px-3 py-2 text-xs font-bold text-ink/60 transition hover:border-violet-300 hover:text-violet-600 dark:hover:border-violet-400/40 dark:hover:text-violet-400"
+                  >
+                    عرض الكل
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                  </Link>
+                )}
               </div>
 
               {standaloneTasks.length === 0 ? (
                 <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 px-6 text-center dark:border-white/10 dark:bg-white/[0.03]">
                   <Layers className="h-6 w-6 text-gray-500 dark:text-ink/40" />
                   <p className="mt-2 text-sm font-bold text-ink/60">
-                    لا توجد مهمات واحدة
+                    لا توجد مهمات فردية
                   </p>
                   <p className="mt-1 text-[11px] text-ink/60">
                     أنشئ مهمة مستقلة وأسندها لعضو الفريق مباشرة.
@@ -419,15 +411,6 @@ export default function TeamPage() {
                       </Link>
                     );
                   })}
-
-                  {standaloneTasks.length > 5 && (
-                    <Link
-                      href="/dashboard/team/all-tasks"
-                      className="block pt-1 text-center text-[11px] font-bold text-violet-600 transition hover:text-violet-700 dark:text-violet-400"
-                    >
-                      + {standaloneTasks.length - 5} مهمة أخرى
-                    </Link>
-                  )}
                 </div>
               )}
             </section>
