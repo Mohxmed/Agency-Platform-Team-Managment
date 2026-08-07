@@ -17,6 +17,10 @@ import { callAdminApi } from "@/features/auth/services/admin.service";
 import { useTeamData } from "@/features/team/hooks/useTeamData";
 import { useToast } from "@/hooks/useToast";
 import { setDocument } from "@/lib/firestoreService";
+import {
+  notifyMany,
+  getManagerUserIds,
+} from "@/lib/notificationService";
 
 import Avatar from "@/features/dashboard/ui/Avatar";
 import Card from "@/features/dashboard/ui/Card";
@@ -146,6 +150,35 @@ export default function EditMemberPage() {
         specialty: form.specialty.trim(),
         updatedAtClient: new Date().toISOString(),
       });
+
+      const roleChanged = form.role !== member?.role;
+      const statusChanged = form.status !== member?.status;
+
+      if (roleChanged || statusChanged) {
+        const message = roleChanged
+          ? statusChanged
+            ? `تم تحديث دورك وحالتك في الفريق.`
+            : `تم تحديث دورك في الفريق إلى "${form.role}".`
+          : `تم تحديث حالة حسابك في الفريق إلى "${form.status}".`;
+
+        const recipients = new Set();
+
+        if (memberId !== currentUser?.uid) {
+          recipients.add(memberId);
+        }
+
+        getManagerUserIds(users, currentUser?.uid).forEach((id) =>
+          recipients.add(id),
+        );
+
+        notifyMany([...recipients], {
+          title: "تم تحديث بيانات العضو",
+          message,
+          type: "team",
+          link: `/dashboard/team/members/${memberId}`,
+          eventKey: "teamUpdates",
+        });
+      }
 
       showToast({
         type: "success",

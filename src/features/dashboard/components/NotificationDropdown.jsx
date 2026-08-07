@@ -11,6 +11,7 @@ import {
   PackageCheck,
   ListChecks,
   MessageSquare,
+  Paperclip,
   AlertCircle,
   Info,
 } from "lucide-react";
@@ -121,6 +122,18 @@ export default function NotificationDropdown() {
         return {
           icon: MessageSquare,
           className: "bg-indigo-50 text-indigo-600",
+        };
+
+      case "checklist":
+        return {
+          icon: ListChecks,
+          className: "bg-emerald-50 text-emerald-600",
+        };
+
+      case "attachment":
+        return {
+          icon: Paperclip,
+          className: "bg-sky-50 text-sky-600",
         };
 
       case "warning":

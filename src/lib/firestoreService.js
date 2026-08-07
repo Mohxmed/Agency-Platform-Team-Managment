@@ -276,6 +276,12 @@ export function createNotification({
    NOTIFY USER (respects notifications settings toggles)
 ============================================================ */
 
+let notificationAuthToken = null;
+
+export function setNotificationAuthToken(token) {
+  notificationAuthToken = token || null;
+}
+
 export async function notifyUser({
   userId,
   title,
@@ -302,7 +308,7 @@ export async function notifyUser({
   }
 
   try {
-    return createNotification({
+    await createNotification({
       userId,
       title,
       message,
@@ -313,6 +319,35 @@ export async function notifyUser({
     });
   } catch {
     // Best-effort.
+  }
+
+  // Best-effort web push so the notification also appears when the app is
+  // closed or running as an installed PWA.
+  if (notificationAuthToken) {
+    try {
+      fetch("/api/notifications/push", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${notificationAuthToken}`,
+        },
+        body: JSON.stringify({
+          userId,
+          title,
+          message,
+          type,
+          link,
+          projectId,
+          projectTitle,
+          eventKey,
+        }),
+        keepalive: true,
+      }).catch(() => {
+        // Best-effort.
+      });
+    } catch {
+      // Best-effort.
+    }
   }
 }
 

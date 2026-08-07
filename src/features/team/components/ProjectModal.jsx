@@ -10,6 +10,11 @@ import Input, { Textarea, Select } from "@/features/dashboard/ui/Input";
 import Avatar from "@/features/dashboard/ui/Avatar";
 
 import { createDocument, updateDocument, notifyUser } from "@/lib/firestoreService";
+import {
+  notifyMany,
+  getManagerUserIds,
+  getProjectMemberUserIds,
+} from "@/lib/notificationService";
 import { useAuth } from "@/features/auth";
 
 import { WORKFLOW_STATUSES, PRIORITIES } from "@/constants/workflow";
@@ -125,6 +130,41 @@ export default function ProjectModal({
             eventKey: "newProjects",
           });
         });
+
+        const crew = [
+          ...new Set([
+            ...getProjectMemberUserIds(editing, currentUser?.uid),
+            ...getManagerUserIds(users, currentUser?.uid),
+          ]),
+        ];
+
+        const statusChanged = editing.status !== form.status;
+
+        if (statusChanged && crew.length > 0) {
+          const statusLabel =
+            WORKFLOW_STATUSES.find((status) => status.value === form.status)
+              ?.labelAr || form.status;
+
+          notifyMany(crew, {
+            title: "تم تحديث حالة المشروع",
+            message: `تم تغيير حالة مشروع "${payload.title}" إلى "${statusLabel}".`,
+            type: "project",
+            link: `/dashboard/team/projects/${editing.id}`,
+            projectId: editing.id,
+            projectTitle: payload.title,
+            eventKey: "projectStatus",
+          });
+        } else if (crew.length > 0) {
+          notifyMany(crew, {
+            title: "تم تحديث المشروع",
+            message: `تم تحديث بيانات مشروع "${payload.title}".`,
+            type: "project",
+            link: `/dashboard/team/projects/${editing.id}`,
+            projectId: editing.id,
+            projectTitle: payload.title,
+            eventKey: "projectStatus",
+          });
+        }
       } else {
         const projectRef = await createDocument("teamProjects", {
           ...payload,
@@ -146,6 +186,20 @@ export default function ProjectModal({
               eventKey: "newProjects",
             });
           });
+
+        const managers = getManagerUserIds(users, currentUser?.uid);
+
+        if (managers.length > 0) {
+          notifyMany(managers, {
+            title: "مشروع جديد",
+            message: `تم إنشاء مشروع "${payload.title}".`,
+            type: "project",
+            link: `/dashboard/team/projects/${projectRef.id}`,
+            projectId: projectRef.id,
+            projectTitle: payload.title,
+            eventKey: "newProjects",
+          });
+        }
       }
 
       onSaved?.();

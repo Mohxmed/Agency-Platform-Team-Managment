@@ -405,6 +405,29 @@ export default function TaskModal({
 
         const statusChanged = editing.status !== form.status;
 
+        const wasAttachments = Array.isArray(editing.attachments)
+          ? editing.attachments
+          : [];
+
+        const newAttachments = (form.attachments || []).filter(
+          (url) => !wasAttachments.includes(url),
+        );
+
+        const wasChecklist = Array.isArray(editing.checklist)
+          ? editing.checklist
+          : [];
+
+        const newChecklistCount = (form.checklist || []).filter(
+          (item) =>
+            !wasChecklist.some((previous) => previous.id === item.id),
+        ).length;
+
+        const editingRecipients = getTaskRecipientUserIds(
+          editing,
+          users,
+          actorId,
+        );
+
         if (
           form.assigneeProfileId &&
           form.assigneeProfileId !== wasAssignedTo &&
@@ -422,18 +445,45 @@ export default function TaskModal({
         }
 
         if (statusChanged) {
-          notifyMany(
-            getTaskRecipientUserIds(editing, users, actorId),
-            {
-              title: "تم تحديث حالة المهمة",
-              message: `تم تغيير حالة مهمة "${payload.title}" إلى "${statusLabel}".`,
-              type: "task",
-              link: `/dashboard/team/tasks/${editing.id}`,
-              projectId: form.projectId,
-              projectTitle,
-              eventKey: "tasks",
-            },
-          );
+          notifyMany(editingRecipients, {
+            title: "تم تحديث حالة المهمة",
+            message: `تم تغيير حالة مهمة "${payload.title}" إلى "${statusLabel}".`,
+            type: "task",
+            link: `/dashboard/team/tasks/${editing.id}`,
+            projectId: form.projectId,
+            projectTitle,
+            eventKey: "tasks",
+          });
+        }
+
+        if (newAttachments.length > 0 && editingRecipients.length > 0) {
+          notifyMany(editingRecipients, {
+            title: "تمت إضافة مرفقات للمهمة",
+            message:
+              newAttachments.length === 1
+                ? `تمت إضافة مرفق إلى مهمة "${payload.title}".`
+                : `تمت إضافة ${newAttachments.length} مرفقات إلى مهمة "${payload.title}".`,
+            type: "attachment",
+            link: `/dashboard/team/tasks/${editing.id}`,
+            projectId: form.projectId,
+            projectTitle,
+            eventKey: "tasks",
+          });
+        }
+
+        if (newChecklistCount > 0 && editingRecipients.length > 0) {
+          notifyMany(editingRecipients, {
+            title: "تم تحديث قائمة التحقق",
+            message:
+              newChecklistCount === 1
+                ? `تمت إضافة بند إلى قائمة تحقق المهمة "${payload.title}".`
+                : `تمت إضافة ${newChecklistCount} بنود إلى قائمة تحقق المهمة "${payload.title}".`,
+            type: "checklist",
+            link: `/dashboard/team/tasks/${editing.id}`,
+            projectId: form.projectId,
+            projectTitle,
+            eventKey: "tasks",
+          });
         }
       } else {
         const taskRef = await createDocument("tasks", {

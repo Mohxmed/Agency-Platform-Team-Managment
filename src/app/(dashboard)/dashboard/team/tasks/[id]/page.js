@@ -345,6 +345,18 @@ export default function TaskDetailPage() {
     if (!confirmed) return;
 
     try {
+      notifyMany(
+        getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
+        {
+          title: "تم حذف مهمة",
+          message: `تم حذف مهمة "${task.title}".`,
+          type: "task",
+          projectId: task.projectId,
+          projectTitle: project?.title || "",
+          eventKey: "tasks",
+        },
+      );
+
       await removeDocument("tasks", task.id);
       router.push(
         task.projectId

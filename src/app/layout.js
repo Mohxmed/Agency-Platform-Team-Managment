@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import SeoInjector from "@/features/seo/SeoInjector";
 import PwaRegister from "@/providers/PwaRegister";
+import PushNotificationsProvider from "@/providers/PushNotificationsProvider";
 import { MotionConfig } from "framer-motion";
 import Script from "next/script";
 // Local Arabic Font
@@ -129,6 +130,7 @@ export default function RootLayout({ children }) {
             <AuthProvider>
               <SettingsProvider>
                 <AppInitializer />
+                <PushNotificationsProvider />
                 <SeoInjector />
                 <PwaRegister />
                 <ScrollProgress />
