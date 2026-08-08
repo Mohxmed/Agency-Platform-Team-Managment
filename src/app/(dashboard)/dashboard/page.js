@@ -2,6 +2,7 @@ import { Sparkles } from "lucide-react";
 import { ProtectedRoute } from "@/features/auth";
 import PageHero from "@/features/dashboard/components/PageHero";
 import TeamOverview from "@/features/dashboard/components/TeamOverview";
+import QuickActions from "@/features/dashboard/components/QuickActions";
 import CmsOverview from "@/features/dashboard/components/CmsOverview";
 
 export default function DashboardOverview() {
@@ -27,6 +28,8 @@ export default function DashboardOverview() {
         </PageHero>
 
         <TeamOverview />
+
+        <QuickActions />
 
         <CmsOverview />
       </div>

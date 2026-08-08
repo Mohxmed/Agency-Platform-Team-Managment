@@ -4,10 +4,7 @@ import { useAuth } from "@/features/auth";
 import { getPermissionsForProfile } from "@/constants/permissions";
 
 import StatsGrid from "./StatsGrid";
-import QuickActions from "./QuickActions";
 import SystemStatus from "./SystemStatus";
-import RecentWorks from "./RecentWorks";
-import PendingTasks from "./PendingTasks";
 
 export default function CmsOverview() {
   const { profile } = useAuth();
@@ -24,18 +21,7 @@ export default function CmsOverview() {
     <>
       <StatsGrid />
 
-      <div className="grid items-start gap-6 xl:grid-cols-3">
-        <div className="min-w-0 xl:col-span-2">
-          <QuickActions />
-        </div>
-
-        <SystemStatus />
-      </div>
-
-      <div className="grid items-start gap-6 lg:grid-cols-2">
-        <RecentWorks />
-        <PendingTasks />
-      </div>
+      <SystemStatus />
     </>
   );
 }
