@@ -160,19 +160,37 @@ function ProfileMenu({
 
   const menuRef = useRef(null);
 
+  const pathname = usePathname();
+
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
+
+  // Close menu when clicking outside or pressing Escape
   useEffect(() => {
-    function handleClickOutside(event) {
+    if (!open) return;
+
+    function handlePointerDown(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setOpen(false);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setOpen(false);
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [open]);
 
   return (
     <div ref={menuRef} className="relative">

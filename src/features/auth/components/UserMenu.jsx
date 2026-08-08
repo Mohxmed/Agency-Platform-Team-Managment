@@ -12,7 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/features/auth";
 import { logout } from "@/features/auth/services/auth.service";
 import { ROUTES } from "@/constants/routes";
@@ -26,24 +26,40 @@ const panelTransition = {
 export default function UserMenu() {
   const { user, profile, mounted } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // Close menu when clicking outside
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
+  }
+
+  // Close menu when clicking outside or pressing Escape
   useEffect(() => {
-    function handleClickOutside(event) {
+    if (!isOpen) return;
+
+    function handlePointerDown(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [isOpen]);
 
   // Not mounted yet or not logged in
   if (!mounted || !user) {
