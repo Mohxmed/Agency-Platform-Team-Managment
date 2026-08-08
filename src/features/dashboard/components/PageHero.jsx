@@ -4,11 +4,16 @@ import * as Icons from "lucide-react";
 
 const HERO_COLORS = {
   red: {
-    bg: "bg-red-600",
-    border: "border-red-700/30",
+    bg: "bg-primary-600",
+    border: "border-primary-900/40",
     badgeText: "text-red-700",
     badgeTextDark: "dark:text-red-100",
-    dotRing: "ring-red-600",
+    dotRing: "ring-primary-600",
+    iconBox: "bg-white/15 text-white ring-white/20",
+    dot: "bg-white",
+    eyebrowText: "text-white/70",
+    titleText: "text-white",
+    subtitleText: "text-white/70",
   },
 
   emerald: {
@@ -17,6 +22,11 @@ const HERO_COLORS = {
     badgeText: "text-emerald-700",
     badgeTextDark: "dark:text-emerald-100",
     dotRing: "ring-emerald-600",
+    iconBox: "bg-white/15 text-white dark:bg-black/10 dark:text-black",
+    dot: "bg-white dark:bg-black",
+    eyebrowText: "text-white/70 dark:text-black/70",
+    titleText: "text-white dark:text-black",
+    subtitleText: "text-white/70 dark:text-black/70",
   },
 };
 
@@ -52,23 +62,23 @@ export default function PageHero({
 
       <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-4">
-          <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-white shadow-lg ring-4 ring-white/20 transition-all duration-500 group-hover:scale-105 dark:bg-black/10 dark:text-black dark:ring-black/15">
+          <div className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-lg ring-4 transition-all duration-500 group-hover:scale-105 ${hero.iconBox}`}>
             <Icon className="h-6 w-6" />
 
             <span
-              className={`absolute -bottom-1 -left-1 h-3 w-3 rounded-full bg-white ring-2 dark:bg-black ${hero.dotRing}`}
+              className={`absolute -bottom-1 -left-1 h-3 w-3 rounded-full ring-2 ${hero.dot} ${hero.dotRing}`}
             />
           </div>
 
           <div>
             {eyebrow && (
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-white/70 dark:text-black/70">
+              <p className={`text-[10px] font-black uppercase tracking-[0.16em] ${hero.eyebrowText}`}>
                 {eyebrow}
               </p>
             )}
 
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-black tracking-tight text-white sm:text-2xl dark:text-black">
+              <h1 className={`text-xl font-black tracking-tight sm:text-2xl ${hero.titleText}`}>
                 {title}
               </h1>
 
@@ -82,7 +92,7 @@ export default function PageHero({
             </div>
 
             {subtitle && (
-              <p className="mt-1.5 text-sm text-white/70 dark:text-black/70">
+              <p className={`mt-1.5 text-sm ${hero.subtitleText}`}>
                 {subtitle}
               </p>
             )}

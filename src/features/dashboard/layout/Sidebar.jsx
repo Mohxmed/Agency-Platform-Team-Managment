@@ -765,12 +765,13 @@ export default function Sidebar({ open, onClose }) {
           title={collapsed ? "فتح القائمة" : "تصغير القائمة"}
           className="
             absolute
-            left-1
-            top-1/2
+            left-0
+            top-10
             z-20
             flex
             h-8
             w-8
+            -translate-x-1/2
             -translate-y-1/2
             items-center
             justify-center
@@ -792,11 +793,7 @@ export default function Sidebar({ open, onClose }) {
             HEADER
         ================================================== */}
 
-        <div
-          className={`flex h-20 shrink-0 items-center border-b border-ink/20 ${
-            collapsed ? "justify-center px-2" : "justify-between px-5"
-          }`}
-        >
+        <div className="flex h-20 shrink-0 items-center justify-center border-b border-ink/20 px-2">
           {!collapsed ? (
             <div className="shrink-0">
               <Logo className="w-32" />

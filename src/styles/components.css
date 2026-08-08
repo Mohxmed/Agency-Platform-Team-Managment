@@ -35,3 +35,42 @@
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-md);
 }
+
+/* ======================
+   Select menu (portal)
+====================== */
+
+.select-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+.select-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.select-menu::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 9999px;
+}
+
+.select-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.select-pop {
+  transform-origin: top center;
+  animation: selectPop 0.14s ease-out;
+}
+
+@keyframes selectPop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
