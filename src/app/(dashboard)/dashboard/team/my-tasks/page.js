@@ -1107,7 +1107,7 @@ function MyTaskCard({
               font-black
               ${
                 overdue
-                  ? "bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400"
+                  ? "bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400"
                   : "bg-black/[0.04] text-ink/60 dark:bg-white/[0.06] dark:text-ink/70"
               }
             `}

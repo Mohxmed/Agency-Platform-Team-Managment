@@ -371,7 +371,7 @@ export default function TeamPage() {
             <button
               type="button"
               onClick={() => openCreateTask("backlog")}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-black px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-black px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white sm:w-auto"
             >
               <Layers className="h-4 w-4" />
               مهمة فردية
@@ -447,7 +447,7 @@ export default function TeamPage() {
                 <Card hover={false} className="p-5 sm:p-6">
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400">
                         <FolderKanban className="h-5 w-5" />
                       </div>
 
@@ -507,7 +507,7 @@ export default function TeamPage() {
                 <Card hover={false} className="p-5 sm:p-6">
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
                         <ClipboardList className="h-5 w-5" />
                       </div>
 
@@ -589,7 +589,7 @@ export default function TeamPage() {
                 <Card hover={false} className="p-5 sm:p-6">
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
                         <Layers className="h-5 w-5" />
                       </div>
 
@@ -663,7 +663,7 @@ export default function TeamPage() {
                 <Card hover={false} className="p-5 sm:p-6">
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
                         <Users className="h-5 w-5" />
                       </div>
 
@@ -742,7 +742,7 @@ export default function TeamPage() {
             <Card hover={false} className="p-5 sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
                     <SquareKanban className="h-5 w-5" />
                   </div>
 

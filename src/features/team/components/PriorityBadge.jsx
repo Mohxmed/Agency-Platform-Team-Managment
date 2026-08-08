@@ -1,9 +1,9 @@
 import { getPriorityMeta } from "../lib/teamUtils";
 
 const badgeStyles = {
-  neutral: "bg-gray-100 text-gray-600",
-  warning: "bg-amber-50 text-amber-700",
-  danger: "bg-red-50 text-red-600",
+  neutral: "bg-gray-500/10 text-gray-600 dark:bg-white/[0.08] dark:text-ink/60",
+  warning: "bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400",
+  danger: "bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400",
 };
 
 const dotStyles = {

@@ -12,17 +12,16 @@ export default function ProgressBar({ value = 0, className = "", showLabel = tru
 
   return (
     <div className={className}>
-      <div className="flex items-center justify-between gap-3">
-        <span className="text-[11px] font-bold text-ink/60">التقدم</span>
-
-        {showLabel && (
+      {showLabel && (
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[11px] font-bold text-ink/60">التقدم</span>
           <span className="text-[11px] font-black text-ink/60">
             {clamped}%
           </span>
-        )}
-      </div>
+        </div>
+      )}
 
-      <div className="mt-2 h-2 overflow-hidden rounded-full bg-gray-100">
+      <div className={`${showLabel ? "mt-2" : ""} h-2 overflow-hidden rounded-full bg-gray-100`}>
         <div
           className={`h-full rounded-full transition-all duration-500 ${barColor}`}
           style={{ width: `${clamped}%` }}

@@ -668,7 +668,7 @@ export default function TaskDetailPage() {
                             disabled={busy}
                             className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition disabled:opacity-50 ${
                               noted
-                                ? "bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-400"
+                                ? "bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400"
                                 : "text-ink/60 hover:bg-ink/[0.04] hover:text-ink"
                             }`}
                           >

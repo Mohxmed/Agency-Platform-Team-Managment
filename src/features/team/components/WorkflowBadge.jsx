@@ -1,11 +1,11 @@
 import { getWorkflowMeta } from "../lib/teamUtils";
 
 const badgeStyles = {
-  neutral: "bg-gray-100 text-gray-600",
-  primary: "bg-blue-50 text-blue-700",
-  warning: "bg-amber-50 text-amber-700",
-  danger: "bg-red-50 text-red-600",
-  success: "bg-green-50 text-green-700",
+  neutral: "bg-gray-500/10 text-gray-600 dark:bg-white/[0.08] dark:text-ink/60",
+  primary: "bg-blue-500/10 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400",
+  warning: "bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400",
+  danger: "bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400",
+  success: "bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400",
 };
 
 const dotStyles = {

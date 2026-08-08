@@ -37,22 +37,27 @@ const STATUS_ACCENTS = {
   done: {
     icon: "bg-emerald-50 text-emerald-600 ring-emerald-500/10 dark:bg-emerald-500/15 dark:text-emerald-400",
     bar: "bg-emerald-500",
+    card: "border-emerald-500/30 bg-emerald-500/[0.06] dark:border-emerald-500/25 dark:bg-emerald-500/[0.08]",
   },
   revision: {
     icon: "bg-red-50 text-red-600 ring-red-500/10 dark:bg-red-500/15 dark:text-red-400",
     bar: "bg-red-500",
+    card: "border-red-500/30 bg-red-500/[0.05] dark:border-red-500/25 dark:bg-red-500/[0.07]",
   },
   review: {
     icon: "bg-violet-50 text-violet-600 ring-violet-500/10 dark:bg-violet-500/15 dark:text-violet-400",
     bar: "bg-violet-500",
+    card: "",
   },
   "in-progress": {
     icon: "bg-amber-50 text-amber-600 ring-amber-500/10 dark:bg-amber-500/15 dark:text-amber-400",
     bar: "bg-amber-500",
+    card: "",
   },
   backlog: {
     icon: "bg-gray-100 text-gray-500 ring-gray-500/10 dark:bg-white/[0.08] dark:text-ink/50",
     bar: "bg-gray-400",
+    card: "",
   },
 };
 
@@ -96,7 +101,7 @@ export default function ProjectCard({
   if (variant === "row") {
     return (
       <div
-        className={`group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-14px_rgba(0,0,0,0.18)] dark:border-white/[0.08] ${theme.hoverBorder}`}
+        className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-14px_rgba(0,0,0,0.18)] dark:border-white/[0.08] ${statusAccent.card || "border-gray-200/80"} ${theme.hoverBorder}`}
       >
         <span className={`absolute inset-y-0 right-0 w-1.5 ${statusAccent.bar}`} />
 
@@ -237,7 +242,7 @@ export default function ProjectCard({
 
   return (
     <div
-      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-gray-200/80 bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.18)] dark:border-white/[0.08] dark:hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.6)] ${theme.hoverBorder}`}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.18)] dark:border-white/[0.08] dark:hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.6)] ${statusAccent.card || "border-gray-200/80"} ${theme.hoverBorder}`}
     >
       {/* Status accent strip */}
       <div className={`h-1.5 w-full shrink-0 ${statusAccent.bar}`} />

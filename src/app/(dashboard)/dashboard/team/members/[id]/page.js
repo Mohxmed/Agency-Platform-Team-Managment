@@ -48,11 +48,11 @@ import {
 } from "@/features/team/lib/teamUtils";
 
 const STATUS_COLORS = {
-  backlog: "bg-gray-100 text-gray-700 dark:bg-white/[0.06] dark:text-ink/70",
-  "in-progress": "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400",
-  review: "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400",
-  revision: "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-400",
-  done: "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400",
+  backlog: "bg-gray-500/10 text-gray-600 dark:bg-white/[0.08] dark:text-ink/70",
+  "in-progress": "bg-amber-500/10 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400",
+  review: "bg-violet-500/10 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400",
+  revision: "bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400",
+  done: "bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400",
 };
 
 const STATUS_LABELS = {
@@ -72,10 +72,10 @@ const ROLE_LABELS = {
 };
 
 const ACTIVITY_ICONS = {
-  created: { icon: Plus, color: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400" },
-  status: { icon: RefreshCw, color: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400" },
-  comment: { icon: MessageSquare, color: "bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400" },
-  checklist: { icon: ListChecks, color: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400" },
+  created: { icon: Plus, color: "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400" },
+  status: { icon: RefreshCw, color: "bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400" },
+  comment: { icon: MessageSquare, color: "bg-violet-500/10 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400" },
+  checklist: { icon: ListChecks, color: "bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400" },
 };
 
 export default function MemberReportPage() {
@@ -598,7 +598,7 @@ export default function MemberReportPage() {
             ) : (
               <ol className="relative space-y-4 border-r border-ink/[0.08] pr-5">
                 {memberActivity.map((entry) => {
-                  const meta = ACTIVITY_ICONS[entry.type] || { icon: ActivityIcon, color: "bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-ink/60" };
+                  const meta = ACTIVITY_ICONS[entry.type] || { icon: ActivityIcon, color: "bg-gray-500/10 text-gray-600 dark:bg-white/10 dark:text-ink/60" };
                   const Icon = meta.icon;
                   return (
                     <li key={entry.id} className="relative">
