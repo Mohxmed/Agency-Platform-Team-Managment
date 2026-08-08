@@ -45,6 +45,16 @@
   scrollbar-color: var(--color-line) transparent;
 }
 
+.dark .select-menu {
+  --color-card: #15151c;
+  --color-ink: #e7e7ec;
+  --color-muted: #9ca3af;
+  --color-line: #26262f;
+  --color-surface-hover: #1a1a22;
+  --color-primary-50: #450a0a;
+  --color-primary-700: #fca5a5;
+}
+
 .select-menu::-webkit-scrollbar {
   width: 6px;
 }

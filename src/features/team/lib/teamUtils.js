@@ -172,6 +172,10 @@ function toTimestampMs(value) {
   return 0;
 }
 
+export function getTimestampMs(value) {
+  return toTimestampMs(value);
+}
+
 function toDeadlineMs(value) {
   if (!value) return Number.POSITIVE_INFINITY;
 

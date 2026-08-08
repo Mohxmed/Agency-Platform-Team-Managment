@@ -31,7 +31,11 @@ import {
 } from "@/lib/notificationService";
 
 import { WORKFLOW_STATUSES, PRIORITIES } from "@/constants/workflow";
-import { uid } from "../lib/teamUtils";
+import {
+  uid,
+  canMemberAdvance,
+  nextWorkflowStatus,
+} from "../lib/teamUtils";
 
 const EMPTY_FORM = {
   projectId: "",
@@ -229,6 +233,7 @@ export default function TaskModal({
   defaultStatus = "backlog",
   onSaved,
   currentUser,
+  canManage = false,
 }) {
   const [form, setForm] = useState(EMPTY_FORM);
 
@@ -240,8 +245,18 @@ export default function TaskModal({
 
   const [checklistInput, setChecklistInput] = useState("");
 
+  const wasOpenRef = useRef(false);
+
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      wasOpenRef.current = false;
+      return;
+    }
+
+    // Only sync the form when the modal actually opens. Re-syncing on every
+    // snapshot while the user is typing would wipe their unsaved edits.
+    if (wasOpenRef.current) return;
+    wasOpenRef.current = true;
 
     // Intentional: sync the form with the record being edited when opened.
     if (editing) {
@@ -278,6 +293,23 @@ export default function TaskModal({
     setForm((previous) => ({ ...previous, [name]: value }));
   }
 
+  // Non-managers may only move the workflow forward up to "review", or
+  // resubmit a task they received back (revision → review). Anything else
+  // (setting done/revision directly, assigning others) stays manager-only.
+  const statusOptions = useMemo(() => {
+    if (canManage || !editing) return WORKFLOW_STATUSES;
+
+    const current = editing.status || "backlog";
+    const allowed = new Set([current]);
+
+    if (canMemberAdvance(current)) allowed.add(nextWorkflowStatus(current));
+    if (current === "revision") allowed.add("review");
+
+    return WORKFLOW_STATUSES.filter((status) => allowed.has(status.value));
+  }, [canManage, editing]);
+
+  const isReadOnlyFields = !canManage && Boolean(editing);
+
   function addLabel() {
     const value = labelInput.trim();
     if (!value) return;
@@ -296,9 +328,23 @@ export default function TaskModal({
     );
   }
 
+  function normalizeAttachment(value) {
+    const trimmed = String(value || "").trim();
+    if (!trimmed) return "";
+    if (/^https?:\/\//i.test(trimmed) || /^mailto:/i.test(trimmed)) {
+      return trimmed;
+    }
+    if (/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+  }
+
   function addAttachment() {
-    const value = attachmentInput.trim();
+    const value = normalizeAttachment(attachmentInput);
     if (!value) return;
+    if (form.attachments.includes(value)) {
+      setAttachmentInput("");
+      return;
+    }
     updateField("attachments", [...form.attachments, value]);
     setAttachmentInput("");
   }
@@ -373,6 +419,18 @@ export default function TaskModal({
     setSaving(true);
 
     try {
+      const statusChanged = editing && editing.status !== form.status;
+
+      // Non-managers editing a task must keep assignment/project untouched and
+      // may only change status through the same workflow rules as the buttons.
+      if (!canManage && editing) {
+        const allowedStatuses = statusOptions.map((status) => status.value);
+        if (statusChanged && !allowedStatuses.includes(form.status)) {
+          alert("ليس لديك صلاحية لنقل المهمة إلى هذه المرحلة.");
+          return;
+        }
+      }
+
       const payload = {
         projectId: form.projectId || "",
         title: form.title?.trim() || "",
@@ -387,6 +445,12 @@ export default function TaskModal({
         checklist: form.checklist || [],
         activity: buildActivity(),
       };
+
+      if (!canManage && editing) {
+        payload.assigneeProfileId = editing.assigneeProfileId || editing.assigneeId || "";
+        payload.reviewerProfileId = editing.reviewerProfileId || editing.reviewerId || "";
+        payload.projectId = editing.projectId || "";
+      }
 
       const project = projects.find((item) => item.id === form.projectId);
 
@@ -563,6 +627,7 @@ export default function TaskModal({
           <Select
             label="المشروع"
             value={form.projectId}
+            disabled={isReadOnlyFields}
             options={[
               { value: "", label: "بدون مشروع (مهمة واحدة)" },
               ...projects.map((project) => ({
@@ -601,7 +666,7 @@ export default function TaskModal({
           <Select
             label="الحالة"
             value={form.status}
-            options={WORKFLOW_STATUSES.map((status) => ({
+            options={statusOptions.map((status) => ({
               value: status.value,
               label: `${status.labelAr} (${status.label})`,
             }))}

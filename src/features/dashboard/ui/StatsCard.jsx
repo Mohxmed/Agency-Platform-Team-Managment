@@ -8,6 +8,7 @@ export default function StatsCard({
   value,
   icon: Icon,
   trend,
+  description,
   accent,
   className = "",
 }) {
@@ -44,6 +45,12 @@ export default function StatsCard({
           <h3 className="mt-2 text-3xl font-bold leading-none tracking-tight text-ink">
             {value}
           </h3>
+
+          {description && (
+            <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-ink/60">
+              {description}
+            </p>
+          )}
         </div>
 
         {Icon && (

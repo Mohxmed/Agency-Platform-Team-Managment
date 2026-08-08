@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import {
   ArrowLeft,
   Award,
-  BarChart3,
   Briefcase,
   CalendarDays,
   CheckCircle2,
@@ -17,7 +16,6 @@ import {
   PieChart,
   Target,
   TrendingUp,
-  User,
   UserCog,
 } from "lucide-react";
 
@@ -31,7 +29,13 @@ import StatsCard from "@/features/dashboard/ui/StatsCard";
 import Badge from "@/features/dashboard/ui/Badge";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
-import { getWorkflowMeta } from "@/features/team/lib/teamUtils";
+import {
+  getWorkflowMeta,
+  formatDeadline,
+  isDeadlineOverdue,
+  getTimestampMs,
+  canManageTeam,
+} from "@/features/team/lib/teamUtils";
 
 const STATUS_COLORS = {
   backlog: "bg-gray-100 text-gray-700 dark:bg-white/[0.06] dark:text-ink/70",
@@ -60,8 +64,11 @@ const ROLE_LABELS = {
 export default function MemberReportPage() {
   const theme = usePageTheme();
   const params = useParams();
+  const router = useRouter();
   const { profile: currentProfile } = useAuth();
   const memberId = params?.id;
+
+  const [period, setPeriod] = useState("week");
 
   const { users, tasks, projects, userMap, loading } = useTeamData();
 
@@ -85,7 +92,11 @@ export default function MemberReportPage() {
           const assigneeId = task.assigneeProfileId || task.assigneeId;
           return assigneeId === memberId;
         })
-        .sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt)),
+        .sort(
+          (a, b) =>
+            getTimestampMs(b.updatedAt || b.createdAt) -
+            getTimestampMs(a.updatedAt || a.createdAt),
+        ),
     [tasks, memberId]
   );
 
@@ -93,6 +104,29 @@ export default function MemberReportPage() {
     const projectIds = new Set(memberTasks.map((t) => t.projectId).filter(Boolean));
     return projects.filter((p) => projectIds.has(p.id));
   }, [memberTasks, projects]);
+
+  const periodStart = useMemo(() => {
+    const now = new Date();
+    if (period === "week") {
+      const start = new Date(now);
+      start.setDate(now.getDate() - 7);
+      start.setHours(0, 0, 0, 0);
+      return start;
+    }
+    if (period === "month") {
+      return new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+    return null;
+  }, [period]);
+
+  const periodTasks = useMemo(() => {
+    if (!periodStart) return memberTasks;
+    const startMs = periodStart.getTime();
+    return memberTasks.filter((t) => {
+      const ts = getTimestampMs(t.updatedAt || t.createdAt);
+      return ts >= startMs;
+    });
+  }, [memberTasks, periodStart]);
 
   const stats = useMemo(() => {
     const total = memberTasks.length;
@@ -104,14 +138,17 @@ export default function MemberReportPage() {
 
     const completedThisMonth = memberTasks.filter((t) => {
       if (t.status !== "done") return false;
-      const updated = t.updatedAt ? new Date(t.updatedAt) : null;
+      const updated = t.updatedAt ? new Date(getTimestampMs(t.updatedAt)) : null;
       if (!updated) return false;
       const now = new Date();
       return updated.getMonth() === now.getMonth() && updated.getFullYear() === now.getFullYear();
     }).length;
 
+    const completedInPeriod = periodTasks.filter((t) => t.status === "done").length;
+    const activeInPeriod = periodTasks.filter((t) => t.status !== "done").length;
+
     const overdue = memberTasks.filter(
-      (t) => t.status !== "done" && t.deadline && new Date(t.deadline) < new Date()
+      (t) => t.status !== "done" && isDeadlineOverdue(t.deadline)
     ).length;
 
     const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
@@ -124,10 +161,12 @@ export default function MemberReportPage() {
       revision,
       backlog,
       completedThisMonth,
+      completedInPeriod,
+      activeInPeriod,
       overdue,
       completionRate,
     };
-  }, [memberTasks]);
+  }, [memberTasks, periodTasks]);
 
   const statusBreakdown = useMemo(() => [
     { key: "done", label: "منجز", count: stats.done, color: "bg-emerald-500" },
@@ -171,7 +210,7 @@ export default function MemberReportPage() {
     );
   }
 
-  const canManage = currentProfile?.role === "admin" || currentProfile?.role === "manager";
+  const canManage = canManageTeam(currentProfile?.role);
 
   return (
     <ProtectedRoute permission="team">
@@ -240,22 +279,58 @@ export default function MemberReportPage() {
         </div>
       </Card>
 
+      {/* Period Toggle */}
+      <Card className="p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="text-sm font-bold text-ink">إحصائيات الأداء</h3>
+            <p className="mt-0.5 text-xs text-ink/60">
+              {period === "week" ? "آخر 7 أيام" : "الشهر الحالي"}
+            </p>
+          </div>
+          <div className="flex items-center gap-1 rounded-xl bg-ink/[0.04] p-1">
+            <button
+              type="button"
+              onClick={() => setPeriod("week")}
+              className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${
+                period === "week"
+                  ? "bg-card text-primary shadow-sm"
+                  : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              أسبوع
+            </button>
+            <button
+              type="button"
+              onClick={() => setPeriod("month")}
+              className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${
+                period === "month"
+                  ? "bg-card text-primary shadow-sm"
+                  : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              شهر
+            </button>
+          </div>
+        </div>
+      </Card>
+
       {/* Stats Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
-          label="إجمالي المهام"
-          value={stats.total}
-          description="جميع المهام المسندة"
+          label={period === "week" ? "مهام الأسبوع" : "مهام الشهر"}
+          value={stats.completedInPeriod + stats.activeInPeriod}
+          description="نشطة خلال الفترة"
           icon={Briefcase}
           accent="primary"
         />
         <StatsCard
           label="منجز"
-          value={stats.done}
+          value={stats.completedInPeriod}
           description={`${stats.completionRate}% معدل إنجاز`}
           icon={CheckCircle2}
           accent="emerald"
-          trend={stats.completedThisMonth > 0 ? `+${stats.completedThisMonth} هذا الشهر` : undefined}
+          trend={stats.completedInPeriod > 0 ? `+${stats.completedInPeriod} ${period === "week" ? "هذا الأسبوع" : "هذا الشهر"}` : undefined}
         />
         <StatsCard
           label="قيد التنفيذ"
@@ -305,19 +380,19 @@ export default function MemberReportPage() {
         <Card>
           <h3 className="text-lg font-bold text-ink mb-4">إجراءات سريعة</h3>
           <div className="space-y-2">
-            <Button className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team`}>
+            <Button className="w-full justify-start gap-3" onClick={() => router.push(`/dashboard/team/my-tasks?assignee=${memberId}`)}>
               <Briefcase className="h-4 w-4" />
               عرض جميع المهام
             </Button>
-            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team`}>
+            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => router.push(`/dashboard/team/projects?assignee=${memberId}`)}>
               <Target className="h-4 w-4" />
               المشاريع المسندة
             </Button>
-            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => window.location.href = `/dashboard/team/progress?member=${memberId}`}>
+            <Button variant="outline" className="w-full justify-start gap-3" onClick={() => router.push(`/dashboard/team/progress?member=${memberId}`)}>
               <TrendingUp className="h-4 w-4" />
               تقرير التقدم
             </Button>
-            {canManage && (
+            {currentProfile?.role === "admin" && (
               <Link
                 href="/dashboard/settings/users"
                 className="inline-flex w-full items-center justify-start gap-3 rounded-xl border border-ink/10 px-4 py-2.5 text-sm font-bold text-red-600 transition-colors hover:bg-red-50"
@@ -334,7 +409,7 @@ export default function MemberReportPage() {
       <Card>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-ink">آخر المهام</h3>
-          <Button variant="outline" size="sm" onClick={() => window.location.href = `/dashboard/team`}>
+          <Button variant="outline" size="sm" onClick={() => router.push(`/dashboard/team/my-tasks?assignee=${memberId}`)}>
             عرض الكل
             <ExternalLink className="h-3.5 w-3.5 ml-1" />
           </Button>
@@ -344,7 +419,7 @@ export default function MemberReportPage() {
           <div className="text-center py-12">
             <Briefcase className="h-12 w-12 mx-auto text-ink/20" />
             <p className="mt-3 text-ink/60">لا توجد مهام مسندة لهذا العضو بعد.</p>
-            <Button className="mt-4" onClick={() => window.location.href = `/dashboard/team`}>
+            <Button className="mt-4" onClick={() => router.push(`/dashboard/team`)}>
               إنشاء مهمة جديدة
             </Button>
           </div>
@@ -364,7 +439,7 @@ export default function MemberReportPage() {
                 {memberTasks.slice(0, 10).map((task) => {
                   const project = projects.find((p) => p.id === task.projectId);
                   const meta = getWorkflowMeta(task.status);
-                  const isOverdue = task.deadline && task.status !== "done" && new Date(task.deadline) < new Date();
+                  const isOverdue = task.status !== "done" && isDeadlineOverdue(task.deadline);
                   return (
                     <tr key={task.id} className="hover:bg-ink/[0.02] transition-colors">
                       <td className="py-3 pr-4">
@@ -386,7 +461,7 @@ export default function MemberReportPage() {
                         </Badge>
                       </td>
                       <td className={`py-3 pr-4 text-sm ${isOverdue ? "text-red-600 font-bold" : "text-ink/60"}`}>
-                        {task.deadline ? new Date(task.deadline).toLocaleDateString("ar-EG") : "—"}
+                        {task.deadline ? formatDeadline(task.deadline) : "—"}
                         {isOverdue && <span className="ml-1 text-red-500">⚠</span>}
                       </td>
                     </tr>
@@ -418,7 +493,7 @@ export default function MemberReportPage() {
                       <h4 className="font-bold text-ink group-hover:text-primary transition-colors truncate">{project.title}</h4>
                       <p className="mt-1 text-sm text-ink/60">{projectDone} / {projectTotal} مهام منجزة</p>
                       <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden dark:bg-white/10">
-                        <div className={`h-full ${theme.solidBg} transition-all duration-300`} style={{ width: `${progress}%` }} />
+                        <div className={`h-full ${theme.solid} transition-all duration-300`} style={{ width: `${progress}%` }} />
                       </div>
                       <p className="mt-1 text-xs text-ink/60">{progress}% مكتمل</p>
                     </div>

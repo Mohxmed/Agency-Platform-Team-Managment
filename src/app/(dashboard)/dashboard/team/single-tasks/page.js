@@ -26,7 +26,6 @@ import {
   formatDeadline,
   getUserName,
   getAssigneeId,
-  getWorkflowMeta,
   isDeadlineOverdue,
 } from "@/features/team/lib/teamUtils";
 
@@ -297,7 +296,7 @@ export default function SingleTasksPage() {
                               <p className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-ink/60">
                                 <span className="inline-flex items-center gap-1 rounded-lg bg-violet-50 px-2 py-0.5 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
                                   <Layers className="h-3 w-3" />
-                                  {getWorkflowMeta(task.status).labelAr}
+                                  مهمة مستقلة
                                 </span>
                               </p>
                             </Link>

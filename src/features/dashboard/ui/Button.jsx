@@ -46,6 +46,7 @@ const sizes = {
   sm: "h-9 px-3.5 text-xs",
   md: "h-10.5 px-4.5 text-sm",
   lg: "h-12 px-6 text-base",
+  icon: "h-10 w-10 p-0",
 };
 
 export default function Button({

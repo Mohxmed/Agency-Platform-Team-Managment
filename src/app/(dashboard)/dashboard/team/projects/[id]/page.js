@@ -307,7 +307,8 @@ export default function ProjectDetailPage() {
 
     if (
       direction === "backward" &&
-      !canManage
+      !canManage &&
+      task.status !== "revision"
     ) {
 
       showToast({
@@ -763,62 +764,7 @@ export default function ProjectDetailPage() {
 
         </Link>
 
-        {!isProjectMember ? (
-
-          <div
-            className="
-              flex
-              min-h-[320px]
-              flex-col
-              items-center
-              justify-center
-              rounded-[28px]
-              border
-              border-dashed
-              border-ink/10
-              bg-card
-              text-center
-              px-6
-            "
-          >
-
-            <Lock
-              className="
-                h-9
-                w-9
-                text-ink/20
-              "
-            />
-
-
-            <h2
-              className="
-                mt-4
-                text-lg
-                font-black
-                text-ink
-              "
-            >
-              لا يمكنك الوصول لهذا المشروع
-            </h2>
-
-
-            <p
-              className="
-                mt-2
-                max-w-md
-                text-sm
-                text-ink/60
-              "
-            >
-              هذا المشروع غير متاح ضمن صلاحيات حسابك.
-            </p>
-
-
-          </div>
-
-
-        ) : !project ? (
+        {!project ? (
 
 
           <div
@@ -870,14 +816,70 @@ export default function ProjectDetailPage() {
                 text-sm
                 font-bold
                 text-white
+                transition
+                hover:bg-primary-600
               "
             >
-              العودة للمشاريع
-            </Link>
 
+              العودة إلى المشاريع
+
+            </Link>
 
           </div>
 
+
+        ) : !isProjectMember ? (
+          <div
+            className="
+              flex
+              min-h-[320px]
+              flex-col
+              items-center
+              justify-center
+              rounded-[28px]
+              border
+              border-dashed
+              border-ink/10
+              bg-card
+              text-center
+              px-6
+            "
+          >
+
+            <Lock
+              className="
+                h-9
+                w-9
+                text-ink/20
+              "
+            />
+
+
+            <h2
+              className="
+                mt-4
+                text-lg
+                font-black
+                text-ink
+              "
+            >
+              لا يمكنك الوصول لهذا المشروع
+            </h2>
+
+
+            <p
+              className="
+                mt-2
+                max-w-md
+                text-sm
+                text-ink/60
+              "
+            >
+              هذا المشروع غير متاح ضمن صلاحيات حسابك.
+            </p>
+
+
+          </div>
 
         ) : (
           <>
@@ -1644,6 +1646,7 @@ export default function ProjectDetailPage() {
         defaultProjectId={projectId}
         defaultStatus={defaultStatus}
         currentUser={currentUser}
+        canManage={canManage}
         onSaved={() => {}}
       />
 

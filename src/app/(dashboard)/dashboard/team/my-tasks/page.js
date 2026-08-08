@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import {
   ClipboardList,
@@ -52,9 +53,21 @@ import { Select } from "@/features/dashboard/ui/Input";
 
 
 export default function MyTasksPage() {
+  return (
+    <Suspense fallback={null}>
+      <MyTasksPageInner />
+    </Suspense>
+  );
+}
+
+function MyTasksPageInner() {
   const theme = usePageTheme();
 
   const { showToast } = useToast();
+
+  const searchParams = useSearchParams();
+
+  const assigneeParam = searchParams.get("assignee");
 
   const {
     user: currentUser,
@@ -87,16 +100,19 @@ export default function MyTasksPage() {
 
 
   const myTasks = useMemo(() => {
-    if (!currentUser) return [];
+    const targetId = assigneeParam || currentUser?.uid;
+
+    if (!targetId) return [];
 
     return tasks.filter(
       (task) =>
         getAssigneeId(task) ===
-        currentUser.uid,
+        targetId,
     );
   }, [
     tasks,
     currentUser,
+    assigneeParam,
   ]);
 
 
@@ -106,8 +122,7 @@ export default function MyTasksPage() {
         const status = task.status;
 
         if (
-          status === "done" ||
-          status === "approved"
+          status === "done"
         ) {
           result.completed++;
         }
@@ -338,7 +353,8 @@ export default function MyTasksPage() {
 
     if (
       direction === "backward" &&
-      !canManageTeam(role)
+      !canManageTeam(role) &&
+      task.status !== "revision"
     ) {
       showToast({
         type: "warning",
@@ -357,6 +373,7 @@ export default function MyTasksPage() {
           status.value === task.status,
       );
 
+    if (currentIndex === -1) return;
 
     const delta =
       direction === "forward"
@@ -460,8 +477,12 @@ export default function MyTasksPage() {
 
         <TeamHero
           icon={ClipboardList}
-          title="مهماتي"
-          subtitle="تابع تقدم مهامك، حدّث الحالات، ونظّم سير العمل."
+          title={assigneeParam ? "مهام العضو" : "مهماتي"}
+          subtitle={
+            assigneeParam
+              ? "مراجعة مهام هذا العضو ومتابعة تقدمها."
+              : "تابع تقدم مهامك، حدّث الحالات، ونظّم سير العمل."
+          }
         >
           <div
             className="
@@ -1146,7 +1167,7 @@ function MyTaskCard({
           }
 
           disabled={
-            !canManage ||
+            (!canManage && task.status !== "revision") ||
             task.status === "backlog"
           }
 
@@ -1186,7 +1207,8 @@ function MyTaskCard({
           }
 
           disabled={
-            task.status === "done"
+            task.status === "done" ||
+            (!canManage && !canMemberAdvance(task.status))
           }
 
           className="

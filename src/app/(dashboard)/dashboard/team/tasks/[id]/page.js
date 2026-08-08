@@ -15,6 +15,7 @@ import {
   ClipboardList,
   ExternalLink,
   Eye,
+  History,
   ListChecks,
   MessageSquare,
   Pencil,
@@ -52,6 +53,7 @@ import {
   prevWorkflowStatus,
   canManageTeam,
   canMemberAdvance,
+  getTimestampMs,
   uid,
 } from "@/features/team/lib/teamUtils";
 
@@ -60,6 +62,14 @@ import { updateDocument, removeDocument } from "@/lib/firestoreService";
 import { notifyMany, getTaskRecipientUserIds } from "@/lib/notificationService";
 
 import { useToast } from "@/hooks/useToast";
+
+function normalizeUrl(value) {
+  if (!value) return "";
+  const trimmed = String(value).trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed) || /^mailto:/i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
 
 export default function TaskDetailPage() {
   const params = useParams();
@@ -131,10 +141,9 @@ export default function TaskDetailPage() {
       return;
     }
 
-    const role = profile?.role;
-
-    // Members may only advance the workflow (never move backward).
-    if (direction === "backward" && !canManage) {
+    // Members may only advance the workflow. The one exception: a member who
+    // received the task back as "revision" may resubmit it (revision → review).
+    if (direction === "backward" && !canManage && task.status !== "revision") {
       showToast({
         type: "warning",
         title: "صلاحيات غير كافية",
@@ -345,6 +354,8 @@ export default function TaskDetailPage() {
     if (!confirmed) return;
 
     try {
+      await removeDocument("tasks", task.id);
+
       notifyMany(
         getTaskRecipientUserIds(task, users, currentUser?.uid || ""),
         {
@@ -357,7 +368,6 @@ export default function TaskDetailPage() {
         },
       );
 
-      await removeDocument("tasks", task.id);
       router.push(
         task.projectId
           ? `/dashboard/team/projects/${task.projectId}`
@@ -401,7 +411,7 @@ export default function TaskDetailPage() {
             <button
               type="button"
               onClick={() => handleMove("backward")}
-              disabled={busy || !canManage || !task || task.status === "backlog"}
+              disabled={busy || !task || task.status === "backlog" || (!canManage && task.status !== "revision")}
               title="التراجع في مراحل العمل"
               className="flex h-9 w-9 items-center justify-center rounded-xl border border-ink/[0.08] bg-card text-ink/60 transition hover:border-ink/[0.16] hover:text-ink disabled:pointer-events-none disabled:opacity-30"
             >
@@ -448,8 +458,8 @@ export default function TaskDetailPage() {
         </div>
 
         {!task ? (
-          <div className="flex min-h-[320px] flex-col items-center justify-center rounded-[24px] border border-dashed border-red-200 bg-red-50/30 px-6 text-center">
-            <ClipboardList className="h-8 w-8 text-red-300" />
+          <div className="flex min-h-[320px] flex-col items-center justify-center rounded-[24px] border border-dashed border-red-200 bg-red-50/30 px-6 text-center dark:border-red-500/20 dark:bg-red-500/[0.04]">
+            <ClipboardList className="h-8 w-8 text-red-300 dark:text-red-400/70" />
             <h2 className="mt-4 text-lg font-black text-ink">المهمة غير موجودة</h2>
             <Link
               href="/dashboard/team"
@@ -684,6 +694,31 @@ export default function TaskDetailPage() {
                   })}
                 </div>
               </section>
+
+              {task.activity?.length > 0 && (
+                <section className="rounded-[24px] border border-gray-200/80 bg-card dark:border-white/[0.08] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.035)]">
+                  <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
+                    <History className="h-4 w-4 text-ink/60" />
+                    سجل النشاط
+                  </h3>
+
+                  <ol className="relative space-y-4 border-r border-ink/[0.08] pr-5">
+                    {[...task.activity]
+                      .sort((a, b) => getTimestampMs(b.createdAt) - getTimestampMs(a.createdAt))
+                      .map((entry) => (
+                        <li key={entry.id} className="relative">
+                          <span className="absolute -right-[25px] top-1.5 h-2 w-2 rounded-full bg-red-500 ring-4 ring-red-500/15" />
+
+                          <p className="text-xs font-bold text-ink">{entry.text}</p>
+
+                          <p className="mt-0.5 text-[10px] font-medium text-ink/60">
+                            {entry.authorName || "مستخدم"} · {formatDateTime(entry.createdAt)}
+                          </p>
+                        </li>
+                      ))}
+                  </ol>
+                </section>
+              )}
             </div>
 
             <div className="space-y-6">
@@ -754,19 +789,22 @@ export default function TaskDetailPage() {
                   </h3>
 
                   <ul className="space-y-2">
-                    {task.attachments.map((url) => (
-                      <li key={url}>
-                        <a
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-surface/60 px-3 py-2.5 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                          <span className="min-w-0 flex-1 truncate">{url}</span>
-                        </a>
-                      </li>
-                    ))}
+                    {task.attachments.map((url) => {
+                      const safeUrl = normalizeUrl(url);
+                      return (
+                        <li key={url}>
+                          <a
+                            href={safeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 rounded-xl border border-ink/[0.06] bg-surface/60 px-3 py-2.5 text-xs font-bold text-ink/60 transition hover:border-red-200 hover:text-red-600"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                            <span className="min-w-0 flex-1 truncate">{safeUrl}</span>
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </section>
               )}
@@ -792,10 +830,10 @@ export default function TaskDetailPage() {
                         style={reached ? { backgroundColor: `${status.color}14` } : undefined}
                       >
                         <span
-                          className="h-2.5 w-2.5 shrink-0 rounded-full"
-                          style={{
-                            backgroundColor: reached ? status.color : "#d4d4d4",
-                          }}
+                          className={`h-2.5 w-2.5 shrink-0 rounded-full ${
+                            reached ? "" : "bg-ink/15"
+                          }`}
+                          style={reached ? { backgroundColor: status.color } : undefined}
                         />
 
                         <span
@@ -834,6 +872,7 @@ export default function TaskDetailPage() {
         defaultProjectId={task?.projectId}
         defaultStatus={task?.status}
         currentUser={currentUser}
+        canManage={canManage}
         onSaved={() => {}}
       />
     </ProtectedRoute>

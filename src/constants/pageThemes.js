@@ -502,6 +502,17 @@ export function getPageTheme(pathname = "/dashboard") {
   return THEMES[match?.theme] || THEMES.red;
 }
 
+const THEME_ALIASES = {
+  primary: "red",
+  danger: "red",
+  success: "emerald",
+  warning: "amber",
+};
+
 export function getThemeByName(name) {
-  return THEMES[name] || THEMES.red;
+  if (typeof name !== "string") return THEMES.red;
+
+  const resolved = THEME_ALIASES[name] || name;
+
+  return THEMES[resolved] || THEMES.red;
 }

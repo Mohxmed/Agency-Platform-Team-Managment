@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import {
   BarChart3,
@@ -40,7 +41,19 @@ import { getProjectIcon } from "@/constants/projectIcons";
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 
 export default function TeamProgressPage() {
+  return (
+    <Suspense fallback={null}>
+      <TeamProgressPageInner />
+    </Suspense>
+  );
+}
+
+function TeamProgressPageInner() {
   const theme = usePageTheme();
+
+  const searchParams = useSearchParams();
+
+  const memberParam = searchParams.get("member");
 
   const {
     projects,
@@ -49,11 +62,21 @@ export default function TeamProgressPage() {
     loading,
   } = useTeamData();
 
+  const focusedMember = memberParam
+    ? activeUsers.find((user) => user.id === memberParam)
+    : null;
+
+
+  const scopeTasks = useMemo(() => {
+    if (!memberParam) return tasks;
+
+    return tasks.filter((task) => getAssigneeId(task) === memberParam);
+  }, [tasks, memberParam]);
 
   const tasksByProject = useMemo(() => {
     const map = {};
 
-    tasks.forEach((task) => {
+    scopeTasks.forEach((task) => {
       if (!map[task.projectId]) {
         map[task.projectId] = [];
       }
@@ -62,13 +85,13 @@ export default function TeamProgressPage() {
     });
 
     return map;
-  }, [tasks]);
+  }, [scopeTasks]);
 
 
   const tasksByUser = useMemo(() => {
     const map = {};
 
-    tasks.forEach((task) => {
+    scopeTasks.forEach((task) => {
       const userId = getAssigneeId(task);
 
       if (!userId) return;
@@ -81,33 +104,33 @@ export default function TeamProgressPage() {
     });
 
     return map;
-  }, [tasks]);
+  }, [scopeTasks]);
 
 
   const completedTasks = useMemo(
     () =>
-      tasks.filter(
+      scopeTasks.filter(
         (task) =>
           task.status === "done" ||
           task.status === "approved",
       ).length,
-    [tasks],
+    [scopeTasks],
   );
 
 
   const totalHours = useMemo(
     () =>
-      tasks.reduce(
+      scopeTasks.reduce(
         (sum, task) =>
           sum + Number(task.spentHours || 0),
         0,
       ),
-    [tasks],
+    [scopeTasks],
   );
 
 
-  const completionRate = tasks.length
-    ? Math.round((completedTasks / tasks.length) * 100)
+  const completionRate = scopeTasks.length
+    ? Math.round((completedTasks / scopeTasks.length) * 100)
     : 0;
 
 
@@ -175,8 +198,12 @@ export default function TeamProgressPage() {
       >
         <TeamHero
           icon={BarChart3}
-          title="لوحة التقدم"
-          subtitle="تحليل أداء المشاريع، الفريق، وسير العمل."
+          title={focusedMember ? "تقرير التقدم" : "لوحة التقدم"}
+          subtitle={
+            focusedMember
+              ? `تحليل أداء ${focusedMember.name || focusedMember.email || "العضو"} وسير عمله.`
+              : "تحليل أداء المشاريع، الفريق، وسير العمل."
+          }
         />
 
 
@@ -287,7 +314,7 @@ export default function TeamProgressPage() {
                   dark:bg-white/[0.06]
                 "
               >
-                {tasks.length} مهمة
+                {scopeTasks.length} مهمة
               </span>
             </div>
 
@@ -310,14 +337,14 @@ export default function TeamProgressPage() {
             ) : (
               <div className="mt-8 space-y-5">
                 {WORKFLOW_STATUSES.map((status) => {
-                  const count = tasks.filter(
+                  const count = scopeTasks.filter(
                     (task) =>
                       task.status === status.value,
                   ).length;
 
-                  const percentage = tasks.length
+                  const percentage = scopeTasks.length
                     ? Math.round(
-                        (count / tasks.length) * 100,
+                        (count / scopeTasks.length) * 100,
                       )
                     : 0;
 
@@ -438,11 +465,13 @@ export default function TeamProgressPage() {
 
                 <div>
                   <h3 className="text-sm font-black text-ink">
-                    أداء الفريق
+                    {focusedMember ? "أداء العضو" : "أداء الفريق"}
                   </h3>
 
                   <p className="mt-1 text-xs font-medium text-ink/60">
-                    توزيع المهام حسب الأعضاء
+                    {focusedMember
+                      ? "إنجازات العضو ونشاطه"
+                      : "توزيع المهام حسب الأعضاء"}
                   </p>
                 </div>
               </div>
@@ -459,7 +488,7 @@ export default function TeamProgressPage() {
                   dark:bg-white/[0.06]
                 "
               >
-                {activeUsers.length} عضو
+                {focusedMember ? "عضو واحد" : `${activeUsers.length} عضو`}
               </span>
             </div>
 
@@ -481,7 +510,7 @@ export default function TeamProgressPage() {
               </div>
             ) : (
               <div className="mt-8 space-y-5">
-                {activeUsers.map((user) => {
+                {(focusedMember ? [focusedMember] : activeUsers).map((user) => {
                   const userTasks =
                     tasksByUser[user.id] || [];
 

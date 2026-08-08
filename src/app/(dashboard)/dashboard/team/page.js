@@ -15,6 +15,7 @@ import {
   Loader2,
   CheckCircle2,
   Timer,
+  SquareKanban,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -24,6 +25,7 @@ import { useTeamData } from "@/features/team/hooks/useTeamData";
 import ProjectModal from "@/features/team/components/ProjectModal";
 import TaskModal from "@/features/team/components/TaskModal";
 import ProjectCard from "@/features/team/components/ProjectCard";
+import TaskBoard from "@/features/team/components/TaskBoard";
 
 import {
   getUserName,
@@ -33,9 +35,13 @@ import {
   sortProjects,
   deriveProjectStatus,
   isDeadlineOverdue,
+  nextWorkflowStatus,
+  prevWorkflowStatus,
+  canMemberAdvance,
+  uid,
 } from "@/features/team/lib/teamUtils";
 
-import { removeDocument } from "@/lib/firestoreService";
+import { removeDocument, updateDocument } from "@/lib/firestoreService";
 
 import Avatar from "@/features/dashboard/ui/Avatar";
 import Card from "@/features/dashboard/ui/Card";
@@ -68,6 +74,10 @@ export default function TeamPage() {
   const [deleting, setDeleting] = useState(false);
 
   const [taskModalOpen, setTaskModalOpen] = useState(false);
+
+  const [editingTask, setEditingTask] = useState(null);
+
+  const [defaultStatus, setDefaultStatus] = useState("backlog");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -116,6 +126,11 @@ export default function TeamPage() {
 
   const latestProjects = useMemo(
     () => sortProjects(projects, "newest").slice(0, 4),
+    [projects],
+  );
+
+  const projectMap = useMemo(
+    () => new Map(projects.map((project) => [project.id, project])),
     [projects],
   );
 
@@ -199,6 +214,140 @@ export default function TeamPage() {
     return roleConfig[role]?.label || roleConfig.default.label;
   }
 
+  function openCreateTask(status = "backlog") {
+    setEditingTask(null);
+    setDefaultStatus(status);
+    setTaskModalOpen(true);
+  }
+
+  function openEditTask(task) {
+    setEditingTask(task);
+    setTaskModalOpen(true);
+  }
+
+  const currentAuthorName =
+    userMap.get(currentUser?.uid)?.name ||
+    profile?.name ||
+    currentUser?.displayName ||
+    "مستخدم";
+
+  function addActivity(task, type, text) {
+    const activity = Array.isArray(task.activity) ? task.activity : [];
+    return [
+      ...activity,
+      {
+        id: uid(),
+        type,
+        text,
+        authorId: currentUser?.uid || "",
+        authorName: currentAuthorName,
+        createdAt: new Date().toISOString(),
+      },
+    ];
+  }
+
+  async function handleMove(task, direction) {
+    const isAssignee = getAssigneeId(task) === currentUser?.uid;
+
+    if (!canManage && !isAssignee) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية تعديل حالة هذه المهمة.",
+      });
+      return;
+    }
+
+    if (direction === "backward" && !canManage) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "لا يمكنك التراجع في مراحل المهمة.",
+      });
+      return;
+    }
+
+    if (
+      direction === "forward" &&
+      !canManage &&
+      !canMemberAdvance(task.status)
+    ) {
+      showToast({
+        type: "warning",
+        title: "انتهت مراحل العضو",
+        message: "بعد الإرسال للمراجعة يتولى المسؤول القرار.",
+      });
+      return;
+    }
+
+    const fromMeta = getWorkflowMeta(task.status);
+
+    const nextStatus =
+      direction === "forward"
+        ? nextWorkflowStatus(task.status)
+        : prevWorkflowStatus(task.status);
+
+    if (nextStatus === task.status) return;
+
+    const toMeta = getWorkflowMeta(nextStatus);
+
+    try {
+      await updateDocument("tasks", task.id, {
+        status: nextStatus,
+        activity: addActivity(
+          task,
+          "status",
+          `تم نقل المهمة من "${fromMeta.labelAr}" إلى "${toMeta.labelAr}"`,
+        ),
+      });
+    } catch (error) {
+      console.error("Failed to move task:", error);
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "تعذر تحديث حالة المهمة.",
+      });
+    }
+  }
+
+  async function handleDeleteTask(task) {
+    if (!canManage) {
+      showToast({
+        type: "warning",
+        title: "صلاحيات غير كافية",
+        message: "ليس لديك صلاحية حذف المهام.",
+      });
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `هل أنت متأكد من حذف مهمة "${task.title}"؟`,
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await removeDocument("tasks", task.id);
+      showToast({
+        type: "success",
+        title: "تم الحذف",
+        message: "تم حذف المهمة بنجاح.",
+      });
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+      showToast({
+        type: "error",
+        title: "حدث خطأ",
+        message: "حصل خطأ أثناء حذف المهمة.",
+      });
+    }
+  }
+
+  function getProjectName(task) {
+    if (!task.projectId) return "مهمة فردية";
+    return projectMap.get(task.projectId)?.title || "مشروع محذوف";
+  }
+
   return (
     <ProtectedRoute permission="team">
       <div dir="rtl" className="space-y-6">
@@ -221,7 +370,7 @@ export default function TeamPage() {
 
             <button
               type="button"
-              onClick={() => setTaskModalOpen(true)}
+              onClick={() => openCreateTask("backlog")}
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-black px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 sm:w-auto"
             >
               <Layers className="h-4 w-4" />
@@ -588,6 +737,46 @@ export default function TeamPage() {
                 </Card>
               </div>
             </div>
+
+            {/* نظرة عامة على جميع المهام */}
+            <Card hover={false} className="p-5 sm:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
+                    <SquareKanban className="h-5 w-5" />
+                  </div>
+
+                  <div>
+                    <h2 className="text-base font-black tracking-tight text-ink">
+                      نظرة عامة على جميع المهام
+                    </h2>
+
+                    <p className="mt-0.5 text-xs font-medium text-ink/60">
+                      لوحة شاملة لكل مهام المشاريع والمهمات الفردية
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  href="/dashboard/team/all-tasks"
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-ink/[0.08] bg-card px-3 py-2 text-xs font-bold text-ink/60 transition hover:border-emerald-200 hover:text-emerald-600 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
+                >
+                  عرض كل المهام
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+
+              <TaskBoard
+                tasks={tasks}
+                userMap={userMap}
+                getProjectName={getProjectName}
+                onMoveForward={(task) => handleMove(task, "forward")}
+                onMoveBackward={(task) => handleMove(task, "backward")}
+                onEdit={openEditTask}
+                onDelete={handleDeleteTask}
+                onAddTask={openCreateTask}
+              />
+            </Card>
           </>
         )}
       </div>
@@ -603,11 +792,13 @@ export default function TeamPage() {
       <TaskModal
         open={taskModalOpen}
         onClose={() => setTaskModalOpen(false)}
+        editing={editingTask}
         projects={projects}
         users={activeUsers}
         defaultProjectId=""
-        defaultStatus="backlog"
+        defaultStatus={defaultStatus}
         currentUser={currentUser}
+        canManage={canManage}
         onSaved={() => {}}
       />
     </ProtectedRoute>

@@ -26,8 +26,8 @@ import {
   formatDeadline,
   getUserName,
   getAssigneeId,
-  getWorkflowMeta,
   isDeadlineOverdue,
+  canManageTeam,
 } from "@/features/team/lib/teamUtils";
 
 import Avatar from "@/features/dashboard/ui/Avatar";
@@ -39,9 +39,11 @@ import { Select } from "@/features/dashboard/ui/Input";
 import PageHero from "@/features/dashboard/components/PageHero";
 
 export default function AllTasksPage() {
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, profile } = useAuth();
 
   const { tasks, projects, activeUsers, userMap, loading } = useTeamData();
+
+  const canManage = canManageTeam(profile?.role);
 
   const [search, setSearch] = useState("");
 
@@ -258,7 +260,7 @@ export default function AllTasksPage() {
                                   </>
                                 ) : (
                                   <span className="inline-flex items-center gap-1 rounded-lg bg-violet-50 px-2 py-0.5 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400">
-                                    {getWorkflowMeta(task.status).labelAr}
+                                    بدون مشروع
                                   </span>
                                 )}
                               </p>
@@ -343,6 +345,7 @@ export default function AllTasksPage() {
         defaultProjectId=""
         defaultStatus="backlog"
         currentUser={currentUser}
+        canManage={canManage}
         onSaved={() => refresh()}
       />
     </ProtectedRoute>

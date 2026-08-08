@@ -4,6 +4,8 @@ import {
   CalendarDays,
   ChevronRight,
   ChevronLeft,
+  FolderKanban,
+  Layers,
   ListChecks,
   MessageSquare,
   Pencil,
@@ -22,6 +24,8 @@ import {
 export default function TaskCard({
   task,
   userMap,
+  projectName = "",
+  standalone = false,
   onMoveForward,
   onMoveBackward,
   onEdit,
@@ -59,11 +63,28 @@ export default function TaskCard({
       </div>
 
       <Link
-        href={`/dashboard/team/tasks/${task.id || ""}`}
+        href={task.id ? `/dashboard/team/tasks/${task.id}` : "#"}
         className="block text-sm font-black leading-6 text-ink transition-colors hover:text-primary"
       >
         {task.title || "بدون عنوان"}
       </Link>
+
+      {projectName && (
+        <span
+          className={`mt-2 inline-flex max-w-full items-center gap-1 truncate rounded-lg px-2 py-1 text-[10px] font-bold ${
+            standalone
+              ? "bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400"
+              : "bg-ink/[0.04] text-ink/60 dark:bg-white/[0.06]"
+          }`}
+        >
+          {standalone ? (
+            <Layers className="h-3 w-3 shrink-0" />
+          ) : (
+            <FolderKanban className="h-3 w-3 shrink-0" />
+          )}
+          <span className="truncate">{projectName}</span>
+        </span>
+      )}
 
       <div className="mt-3 flex items-center gap-2">
         <div className="flex items-center gap-2">

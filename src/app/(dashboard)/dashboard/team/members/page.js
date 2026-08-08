@@ -2,16 +2,14 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   Plus,
   Search,
-  User,
   Users,
-  Filter,
   ArrowUpDown,
   Briefcase,
-  CheckCircle2,
   Loader2,
   AlertCircle,
   TrendingUp,
@@ -28,8 +26,7 @@ import Badge from "@/features/dashboard/ui/Badge";
 import StatsCard from "@/features/dashboard/ui/StatsCard";
 import { Select } from "@/features/dashboard/ui/Input";
 
-import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
-import { getAssigneeId } from "@/features/team/lib/teamUtils";
+import { getAssigneeId, isDeadlineOverdue } from "@/features/team/lib/teamUtils";
 
 const ROLE_LABELS = {
   admin: "مسؤول",
@@ -48,10 +45,10 @@ const ROLE_BADGES = {
 };
 
 export default function TeamMembersPage() {
-  const theme = usePageTheme();
+  const router = useRouter();
   const { profile: currentProfile } = useAuth();
 
-  const { users, tasks, projects, userMap, loading } = useTeamData();
+  const { users, tasks, userMap, loading } = useTeamData();
 
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
@@ -72,7 +69,9 @@ export default function TeamMembersPage() {
       const inProgress = memberTasks.filter((t) => t.status === "in-progress").length;
       const review = memberTasks.filter((t) => t.status === "review").length;
       const revision = memberTasks.filter((t) => t.status === "revision").length;
-      const overdue = memberTasks.filter((t) => t.status !== "done" && t.deadline && new Date(t.deadline) < new Date()).length;
+      const overdue = memberTasks.filter(
+        (t) => t.status !== "done" && isDeadlineOverdue(t.deadline),
+      ).length;
       const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
 
       return {
@@ -166,7 +165,7 @@ export default function TeamMembersPage() {
           <p className="text-sm text-ink/60">إدارة الأعضاء، تتبع الأداء، وتقارير الإنجاز</p>
         </div>
         {canManage && (
-          <Button onClick={() => window.location.href = "/dashboard/team/members/new"}>
+          <Button onClick={() => router.push("/dashboard/team/members/new")}>
             <Plus className="h-4 w-4 ml-2" />
             إضافة عضو
           </Button>
@@ -215,7 +214,7 @@ export default function TeamMembersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="ابحث بالاسم، الإيميل، التخصص..."
-              className="w-full h-11 pr-10 pl-4 rounded-xl border border-ink/10 bg-white text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10 dark:bg-white/[0.05] dark:text-ink"
+              className="w-full h-11 pr-10 pl-4 rounded-xl border border-ink/10 bg-card text-sm outline-none focus:ring-2 focus:ring-primary/20 dark:border-white/10"
             />
           </div>
 
@@ -254,13 +253,13 @@ export default function TeamMembersPage() {
 
       {/* Members Grid */}
       <Card hover={false} className="p-0">
-        {enrichedUsers.length === 0 ? (
+        {filteredUsers.length === 0 ? (
           <div className="text-center py-16">
             <Users className="h-16 w-16 mx-auto text-ink/20" />
             <h3 className="mt-4 text-lg font-bold text-ink">لا يوجد أعضاء</h3>
             <p className="mt-1 text-ink/60">{search ? "جرب تغيير البحث أو الفلاتر" : "ابدأ بإضافة أول عضو للفريق"}</p>
             {canManage && (
-              <Button className="mt-4" onClick={() => window.location.href = "/dashboard/team/members/new"}>
+              <Button className="mt-4" onClick={() => router.push("/dashboard/team/members/new")}>
                 <Plus className="h-4 w-4 ml-2" />
                 إضافة عضو
               </Button>
@@ -283,7 +282,7 @@ export default function TeamMembersPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-ink/5">
-                {enrichedUsers.map((user) => {
+                {filteredUsers.map((user) => {
                   const profile = userMap.get(user.id);
                   const name = profile?.name || user.name || "عضو";
                   const email = profile?.email || user.email || "";
@@ -356,7 +355,7 @@ export default function TeamMembersPage() {
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() => window.location.href = `/dashboard/team/members/${user.id}/edit`}
+                              onClick={() => router.push(`/dashboard/team/members/${user.id}/edit`)}
                               title="تعديل"
                             >
                               <Settings className="h-4 w-4" />

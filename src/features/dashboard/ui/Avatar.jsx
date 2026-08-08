@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function Avatar({
   user = null,
   name = "",
+  alt = "",
   src = "",
   size = 32,
   className = "",
@@ -12,11 +13,11 @@ export default function Avatar({
 }) {
   const [error, setError] = useState(false);
 
-  const userName = name || user?.name || "";
+  const userName = name || alt || user?.name || "";
   const imageSrc = src || user?.logo || user?.photoURL || "";
 
   const avatarSeed =
-    user?.name || userName || user?.email || user?.id || "user";
+    user?.name || name || alt || user?.email || user?.id || "user";
 
   // Gender-neutral cartoon avatar (Discord/Apple-style) based on a stable seed.
   const fallbackSrc = `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${encodeURIComponent(

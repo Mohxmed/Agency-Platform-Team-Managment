@@ -23,6 +23,7 @@ const headerTextStyles = {
 export default function TaskBoard({
   tasks,
   userMap,
+  getProjectName,
   onMoveForward,
   onMoveBackward,
   onEdit,
@@ -78,6 +79,8 @@ export default function TaskBoard({
                     key={task.id}
                     task={task}
                     userMap={userMap}
+                    projectName={getProjectName?.(task)}
+                    standalone={!task.projectId}
                     onMoveForward={onMoveForward}
                     onMoveBackward={onMoveBackward}
                     onEdit={onEdit}
