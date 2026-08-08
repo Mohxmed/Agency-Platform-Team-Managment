@@ -101,18 +101,18 @@ const menuSections = [
   {
       title: "الفريق",
       items: [
+        {
+          title: "مهماتي",
+          href: "/dashboard/team/my-tasks",
+          icon: ClipboardList,
+          permission: "my-tasks",
+        },
         { title: "الفريق", href: "/dashboard/team", icon: Users, permission: "team" },
         {
           title: "المشاريع",
           href: "/dashboard/team/projects",
           icon: FolderKanban,
           permission: "team",
-        },
-        {
-          title: "مهماتي",
-          href: "/dashboard/team/my-tasks",
-          icon: ClipboardList,
-          permission: "my-tasks",
         },
         {
           title: "المهمات الفردية",

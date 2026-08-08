@@ -152,8 +152,42 @@ export default function ProjectCard({
           </div>
         </div>
 
-        {/* Row 2: buttons + members on the left */}
-        <div className="mt-3.5 flex flex-wrap items-center justify-end gap-x-4 gap-y-2 border-t border-dashed border-ink/[0.07] pt-3.5">
+        {/* Row 2: counter + members on the right, buttons on the left */}
+        <div className="mt-3.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-dashed border-ink/[0.07] pt-3.5">
+          {/* Counter + members */}
+          <div className="flex min-w-0 items-center gap-3">
+            {/* Task counter */}
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
+              <ClipboardList className="h-3.5 w-3.5" />
+              {doneCount}/{tasks.length}
+            </span>
+
+            {/* Members */}
+            {members.length > 0 ? (
+              <div className="flex items-center -space-x-2 rtl:space-x-reverse">
+                {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
+                  <Avatar
+                    key={member.id}
+                    user={member}
+                    size={26}
+                    className="ring-2 ring-card"
+                  />
+                ))}
+
+                {hiddenCount > 0 && (
+                  <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-ink/[0.06] text-[10px] font-black text-ink/60 ring-2 ring-card dark:bg-white/[0.08]">
+                    +{hiddenCount}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/40">
+                <Users className="h-3.5 w-3.5" />
+                بدون أعضاء
+              </span>
+            )}
+          </div>
+
           {/* Actions */}
           <div className="flex shrink-0 items-center gap-1.5">
             {showActions && (
@@ -195,38 +229,6 @@ export default function ProjectCard({
               عرض المشروع
               <ArrowLeft className="h-3.5 w-3.5" />
             </Link>
-          </div>
-
-          {/* Members + count */}
-          <div className="flex min-w-0 items-center gap-3">
-            {members.length > 0 ? (
-              <div className="flex items-center -space-x-2 rtl:space-x-reverse">
-                {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
-                  <Avatar
-                    key={member.id}
-                    user={member}
-                    size={26}
-                    className="ring-2 ring-card"
-                  />
-                ))}
-
-                {hiddenCount > 0 && (
-                  <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-ink/[0.06] text-[10px] font-black text-ink/60 ring-2 ring-card dark:bg-white/[0.08]">
-                    +{hiddenCount}
-                  </span>
-                )}
-              </div>
-            ) : (
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/40">
-                <Users className="h-3.5 w-3.5" />
-                بدون أعضاء
-              </span>
-            )}
-
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
-              <ClipboardList className="h-3.5 w-3.5" />
-              {doneCount}/{tasks.length}
-            </span>
           </div>
         </div>
       </div>
