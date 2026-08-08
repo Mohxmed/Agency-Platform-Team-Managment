@@ -23,6 +23,7 @@ import {
   Tag,
   Trash2,
   Users,
+  ScrollText,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -700,11 +701,15 @@ export default function TaskDetailPage() {
                   <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-ink">
                     <History className="h-4 w-4 text-ink/60" />
                     سجل النشاط
+                    <span className="mr-1 rounded-full bg-ink/[0.05] px-2 py-0.5 text-[10px] font-black text-ink/50">
+                      {task.activity.length}
+                    </span>
                   </h3>
 
                   <ol className="relative space-y-4 border-r border-ink/[0.08] pr-5">
                     {[...task.activity]
                       .sort((a, b) => getTimestampMs(b.createdAt) - getTimestampMs(a.createdAt))
+                      .slice(0, 15)
                       .map((entry) => (
                         <li key={entry.id} className="relative">
                           <span className="absolute -right-[25px] top-1.5 h-2 w-2 rounded-full bg-red-500 ring-4 ring-red-500/15" />
@@ -717,6 +722,19 @@ export default function TaskDetailPage() {
                         </li>
                       ))}
                   </ol>
+
+                  {task.activity.length > 15 && (
+                    <Link
+                      href={`/dashboard/team/tasks/${task.id}/logs`}
+                      className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-ink/[0.07] bg-surface-muted px-4 py-2.5 text-xs font-bold text-ink/70 transition-all duration-200 hover:border-primary/25 hover:bg-primary/5 hover:text-primary"
+                    >
+                      <ScrollText className="h-4 w-4" />
+                      عرض كل الاحداث
+                      <span className="rounded-full bg-ink/[0.06] px-2 py-0.5 text-[10px] font-black text-ink/50">
+                        {task.activity.length - 15}+
+                      </span>
+                    </Link>
+                  )}
                 </section>
               )}
             </div>
