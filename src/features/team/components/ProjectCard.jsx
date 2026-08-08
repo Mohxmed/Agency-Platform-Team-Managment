@@ -95,123 +95,141 @@ export default function ProjectCard({
 
   if (variant === "row") {
     return (
-      <Link
-        href={`/dashboard/team/projects/${project.id}`}
-        className={`group relative flex flex-wrap items-center gap-x-4 gap-y-3 overflow-hidden rounded-2xl border border-gray-200/80 bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-14px_rgba(0,0,0,0.18)] dark:border-white/[0.08] ${theme.hoverBorder}`}
+      <div
+        className={`group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-14px_rgba(0,0,0,0.18)] dark:border-white/[0.08] ${theme.hoverBorder}`}
       >
         <span className={`absolute inset-y-0 right-0 w-1.5 ${statusAccent.bar}`} />
 
-        {/* Icon */}
-        <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-105 ${statusAccent.icon}`}
-        >
-          <ProjectIcon name={project.icon} className="h-5 w-5" />
-        </div>
-
-        {/* Identity */}
-        <div className="min-w-0 flex-1 basis-48">
-          <h3
-            className={`truncate text-sm font-black tracking-tight text-ink transition-colors ${theme.groupHoverText}`}
+        {/* Row 1: name + state + progress */}
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            href={`/dashboard/team/projects/${project.id}`}
+            className="group/head flex min-w-0 items-center gap-3"
           >
-            {project.title || "بدون عنوان"}
-          </h3>
-
-          <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-            <WorkflowBadge status={status} />
-            <PriorityBadge priority={project.priority} />
-          </div>
-        </div>
-
-        {/* Progress */}
-        <div className="hidden min-w-40 max-w-48 flex-1 basis-40 md:block">
-          <div className="mb-1.5 flex items-center justify-between text-[10px] font-bold">
-            <span className="text-ink/60">التقدم</span>
-            <span
-              className={
-                progress >= 100
-                  ? "text-emerald-600 dark:text-emerald-400"
-                  : "text-ink"
-              }
-            >
-              {progress}%
-            </span>
-          </div>
-
-          <div className="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-white/10">
+            {/* Icon */}
             <div
-              className={`h-full rounded-full transition-all duration-500 ${progressBarColor}`}
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Members + count */}
-        <div className="flex shrink-0 items-center gap-3">
-          {members.length > 0 ? (
-            <div className="flex items-center -space-x-2 rtl:space-x-reverse">
-              {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
-                <Avatar
-                  key={member.id}
-                  user={member}
-                  size={28}
-                  className="ring-2 ring-card"
-                />
-              ))}
-
-              {hiddenCount > 0 && (
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink/[0.06] text-[10px] font-black text-ink/60 ring-2 ring-card dark:bg-white/[0.08]">
-                  +{hiddenCount}
-                </span>
-              )}
-            </div>
-          ) : (
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/40">
-              <Users className="h-3.5 w-3.5" />
-              بدون أعضاء
-            </span>
-          )}
-
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
-            <ClipboardList className="h-3.5 w-3.5" />
-            {doneCount}/{tasks.length}
-          </span>
-        </div>
-
-        {/* Actions */}
-        {showActions && (
-          <div className="flex items-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <button
-              type="button"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                onEdit?.(project);
-              }}
-              title="تعديل المشروع"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-105 ${statusAccent.icon}`}
             >
-              <Pencil className="h-3.5 w-3.5" />
-            </button>
+              <ProjectIcon name={project.icon} className="h-5 w-5" />
+            </div>
 
-            {canManage && (
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  onDelete?.(project);
-                }}
-                title="حذف المشروع"
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white dark:hover:bg-red-400"
+            {/* Identity */}
+            <div className="min-w-0">
+              <h3
+                className={`truncate text-sm font-black tracking-tight text-ink transition-colors ${theme.groupHoverText}`}
               >
-                <Trash2 className="h-3.5 w-3.5" />
-              </button>
-            )}
-          </div>
-        )}
+                {project.title || "بدون عنوان"}
+              </h3>
 
-        <ChevronLeft className="h-4 w-4 shrink-0 text-gray-400 transition-all duration-200 group-hover:-translate-x-0.5 group-hover:text-red-500 dark:text-ink/40 dark:group-hover:text-red-400" />
-      </Link>
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                <WorkflowBadge status={status} />
+                <PriorityBadge priority={project.priority} />
+              </div>
+            </div>
+          </Link>
+
+          {/* Progress */}
+          <div className="w-32 shrink-0 sm:w-40">
+            <div className="mb-1.5 flex items-center justify-between text-[10px] font-bold">
+              <span className="text-ink/60">التقدم</span>
+              <span
+                className={
+                  progress >= 100
+                    ? "text-emerald-600 dark:text-emerald-400"
+                    : "text-ink"
+                }
+              >
+                {progress}%
+              </span>
+            </div>
+
+            <div className="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-white/10">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${progressBarColor}`}
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: buttons + members on the left */}
+        <div className="mt-3.5 flex flex-wrap items-center justify-end gap-x-4 gap-y-2 border-t border-dashed border-ink/[0.07] pt-3.5">
+          {/* Actions */}
+          <div className="flex shrink-0 items-center gap-1.5">
+            {showActions && (
+              <>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    onEdit?.(project);
+                  }}
+                  title="تعديل المشروع"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink/[0.045] text-ink/60 transition hover:bg-ink/[0.08] hover:text-ink"
+                >
+                  <Pencil className="h-3.5 w-3.5" />
+                </button>
+
+                {canManage && (
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      onDelete?.(project);
+                    }}
+                    title="حذف المشروع"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-400 transition hover:bg-red-600 hover:text-white dark:hover:bg-red-400"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </>
+            )}
+
+            <Link
+              href={`/dashboard/team/projects/${project.id}`}
+              className={`inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg px-3 text-[11px] font-black transition-all duration-200 hover:gap-2 ${theme.solid} ${theme.solidHover} ${theme.solidText}`}
+            >
+              عرض المشروع
+              <ArrowLeft className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          {/* Members + count */}
+          <div className="flex min-w-0 items-center gap-3">
+            {members.length > 0 ? (
+              <div className="flex items-center -space-x-2 rtl:space-x-reverse">
+                {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
+                  <Avatar
+                    key={member.id}
+                    user={member}
+                    size={26}
+                    className="ring-2 ring-card"
+                  />
+                ))}
+
+                {hiddenCount > 0 && (
+                  <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-ink/[0.06] text-[10px] font-black text-ink/60 ring-2 ring-card dark:bg-white/[0.08]">
+                    +{hiddenCount}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/40">
+                <Users className="h-3.5 w-3.5" />
+                بدون أعضاء
+              </span>
+            )}
+
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink/60">
+              <ClipboardList className="h-3.5 w-3.5" />
+              {doneCount}/{tasks.length}
+            </span>
+          </div>
+        </div>
+      </div>
     );
   }
 

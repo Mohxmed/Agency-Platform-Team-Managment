@@ -446,43 +446,40 @@ export default function Sidebar({ open, onClose }) {
             text-gray-500
             opacity-60
             select-none
-            ${collapsed ? "justify-center px-0 py-3" : "gap-6 px-4 py-3"}
+            ${collapsed ? "justify-center py-1.5" : "gap-6 px-4 py-3"}
             ${mobile ? "" : ""}
           `}
         >
           {/* ICON */}
 
           <div
-            className="
-              relative
-              flex
-              h-[22px]
-              w-[22px]
-              shrink-0
-              items-center
-              justify-center
-            "
+            className={`relative flex shrink-0 items-center justify-center rounded-xl transition-colors duration-200 ${
+              collapsed
+                ? "h-11 w-11 bg-ink/[0.04]"
+                : "h-[22px] w-[22px]"
+            }`}
           >
-            <Icon size={21} />
+            <Icon size={collapsed ? 22 : 21} />
 
             {/* LOCK */}
 
             <span
               className="
                 absolute
-                -bottom-1.5
-                -right-1.5
+                -bottom-1
+                -right-1
                 flex
-                h-3.5
-                w-3.5
+                h-4
+                w-4
                 items-center
                 justify-center
                 rounded-full
-                bg-gray-100
-                text-gray-500
+                bg-card
+                text-gray-400
+                shadow-sm
               "
             >
-              <Lock size={8} />
+              <Lock size={9} />
             </span>
           </div>
 
@@ -523,30 +520,44 @@ export default function Sidebar({ open, onClose }) {
           transition-all
           duration-200
 
-          ${collapsed ? "justify-center px-0 py-3" : "gap-6 px-4 py-3"}
-
           ${
-            active
-              ? `${theme.bgSoft} ${theme.text} font-bold`
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+            collapsed
+              ? "justify-center py-1.5"
+              : `gap-6 px-4 py-3 ${
+                  active
+                    ? `${theme.bgSoft} ${theme.text} font-bold`
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                }`
           }
         `}
       >
-        <Icon
-          size={22}
-          className={`
-            shrink-0
-            transition-transform
-            duration-200
-            group-hover:scale-105
+        <span
+          className={`flex shrink-0 items-center justify-center rounded-xl transition-colors duration-200 ${
+            collapsed
+              ? `h-11 w-11 ${
+                  active
+                    ? `${theme.bgSoft} ${theme.text}`
+                    : "bg-ink/[0.04] text-gray-500 group-hover:bg-ink/[0.08] group-hover:text-gray-900"
+                }`
+              : ""
+          }`}
+        >
+          <Icon
+            size={22}
+            className={`
+              shrink-0
+              transition-transform
+              duration-200
+              group-hover:scale-105
 
-            ${
-              active
-                ? theme.text
-                : "text-gray-500 group-hover:text-gray-900"
-            }
-          `}
-        />
+              ${
+                active
+                  ? theme.text
+                  : "text-gray-500 group-hover:text-gray-900"
+              }
+            `}
+          />
+        </span>
 
         {!collapsed && <span className="ml-4 flex-1 font-medium">{item.title}</span>}
 
@@ -596,10 +607,10 @@ export default function Sidebar({ open, onClose }) {
             flex
             flex-col
             items-center
-            gap-1
+            gap-1.5
             border-t
             border-gray-200
-            py-2
+            py-2.5
             first:border-0
             first:pt-0
           "
@@ -630,9 +641,9 @@ export default function Sidebar({ open, onClose }) {
               collapsed
                 ? `
                   mx-auto
-                  my-2
+                  my-2.5
                   h-px
-                  w-10
+                  w-12
                   cursor-pointer
                   rounded-full
                   bg-gray-200

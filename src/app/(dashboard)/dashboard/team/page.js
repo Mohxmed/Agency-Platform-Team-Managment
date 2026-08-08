@@ -222,7 +222,7 @@ export default function TeamPage() {
             <button
               type="button"
               onClick={() => setTaskModalOpen(true)}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-violet-700 dark:bg-violet-400 dark:text-violet-950 dark:hover:bg-violet-300 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-black px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-100 sm:w-auto"
             >
               <Layers className="h-4 w-4" />
               مهمة فردية
