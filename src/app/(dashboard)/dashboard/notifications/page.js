@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 
 import {
   Bell,
-  BellOff,
-  Check,
   CheckCheck,
   ChevronLeft,
   ChevronRight,
@@ -30,15 +28,10 @@ import {
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-
-import { db } from "@/lib/firebase";
-
 import { ProtectedRoute } from "@/features/auth";
 import { useAuth } from "@/features/auth";
 
 import PageHero from "@/features/dashboard/components/PageHero";
-import Button from "@/features/dashboard/ui/Button";
 
 import { useToast } from "@/hooks/useToast";
 
@@ -180,7 +173,7 @@ function formatFullDate(timestamp) {
 ========================================================= */
 
 function NotificationsPageContent() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user } = useAuth();
   const { showToast } = useToast();
 
   const router = useRouter();
@@ -191,8 +184,6 @@ function NotificationsPageContent() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [busyAction, setBusyAction] = useState(null);
-
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
   /* =========================================================
      REAL-TIME SUBSCRIPTION
@@ -209,26 +200,6 @@ function NotificationsPageContent() {
     return () => {
       if (typeof unsubscribe === "function") unsubscribe();
     };
-  }, [user?.uid]);
-
-  /* =========================================================
-     READ USER PREFERENCE
-  ========================================================= */
-
-  useEffect(() => {
-    if (!user?.uid) return;
-
-    getDoc(doc(db, "profiles", user.uid))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const value = snapshot.data()?.notificationsEnabled;
-
-          setNotificationsEnabled(value !== false);
-        }
-      })
-      .catch(() => {
-        // Best-effort.
-      });
   }, [user?.uid]);
 
   /* =========================================================
@@ -332,54 +303,6 @@ function NotificationsPageContent() {
   }
 
   /* =========================================================
-     TOGGLE NOTIFICATIONS
-  ========================================================= */
-
-  async function handleToggleNotifications() {
-    if (busyAction) return;
-
-    const next = !notificationsEnabled;
-
-    setBusyAction("toggle");
-
-    try {
-      const profileRef = doc(db, "profiles", user.uid);
-
-      const existing = await getDoc(profileRef);
-
-      const profileData = {
-        notificationsEnabled: next,
-        updatedAt: serverTimestamp(),
-        ...(existing.exists() ? existing.data() : {}),
-      };
-
-      await setDoc(profileRef, profileData, { merge: true });
-
-      setNotificationsEnabled(next);
-
-      await refreshProfile();
-
-      showToast({
-        type: "success",
-        title: next ? "تم التفعيل" : "تم الإيقاف",
-        message: next
-          ? "سوف تصلك الإشعارات الجديدة."
-          : "تم إيقاف الإشعارات مؤقتًا. يمكنك تفعيلها في أي وقت.",
-      });
-    } catch (error) {
-      console.error("Failed to toggle notifications:", error);
-
-      showToast({
-        type: "error",
-        title: "حدث خطأ",
-        message: "تعذر تحديث إعدادات الإشعارات.",
-      });
-    } finally {
-      setBusyAction(null);
-    }
-  }
-
-  /* =========================================================
      DELETE ONE
   ========================================================= */
 
@@ -408,41 +331,6 @@ function NotificationsPageContent() {
         color="red"
       >
         <div className="flex w-full flex-wrap items-center gap-2 lg:w-auto lg:justify-end">
-          {/* TOGGLE NOTIFICATIONS */}
-          <button
-            type="button"
-            onClick={handleToggleNotifications}
-            disabled={busyAction}
-            className={`
-              inline-flex
-              items-center
-              gap-2
-              rounded-xl
-              px-4
-              py-3
-              text-sm
-              font-bold
-              transition-all
-              disabled:cursor-not-allowed
-              disabled:opacity-60
-              ${
-                notificationsEnabled
-                  ? "bg-white/15 text-white ring-1 ring-white/20 hover:bg-white/25"
-                  : "bg-white text-red-700 shadow-md hover:bg-red-50"
-              }
-            `}
-          >
-            {busyAction === "toggle" ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : notificationsEnabled ? (
-              <BellOff size={16} />
-            ) : (
-              <Bell size={16} />
-            )}
-
-            {notificationsEnabled ? "إيقاف الإشعارات" : "تفعيل الإشعارات"}
-          </button>
-
           {/* MARK ALL READ */}
           <button
             type="button"
@@ -533,10 +421,10 @@ function NotificationsPageContent() {
         />
 
         <SummaryCard
-          icon={notificationsEnabled ? Bell : BellOff}
-          label={notificationsEnabled ? "الإشعارات مفعلة" : "الإشعارات متوقفة"}
-          value={notificationsEnabled ? "نشط" : "متوقف"}
-          tone={notificationsEnabled ? "emerald" : "gray"}
+          icon={CheckCheck}
+          label="مقروءة"
+          value={notifications.length - unreadCount}
+          tone="emerald"
           delay={0.12}
         />
       </div>
