@@ -26,6 +26,7 @@ import {
   TrendingUp,
   UserCog,
   UserRound,
+  ShieldCheck,
 } from "lucide-react";
 
 import { ProtectedRoute, useAuth } from "@/features/auth";
@@ -33,9 +34,8 @@ import { useTeamData } from "@/features/team/hooks/useTeamData";
 
 import Avatar from "@/features/dashboard/ui/Avatar";
 import Button from "@/features/dashboard/ui/Button";
-import Card from "@/features/dashboard/ui/Card";
-import StatsCard from "@/features/dashboard/ui/StatsCard";
 import Badge from "@/features/dashboard/ui/Badge";
+import StatsCard from "@/features/dashboard/ui/StatsCard";
 
 import { usePageTheme } from "@/features/dashboard/hooks/usePageTheme";
 import {
@@ -214,7 +214,7 @@ export default function MemberReportPage() {
         <div className="space-y-6" dir="rtl">
           <div className="animate-pulse space-y-6">
             <div className="h-8 w-64 bg-gray-200 rounded-xl dark:bg-white/[0.08]" />
-            <div className="h-40 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
+            <div className="h-44 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />
             <div className="grid gap-4 md:grid-cols-4">
               {[1, 2, 3, 4].map((i) => <div key={i} className="h-28 bg-gray-100 rounded-2xl dark:bg-white/[0.04]" />)}
             </div>
@@ -229,15 +229,17 @@ export default function MemberReportPage() {
     return (
       <ProtectedRoute permission="team">
         <div className="space-y-6" dir="rtl">
-          <Card className="text-center py-12">
-            <UserRound className="h-16 w-16 mx-auto text-gray-500 dark:text-ink/40" />
+          <div className="rounded-2xl border border-ink/[0.07] bg-card py-14 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-ink/[0.04]">
+              <UserRound className="h-8 w-8 text-ink/30" />
+            </div>
             <h3 className="mt-4 text-xl font-bold text-ink">العضو غير موجود</h3>
-            <p className="mt-2 text-gray-500 dark:text-ink/60">لم يتم العثور على بيانات هذا العضو.</p>
+            <p className="mt-2 text-sm text-ink/60">لم يتم العثور على بيانات هذا العضو.</p>
             <Button variant="outline" className="mt-6" onClick={() => window.history.back()}>
-              <ArrowLeft className="h-4 w-4 ml-2" />
+              <ArrowLeft className="h-4 w-4" />
               رجوع
             </Button>
-          </Card>
+          </div>
         </div>
       </ProtectedRoute>
     );
@@ -253,14 +255,14 @@ export default function MemberReportPage() {
     <ProtectedRoute permission="team">
       <div dir="rtl" className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" aria-label="رجوع" onClick={() => window.history.back()}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-2xl font-black text-ink">الملف الشخصي للعضو</h1>
-            <p className="text-sm text-ink/60">لوحة أداء شاملة لـ {memberName}</p>
+            <h1 className="text-2xl font-black tracking-tight text-ink">الملف الشخصي للعضو</h1>
+            <p className="mt-0.5 text-sm text-ink/60">لوحة أداء شاملة لـ {memberName}</p>
           </div>
         </div>
 
@@ -275,24 +277,20 @@ export default function MemberReportPage() {
       </div>
 
       {/* Hero Profile Card */}
-      <Card className="overflow-hidden">
-        <div className="relative">
-          <div className={`absolute inset-0 bg-gradient-to-br ${theme.heroBg} ${theme.heroBgDark}`} />
-          <div className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-white/60 dark:bg-white/[0.04]" />
-          <div className="pointer-events-none absolute -right-10 bottom-0 h-40 w-40 rounded-full bg-black/[0.03] dark:bg-black/20" />
-
-          <div className="relative p-6 sm:p-8">
-            <div className="flex flex-col md:flex-row md:items-start gap-6">
+      <div className="overflow-hidden rounded-2xl border border-ink/[0.07] bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+        <div className="h-24 bg-gradient-to-l from-primary-50 via-primary-100/60 to-transparent dark:from-primary/10 dark:via-primary/5 dark:to-transparent" />
+        <div className="-mt-12 px-6 pb-6 sm:px-8">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
               <Avatar
                 src={memberAvatar}
                 alt={memberName}
                 size={96}
-                className="ring-4 ring-card shadow-xl"
+                className="ring-4 ring-card"
               />
-
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h2 className="text-2xl font-black text-ink truncate">{memberName}</h2>
+              <div className="pb-1">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <h2 className="text-2xl font-black tracking-tight text-ink">{memberName}</h2>
                   {memberStatus === "active" ? (
                     <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                       <BadgeCheck className="h-4 w-4" />
@@ -305,90 +303,111 @@ export default function MemberReportPage() {
                     </span>
                   )}
                 </div>
-
-                <div className="mt-3 flex flex-wrap items-center gap-2">
+                <div className="mt-2.5 flex flex-wrap items-center gap-2">
                   <Badge variant={memberRole === "admin" ? "danger" : memberRole === "manager" ? "warning" : "secondary"}>
                     {ROLE_LABELS[memberRole] || memberRole}
                   </Badge>
                   <Badge variant="outline">{memberSpecialization}</Badge>
                 </div>
-
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                  <div className="flex items-center gap-2.5 rounded-xl border border-ink/[0.06] bg-card/60 px-3.5 py-2.5 dark:border-white/[0.06]">
-                    <Mail className="h-4 w-4 shrink-0 text-ink/50" />
-                    <span className="min-w-0 truncate text-sm text-ink/80" dir="ltr">{memberEmail || "—"}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 rounded-xl border border-ink/[0.06] bg-card/60 px-3.5 py-2.5 dark:border-white/[0.06]">
-                    <Phone className="h-4 w-4 shrink-0 text-ink/50" />
-                    <span className="min-w-0 truncate text-sm text-ink/80" dir="ltr">{memberPhone}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 rounded-xl border border-ink/[0.06] bg-card/60 px-3.5 py-2.5 dark:border-white/[0.06]">
-                    <Award className="h-4 w-4 shrink-0 text-ink/50" />
-                    <span className="text-sm text-ink/80">معدل الإنجاز</span>
-                    <span className={`mr-auto text-sm font-black ${completionColor}`}>{stats.completionRate}%</span>
-                  </div>
-                </div>
               </div>
+            </div>
 
-              {canManage && (
-                <div className="flex shrink-0 items-center gap-2 md:flex-col">
+            {canManage && (
+              <div className="flex shrink-0 flex-wrap items-center gap-2">
+                <Link
+                  href={`/dashboard/team/members/${memberId}/edit`}
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-ink/10 bg-card px-4 text-sm font-semibold text-ink/75 transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                >
+                  <UserCog className="h-4 w-4" />
+                  تعديل الملف
+                </Link>
+                {currentProfile?.role === "admin" && (
                   <Link
-                    href={`/dashboard/team/members/${memberId}/edit`}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-ink/10 bg-card px-5 text-sm font-bold text-ink/70 transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                    href="/dashboard/settings/users"
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-ink/10 bg-card px-4 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50"
                   >
-                    <UserCog className="h-4 w-4" />
-                    تعديل الملف
+                    <ShieldCheck className="h-4 w-4" />
+                    إدارة الصلاحيات
                   </Link>
-                  {currentProfile?.role === "admin" && (
-                    <Link
-                      href="/dashboard/settings/users"
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-ink/10 bg-card px-5 text-sm font-bold text-red-600 transition-colors hover:bg-red-50"
-                    >
-                      إدارة الصلاحيات
-                    </Link>
-                  )}
-                </div>
-              )}
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-surface/60 px-4 py-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Mail className="h-4 w-4 text-primary" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[11px] font-medium text-ink/50">البريد الإلكتروني</p>
+                <p className="truncate text-sm font-semibold text-ink" dir="ltr">{memberEmail || "—"}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-surface/60 px-4 py-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/10">
+                <Phone className="h-4 w-4 text-sky-600" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[11px] font-medium text-ink/50">رقم الهاتف</p>
+                <p className="truncate text-sm font-semibold text-ink" dir="ltr">{memberPhone}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 rounded-xl border border-ink/[0.06] bg-surface/60 px-4 py-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10">
+                <Award className="h-4 w-4 text-emerald-600" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-medium text-ink/50">معدل الإنجاز</p>
+                <p className={`text-sm font-black ${completionColor}`}>{stats.completionRate}%</p>
+              </div>
+              <div className="h-9 w-24 overflow-hidden rounded-full bg-ink/[0.06]">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    stats.completionRate >= 80 ? "bg-emerald-500" :
+                    stats.completionRate >= 50 ? "bg-amber-500" : "bg-red-500"
+                  }`}
+                  style={{ width: `${stats.completionRate}%` }}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Period Toggle */}
-      <Card className="p-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h3 className="text-sm font-bold text-ink">إحصائيات الأداء</h3>
-            <p className="mt-0.5 text-xs text-ink/60">
-              {period === "week" ? "آخر 7 أيام" : "الشهر الحالي"}
-            </p>
-          </div>
-          <div className="flex items-center gap-1 rounded-xl bg-ink/[0.04] p-1">
-            <button
-              type="button"
-              onClick={() => setPeriod("week")}
-              className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${
-                period === "week"
-                  ? "bg-card text-primary shadow-sm"
-                  : "text-ink/60 hover:text-ink"
-              }`}
-            >
-              أسبوع
-            </button>
-            <button
-              type="button"
-              onClick={() => setPeriod("month")}
-              className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${
-                period === "month"
-                  ? "bg-card text-primary shadow-sm"
-                  : "text-ink/60 hover:text-ink"
-              }`}
-            >
-              شهر
-            </button>
-          </div>
+      <div className="flex flex-col gap-3 rounded-2xl border border-ink/[0.07] bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h3 className="text-sm font-bold text-ink">إحصائيات الأداء</h3>
+          <p className="mt-0.5 text-xs text-ink/60">
+            {period === "week" ? "آخر 7 أيام" : "الشهر الحالي"}
+          </p>
         </div>
-      </Card>
+        <div className="flex items-center gap-1 rounded-xl bg-surface p-1">
+          <button
+            type="button"
+            onClick={() => setPeriod("week")}
+            className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${
+              period === "week"
+                ? "bg-card text-primary shadow-sm"
+                : "text-ink/60 hover:text-ink"
+            }`}
+          >
+            أسبوع
+          </button>
+          <button
+            type="button"
+            onClick={() => setPeriod("month")}
+            className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${
+              period === "month"
+                ? "bg-card text-primary shadow-sm"
+                : "text-ink/60 hover:text-ink"
+            }`}
+          >
+            شهر
+          </button>
+        </div>
+      </div>
 
       {/* Stats Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -428,45 +447,47 @@ export default function MemberReportPage() {
         {/* Left Column */}
         <div className="space-y-6 lg:col-span-2">
           {/* Status Breakdown */}
-          <Card>
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-2xl border border-ink/[0.07] bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-6">
+            <div className="mb-5 flex items-center justify-between">
               <h3 className="text-lg font-bold text-ink">توزيع الحالات</h3>
-              <PieChart className="h-5 w-5 text-ink/60" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink/[0.04]">
+                <PieChart className="h-4.5 w-4.5 text-ink/50" />
+              </span>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {statusBreakdown.map((s) => (
-                <div key={s.key} className="flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium text-ink">{s.label}</span>
-                      <span className="font-bold text-ink">{s.count}</span>
-                    </div>
-                    <div className="mt-1 h-2 bg-gray-100 rounded-full overflow-hidden dark:bg-white/10">
-                      <div
-                        className={`h-full ${s.color} transition-all duration-500`}
-                        style={{ width: `${stats.total > 0 ? (s.count / stats.total) * 100 : 0}%` }}
-                      />
-                    </div>
+                <div key={s.key}>
+                  <div className="mb-1.5 flex items-center justify-between text-sm">
+                    <span className="font-medium text-ink">{s.label}</span>
+                    <span className="font-black text-ink">{s.count}</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-ink/[0.06]">
+                    <div
+                      className={`h-full ${s.color} transition-all duration-500`}
+                      style={{ width: `${stats.total > 0 ? (s.count / stats.total) * 100 : 0}%` }}
+                    />
                   </div>
                 </div>
               ))}
             </div>
-          </Card>
+          </div>
 
           {/* Recent Tasks Table */}
-          <Card>
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-2xl border border-ink/[0.07] bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <div className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-4 sm:px-6">
               <h3 className="text-lg font-bold text-ink">المهام المسندة ({memberTasks.length})</h3>
               <Button variant="outline" size="sm" onClick={() => router.push(`/dashboard/team/my-tasks?assignee=${memberId}`)}>
                 عرض الكل
-                <ExternalLink className="h-3.5 w-3.5 ml-1" />
+                <ExternalLink className="h-3.5 w-3.5" />
               </Button>
             </div>
 
             {memberTasks.length === 0 ? (
-              <div className="text-center py-12">
-                <Briefcase className="h-12 w-12 mx-auto text-ink/20" />
-                <p className="mt-3 text-ink/60">لا توجد مهام مسندة لهذا العضو بعد.</p>
+              <div className="py-14 text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ink/[0.04]">
+                  <Briefcase className="h-7 w-7 text-ink/30" />
+                </div>
+                <p className="mt-4 text-ink/60">لا توجد مهام مسندة لهذا العضو بعد.</p>
                 <Button className="mt-4" onClick={() => router.push(`/dashboard/team`)}>
                   إنشاء مهمة جديدة
                 </Button>
@@ -475,42 +496,42 @@ export default function MemberReportPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-right">
                   <thead>
-                    <tr className="border-b border-ink/10 text-[11px] font-bold uppercase tracking-wider text-ink/60">
-                      <th className="pb-3 pr-4">المهمة</th>
-                      <th className="pb-3 pr-4 hidden md:table-cell">المشروع</th>
-                      <th className="pb-3 pr-4 hidden lg:table-cell">الحالة</th>
-                      <th className="pb-3 pr-4 hidden lg:table-cell">الأولوية</th>
-                      <th className="pb-3 pl-4">الموعد</th>
+                    <tr className="text-[11px] font-bold uppercase tracking-wider text-ink/50">
+                      <th className="px-5 py-3 sm:px-6">المهمة</th>
+                      <th className="hidden px-4 py-3 md:table-cell">المشروع</th>
+                      <th className="hidden px-4 py-3 lg:table-cell">الحالة</th>
+                      <th className="hidden px-4 py-3 lg:table-cell">الأولوية</th>
+                      <th className="px-5 py-3 text-left sm:px-6">الموعد</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-ink/5">
+                  <tbody className="divide-y divide-ink/[0.05]">
                     {memberTasks.slice(0, 8).map((task) => {
                       const project = projects.find((p) => p.id === task.projectId);
                       const meta = getWorkflowMeta(task.status);
                       const isOverdue = task.status !== "done" && isDeadlineOverdue(task.deadline);
                       return (
-                        <tr key={task.id} className="hover:bg-ink/[0.02] transition-colors">
-                          <td className="py-3 pr-4">
-                            <Link href={`/dashboard/team/tasks/${task.id}`} className="font-medium text-ink hover:text-primary truncate block max-w-xs">
+                        <tr key={task.id} className="transition-colors hover:bg-surface/50">
+                          <td className="px-5 py-3.5 sm:px-6">
+                            <Link href={`/dashboard/team/tasks/${task.id}`} className="block max-w-xs truncate font-semibold text-ink hover:text-primary">
                               {task.title}
                             </Link>
                           </td>
-                          <td className="py-3 pr-4 hidden md:table-cell text-sm text-ink/60">
+                          <td className="hidden px-4 py-3.5 text-sm text-ink/60 md:table-cell">
                             {project?.title || "—"}
                           </td>
-                          <td className="py-3 pr-4 hidden lg:table-cell">
+                          <td className="hidden px-4 py-3.5 lg:table-cell">
                             <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${STATUS_COLORS[task.status] || STATUS_COLORS.backlog}`}>
                               {meta?.labelAr || STATUS_LABELS[task.status] || task.status}
                             </span>
                           </td>
-                          <td className="py-3 pr-4 hidden lg:table-cell">
+                          <td className="hidden px-4 py-3.5 lg:table-cell">
                             <Badge variant={task.priority === "high" || task.priority === "urgent" ? "danger" : task.priority === "medium" ? "warning" : "secondary"}>
                               {task.priority === "high" ? "عالية" : task.priority === "urgent" ? "عاجلة" : task.priority === "medium" ? "متوسطة" : "منخفضة"}
                             </Badge>
                           </td>
-                          <td className={`py-3 pr-4 text-sm ${isOverdue ? "text-red-600 font-bold" : "text-ink/60"}`}>
+                          <td className={`px-5 py-3.5 text-sm sm:px-6 ${isOverdue ? "font-bold text-red-600" : "text-ink/60"}`}>
                             {task.deadline ? formatDeadline(task.deadline) : "—"}
-                            {isOverdue && <span className="ml-1 text-red-500">⚠</span>}
+                            {isOverdue && <span className="mr-1 text-red-500">⚠</span>}
                           </td>
                         </tr>
                       );
@@ -519,12 +540,12 @@ export default function MemberReportPage() {
                 </table>
               </div>
             )}
-          </Card>
+          </div>
 
           {/* Projects Summary */}
           {memberProjects.length > 0 && (
-            <Card>
-              <h3 className="text-lg font-bold text-ink mb-4">المشاريع المسندة ({memberProjects.length})</h3>
+            <div className="rounded-2xl border border-ink/[0.07] bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-6">
+              <h3 className="mb-5 text-lg font-bold text-ink">المشاريع المسندة ({memberProjects.length})</h3>
               <div className="grid gap-4 sm:grid-cols-2">
                 {memberProjects.map((project) => {
                   const projectTasks = tasks.filter((t) => t.projectId === project.id);
@@ -532,42 +553,46 @@ export default function MemberReportPage() {
                   const projectTotal = projectTasks.length;
                   const progress = projectTotal > 0 ? Math.round((projectDone / projectTotal) * 100) : 0;
                   return (
-                    <Link key={project.id} href={`/dashboard/team/projects/${project.id}`} className="group p-4 rounded-xl border border-ink/10 hover:border-primary/30 hover:bg-primary/5 transition-all">
+                    <Link
+                      key={project.id}
+                      href={`/dashboard/team/projects/${project.id}`}
+                      className="group rounded-xl border border-ink/[0.07] p-4 transition-all hover:border-primary/25 hover:bg-primary/[0.02]"
+                    >
                       <div className="flex items-start gap-3">
                         <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${theme.gradient} text-white`}>
                           <Award className="h-5 w-5" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-bold text-ink group-hover:text-primary transition-colors truncate">{project.title}</h4>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="truncate font-bold text-ink transition-colors group-hover:text-primary">{project.title}</h4>
                           <p className="mt-1 text-sm text-ink/60">{projectDone} / {projectTotal} مهام منجزة</p>
-                          <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden dark:bg-white/10">
+                          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink/[0.06]">
                             <div className={`h-full ${theme.solid} transition-all duration-300`} style={{ width: `${progress}%` }} />
                           </div>
-                          <p className="mt-1 text-xs text-ink/60">{progress}% مكتمل</p>
+                          <p className="mt-1 text-xs font-medium text-ink/50">{progress}% مكتمل</p>
                         </div>
                       </div>
                     </Link>
                   );
                 })}
               </div>
-            </Card>
+            </div>
           )}
         </div>
 
         {/* Right Column */}
         <div className="space-y-6">
           {/* Activity / History */}
-          <Card>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-ink flex items-center gap-2">
-                <History className="h-5 w-5 text-ink/60" />
-                سجل النشاط
-              </h3>
-            </div>
+          <div className="rounded-2xl border border-ink/[0.07] bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-6">
+            <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-ink">
+              <History className="h-5 w-5 text-ink/50" />
+              سجل النشاط
+            </h3>
 
             {memberActivity.length === 0 ? (
-              <div className="text-center py-10">
-                <ActivityIcon className="h-10 w-10 mx-auto text-ink/20" />
+              <div className="py-10 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-ink/[0.04]">
+                  <ActivityIcon className="h-6 w-6 text-ink/30" />
+                </div>
                 <p className="mt-3 text-sm text-ink/60">لا يوجد نشاط مسجل لهذا العضو.</p>
               </div>
             ) : (
@@ -582,10 +607,10 @@ export default function MemberReportPage() {
                       </span>
                       <Link
                         href={`/dashboard/team/tasks/${entry.taskId}`}
-                        className="block rounded-lg p-2 -m-2 transition-colors hover:bg-ink/[0.02]"
+                        className="-m-2 block rounded-lg p-2 transition-colors hover:bg-surface/60"
                       >
                         <p className="text-xs font-bold text-ink">{entry.text}</p>
-                        <p className="mt-0.5 text-[11px] font-medium text-ink/50 truncate">
+                        <p className="mt-0.5 truncate text-[11px] font-medium text-ink/50">
                           في «{entry.taskTitle}» · {formatDateTime(entry.createdAt)}
                         </p>
                       </Link>
@@ -594,26 +619,26 @@ export default function MemberReportPage() {
                 })}
               </ol>
             )}
-          </Card>
+          </div>
 
           {/* Quick Actions */}
-          <Card>
-            <h3 className="text-lg font-bold text-ink mb-4">إجراءات سريعة</h3>
+          <div className="rounded-2xl border border-ink/[0.07] bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-6">
+            <h3 className="mb-4 text-lg font-bold text-ink">إجراءات سريعة</h3>
             <div className="space-y-2">
-              <Button className="w-full justify-start gap-3" onClick={() => router.push(`/dashboard/team/my-tasks?assignee=${memberId}`)}>
+              <Button className="w-full justify-start" onClick={() => router.push(`/dashboard/team/my-tasks?assignee=${memberId}`)}>
                 <Briefcase className="h-4 w-4" />
                 عرض جميع المهام
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-3" onClick={() => router.push(`/dashboard/team/projects?assignee=${memberId}`)}>
+              <Button variant="outline" className="w-full justify-start" onClick={() => router.push(`/dashboard/team/projects?assignee=${memberId}`)}>
                 <Target className="h-4 w-4" />
                 المشاريع المسندة
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-3" onClick={() => router.push(`/dashboard/team/progress?member=${memberId}`)}>
+              <Button variant="outline" className="w-full justify-start" onClick={() => router.push(`/dashboard/team/progress?member=${memberId}`)}>
                 <TrendingUp className="h-4 w-4" />
                 تقرير التقدم
               </Button>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
 
