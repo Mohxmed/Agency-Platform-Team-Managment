@@ -9,6 +9,7 @@ import {
   Wallet,
   ClipboardList,
   BarChart3,
+  Bell,
 } from "lucide-react";
 
 export const sidebarSections = [
@@ -16,6 +17,7 @@ export const sidebarSections = [
     title: "لوحة التحكم",
     items: [
       { title: "لوحة التحكم", href: "/dashboard", icon: LayoutDashboard },
+      { title: "الإشعارات", href: "/dashboard/notifications", icon: Bell },
     ],
   },
   {

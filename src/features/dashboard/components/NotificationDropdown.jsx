@@ -14,10 +14,13 @@ import {
   Paperclip,
   AlertCircle,
   Info,
+  ArrowUpLeft,
 } from "lucide-react";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+
+import Link from "next/link";
 
 import { useAuth } from "@/features/auth";
 
@@ -31,11 +34,19 @@ import {
 export default function NotificationDropdown() {
   const { user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
   const [loading, setLoading] = useState(true);
+
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
 
   /* =========================================================
      REAL-TIME NOTIFICATIONS
@@ -424,7 +435,7 @@ export default function NotificationDropdown() {
 
               {!loading && notifications.length > 0 && (
                 <div className="divide-y divide-ink/[0.04]">
-                  {notifications.map((notification) => {
+                  {notifications.slice(0, 10).map((notification) => {
                     const { icon: Icon, className } = getNotificationType(
                       notification.type,
                     );
@@ -565,7 +576,45 @@ export default function NotificationDropdown() {
                   })}
                 </div>
               )}
+
+              {/* VIEW ALL */}
             </div>
+
+            {/* FOOTER */}
+            {!loading && notifications.length > 0 && (
+              <Link
+                href="/dashboard/notifications"
+                onClick={() => setOpen(false)}
+                className="
+                  group
+                  flex
+                  items-center
+                  justify-between
+                  border-t
+                  border-ink/[0.05]
+                  px-4
+                  py-3.5
+                  text-sm
+                  font-bold
+                  text-primary
+                  transition
+                  hover:bg-primary/[0.04]
+                "
+              >
+                <span className="flex items-center gap-2">
+                  <Bell size={15} />
+                  عرض كل الإشعارات
+                </span>
+
+                <span className="flex items-center gap-2 text-[11px] text-ink/45 transition group-hover:text-primary">
+                  {notifications.length}
+                  <ArrowUpLeft
+                    size={14}
+                    className="transition-transform duration-200 group-hover:-translate-x-0.5"
+                  />
+                </span>
+              </Link>
+            )}
           </div>
         </>
       )}

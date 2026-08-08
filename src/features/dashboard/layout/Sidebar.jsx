@@ -27,6 +27,7 @@ import {
   Pencil,
   FolderKanban,
   UsersRound,
+  Bell,
 } from "lucide-react";
 
 import Image from "next/image";
@@ -54,6 +55,12 @@ const menuSections = [
         title: "لوحة التحكم",
         href: "/dashboard",
         icon: LayoutDashboard,
+        permission: "dashboard",
+      },
+      {
+        title: "الإشعارات",
+        href: "/dashboard/notifications",
+        icon: Bell,
         permission: "dashboard",
       },
     ],

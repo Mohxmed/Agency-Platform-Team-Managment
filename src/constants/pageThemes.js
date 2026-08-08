@@ -482,6 +482,7 @@ export const PAGE_THEMES = THEMES;
 ========================================================= */
 
 const ROUTE_THEMES = [
+  { match: "/dashboard/notifications", theme: "red" },
   { match: "/dashboard/team", theme: "red" },
   { match: "/dashboard/portfolio", theme: "emerald" },
   { match: "/dashboard/categories", theme: "emerald" },

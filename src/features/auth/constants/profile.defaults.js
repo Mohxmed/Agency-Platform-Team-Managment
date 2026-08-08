@@ -19,4 +19,5 @@ export const PROFILE_DEFAULTS = {
   role: ROLES.MEMBER,
   status: "active",
   permissions: [],
+  notificationsEnabled: true,
 };

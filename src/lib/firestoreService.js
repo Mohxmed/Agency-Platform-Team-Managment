@@ -294,6 +294,19 @@ export async function notifyUser({
 }) {
   if (!userId || !title || !message) return;
 
+  // Respect per-user mute preference stored on the profile document.
+  try {
+    const profileRef = doc(db, "profiles", userId);
+
+    const profileSnapshot = await getDoc(profileRef);
+
+    if (profileSnapshot.exists() && profileSnapshot.data()?.notificationsEnabled === false) {
+      return;
+    }
+  } catch {
+    // Best-effort: profile read failures are silent.
+  }
+
   try {
     const { fetchSettings } = await import("@/lib/settingsCache");
     const settings = await fetchSettings();
@@ -380,4 +393,20 @@ export async function markAllNotificationsAsRead(notifications) {
 
 export function deleteNotification(notificationId) {
   return deleteDoc(doc(db, "notifications", notificationId));
+}
+
+/* ============================================================
+   DELETE ALL NOTIFICATIONS FOR A USER
+============================================================ */
+
+export async function deleteAllNotifications(userId) {
+  const notificationsRef = collection(db, "notifications");
+
+  const q = query(notificationsRef, where("userId", "==", userId));
+
+  const snapshot = await getDocs(q);
+
+  await Promise.all(
+    snapshot.docs.map((document) => deleteDoc(document.ref)),
+  );
 }
