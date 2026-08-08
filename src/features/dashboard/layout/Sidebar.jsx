@@ -26,6 +26,7 @@ import {
   ExternalLink,
   Pencil,
   FolderKanban,
+  UsersRound,
 } from "lucide-react";
 
 import Image from "next/image";
@@ -108,6 +109,12 @@ const menuSections = [
           permission: "my-tasks",
         },
         { title: "الفريق", href: "/dashboard/team", icon: Users, permission: "team" },
+        {
+          title: "الأعضاء",
+          href: "/dashboard/team/members",
+          icon: UsersRound,
+          permission: "team",
+        },
         {
           title: "المشاريع",
           href: "/dashboard/team/projects",
