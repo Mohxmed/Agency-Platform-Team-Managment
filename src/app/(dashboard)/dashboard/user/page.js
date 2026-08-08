@@ -67,10 +67,10 @@ const EMPTY_FORM = {
 ========================================================= */
 
 const SECTIONS = [
+  { id: "media", label: "صور الملف", icon: ImageIcon },
   { id: "personal", label: "البيانات الشخصية", icon: User },
   { id: "profile", label: "الملف العام", icon: FileText },
   { id: "social", label: "حسابات التواصل", icon: ExternalLink },
-  { id: "media", label: "صور الملف", icon: ImageIcon },
   { id: "stats", label: "الإحصائيات", icon: BarChart3 },
 ];
 
@@ -526,134 +526,7 @@ export default function DashboardPage() {
           FORM
       =================================================== */}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* =================================================
-            PERSONAL
-        ================================================= */}
-
-        <Section
-          id="personal"
-          title="البيانات الشخصية"
-          description="معلوماتك الأساسية الظاهرة في ملفك."
-          icon={User}
-        >
-          <div className="grid gap-4 md:grid-cols-2">
-            <Field
-              icon={User}
-              label="الاسم"
-              value={form.name}
-              onChange={handleChange("name")}
-              placeholder="مثال: Ammar Amer"
-            />
-
-            <Field
-              icon={Mail}
-              label="البريد الإلكتروني"
-              type="email"
-              value={form.email}
-              disabled
-              placeholder="you@example.com"
-            />
-
-            <Field
-              icon={Phone}
-              label="رقم الهاتف"
-              value={form.phone}
-              onChange={handleChange("phone")}
-              placeholder="01000000000"
-            />
-
-            <Field
-              icon={User}
-              label="التخصص"
-              value={form.specialty}
-              onChange={handleChange("specialty")}
-              placeholder="مثال: مدرس كيمياء"
-            />
-          </div>
-        </Section>
-
-        {/* =================================================
-            PUBLIC PROFILE
-        ================================================= */}
-
-        <Section
-          id="profile"
-          title="الملف العام"
-          description="البيانات التي سيشاهدها الزوار في صفحة ملفك."
-          icon={FileText}
-        >
-          <div className="space-y-4">
-            <Field
-              icon={Globe}
-              label="الموقع الإلكتروني"
-              value={form.website}
-              onChange={handleChange("website")}
-              placeholder="https://example.com"
-            />
-
-            <TextAreaField
-              label="نبذة عنك"
-              value={form.description}
-              onChange={handleChange("description")}
-              placeholder="اكتب نبذة احترافية مختصرة عنك..."
-            />
-          </div>
-        </Section>
-
-        {/* =================================================
-            SOCIAL
-        ================================================= */}
-
-        <Section
-          id="social"
-          title="حسابات التواصل الاجتماعي"
-          description="أضف الروابط التي تريد إظهارها في ملفك."
-          icon={ExternalLink}
-        >
-          <div className="grid gap-4 md:grid-cols-2">
-            <Field
-              icon={FaFacebook}
-              label="Facebook"
-              value={form.facebook}
-              onChange={handleChange("facebook")}
-              placeholder="https://facebook.com/..."
-            />
-
-            <Field
-              icon={FaInstagram}
-              label="Instagram"
-              value={form.instagram}
-              onChange={handleChange("instagram")}
-              placeholder="https://instagram.com/..."
-            />
-
-            <Field
-              icon={FaLinkedin}
-              label="LinkedIn"
-              value={form.linkedin}
-              onChange={handleChange("linkedin")}
-              placeholder="https://linkedin.com/in/..."
-            />
-
-            <Field
-              icon={FaYoutube}
-              label="YouTube"
-              value={form.youtube}
-              onChange={handleChange("youtube")}
-              placeholder="https://youtube.com/@..."
-            />
-
-            <Field
-              icon={FaTiktok}
-              label="TikTok"
-              value={form.tiktok}
-              onChange={handleChange("tiktok")}
-              placeholder="https://tiktok.com/@..."
-            />
-          </div>
-        </Section>
-
+      <form onSubmit={handleSubmit} className="space-y-4" id="profile-form">
         {/* =================================================
             MEDIA
         ================================================= */}
@@ -853,6 +726,133 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </Section>
+
+        {/* =================================================
+            PERSONAL
+        ================================================= */}
+
+        <Section
+          id="personal"
+          title="البيانات الشخصية"
+          description="معلوماتك الأساسية الظاهرة في ملفك."
+          icon={User}
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field
+              icon={User}
+              label="الاسم"
+              value={form.name}
+              onChange={handleChange("name")}
+              placeholder="مثال: Ammar Amer"
+            />
+
+            <Field
+              icon={Mail}
+              label="البريد الإلكتروني"
+              type="email"
+              value={form.email}
+              disabled
+              placeholder="you@example.com"
+            />
+
+            <Field
+              icon={Phone}
+              label="رقم الهاتف"
+              value={form.phone}
+              onChange={handleChange("phone")}
+              placeholder="01000000000"
+            />
+
+            <Field
+              icon={User}
+              label="التخصص"
+              value={form.specialty}
+              onChange={handleChange("specialty")}
+              placeholder="مثال: مدرس كيمياء"
+            />
+          </div>
+        </Section>
+
+        {/* =================================================
+            PUBLIC PROFILE
+        ================================================= */}
+
+        <Section
+          id="profile"
+          title="الملف العام"
+          description="البيانات التي سيشاهدها الزوار في صفحة ملفك."
+          icon={FileText}
+        >
+          <div className="space-y-4">
+            <Field
+              icon={Globe}
+              label="الموقع الإلكتروني"
+              value={form.website}
+              onChange={handleChange("website")}
+              placeholder="https://example.com"
+            />
+
+            <TextAreaField
+              label="نبذة عنك"
+              value={form.description}
+              onChange={handleChange("description")}
+              placeholder="اكتب نبذة احترافية مختصرة عنك..."
+            />
+          </div>
+        </Section>
+
+        {/* =================================================
+            SOCIAL
+        ================================================= */}
+
+        <Section
+          id="social"
+          title="حسابات التواصل الاجتماعي"
+          description="أضف الروابط التي تريد إظهارها في ملفك."
+          icon={ExternalLink}
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field
+              icon={FaFacebook}
+              label="Facebook"
+              value={form.facebook}
+              onChange={handleChange("facebook")}
+              placeholder="https://facebook.com/..."
+            />
+
+            <Field
+              icon={FaInstagram}
+              label="Instagram"
+              value={form.instagram}
+              onChange={handleChange("instagram")}
+              placeholder="https://instagram.com/..."
+            />
+
+            <Field
+              icon={FaLinkedin}
+              label="LinkedIn"
+              value={form.linkedin}
+              onChange={handleChange("linkedin")}
+              placeholder="https://linkedin.com/in/..."
+            />
+
+            <Field
+              icon={FaYoutube}
+              label="YouTube"
+              value={form.youtube}
+              onChange={handleChange("youtube")}
+              placeholder="https://youtube.com/@..."
+            />
+
+            <Field
+              icon={FaTiktok}
+              label="TikTok"
+              value={form.tiktok}
+              onChange={handleChange("tiktok")}
+              placeholder="https://tiktok.com/@..."
+            />
           </div>
         </Section>
 
@@ -1057,6 +1057,7 @@ export default function DashboardPage() {
           <div className="flex w-full gap-2 sm:w-auto">
             <button
               type="submit"
+              form="profile-form"
               disabled={saving}
               className="
                 inline-flex
