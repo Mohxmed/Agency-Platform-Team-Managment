@@ -938,6 +938,12 @@ function MyTaskCard({
     ).length || 0;
 
 
+  const taskHref =
+    task.id
+      ? `/dashboard/team/tasks/${task.id}`
+      : null;
+
+
   return (
 
     <motion.div
@@ -952,12 +958,10 @@ function MyTaskCard({
         scale:1,
       }}
 
-      whileHover={{
-        y:-3,
-      }}
-
       className="
         group
+        relative
+        overflow-visible
         rounded-[22px]
         border
         border-black/[0.06]
@@ -966,110 +970,128 @@ function MyTaskCard({
         shadow-sm
         transition
         hover:border-primary/30
-        hover:shadow-xl
+        hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]
         dark:border-white/[0.08]
         dark:hover:border-primary/40
+        dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)]
       "
     >
 
 
-      <div
-        className="
-          flex
-          items-start
-          justify-between
-          gap-3
-        "
+      <Link
+        href={taskHref || "#"}
+        aria-disabled={!taskHref}
+        className={`
+          block
+          ${taskHref ? "cursor-pointer" : "cursor-default"}
+        `}
       >
 
         <div
           className="
-            min-w-0
+            flex
+            items-start
+            justify-between
+            gap-3
           "
         >
 
-          <h4
+          <div
             className="
-              line-clamp-2
-              text-sm
-              font-black
-              leading-6
-              text-ink
+              min-w-0
             "
           >
-            {task.title ||
-              "بدون عنوان"}
-          </h4>
+
+            <h4
+              className="
+                line-clamp-2
+                text-sm
+                font-black
+                leading-6
+                text-ink
+                transition-colors
+                group-hover:text-primary
+              "
+            >
+              {task.title ||
+                "بدون عنوان"}
+            </h4>
 
 
-          <p
-            className="
-              mt-1
-              truncate
-              text-[11px]
-              font-bold
-              text-ink/60
-            "
-          >
-            {project?.title ||
-              "بدون مشروع"}
-          </p>
+            <p
+              className="
+                mt-1
+                truncate
+                text-[11px]
+                font-bold
+                text-ink/60
+              "
+            >
+              {project?.title ||
+                "بدون مشروع"}
+            </p>
+
+          </div>
+
+
+          <PriorityBadge
+            priority={
+              task.priority
+            }
+          />
 
         </div>
 
 
-        <PriorityBadge
-          priority={
-            task.priority
-          }
-        />
 
-      </div>
-
-
-
-      <div
-        className="
-          mt-4
-          flex
-          items-center
-          justify-between
-        "
-      >
-
-        <Avatar
-          user={assignee}
-          size={28}
-        />
-
-
-        <Link
-          href={`/dashboard/team/tasks/${task.id}`}
+        <div
           className="
-            text-[11px]
-            font-black
-            text-primary
-            opacity-70
-            transition
-            hover:opacity-100
+            mt-4
+            flex
+            items-center
+            justify-between
           "
         >
-          التفاصيل
-        </Link>
 
-      </div>
+          <Avatar
+            user={assignee}
+            size={28}
+          />
+
+          <span
+            className="
+              inline-flex
+              items-center
+              gap-1
+              text-[11px]
+              font-black
+              text-primary/70
+              transition
+              group-hover:text-primary
+            "
+          >
+            التفاصيل
+            <ChevronLeft
+              className="
+                h-3.5
+                w-3.5
+              "
+            />
+          </span>
+
+        </div>
 
 
 
 
-      <div
-        className="
-          mt-4
-          flex
-          flex-wrap
-          gap-2
-        "
-      >
+        <div
+          className="
+            mt-4
+            flex
+            flex-wrap
+            gap-2
+          "
+        >
 
         {task.deadline && (
 
@@ -1137,13 +1159,11 @@ function MyTaskCard({
             {task.checklist.length}
 
           </span>
-
         )}
 
       </div>
 
-
-
+      </Link>
 
       <div
         className="
